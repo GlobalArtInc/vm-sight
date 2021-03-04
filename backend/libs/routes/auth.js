@@ -28,8 +28,7 @@ router.post('/', function (req, res) {
                     },
                     secret,
                     {
-                        expiresIn: '7d',
-                        issuer: 'velopert.com',
+                        expiresIn: '365d',
                         subject: 'userInfo'
                     }, (err, token) => {
                         if (err) reject(err)
