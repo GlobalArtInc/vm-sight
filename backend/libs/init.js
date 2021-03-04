@@ -13,9 +13,10 @@ module.exports.createDB = () => {
     `)
 
     this.createSettings()
+    this.createEndpoints()
 }
 
-module.exports.createSettings = () => {
+module.exports.createSettings = async () => {
     db.query(`
         CREATE TABLE IF NOT EXISTS settings (
             key         TEXT PRIMARY KEY    NOT NULL,
@@ -33,4 +34,17 @@ module.exports.createSettings = () => {
     db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("OAuthRedirectURL", "")`)
     db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("OAuthUserIdentifier", "")`)
     db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("OAuthScopes", "")`)
+}
+
+module.exports.createEndpoints = async () => {
+    db.query(`
+        CREATE TABLE IF NOT EXISTS endpoints (
+            id          TEXT PRIMARY KEY     NOT NULL,
+            name        TEXT                 NOT NULL,
+            type        INT                  NOT NULL,
+            url         TEXT                 NOT NULL,
+            groupId     INT                  NOT NULL DEFAULT 0,
+            tags        STRING
+        )
+    `)
 }

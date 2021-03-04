@@ -35,7 +35,8 @@ router.post('/', function (req, res) {
             }).then((jwt) => {
                 return res.send({jwt})
             }).catch((err) => {
-                return res.send({err})
+                log.error(String(err))
+                return res.send({msg: String(err)})
             })
             return p
         }).catch(() => {

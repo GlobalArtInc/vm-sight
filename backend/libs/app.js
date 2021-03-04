@@ -11,6 +11,7 @@ const api = require('./routes/api');
 const auth = require('./routes/auth')
 const settings = require('./routes/settings')
 const users = require('./routes/users')
+const endpoints = require('./routes/endpoints')
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use('/api', api);
 app.use('/api/auth', auth)
 app.use('/api/settings', settings)
 app.use('/api/users', users)
+app.use('/api/endpoints', endpoints)
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
