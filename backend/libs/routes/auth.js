@@ -22,9 +22,7 @@ router.post('/', function (req, res) {
             const p = new Promise((resolve, reject) => {
                 jwt.sign(
                     {
-                        id: r.id,
-                        username: r.username,
-                        role: r.role
+                        id: r.id
                     },
                     secret,
                     {
