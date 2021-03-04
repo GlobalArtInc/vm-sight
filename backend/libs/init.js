@@ -1,10 +1,10 @@
 const db = require('./db')
 
-module.exports.createDB = (app) => {
+module.exports.createDB = () => {
     db.query(`
         CREATE TABLE IF NOT EXISTS users (
             id          TEXT PRIMARY KEY    NOT NULL,
-            login       TEXT CHAR(25)       NOT NULL UNIQUE,
+            username    TEXT CHAR(25)       NOT NULL UNIQUE,
             password    TEXT                NOT NULL,
             role        INT  CHAR(1)        NOT NULL DEFAULT 0,
             createdAt   INT  CHAR(11)       NOT NULL,

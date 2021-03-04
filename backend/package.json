@@ -6,15 +6,22 @@
   "scripts": {
     "start": "node server.bundle.js",
     "build": "webpack",
-    "dev": "nodemon ./server.js localhost 3081"
+    "dev": "nodemon ./libs/server.js localhost 3081"
   },
   "author": "GlobalArt, ltd",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.4",
-    "random-id": "^1.0.4",
-    "sqlite3": "^5.0.2"
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-oauth2-client-password": "^0.1.2",
+    "sqlite3": "^5.0.2",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "del": "^5.1.0",
