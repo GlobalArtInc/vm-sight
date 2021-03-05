@@ -1,6 +1,5 @@
-var express = require('express');
-var passport = require('passport');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const db = require('../../libs/db')
 
 router.get('/public', async function (req, res) {

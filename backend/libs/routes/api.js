@@ -1,7 +1,6 @@
-var express = require('express');
-var passport = require('passport');
+const express = require('express');
 const db = require('../db')
-var router = express.Router();
+const router = express.Router();
 const authMiddleware = require('../middlewares/auth')
 
 router.use('/motd', authMiddleware)

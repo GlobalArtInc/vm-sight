@@ -1,9 +1,8 @@
-var express = require('express');
-var passport = require('passport');
+const express = require('express');
 const jwt = require('jsonwebtoken')
-var router = express.Router();
+const router = express.Router();
 const user = require('../models/user')
-var log = require('../log')(module);
+const log = require('../log')(module);
 
 /*
     POST /api/auth
@@ -19,7 +18,7 @@ router.post('/', function (req, res) {
 
     if (Username && Password) {
         user.findUser(Username, Password).then((r) => {
-            const p = new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 jwt.sign(
                     {
                         id: r.id
@@ -38,7 +37,6 @@ router.post('/', function (req, res) {
                 log.error(String(err))
                 return res.send({msg: String(err)})
             })
-            return p
         }).catch(() => {
             log.error('Login error')
             return res.send({msg: "Login error"})

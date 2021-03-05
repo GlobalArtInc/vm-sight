@@ -1,44 +1,91 @@
-var express = require('express');
+const express = require('express');
 
-var router = express.Router();
+const router = express.Router();
 const db = require('../db')
 const authMiddleware = require('../middlewares/auth')
-var Docker = require('dockerode');
+const Docker = require('dockerode');
+const {getUserById} = require('../models/user')
+const {getEndpoint, checkAccess} = require('../models/endpoints')
+const dockerService = require('../models/docker')
 
 router.use('/', authMiddleware)
 
-router.get('/', (req, res) => {
-    db.query('SELECT * FROM endpoints').then((endpoints) => {
-        const promises = endpoints
-            .map((i) => {
-                // DOCKER
-                if (i.type === 1) {
-                    const result = {
-                        id: i.id,
-                        name: i.name,
-                        type: i.type,
-                        url: i.url,
-                        groupId: i.groupId
-                    };
+router.get('/', async (req, res) => {
+    const user = await getUserById(req.user.id);
+    if (user.role === 1) {
+        db.query('SELECT * FROM endpoints').then((endpoints) => {
+            const promises = endpoints
+                .map((i) => {
+                    // DOCKER
+                    if (i.type === 1) {
+                        const result = {
+                            Id: i.id,
+                            Name: i.name,
+                            Type: i.type,
+                            URL: i.url,
+                            GroupId: i.groupId
+                        };
 
-                    const settings = (i.url.match('unix:///var/run/docker.sock')) ?
-                        {socketPath: '/var/run/docker.sock'} : {host: i.url, port: 65000};
-                    const docker = new Docker(settings);
+                        const settings = (i.url.match('unix:///var/run/docker.sock')) ?
+                            {socketPath: '/var/run/docker.sock'} : {
+                                host: i.url.split(':')[0],
+                                port: i.url.split(':')[1]
+                            };
+                        const docker = new Docker(settings);
 
-                    return docker.ping().then(err => {
-                        result.status = 1
-                        return result;
-                    }).catch((err) => {
-                        result.status = 0;
-                        return result
-                    })
-                } else if(i.type === 2) {
-                    // KUBERNETES
-                }
-            });
+                        return docker.version(undefined).then(() => {
+                            result.Status = 1
+                            return result;
+                        }).catch(() => {
+                            result.Status = 0
+                            return result
+                        })
+                    } else if (i.type === 2) {
+                        // KUBERNETES
+                    }
+                });
 
-        Promise.all(promises).then((results) => res.send(results))
-    })
+            Promise.all(promises).then((results) => res.send(results))
+        })
+    } else {
+        return res.send([])
+    }
 });
+
+router.get('/:id/docker/version', async (req, res) => {
+    if (checkAccess(req.params.id)) {
+        const endpoint = await getEndpoint(req.params.id)
+        if (endpoint) {
+            const docker = dockerService.connect(endpoint)
+            return res.send(await dockerService.getVersion(docker))
+        }
+    } else {
+        return res.status(403).send({msg: "Forbidden"})
+    }
+})
+
+router.get('/:id/docker/info', async (req, res) => {
+    if (checkAccess(req.params.id)) {
+        const endpoint = await getEndpoint(req.params.id)
+        if (endpoint) {
+            const docker = dockerService.connect(endpoint)
+            return res.send(await dockerService.getInfo(docker))
+        }
+    } else {
+        return res.status(403).send({msg: "Forbidden"})
+    }
+})
+
+router.get('/:id/docker/containers/json', async (req, res) => {
+    if (checkAccess(req.params.id)) {
+        const endpoint = await getEndpoint(req.params.id)
+        if (endpoint) {
+            const docker = dockerService.connect(endpoint)
+            return res.send(await dockerService.getContainers(docker))
+        }
+    } else {
+        return res.status(403).send({msg: "Forbidden"})
+    }
+})
 
 module.exports = router;
