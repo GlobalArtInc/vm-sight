@@ -32,8 +32,8 @@ const authMiddleware = (req, res, next) => {
         }
 
         // process the promise
-        p.then((decoded) => {
-            req.decoded = decoded
+        p.then((user) => {
+            req.user = user
             next()
         }).catch(onError)
     } else {

@@ -1,9 +1,11 @@
 var express = require('express');
 var passport = require('passport');
+const db = require('../db')
 var router = express.Router();
 const authMiddleware = require('../middlewares/auth')
 
 router.use('/motd', authMiddleware)
+router.use('/me', authMiddleware)
 
 router.get('/', function (req, res) {
     res.json({
@@ -11,10 +13,24 @@ router.get('/', function (req, res) {
     });
 });
 
+router.get('/me', (req, res) => {
+    db.query(`SELECT * FROM users WHERE id = '${req.user.id}'`).then((user) => {
+        if (user.length > 0) {
+            return res.send({
+                id: user[0].id,
+                username: user[0].username,
+                role: user[0].role,
+                createdAt: user[0].createdAt,
+                updatedAt: user[0].updatedAt
+            })
+        }
+    })
+})
+
 router.get('/motd', (req, res) => {
     return res.json({
         success: true,
-        info: req.decoded
+        info: req.user
     })
 })
 
