@@ -18,13 +18,33 @@ export const routes = [
         ]
     },
     {
-        path: '/auth',
+      path: '/home',
+      component: Layout,
+      children: [
+          {
+              path: '',
+              component: () => import('@/views/Home')
+          }
+      ]
+    },
+    {
+        path: '/init',
         component: BlankLayout,
         children: [
             {
-              path: 'init',
-              component: () => import('@/views/Auth/Init')
+                path: 'endpoint',
+                component: () => import('@/views/Init/Endpoint')
             },
+            {
+                path: 'admin',
+                component: () => import('@/views/Init/Admin')
+            }
+        ]
+    },
+    {
+        path: '/auth',
+        component: BlankLayout,
+        children: [
             {
                 path: '',
                 component: () => import('@/views/Auth/Index')

@@ -13,9 +13,10 @@ router.post('/admin/init', async function (req, res) {
 
                     db.query(`INSERT INTO users 
                                     (id, username, password, role, createdAt, updatedAt) VALUES
-                                    ('${id}', '${Username}', '${hash}', 1, strftime('%s', 'now'), strftime('%s', 'now'))`)
+                                    ('${id}', '${Username}', '${hash}', 1, strftime('%s', 'now'), strftime('%s', 'now'))`).then(() => {
+                        return res.send({response: true})
+                    })
                 })
-                return res.send({response: true})
             } else {
                 return res.status(405).send({response: false})
             }

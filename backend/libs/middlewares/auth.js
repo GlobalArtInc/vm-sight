@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const db = require('../db')
 
 const authMiddleware = (req, res, next) => {
     // read the token from header or url
@@ -7,7 +8,7 @@ const authMiddleware = (req, res, next) => {
 
         // token does not exist
         if (!token) {
-            res.status(403).json({
+            res.status(401).json({
                 message: "Unauthorized",
                 details: "Unauthorized"
             })
@@ -18,14 +19,20 @@ const authMiddleware = (req, res, next) => {
             (resolve, reject) => {
                 jwt.verify(token[1], req.app.get('jwt-secret'), (err, user) => {
                     if (err) reject(err)
-                    resolve(user)
+                    db.query(`SELECT * FROM users WHERE id = '${user.id}'`).then((u) => {
+                        if (u.length > 0) {
+                            resolve(u[0])
+                        } else {
+                            reject('Unauthorized')
+                        }
+                    })
                 })
             }
         )
 
         // if it has failed to verify, it will return an error message
         const onError = (error) => {
-            res.status(403).json({
+            res.status(401).json({
                 message: "Unauthorized",
                 details: "Unauthorized"
             })
@@ -37,7 +44,7 @@ const authMiddleware = (req, res, next) => {
             next()
         }).catch(onError)
     } else {
-        return res.status(403).json({
+        return res.status(401).json({
             message: "Unauthorized",
             details: "Unauthorized"
         })

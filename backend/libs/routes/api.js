@@ -28,8 +28,7 @@ router.get('/me', (req, res) => {
 
 router.get('/motd', (req, res) => {
     return res.json({
-        success: true,
-        info: req.user
+        response: true
     })
 })
 
