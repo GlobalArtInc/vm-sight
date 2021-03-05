@@ -18,6 +18,10 @@ module.exports.getInfo = async (docker) => {
     return await docker.info()
 }
 
+module.exports = async (docker) => {
+    console.log(await docker.listContainers().length)
+}
+
 module.exports.getContainers = async (docker) => {
     return await docker.listContainers()
 }

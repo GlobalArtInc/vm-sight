@@ -15,7 +15,7 @@ router.get('/', function (req, res) {
 router.get('/me', (req, res) => {
     db.query(`SELECT * FROM users WHERE id = '${req.user.id}'`).then((user) => {
         if (user.length > 0) {
-            return res.send({
+            return res.status(200).send({
                 id: user[0].id,
                 username: user[0].username,
                 role: user[0].role,

@@ -13,7 +13,18 @@ module.exports.createDB = () => {
     `)
 
     this.createSettings()
+    this.createSnapshots()
     this.createEndpoints()
+}
+
+module.exports.createSnapshots = () => {
+    db.query(`
+        CREATE TABLE IF NOT EXISTS snapshots (
+            endpoint_id      TEXT PRIMARY KEY    NOT NULL,
+            data             TEXT                NOT NULL,
+            createdAt   INT  CHAR(11)            NOT NULL
+        )
+    `)
 }
 
 module.exports.createSettings = async () => {

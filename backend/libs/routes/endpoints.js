@@ -6,7 +6,7 @@ const authMiddleware = require('../middlewares/auth')
 const Docker = require('dockerode');
 const {getUserById} = require('../models/user')
 const {getEndpoint, checkAccess} = require('../models/endpoints')
-const dockerService = require('../models/docker')
+const dockerService = require('../services/docker')
 
 router.use('/', authMiddleware)
 
@@ -23,7 +23,8 @@ router.get('/', async (req, res) => {
                             Name: i.name,
                             Type: i.type,
                             URL: i.url,
-                            GroupId: i.groupId
+                            GroupId: i.groupId,
+                            Snapshots: []
                         };
 
                         const settings = (i.url.match('unix:///var/run/docker.sock')) ?
@@ -50,6 +51,24 @@ router.get('/', async (req, res) => {
     } else {
         return res.send([])
     }
+});
+
+
+router.get('/snapshots', async (req, res) => {
+    const user = await getUserById(req.user.id);
+
+    if (user.role === 1) {
+        db.query('SELECT * FROM endpoints').then((endpoints) => {
+            endpoints.forEach(async (endpoint) => {
+                const docker = dockerService.connect(endpoint)
+                console.log(docker)
+                return res.send(await dockerService.getVersion(docker))
+            })
+        })
+    } else {
+        return res.send([])
+    }
+    return res.send({response: true})
 });
 
 router.get('/:id/docker/version', async (req, res) => {
