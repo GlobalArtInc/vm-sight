@@ -9,27 +9,35 @@ router.use('/', authMiddleware)
 
 router.get('/', (req, res) => {
     db.query('SELECT * FROM endpoints').then((endpoints) => {
-        let arr = [];
-        endpoints.forEach((i) => {
-            if (i.type === 1) {
-                let docker;
-                if (i.url.match('unix:///var/run/docker.sock')) {
-                    docker = new Docker({socketPath: '/var/run/docker.sock'});
-                } else {
-                    docker = new Docker({host: i.url, port: 2375});
-                }
+        const promises = endpoints
+            .map((i) => {
+                // DOCKER
+                if (i.type === 1) {
+                    const result = {
+                        id: i.id,
+                        name: i.name,
+                        type: i.type,
+                        url: i.url,
+                        groupId: i.groupId
+                    };
 
-                arr.push({
-                    id: i.id,
-                    name: i.name,
-                    type: i.type,
-                    url: i.url,
-                    status: docker.ping((err) => !err ? 0 : 1),
-                    groupId: i.groupId
-                })
-            }
-        })
-        return res.send(arr)
+                    const settings = (i.url.match('unix:///var/run/docker.sock')) ?
+                        {socketPath: '/var/run/docker.sock'} : {host: i.url, port: 65000};
+                    const docker = new Docker(settings);
+
+                    return docker.ping().then(err => {
+                        result.status = 1
+                        return result;
+                    }).catch((err) => {
+                        result.status = 0;
+                        return result
+                    })
+                } else if(i.type === 2) {
+                    // KUBERNETES
+                }
+            });
+
+        Promise.all(promises).then((results) => res.send(results))
     })
 });
 
