@@ -1,15 +1,31 @@
 const db = require('../db')
 const Docker = require('dockerode')
+const fs = require('fs')
 
 module.exports.connect = (id) => {
     return db.query(`SELECT * FROM endpoints WHERE id = '${id}'`).then((endpoint) => {
         if (endpoint.length > 0) {
-            const settings = (endpoint[0].url.match('unix:///var/run/docker.sock')) ?
+            let settings = (endpoint[0].url.match('unix:///var/run/docker.sock')) ?
                 {socketPath: '/var/run/docker.sock'} : {
                     host: endpoint[0].url.split(':')[0],
                     port: endpoint[0].url.split(':')[1]
                 };
-            return {endpoint: endpoint[0], service: new Docker(settings)};
+            if (endpoint[0].tls === 1) {
+                if (endpoint[0].tls_ca === 1) {
+                    settings.ca = fs.readFileSync(`./data/certs/${endpoint[0].id}/ca.pem`)
+                }
+                if (endpoint[0].tls_cert === 1) {
+                    settings.cert = fs.readFileSync(`./data/certs/${endpoint[0].id}/cert.pem`)
+                }
+                if (endpoint[0].tls_key === 1) {
+                    settings.key = fs.readFileSync(`./data/certs/${endpoint[0].id}/key.pem`)
+                }
+                const service = new Docker(settings)
+                return {endpoint: endpoint[0], service: service};
+            } else {
+                const service = new Docker(settings)
+                return {endpoint: endpoint[0], service: service};
+            }
         } else {
             return false;
         }
@@ -31,18 +47,31 @@ const getEndpoint = (endpoint) => {
 }
 
 module.exports.getEndpoint = (endpoint, docker) => {
-    return docker.version().then(async (version) => {
+    return docker.version().then(async () => {
         const info = await docker.info()
-        let dev;
+        const containers = await docker.listContainers()
         const volumes = await docker.listVolumes()
-        console.log(info)
         const swarm = info.Swarm
+
+        const healthy = containers.filter(i => {
+            return i.Status.match('healthy')
+        })
+        const unhealthy = containers.filter(i => {
+            return i.Status.match('unhealthy')
+        })
+
+       // containers[0].map(containers => {
+       //  // console.log(containers)
+       // })
+
+        const timestamp = Math.floor(new Date()/1000)
 
         const snapshot = {
             DockerVersion: info.ServerVersion,
             RunningContainerCount: info.ContainersRunning,
             StoppedContainerCount: info.ContainersStopped,
-            HealthyContainerCount: 0,
+            HealthyContainerCount: healthy.length,
+            UnhealthyContainerCount: unhealthy.length,
             ImageCount: info.Images,
             ServiceCount: swarm.LocalNodeState === 'active' ? await docker.listServices().length : 0,
             StackCount: 0,
@@ -52,8 +81,6 @@ module.exports.getEndpoint = (endpoint, docker) => {
             TotalMemory: info.MemTotal,
             VolumeCount: volumes.Volumes.length
         }
-        // const services = await docker.listServices()
-        // console.log(services)
 
 
         return getEndpoint({
