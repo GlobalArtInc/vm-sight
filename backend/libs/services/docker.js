@@ -14,19 +14,19 @@ module.exports.connect = (id) => {
                 if (endpoint[0].tls_ca === 1) {
                     const file = `./data/certs/${endpoint[0].id}/ca.pem`
                     if (fs.existsSync(file)) {
-                        settings.ca = fs.readFileSync(`./data/certs/${endpoint[0].id}/ca.pem`)
+                        settings.ca = fs.readFileSync(file)
                     }
                 }
                 if (endpoint[0].tls_cert === 1) {
                     const file = `./data/certs/${endpoint[0].id}/cert.pem`
                     if (fs.existsSync(file)) {
-                        settings.cert = fs.readFileSync(`./data/certs/${endpoint[0].id}/cert.pem`)
+                        settings.cert = fs.readFileSync(file)
                     }
                 }
                 if (endpoint[0].tls_key === 1) {
                     const file = `./data/certs/${endpoint[0].id}/key.pem`
                     if (fs.existsSync(file)) {
-                        settings.key = fs.readFileSync(`./data/certs/${endpoint[0].id}/key.pem`)
+                        settings.key = fs.readFileSync(file)
                     }
                 }
                 const service = new Docker(settings)
