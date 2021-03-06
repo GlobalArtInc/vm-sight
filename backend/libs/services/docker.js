@@ -12,22 +12,13 @@ module.exports.connect = (id) => {
                 };
             if (endpoint[0].tls === 1) {
                 if (endpoint[0].tls_ca === 1) {
-                    const file = `./data/certs/${endpoint[0].id}/ca.pem`
-                    if (fs.existsSync(file)) {
-                        settings.ca = fs.readFileSync(file)
-                    }
+                    settings.ca = fs.readFileSync(`./data/certs/${endpoint[0].id}/ca.pem`)
                 }
                 if (endpoint[0].tls_cert === 1) {
-                    const file = `./data/certs/${endpoint[0].id}/cert.pem`
-                    if (fs.existsSync(file)) {
-                        settings.cert = fs.readFileSync(file)
-                    }
+                    settings.cert = fs.readFileSync(`./data/certs/${endpoint[0].id}/cert.pem`)
                 }
                 if (endpoint[0].tls_key === 1) {
-                    const file = `./data/certs/${endpoint[0].id}/key.pem`
-                    if (fs.existsSync(file)) {
-                        settings.key = fs.readFileSync(file)
-                    }
+                    settings.key = fs.readFileSync(`./data/certs/${endpoint[0].id}/key.pem`)
                 }
                 const service = new Docker(settings)
                 return {endpoint: endpoint[0], service: service};
@@ -69,11 +60,11 @@ module.exports.getEndpoint = (endpoint, docker) => {
             return i.Status.match('(unhealthy)');
         })
 
-       // containers[0].map(containers => {
-       //  // console.log(containers)
-       // })
+        // containers[0].map(containers => {
+        //  // console.log(containers)
+        // })
 
-        const timestamp = Math.floor(new Date()/1000)
+        const timestamp = Math.floor(new Date() / 1000)
 
         const snapshot = {
             DockerVersion: info.ServerVersion,
@@ -85,7 +76,7 @@ module.exports.getEndpoint = (endpoint, docker) => {
             ServiceCount: swarm.LocalNodeState === 'active' ? await docker.listServices().length : 0,
             StackCount: 0,
             Swarm: swarm.LocalNodeState === 'active',
-            Time: Math.floor(new Date(info.SystemTime).getTime()/1000),
+            Time: Math.floor(new Date(info.SystemTime).getTime() / 1000),
             TotalCPU: info.NCPU,
             TotalMemory: info.MemTotal,
             VolumeCount: volumes.Volumes.length
@@ -123,6 +114,81 @@ module.exports.getInfo = async (docker) => {
     return await docker.info()
 }
 
+module.exports.getContainer = (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return container.inspect().then(((data) => {
+            return data;
+        }))
+    } else {
+        return false;
+    }
+}
+
+module.exports.startContainer = (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return new Promise((resolve, reject) => {
+            return container.start().then((() => {
+                resolve()
+            })).catch((err) => {
+                return reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
+
+module.exports.stopContainer = (docker, hash) => {
+    const container = docker.getContainer(hash)
+        if (container) {
+            return new Promise((resolve, reject) => {
+                container.stop().then((() => {
+                    resolve()
+                })).catch((err) => reject(err))
+            })
+        } else {
+            return false;
+        }
+}
+
+module.exports.pauseContainer = (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return new Promise((resolve, reject) => {
+            container.pause().then((() => {
+                resolve()
+            })).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
+
+module.exports.unpauseContainer = async (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return new Promise((resolve, reject) => {
+            container.unpause().then((() => {
+                resolve()
+            })).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
+
 module.exports.getContainers = async (docker) => {
-    return await docker.listContainers()
+    return docker.listContainers().then((containers) => {
+        let arr = [];
+        containers.forEach((item) => {
+            arr.push(item)
+        })
+        return arr;
+    })
 }
