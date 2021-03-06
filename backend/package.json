@@ -7,7 +7,7 @@
     "start": "node server.bundle.js",
     "build": "webpack",
     "lint": "eslint --fix",
-    "dev": "nodemon ./libs/server.js localhost 3081"
+    "dev": "nodemon ./libs/server.js localhost 3601"
   },
   "author": "GlobalArt, ltd",
   "license": "ISC",
