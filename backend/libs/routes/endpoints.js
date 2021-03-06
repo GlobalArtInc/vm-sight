@@ -1,4 +1,5 @@
 const express = require('express');
+var app = express();
 
 const router = express.Router();
 const db = require('../db')
@@ -33,6 +34,67 @@ router.get('/:id', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     const endpoint = await dockerService.getEndpoint(docker.endpoint, docker.service)
     return res.send(endpoint)
+})
+
+router.get('/:id/docker/containers', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    const containers = await dockerService.getContainers(docker.service)
+    return res.send(containers)
+})
+
+router.get('/:id/docker/containers/:hash', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    return dockerService.getContainer(docker.service, req.params.hash).then((data) => {
+        return res.send(data)
+    }).catch((err) => {
+        return res.status(err.statusCode).send(err)
+    })
+})
+
+router.post('/:id/docker/containers/:hash/start', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.startContainer(docker.service, req.params.hash).then(() => {
+        return res.send({response: true})
+    }).catch((err) => {
+        return res.status(403).send(err)
+    })
+})
+
+router.post('/:id/docker/containers/:hash/stop', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.stopContainer(docker.service, req.params.hash).then(() => {
+        return res.send({response: true})
+    }).catch((err) => {
+        return res.status(403).send(err)
+    })
+})
+
+router.post('/:id/docker/containers/:hash/pause', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.pauseContainer(docker.service, req.params.hash).then(() => {
+        return res.send({response: true})
+    }).catch((err) => {
+        return res.status(err.statusCode).send(err)
+    })
+})
+
+router.post('/:id/docker/containers/:hash/unpause', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.unpauseContainer(docker.service, req.params.hash).then(() => {
+        return res.send({response: true})
+    }).catch((err) => {
+        return res.status(err.statusCode).send(err)
+    })
+})
+
+router.get('/:id/docker/version', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    return res.send(await dockerService.getVersion(docker.service))
+})
+
+router.get('/:id/docker/info', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    return res.send(await dockerService.getInfo(docker.service))
 })
 
 /*

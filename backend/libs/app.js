@@ -1,9 +1,6 @@
 var express = require('express');
-var path = require('path');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-
-var libs = process.cwd() + '/libs/';
 
 var log = require('./log')(module);
 
