@@ -59,7 +59,7 @@ module.exports.createEndpoints = async () => {
             tls         INT CHAR(1)          DEFAULT 0         ,
             tls_ca      STRING                                 ,
             tls_cert    STRING                                 ,
-            tls_key     STRING                                 ,
+            tls_key     STRING                                 
         )
     `)
 }

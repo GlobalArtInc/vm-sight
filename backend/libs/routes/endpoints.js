@@ -14,15 +14,19 @@ router.get('/', async (req, res) => {
     const user = await getUserById(req.user.id);
     if (user.role === 1) {
         db.query('SELECT * FROM endpoints').then(async (endpoints) => {
-            let arr = [];
-            for (const endpointQ of endpoints) {
-                if (endpointQ.type === 1) {
-                    const docker = await dockerService.connect(endpointQ.id)
-                    const endpoint = await dockerService.getEndpoint(docker.endpoint, docker.service)
-                    arr.push(endpoint)
+            if (endpoints.length > 0) {
+                let arr = [];
+                for (const endpointQ of endpoints) {
+                    if (endpointQ.type === 1) {
+                        const docker = await dockerService.connect(endpointQ.id)
+                        const endpoint = await dockerService.getEndpoint(docker.endpoint, docker.service)
+                        arr.push(endpoint)
+                    }
                 }
+                return res.send(arr)
+            } else {
+                return res.send([])
             }
-            return res.send(arr)
         })
     } else {
         return res.send([])
