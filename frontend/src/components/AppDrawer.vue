@@ -5,14 +5,15 @@
     :mini-variant.sync="mini"
     v-model="drawer"
     :width="drawerWidth"
+    style="background: #30426A"
   >
-    <v-toolbar color="primary darken-1" dark>
+    <v-toolbar color="#2D3E63" dark st>
       <v-toolbar-title class="ml-0 pl-3">
         <span class="hidden-sm-and-down">VM-SIGHT</span>
       </v-toolbar-title>
     </v-toolbar>
     <div class="app-drawer__inner">
-      <v-list :dense="drawerWidth !== 64" class="pa-0">
+      <v-list dark :dense="drawerWidth !== 64" class="pa-0">
         <template v-for="(item, key) in computeMenu">
           <template v-if="item.children && item.children.length > 0">
             <v-list-group
@@ -90,31 +91,6 @@
         </template>
       </v-list>
     </div>
-    <template v-slot:append>
-      <div class="grey lighten-3">
-        <template v-if="drawerWidth === 64">
-          <div class="d-flex">
-            <v-btn
-              width="64"
-              icon
-              tile
-              @click="handleDrawerCollapse"
-              class="mx-auto"
-            >
-              <v-icon>mdi-arrow-collapse-right</v-icon>
-            </v-btn>
-          </div>
-        </template>
-        <template v-else>
-          <div class="d-flex">
-            <v-spacer />
-            <v-btn icon tile @click="handleDrawerCollapse" class="mr-2">
-              <v-icon>mdi-arrow-collapse-left</v-icon>
-            </v-btn>
-          </div>
-        </template>
-      </div>
-    </template>
   </v-navigation-drawer>
 </template>
 <script>
