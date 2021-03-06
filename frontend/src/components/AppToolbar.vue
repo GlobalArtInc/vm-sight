@@ -7,7 +7,7 @@
         <template v-slot:activator="{ on }">
           <v-btn icon large text slot="activator" v-on="on">
             <v-avatar size="30px">
-              <img :src="getAvatar" :alt="getUsername" />
+              <img src="https://www.gravatar.com/avatar/asddw" />
             </v-avatar>
           </v-btn>
         </template>
@@ -50,18 +50,6 @@ export default {
   data() {
     return {
       profileMenus: [
-        {
-          icon: 'mdi-account',
-          href: '#',
-          title: 'Profile',
-          click: this.handleProfile
-        },
-        {
-          icon: 'mdi-cog',
-          href: '#',
-          title: 'Settings',
-          click: this.handleSetting
-        },
         {
           icon: 'mdi-power',
           href: '#',
@@ -117,12 +105,12 @@ export default {
     },
     handleLogut() {
       if (window.confirm('Are you sure to logout?')) {
-        this.$store.dispatch('logout')
+        this.$store.dispatch('user/logout')
         window._VMA.$emit('SHOW_SNACKBAR', {
           text: 'Logout successfull',
           color: 'success'
         })
-        this.$router.push('/auth/login')
+        this.$router.push('/auth')
       }
     },
     handleChangeLocale({ value }) {

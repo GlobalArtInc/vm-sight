@@ -34,6 +34,11 @@
 import {getToken} from "@/utils/auth";
 
 export default {
+  mounted() {
+    if (typeof window !== undefined && window._VMA === undefined) {
+      window._VMA = this
+    }
+  },
   name: 'App',
   data: () => ({
     rightDrawer: false,

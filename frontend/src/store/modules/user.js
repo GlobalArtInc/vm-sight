@@ -1,5 +1,5 @@
 import {getUser} from '@/api/api'
-import {getToken} from '@/utils/auth'
+import {getToken, removeToken} from '@/utils/auth'
 
 const state = {
     token: getToken(),
@@ -30,6 +30,13 @@ const actions = {
     },
     load({commit}) {
         commit('SET_LOADED', true)
+    },
+    logout({commit}) {
+        return new Promise((resolve) => {
+            commit('SET_USER', {})
+            removeToken()
+            resolve()
+        })
     },
     // get user info
     getInfo({commit}) {

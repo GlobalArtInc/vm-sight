@@ -69,8 +69,8 @@ export default {
         password: null
       },
       formRule: {
-        username: [(v) => !!v || "Username"],
-        password: [(v) => !!v || "Password"]
+        username: [(v) => !!v || "Username not specified"],
+        password: [(v) => !!v || "Password not specified"]
       }
     }
   },

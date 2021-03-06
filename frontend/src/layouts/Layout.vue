@@ -2,7 +2,7 @@
   <v-app class="app">
     <app-drawer class="app--drawer" ref="drawer" />
     <app-toolbar class="app--toolbar" @side-icon-click="handleDrawerVisiable" />
-    <v-main>
+    <v-main style="background: #f3f3f3">
       <!-- Page Wrapper -->
       <div class="page-wrapper"><router-view /></div>
       <!-- App Footer -->
