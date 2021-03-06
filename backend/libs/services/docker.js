@@ -30,7 +30,6 @@ module.exports.connect = (id) => {
                     }
                 }
                 const service = new Docker(settings)
-                console.log(service)
                 return {endpoint: endpoint[0], service: service};
             } else {
                 const service = new Docker(settings)
