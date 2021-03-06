@@ -5,7 +5,7 @@ const fs = require('fs')
 module.exports.connect = (id) => {
     return db.query(`SELECT * FROM endpoints WHERE id = '${id}'`).then((endpoint) => {
         if (endpoint.length > 0) {
-            let settings = (endpoint[0].url.match('unix:///var/run/docker.sock')) ?
+            let settings = (endpoint[0].url.match('/var/run/docker.sock')) ?
                 {socketPath: '/var/run/docker.sock'} : {
                     host: endpoint[0].url.split(':')[0],
                     port: endpoint[0].url.split(':')[1]
