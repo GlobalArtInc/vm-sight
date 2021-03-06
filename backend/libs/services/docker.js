@@ -54,10 +54,10 @@ module.exports.getEndpoint = (endpoint, docker) => {
         const swarm = info.Swarm
 
         const healthy = containers.filter(i => {
-            return i.Status.match('healthy')
+            return i.Status.match('(healthy)');
         })
         const unhealthy = containers.filter(i => {
-            return i.Status.match('unhealthy')
+            return i.Status.match('(unhealthy)');
         })
 
        // containers[0].map(containers => {
