@@ -52,6 +52,33 @@ export default {
     if (getToken()) {
       this.$store.dispatch('user/getInfo')
     }
+    this.$on('SHOW_SNACKBAR', (e) => {
+      this.snackbar = {
+        show: true,
+        text: e.text,
+        color: e.color
+      }
+    })
+    this.$on('AUTH_FAIELD', () => {
+      this.snackbar = {
+        show: true,
+        text: 'Auth Failed',
+        color: 'error'
+      }
+      this.$router.push({
+        path: '/auth/login',
+        query: {
+          redirect: this.$route.path
+        }
+      })
+    })
+    this.$on('SERVER_ERROR', () => {
+      this.snackbar = {
+        show: true,
+        text: 'Server Error',
+        color: 'error'
+      }
+    })
   }
 }
 </script>
