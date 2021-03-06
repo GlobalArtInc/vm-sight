@@ -1,10 +1,24 @@
 <template>
-  <v-app style="background: transparent">
+  <v-app class="layout-auth primary">
     <v-main>
-      <!-- Provides the application the proper gutter -->
-      <v-container>
-        <router-view></router-view>
-      </v-container>
+      <router-view :key="$route.path"></router-view>
     </v-main>
   </v-app>
 </template>
+
+<script>
+export default {
+  data: () => ({}),
+  methods: {}
+}
+</script>
+<style lang="sass" scoped>
+.layout-auth
+  height: 50%
+  width: 100%
+  position: absolute
+  top: 0
+  left: 0
+  content: ""
+  z-index: 0
+</style>

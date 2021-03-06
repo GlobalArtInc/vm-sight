@@ -6,41 +6,7 @@ import BlankLayout from '@/layouts/BlankLayout'
 
 Vue.use(Router)
 
-export const routes = [
-    {
-        path: '/',
-        component: Layout,
-        children: [
-            {
-                path: '',
-                component: () => import('@/views/Home')
-            }
-        ]
-    },
-    {
-      path: '/home',
-      component: Layout,
-      children: [
-          {
-              path: '',
-              component: () => import('@/views/Home')
-          }
-      ]
-    },
-    {
-        path: '/init',
-        component: BlankLayout,
-        children: [
-            {
-                path: 'endpoint',
-                component: () => import('@/views/Init/Endpoint')
-            },
-            {
-                path: 'admin',
-                component: () => import('@/views/Init/Admin')
-            }
-        ]
-    },
+export const publicRoute = [
     {
         path: '/auth',
         component: BlankLayout,
@@ -53,15 +19,63 @@ export const routes = [
     }
 ]
 
-const createRouter = () =>
-    new Router({
-        mode: "hash",
-        scrollBehavior: () => ({y: 0}),
-        routes
-    })
+export const protectedRoute = [
+    {
+        path: '/',
+        redirect: '/home',
+        component: Layout,
+        children: [
+            {
+                meta: {
+                    title: 'dashboard',
+                    group: 'apps',
+                    icon: 'mdi-view-dashboard'
+                },
+                path: '/home',
+                name: 'home',
+                component: () => import('@/views/Home')
+            }
+        ]
+    },
+    {
+        path: '/init',
+        meta: {
+            title: 'home',
+            group: 'apps',
+            icon: ''
+        },
+        component: BlankLayout,
+        children: [
+            {
+                meta: {
+                    title: 'home',
+                    group: 'apps',
+                    icon: ''
+                },
+                path: 'endpoint',
+                component: () => import('@/views/Init/Endpoint')
+            },
+            {
+                meta: {
+                    title: 'home',
+                    group: 'apps',
+                    icon: ''
+                },
+                path: 'admin',
+                component: () => import('@/views/Init/Admin')
+            }
+        ]
+    }
+]
 
-const router = createRouter()
+
+const routes = publicRoute.concat(protectedRoute)
+
+const router = new Router({
+    mode: 'hash',
+    linkActiveClass: 'active',
+    routes: routes
+})
 
 export default router
-
 

@@ -140,6 +140,21 @@ module.exports.startContainer = (docker, hash) => {
     }
 }
 
+module.exports.restartContainer = (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return new Promise((resolve, reject) => {
+            return container.restart().then((() => {
+                resolve()
+            })).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
+
 module.exports.stopContainer = (docker, hash) => {
     const container = docker.getContainer(hash)
         if (container) {
@@ -152,6 +167,22 @@ module.exports.stopContainer = (docker, hash) => {
             return false;
         }
 }
+
+module.exports.killContainer = (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return new Promise((resolve, reject) => {
+            container.kill().then((() => {
+                resolve()
+            })).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
+
 
 module.exports.pauseContainer = (docker, hash) => {
     const container = docker.getContainer(hash)

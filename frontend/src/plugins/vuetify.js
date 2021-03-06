@@ -1,25 +1,31 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
 import colors from 'vuetify/lib/util/colors'
-import 'font-awesome/css/font-awesome.min.css' // Ensure you are using css-loader
+import en from '@/locale/en'
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
-    icons: {
-        iconfont: 'fa4', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+    lang: {
+        locales: { en },
+        current: 'en'
     },
+   // icons: {
+   //     iconfont: 'fa4', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+   // },
     theme: {
-        dark: false,
+        options: {
+            customProperties: true
+        },
         themes: {
             light: {
-                primary: '#1976D2',
+                primary: "#2196f3",
                 secondary: '#424242',
                 accent: '#82B1FF',
                 error: '#FF5252',
                 info: '#2196F3',
                 success: '#4CAF50',
-                warning: '#FFC107',
+                warning: '#FFC107'
             },
             dark: {
                 darken: "#0d3250",

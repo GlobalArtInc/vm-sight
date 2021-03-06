@@ -64,9 +64,27 @@ router.post('/:id/docker/containers/:hash/start', async (req, res) => {
     })
 })
 
+router.post('/:id/docker/containers/:hash/restart', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.restartContainer(docker.service, req.params.hash).then(() => {
+        return res.send({response: true})
+    }).catch((err) => {
+        return res.status(403).send(err)
+    })
+})
+
 router.post('/:id/docker/containers/:hash/stop', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.stopContainer(docker.service, req.params.hash).then(() => {
+        return res.send({response: true})
+    }).catch((err) => {
+        return res.status(403).send(err)
+    })
+})
+
+router.post('/:id/docker/containers/:hash/kill', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.killContainer(docker.service, req.params.hash).then(() => {
         return res.send({response: true})
     }).catch((err) => {
         return res.status(403).send(err)
