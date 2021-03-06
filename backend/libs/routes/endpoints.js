@@ -13,35 +13,68 @@ router.use('/', authMiddleware)
 router.get('/', async (req, res) => {
     const user = await getUserById(req.user.id);
     if (user.role === 1) {
+        db.query('SELECT * FROM endpoints').then(async (endpoints) => {
+            let arr = [];
+            for (const endpointQ of endpoints) {
+                if (endpointQ.type === 1) {
+                    const docker = await dockerService.connect(endpointQ.id)
+                    const endpoint = await dockerService.getEndpoint(docker.endpoint, docker.service)
+                    arr.push(endpoint)
+                }
+            }
+            return res.send(arr)
+        })
+    } else {
+        return res.send([])
+    }
+})
+
+router.get('/:id', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    const endpoint = await dockerService.getEndpoint(docker.endpoint, docker.service)
+    return res.send(endpoint)
+})
+
+/*
+router.get('/', async (req, res) => {
+    const user = await getUserById(req.user.id);
+    if (user.role === 1) {
         db.query('SELECT * FROM endpoints').then((endpoints) => {
             const promises = endpoints
-                .map((i) => {
+                .map((endpoint) => {
                     // DOCKER
-                    if (i.type === 1) {
-                        const result = {
-                            Id: i.id,
-                            Name: i.name,
-                            Type: i.type,
-                            URL: i.url,
-                            GroupId: i.groupId,
-                            Snapshots: []
-                        };
+                    if (endpoint.type === 1) {
 
-                        const settings = (i.url.match('unix:///var/run/docker.sock')) ?
-                            {socketPath: '/var/run/docker.sock'} : {
-                                host: i.url.split(':')[0],
-                                port: i.url.split(':')[1]
+                        const docker = dockerService.connect(endpoint)
+
+                        return dockerService.getInfo(docker).then((r) => {
+
+                            const {ServerVersion, Images, ContainersRunning, } = r;
+
+                            const result = {
+                                Id: endpoint.id,
+                                Name: endpoint.name,
+                                Type: endpoint.type,
+                                URL: endpoint.url,
+                                GroupId: endpoint.groupId,
+                                Stat: {
+                                    DockerVersion: ServerVersion,
+                                    ImageCount: Images,
+                                    RunningContainerCount: ContainersRunning
+                                },
+                                Snapshots: []
                             };
-                        const docker = new Docker(settings);
-
-                        return docker.version(undefined).then(() => {
-                            result.Status = 1
-                            return result;
-                        }).catch(() => {
-                            result.Status = 0
-                            return result
+                            return docker.version(undefined).then(() => {
+                                result.Status = 1
+                                return result;
+                            }).catch(() => {
+                                result.Status = 0
+                                return result
+                            })
                         })
-                    } else if (i.type === 2) {
+
+
+                    } else if (endpoint.type === 2) {
                         // KUBERNETES
                     }
                 });
@@ -59,16 +92,15 @@ router.get('/snapshots', async (req, res) => {
 
     if (user.role === 1) {
         db.query('SELECT * FROM endpoints').then((endpoints) => {
-            endpoints.forEach(async (endpoint) => {
+            endpoints.forEach((endpoint) => {
                 const docker = dockerService.connect(endpoint)
-                console.log(docker)
-                return res.send(await dockerService.getVersion(docker))
+                console.log(dockerService.getSnapshot(docker))
+                return res.send({response: true})
             })
         })
     } else {
         return res.send([])
     }
-    return res.send({response: true})
 });
 
 router.get('/:id/docker/version', async (req, res) => {
@@ -106,5 +138,5 @@ router.get('/:id/docker/containers/json', async (req, res) => {
         return res.status(403).send({msg: "Forbidden"})
     }
 })
-
+*/
 module.exports = router;
