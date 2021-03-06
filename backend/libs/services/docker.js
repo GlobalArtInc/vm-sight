@@ -82,7 +82,6 @@ module.exports.getEndpoint = (endpoint, docker) => {
             VolumeCount: volumes.Volumes.length
         }
 
-
         return getEndpoint({
             id: endpoint.id,
             name: endpoint.name,
