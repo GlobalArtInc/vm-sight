@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
 import colors from 'vuetify/lib/util/colors'
 import en from '@/locale/en'
+import 'font-awesome/css/font-awesome.min.css'
 
 Vue.use(Vuetify);
 
@@ -10,9 +11,9 @@ export default new Vuetify({
         locales: { en },
         current: 'en'
     },
-   // icons: {
-   //     iconfont: 'fa4', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
-   // },
+    icons: {
+        iconfont: 'fa4', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+    },
     theme: {
         options: {
             customProperties: true

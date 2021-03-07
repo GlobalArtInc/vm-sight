@@ -9,86 +9,38 @@
   >
     <v-toolbar color="#2D3E63" dark st>
       <v-toolbar-title class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">VM-SIGHT</span>
+        <span>VM-SIGHT</span>
       </v-toolbar-title>
     </v-toolbar>
     <div class="app-drawer__inner">
       <v-list dark :dense="drawerWidth !== 64" class="pa-0">
-        <template v-for="(item, key) in computeMenu">
-          <template v-if="item.children && item.children.length > 0">
-            <v-list-group
-              :key="key"
-              no-action
-              :to="item.path"
-              :value="computeGroupExpanded(item, $route)"
-            >
-              <template v-slot:prependIcon>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-text="item.meta.icon" />
-                  </template>
-                  <span>
-                    {{ __('menu.' + item.meta.title) }}
-                  </span>
-                </v-tooltip>
+        <v-list-item to="/home">
+          <v-list-item-icon>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-view-dashboard</v-icon>
               </template>
-              <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title v-text="__('menu.' + item.meta.title)" />
-                </v-list-item-content>
+              <span>Home</span>
+            </v-tooltip>
+          </v-list-item-icon>
+          <v-list-item-content v-if="drawerWidth !== 64">
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-subheader>SETTINGS</v-subheader>
+        <v-list-item to="/users">
+          <v-list-item-icon>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-account-group</v-icon>
               </template>
-              <v-list-item
-                :class="drawerWidth === 64 ? 'pl-4' : ''"
-                v-for="subItem in item.children"
-                :key="subItem.name"
-                :to="subItem.path"
-              >
-                <template v-if="drawerWidth === 64">
-                  <v-list-item-icon>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-icon
-                          v-bind="attrs"
-                          v-on="on"
-                          v-text="subItem.meta.icon"
-                        />
-                      </template>
-                      <span>{{ __('menu.' + subItem.meta.title) }}</span>
-                    </v-tooltip>
-                  </v-list-item-icon>
-                </template>
-                <template v-else>
-                  <v-list-item-content>
-                    <v-list-item-title
-                      v-text="__('menu.' + subItem.meta.title)"
-                    />
-                  </v-list-item-content>
-                </template>
-              </v-list-item>
-            </v-list-group>
-          </template>
-          <template v-else>
-            <v-list-item
-              :key="key"
-              :to="item.path"
-            >
-              <v-list-item-icon>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-text="item.meta.icon" />
-                  </template>
-                  <span>{{ __('menu.' + item.meta.title) }}</span>
-                </v-tooltip>
-              </v-list-item-icon>
-              <v-list-item-content v-if="drawerWidth !== 64">
-                <v-list-item-title v-text="__('menu.' + item.meta.title)" />
-              </v-list-item-content>
-              <v-list-item-action v-if="item.meta.new">
-                <v-icon color="green">mdi-new-box </v-icon>
-              </v-list-item-action>
-            </v-list-item>
-          </template>
-        </template>
+              <span>Users</span>
+            </v-tooltip>
+          </v-list-item-icon>
+          <v-list-item-content v-if="drawerWidth !== 64">
+            <v-list-item-title>Users</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </div>
   </v-navigation-drawer>

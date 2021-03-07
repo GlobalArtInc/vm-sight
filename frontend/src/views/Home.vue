@@ -14,46 +14,49 @@
             <template #body="{items}">
               <v-list>
                 <template v-for="(item, index) in items">
-                  <v-list-item :key="item.title">
-                    <template v-slot:default="{ active }">
-                      <v-list-item-icon>
-                        <font-awesome-icon style="font-size: 62px; color: #337ab7" :icon="['fab', 'docker']"/>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title>
+                  <v-list-item :key="item.title" @click="goCluster(item)">
+                    <v-list-item-icon>
+                      <font-awesome-icon style="font-size: 62px; color: #337ab7" :icon="['fab', 'docker']"/>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title>
+                          <span style="float:left">
                           {{ item.Name }}
 
                           <v-chip label class="font-weight-black" small color="success" v-if="item.Status === 1">on
                           </v-chip>
                           <v-chip label class="font-weight-black" small color="error" v-else>off</v-chip>
+                          </span>
+                        <span style="float:right;padding-right: 1em">
+                            sw
+                        </span>
+                      </v-list-item-title>
 
-                        </v-list-item-title>
+                      <v-list-item-subtitle class="text--primary">
+                        <span v-if="item.Snapshot">
+                          <span style="padding: 0 7px 0 0;">
+                            <i class="fa fa-list-alt"/>
+                            {{ item.Snapshot.ServiceCount }} services
+                          </span>
+                          <span>
+                            <i class="fa fa-cubes" />
+                            {{ item.Snapshot.Containers }} containers
+                          </span>
+                        </span>
+                        <span style="float:right;padding-right: 1em" v-if="item.Snapshot">
+                          {{ item.Snapshot.Swarm ? "Swarm" : "Standalone" }} {{ item.Snapshot.DockerVersion }}
+                        </span>
+                      </v-list-item-subtitle>
 
-                        <v-list-item-subtitle
-                            class="text--primary">asd
-                        </v-list-item-subtitle>
-
-                        <v-list-item-subtitle>ads</v-list-item-subtitle>
-                      </v-list-item-content>
-
-                      <v-list-item-action>
-                        <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
-
-                        <v-icon
-                            v-if="!active"
-                            color="grey lighten-1"
-                        >
-                          mdi-star-outline
-                        </v-icon>
-
-                        <v-icon
-                            v-else
-                            color="yellow darken-3"
-                        >
-                          mdi-star
-                        </v-icon>
-                      </v-list-item-action>
-                    </template>
+                      <v-list-item-subtitle>
+                        <span>
+                          s
+                        </span>
+                        <span style="float:right;padding-right: 1em">
+                          {{ item.URL }}
+                        </span>
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
                   </v-list-item>
 
                   <v-divider
@@ -87,6 +90,13 @@ export default {
       }
     ]
   }),
+  methods: {
+    goCluster(endpoint) {
+      if (endpoint.Type === 1) {
+        this.$router.push(`/${endpoint.Id}/docker/dashboard`)
+      }
+    }
+  },
   created() {
     motd().then(() => {
       getEndpoints().then((endpoints) => {

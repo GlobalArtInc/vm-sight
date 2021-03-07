@@ -11,6 +11,16 @@ module.exports.getUserById = (id) => {
     })
 }
 
+module.exports.getUserByIdAndCheckIfAdmin = (id) => {
+    return this.getUserById(id).then((user) => {
+        if(user.role === 1) {
+            return true
+        } else {
+            return false
+        }
+    })
+}
+
 module.exports.findUser = (username, password) => {
     return new Promise((resolve, reject) => {
         db.query(`SELECT * FROM users WHERE username = '${username}'`).then((user) => {

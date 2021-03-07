@@ -2,7 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 /* Layout */
 import Layout from '@/layouts/Layout'
+// eslint-disable-next-line no-unused-vars
+import DockerLayout from '@/layouts/DockerLayout'
 import BlankLayout from '@/layouts/BlankLayout'
+import Blank from '@/layouts/Blank'
 
 Vue.use(Router)
 
@@ -21,19 +24,108 @@ export const publicRoute = [
 
 export const protectedRoute = [
     {
+        path: '*',
+        component: () => import('@/views/error/NotFound.vue')
+    },
+    {
         path: '/',
         redirect: '/home',
         component: Layout,
+        meta: {
+            title: 'home',
+            group: 'apps',
+            icon: ''
+        },
         children: [
             {
+                path: '/home',
+                name: 'home',
                 meta: {
                     title: 'dashboard',
                     group: 'apps',
-                    icon: 'mdi-view-dashboard'
+                    icon: 'mdi-view-dashboard',
+                    hiddenInMenu: true
                 },
-                path: '/home',
-                name: 'home',
-                component: () => import('@/views/Home')
+                component: () => import('@/views/Home'),
+            },
+            {
+                path: '/:id/docker',
+                component: DockerLayout,
+                meta: {
+                    hiddenInMenu: true
+                },
+                children: [
+                    {
+                        path: 'dashboard',
+                        meta: {
+                            title: 'dashboard',
+                            group: 'apps',
+                            icon: 'fab fa-docker',
+                            hiddenInMenu: true
+                        },
+                        component: () => import('@/views/docker/Dashboard/Index')
+                    }
+                ]
+            },
+            {
+                path: '/users',
+                component: Blank,
+                meta: {
+                    title: 'users'
+                },
+                children: [
+                    {
+                        path: 'create',
+                        name: 'usersCreate',
+                        meta: {
+                            title: 'usersCreate'
+                        },
+                        component: () => import('@/views/Users/UserItem')
+                    },
+                    {
+                        path: ':id',
+                        name: 'usersEdit',
+                        meta: {
+                            title: 'usersEdit'
+                        },
+                        props: true,
+                        component: () => import('@/views/Users/UserItem')
+                    },
+                    {
+                        path: '',
+                        name: 'usersList',
+                        meta: {
+                            hiddenInMenu: true
+                        },
+                        component: () => import('@/views/Users/Index')
+                    }
+                ]
+            }
+        ]
+    },
+    /*{
+        path: '/users',
+        component: Layout,
+        children: [
+            {
+                path: '',
+                name: 'users',
+                component: () => import('@/views/Users/Index'),
+                meta: {
+                    title: 'users',
+                    group: 'apps',
+                    icon: 'mdi-view-dashboard'
+                }
+            }
+        ]
+    },
+    {
+        path: '/:hash/docker',
+        component: DockerLayout,
+        children: [
+            {
+                path: 'dashboard',
+                component: () => import('@/views/docker/Dashboard/Index')
             }
         ]
     },
@@ -65,7 +157,7 @@ export const protectedRoute = [
                 component: () => import('@/views/Init/Admin')
             }
         ]
-    }
+    }*/
 ]
 
 

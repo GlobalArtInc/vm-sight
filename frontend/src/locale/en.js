@@ -8,8 +8,22 @@ export default {
     username: 'Username',
     password: 'Password',
     login_account: 'Login account',
+    //
+    create: "Create",
+    update: "Update",
     //app drawer
     sponsor: 'Sponsor',
+    // user page
+    user: {
+        username: "Username",
+        password: "Password",
+        repeatPassword: "Repeat password",
+        administrator: "Administrator",
+        created: "User was created",
+        updated: "User was updated"
+    },
+    usersCreate: "New User",
+    usersEdit: "Edit User",
     // menu
     menu: {
         home: 'Home',
@@ -33,6 +47,8 @@ export default {
         form: 'Form',
         acl: 'ACL',
         users: 'Users',
+        usersCreate: 'New User',
+        usersEdit: 'Edit User',
         user_list: 'User List',
         edit_user: 'Edit User',
         create_user: 'Create User',

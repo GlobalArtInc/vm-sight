@@ -66,14 +66,16 @@ module.exports.getEndpoint = (endpoint, docker) => {
 
         const timestamp = Math.floor(new Date() / 1000)
 
+
         const snapshot = {
             DockerVersion: info.ServerVersion,
+            Containers: info.Containers,
             RunningContainerCount: info.ContainersRunning,
             StoppedContainerCount: info.ContainersStopped,
             HealthyContainerCount: healthy.length,
             UnhealthyContainerCount: unhealthy.length,
             ImageCount: info.Images,
-            ServiceCount: swarm.LocalNodeState === 'active' ? await docker.listServices().length : 0,
+            ServiceCount: swarm.LocalNodeState === 'active' ? docker.listServices().length : 0,
             StackCount: 0,
             Swarm: swarm.LocalNodeState === 'active',
             Time: Math.floor(new Date(info.SystemTime).getTime() / 1000),
