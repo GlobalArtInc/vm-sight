@@ -30,6 +30,7 @@ export default {
         media: 'Media',
         dashboard: 'Dashboard',
         task: 'Task',
+        settings: 'Settings',
         CMS: 'CMS',
         widget: 'Widget',
         chart: 'Chart',

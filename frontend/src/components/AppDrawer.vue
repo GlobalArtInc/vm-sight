@@ -41,12 +41,26 @@
             <v-list-item-title>Users</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/settings" v-if="user.role === 1">
+          <v-list-item-icon>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-cog</v-icon>
+              </template>
+              <span>Settings</span>
+            </v-tooltip>
+          </v-list-item-icon>
+          <v-list-item-content v-if="drawerWidth !== 64">
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </div>
   </v-navigation-drawer>
 </template>
 <script>
 import { protectedRoute as routes } from '@/router'
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'AppDrawer',
@@ -74,6 +88,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['user']),
     computeLogo() {
       return '/static/m.png'
     },

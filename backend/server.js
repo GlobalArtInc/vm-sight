@@ -1,27 +1,12 @@
-const express = require('express');
-const path = require('path');
-const app = express(), bodyParser = require("body-parser"), router = express.Router();
-const init = require('./libs/init')
-port = 3601;
+const libs = process.cwd() + '/libs/';
+const log = require(libs + 'log')(module);
+const app = require(libs + 'app');
+const init = require(libs + 'init')
 
-const SettingsRoute = require('./routes/settings')
-const UsersRoute = require('./routes/users')
+app.set('port', 3601);
 
-// place holder for the data
-const users = [];
-
-app.use(bodyParser.json());
-
-app.listen(port, () => {
+app.listen(app.get('port'), function () {
     console.clear()
-    console.log(`Api server listening on port: ${port}`);
-    init.createDB(app)
+    init.createDB()
+    log.info('Express server listening on port ' + app.get('port'));
 });
-
-SettingsRoute(app)
-UsersRoute(app)
-
-app.get('/api/status', (req, res) => {
-    res.send({Version: "1.0"})
-})
-

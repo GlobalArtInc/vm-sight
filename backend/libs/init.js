@@ -45,6 +45,9 @@ module.exports.createSettings = async () => {
     db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("OAuthRedirectURL", "")`)
     db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("OAuthUserIdentifier", "")`)
     db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("OAuthScopes", "")`)
+
+    db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("SnapshotInterval", "5m")`)
+    db.query(`INSERT OR IGNORE INTO settings(key, value) VALUES ("UserSessionTimeout", "8h")`)
 }
 
 module.exports.createEndpoints = async () => {

@@ -86,7 +86,9 @@ export default {
         auth(this.formModel.username, this.formModel.password).then((response) => {
           const {jwt} = response
           setToken(jwt)
-          this.$router.push("/home").catch(()=>{});
+          this.$store.dispatch('user/getInfo').then(() => {
+            this.$router.push("/home").catch(()=>{});
+          })
         }).catch(() => {
           this.$router.push("/auth").catch(()=>{});
           setTimeout(() => {

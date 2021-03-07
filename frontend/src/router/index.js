@@ -100,6 +100,23 @@ export const protectedRoute = [
                         component: () => import('@/views/Users/Index')
                     }
                 ]
+            },
+            {
+                path: '/settings',
+                component: Blank,
+                meta: {
+                    title: "settings"
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'settingsList',
+                        meta: {
+                            hiddenInMenu: true
+                        },
+                        component: () => import('@/views/Settings/Index')
+                    }
+                ]
             }
         ]
     },
