@@ -102,6 +102,23 @@ export const protectedRoute = [
                 ]
             },
             {
+                path: '/endpoints',
+                component: Blank,
+                meta: {
+                    title: "endpoints"
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'settingsList',
+                        meta: {
+                            hiddenInMenu: true
+                        },
+                        component: () => import('@/views/Endpoints/Index')
+                    }
+                ]
+            },
+            {
                 path: '/settings',
                 component: Blank,
                 meta: {

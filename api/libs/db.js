@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+console.log(__dirname)
 const db = new sqlite3.Database('./data/base.db');
 
 module.exports.query = (query) => {
