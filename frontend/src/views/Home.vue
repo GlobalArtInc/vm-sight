@@ -5,6 +5,7 @@
         <v-card-title>Endpoints</v-card-title>
         <template v-if="isLoaded">
           <v-data-table
+              v-if="endpoints.length > 0"
               :headers="headers"
               :items="endpoints"
               hide-default-header
@@ -67,6 +68,9 @@
               </v-list>
             </template>
           </v-data-table>
+          <div v-else style="padding: 1em;color: #777" class="text-center font-weight-medium">
+            No endpoints available.
+          </div>
         </template>
         <template v-else>
           <v-progress-linear indeterminate height="10"/>
