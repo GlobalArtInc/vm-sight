@@ -27,7 +27,7 @@
                 value=""
                 v-model="formModel.password"
                 required
-                :append-icon="'mdi-account-check'"
+                :append-icon="'mdi-lock'"
             />
           </v-col>
           <v-col :cols="6">
@@ -38,7 +38,7 @@
                 :placeholder="form.password.placeholder"
                 value=""
                 v-model="formModel.repeatPassword"
-                :append-icon="'mdi-account-check'"
+                :append-icon="'mdi-lock'"
             />
           </v-col>
         </v-row>
