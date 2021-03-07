@@ -139,7 +139,6 @@ router.post('/admin/init', async function (req, res) {
             if (Username && Password) {
                 global.cryptPassword(Password).then((hash) => {
                     const id = global.getGUID()
-                    console.log(hash)
                     db.query(`INSERT INTO users 
                                     (id, username, password, role, createdAt, updatedAt) VALUES
                                     ('${id}', '${Username}', '${hash}', 1, strftime('%s', 'now'), strftime('%s', 'now'))`).then(() => {
