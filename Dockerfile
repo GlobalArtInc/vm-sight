@@ -1,15 +1,15 @@
-FROM node:10 AS ui-build
+FROM node:alpine AS ui-build
 WORKDIR /usr/src/app
-COPY backend/ ./backend/
-RUN cd backend && yarn && yarn build
+COPY client/ ./client/
+RUN cd client && npm install && npm run build
 
-FROM node:10 AS server-build
+FROM node:alpine AS server-build
 WORKDIR /root/
-COPY --from=ui-build /usr/src/app/frontend/build ./frontend/build
-COPY backend/package*.json ./backend/
-RUN cd backend && yarn
-COPY backend/server.js ./backend/
+COPY --from=ui-build /usr/src/app/client/dist ./client/dist
+COPY api ./api/
+RUN cd api && npm install
+COPY api/server.js ./api/
 
-EXPOSE 3080
+EXPOSE 3600
 
-CMD ["node", "./backend/server.js"]
+CMD ["node", "./api/server.js"]
