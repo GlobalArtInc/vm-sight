@@ -12,12 +12,13 @@ const users = require('./routes/users')
 const endpoints = require('./routes/endpoints')
 
 var app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('jwt-secret', "test")
 app.use(passport.initialize());
-app.use(express.static(path.join(__dirname, '../../client/dist')));
+if (global.env === 'production') {
+    app.use(express.static(path.join(__dirname, '../../client/dist')));
+}
 
 app.use('/api', api);
 app.use('/api/auth', auth)

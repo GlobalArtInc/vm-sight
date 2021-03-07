@@ -1,11 +1,11 @@
 FROM node:alpine AS ui-build
-WORKDIR /usr/src/app
+WORKDIR /app
 COPY client/ ./client/
 RUN cd client && npm install && npm run build
 
 FROM node:alpine AS server-build
-WORKDIR /root/
-COPY --from=ui-build /usr/src/app/client/dist ./client/dist
+WORKDIR /app
+COPY --from=ui-build /app/client/dist ./client/dist
 COPY api ./api/
 RUN cd api && npm install
 COPY api/server.js ./api/
