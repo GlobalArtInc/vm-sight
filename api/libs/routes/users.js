@@ -76,7 +76,7 @@ router.put('/:id', async (req, res) => {
 
         if (user.length > 0) {
             if (req.user.id === user[0].id && Role === 0) {
-                return res.status(403).send({message: "You can't remove yourself from administrators"})
+                return res.status(403).send({message: "You can't remove yourself from administrator group"})
             }
             if (Username) {
                 const checkUser = await db.query(`SELECT username FROM users WHERE LOWER(username) = LOWER("${Username}")`)
