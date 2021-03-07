@@ -1,4 +1,4 @@
-const libs = process.cwd() + '/libs/';
+const libs = './libs/';
 const log = require(libs + 'log')(module);
 const app = require(libs + 'app');
 const init = require(libs + 'init')
