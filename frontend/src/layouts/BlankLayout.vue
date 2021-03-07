@@ -1,5 +1,5 @@
 <template>
-  <v-app class="layout-auth primary">
+  <v-app class="layout-blank primary">
     <v-main>
       <router-view :key="$route.path"></router-view>
     </v-main>
@@ -13,7 +13,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.layout-auth
+.layout
   height: 50%
   width: 100%
   position: absolute

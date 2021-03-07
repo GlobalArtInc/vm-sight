@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import {check} from "@/api/users/admin";
 import {auth} from "@/api/auth";
 import {setToken} from "@/utils/auth";
 
@@ -78,6 +79,13 @@ export default {
     prefix() {
       return ''
     }
+  },
+  created() {
+    check().then(() => {
+
+    }).catch(() => {
+      this.$router.push('/init/admin')
+    })
   },
   methods: {
     login() {
