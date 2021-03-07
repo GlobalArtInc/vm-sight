@@ -103,6 +103,35 @@ export const protectedRoute = [
             }
         ]
     },
+    {
+        path: '/init',
+        meta: {
+            title: 'home',
+            group: 'apps',
+            icon: ''
+        },
+        component: BlankLayout,
+        children: [
+            {
+                meta: {
+                    title: 'home',
+                    group: 'apps',
+                    icon: ''
+                },
+                path: 'endpoint',
+                component: () => import('@/views/Init/Endpoint')
+            },
+            {
+                meta: {
+                    title: 'home',
+                    group: 'apps',
+                    icon: ''
+                },
+                path: 'admin',
+                component: () => import('@/views/Init/Admin')
+            }
+        ]
+    }
     /*{
         path: '/users',
         component: Layout,

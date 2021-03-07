@@ -1,54 +1,71 @@
 <template>
-  <v-card>
-    <v-card-title>Create User</v-card-title>
-    <v-form
-        ref="form"
-        v-model="valid"
-        lazy-validation>
-      <v-card-text>
+  <v-container class="page-blank" fill-height>
+    <v-row>
+      <v-col>
+        <v-card class="pa-3 page-blank__card" tile>
+          <v-card-title>
+            <h1 class="primary--text display-1 page-blank_title">
+              VM-SIGHT - Create User
+            </h1>
+          </v-card-title>
+          <v-card-text>
+            <v-form
+                ref="form"
+                class="my-10"
+                lazy-validation>
+              <v-text-field
+                  append-icon="mdi-account"
+                  autocomplete="off"
+                  name="login"
+                  type="text"
+                  label="Username"
+                  placeholder="Username"
+                  required
+                  outlined
+                  v-model="username"
+              />
 
-        <v-text-field
-            v-model="username"
-            color="primary"
-            :counter="25"
-            label="Name"
-            filled
-            required/>
+              <v-text-field
+                  append-icon="mdi-lock"
+                  autocomplete="off"
+                  name="password"
+                  type="password"
+                  label="Password"
+                  placeholder="Password"
 
-        <v-text-field
-            v-model="password"
-            type="password"
-            color="primary"
-            label="Password"
-            filled
-            required/>
-
-        <v-text-field
-            v-model="passwordRepeat"
-            type="password"
-            color="primary"
-            label="Repeat Password"
-            filled
-            required/>
-
-        <p style="text-align: left">
-          <v-icon :style="{color: password.length >= 8 ? 'green':'red'}">fa-check</v-icon>
-          The password must be at least 8 characters long
-          <br>
-        </p>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn
-            :disabled="password !== passwordRepeat || password.length < 8"
-            color="success"
-            class="mr-4"
-            @click="createUser">
-          Create user
-        </v-btn>
-      </v-card-actions>
-    </v-form>
-  </v-card>
+                  required
+                  outlined
+                  v-model="password"
+              />
+              <v-text-field
+                  append-icon="mdi-lock"
+                  autocomplete="off"
+                  name="repeatPassword"
+                  type="password"
+                  label="Repeat Password"
+                  placeholder="Repeat Password"
+                  required
+                  outlined
+                  v-model="passwordRepeat"
+              />
+              <v-icon :style="{color: password.length >= 8 ? 'green':'red'}">fa-check</v-icon>
+              The password must be at least 8 characters long
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn large tile
+                   :disabled="password !== passwordRepeat || password.length < 8"
+                   color="primary" @click="createUser" :loading="loading">
+              Create User
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
 
 <script>
 import {check, init} from '@/api/users/admin'
@@ -58,6 +75,7 @@ import {setToken} from "@/utils/auth";
 export default {
   data: () => ({
     valid: true,
+    loading: false,
     username: 'admin',
     password: "",
     passwordRepeat: ""
@@ -83,3 +101,11 @@ export default {
 }
 
 </script>
+
+
+<style lang="sass" scoped>
+.page-blank
+  &__card
+  max-width: 600px
+  margin: 0 auto
+</style>

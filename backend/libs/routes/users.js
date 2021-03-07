@@ -13,7 +13,7 @@ router.post('/:id', authMiddleware)
 router.put('/:id', authMiddleware)
 router.delete('/:id', authMiddleware)
 
-router.get('/admin/check', authMiddleware)
+// router.get('/admin/check', authMiddleware)
 
 router.get('/', async (req, res) => {
     const access = await user.getUserByIdAndCheckIfAdmin(req.user.id);
