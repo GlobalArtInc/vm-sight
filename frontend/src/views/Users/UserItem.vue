@@ -1,6 +1,6 @@
 <template>
   <div class="page-user__item">
-    <v-container>
+    <v-container class="main-container">
       <v-row>
         <v-col>
           <user-form :user-id="id" />

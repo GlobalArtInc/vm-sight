@@ -1,6 +1,6 @@
 <template>
   <div class="page-dashboard">
-    <v-container>
+    <v-container class="main-container">
       <v-card>
         <v-card-title>Endpoints</v-card-title>
         <template v-if="isLoaded">

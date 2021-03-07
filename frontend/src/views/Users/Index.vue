@@ -1,6 +1,6 @@
 <template>
   <div class="page-user">
-    <v-container>
+    <v-container class="main-container">
       <v-row>
         <v-col cols="12">
           <v-card tile>
