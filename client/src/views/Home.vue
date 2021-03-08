@@ -82,7 +82,7 @@
 
 <script>
 import {motd} from "@/api/api";
-import {getEndpoints} from "@/api/endpoints/api";
+import {fetchEndpoints} from "@/api/endpoints/api";
 
 export default {
   data: () => ({
@@ -103,7 +103,7 @@ export default {
   },
   created() {
     motd().then(() => {
-      getEndpoints().then((endpoints) => {
+      fetchEndpoints().then((endpoints) => {
         setTimeout(() => this.isLoaded = true, 1000)
         this.endpoints = endpoints
       })

@@ -1,6 +1,8 @@
 <template>
-  <div>
-    asd
+  <div class="page-docker">
+    <v-container class="main-container">
+      <router-view />
+    </v-container>
   </div>
 </template>
 

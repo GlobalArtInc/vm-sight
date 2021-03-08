@@ -43,7 +43,7 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-spacer />
+            <v-spacer/>
             <v-btn large tile color="primary" @click="login" :loading="loading">
               Login
             </v-btn>
@@ -95,17 +95,24 @@ export default {
           const {jwt} = response
           setToken(jwt)
           this.$store.dispatch('user/getInfo').then(() => {
-            this.$router.push("/home").catch(()=>{});
+            this.$router.push("/home").catch(() => {
+            });
           })
-        }).catch(() => {
-          this.$router.push("/auth").catch(()=>{});
+        }).catch((err) => {
+          console.log(err)
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: err.response.data.message,
+            color: 'error'
+          })
+        }).finally(() => {
           setTimeout(() => {
             this.loading = false
           }, 750)
         })
       }
     },
-    handleSocialLogin() {}
+    handleSocialLogin() {
+    }
   }
 }
 </script>

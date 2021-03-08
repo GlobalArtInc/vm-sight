@@ -54,16 +54,17 @@ export const protectedRoute = [
                 meta: {
                     hiddenInMenu: true
                 },
+                props: true,
                 children: [
                     {
                         path: 'dashboard',
                         meta: {
                             title: 'dashboard',
                             group: 'apps',
-                            icon: 'fab fa-docker',
-                            hiddenInMenu: true
+                            icon: 'fab fa-docker'
                         },
-                        component: () => import('@/views/docker/Dashboard/Index')
+                        props: true,
+                        component: () => import('@/views/Docker/Dashboard/Index')
                     }
                 ]
             },

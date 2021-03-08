@@ -4,6 +4,7 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import store from './store'
 import './permission'
+import './theme/style.sass'
 import './theme/default.sass'
 
 import { library } from '@fortawesome/fontawesome-svg-core'

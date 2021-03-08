@@ -13,6 +13,7 @@ export default {
     update: "Update",
     //app drawer
     sponsor: 'Sponsor',
+    information: 'Information',
     // user page
     user: {
         username: "Username",

@@ -33,11 +33,11 @@ router.post('/', function (req, res) {
                 return res.send({jwt})
             }).catch((err) => {
                 log.error(String(err))
-                return res.status(401).send({msg: String(err)})
+                return res.status(401).send({message: String(err)})
             })
         }).catch(() => {
             log.error('Login error')
-            return res.status(401).send({msg: "Login error"})
+            return res.status(401).send({message: "Login error"})
         })
     } else {
         return res.status(405).send({response: false})
