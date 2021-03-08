@@ -1,3 +1,4 @@
+
 <template>
   <v-app-bar color="primary" dark app>
     <v-app-bar-nav-icon @click="handleDrawerToggle" />
@@ -36,9 +37,9 @@
       <v-icon>mdi-home</v-icon>
       <v-breadcrumbs :items="breadcrumbs" class="pa-3" />
       <v-spacer></v-spacer>
-      <v-btn icon small color="black">
+     <!-- <v-btn icon small color="black">
         <v-icon v-text="'mdi-arrow-left'" @click="handleGoBack" />
-      </v-btn>
+      </v-btn> -->
     </v-toolbar>
   </v-app-bar>
 </template>
