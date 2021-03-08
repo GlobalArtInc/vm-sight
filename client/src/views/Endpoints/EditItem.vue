@@ -30,11 +30,18 @@
                     <template v-if="form.type === 1">
                       <v-switch label="TLS" v-model="formModel.tls.active"/>
                       <template v-if="formModel.tls.active">
-                        <v-file-input v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%" outlined
+                        <v-file-input
+                            :prepend-icon="form.tls.ca === true ? 'fa-check':'fa-times'"
+                            v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%"
+                            outlined
+                            chips class="col-3"/>
+                        <v-file-input
+                            :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
+                            v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
                                       chips class="col-3"/>
-                        <v-file-input v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
-                                      chips class="col-3"/>
-                        <v-file-input v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
+                        <v-file-input
+                            :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
+                            v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
                                       class="col-3"/>
                       </template>
                     </template>
@@ -55,10 +62,16 @@
     </v-container>
   </div>
 </template>
-
+<style>
+.v-input__prepend-outer .fa-check {
+  color: green;
+}
+.v-input__prepend-outer .fa-times {
+  color: red;
+}
+</style>
 <script>
-import {getEndpoint} from '@/api/endpoints/api'
-import {createUser, updateUser} from "@/api/users/users";
+import {getEndpoint, updateEndpoint} from '@/api/endpoints/api'
 
 export default {
   props: {
@@ -73,9 +86,9 @@ export default {
       url: "",
       tls: {
         active: false,
-        ca: "",
-        cert: "",
-        key: ""
+        ca: null,
+        cert: null,
+        key: null
       }
     },
     form: {
@@ -86,7 +99,12 @@ export default {
       url: {
         label: "URL"
       },
-      type: 0
+      type: 0,
+      tls: {
+        ca: false,
+        cert: false,
+        key: false
+      }
     },
     formHasErrors: false
   }),
@@ -111,11 +129,12 @@ export default {
       getEndpoint(id).then(data => {
         this.formModel.name = data.Name;
         this.formModel.url = data.URL;
-        this.formModel.tls = {
-          active: data.TLS === 1,
-          ca: data.TLS_CA === 1 ? true : null,
-          cert: data.TLS_CERT === 1 ? true : null,
-          key: data.TLS_KEY === 1 ? true : null
+        this.formModel.tls.active = data.TLS === 1
+
+        this.form.tls = {
+          ca: data.TLS_CA === 1,
+          cert: data.TLS_CERT === 1,
+          key: data.TLS_KEY === 1
         }
         this.form.type = data.Type
         this.loading = false
@@ -123,47 +142,27 @@ export default {
     },
     handleSubmitForm() {
       if (this.$refs.form.validate()) {
-        this.updateUser(this.userId)
+        this.onSubmit()
       }
     },
-    updateUser() {
-      const role = this.formModel.admin ? 1 : 0
-
-      updateUser(this.userId, {
-        Username: this.formModel.username,
-        Password: this.formModel.password,
-        Role: role
-      }).then(() => {
-        this.loading = false
-        window._VMA.$emit('SHOW_SNACKBAR', {
-          text: this.__('user.updated'),
-          color: 'success'
+    onSubmit() {
+      if (this.form.type === 1) {
+        updateEndpoint(this.id, this.formModel).then(() => {
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: 'Endpoint was updated',
+            color: 'success'
+          })
+          this.$router.push('/endpoints')
         })
-        this.$router.push('/users')
-      }).catch((err) => {
-        window._VMA.$emit('SHOW_SNACKBAR', {
-          text: err.response.data.message,
-          color: 'error'
+      }  else if (this.form.type === 2) {
+        updateEndpoint(this.id, {name: this.formModel.name}).then(() => {
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: 'Endpoint was updated',
+            color: 'success'
+          })
+          this.$router.push('/endpoints')
         })
-        setTimeout(() => this.loading = false, 500)
-      })
-    },
-    createUser() {
-      const role = this.formModel.admin ? 1 : 0
-      createUser({Username: this.formModel.username, Password: this.formModel.password, Role: role}).then(() => {
-        this.loading = false
-        window._VMA.$emit('SHOW_SNACKBAR', {
-          text: this.__('user.created'),
-          color: 'success'
-        })
-        this.$router.push('/users')
-      }).catch((err) => {
-        window._VMA.$emit('SHOW_SNACKBAR', {
-          text: err.response.data.message,
-          color: 'error'
-        })
-        setTimeout(() => this.loading = false, 500)
-      })
+      }
     }
   }
 }

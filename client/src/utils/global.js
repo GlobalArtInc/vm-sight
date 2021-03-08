@@ -8,7 +8,7 @@ export function getEndpointType(type, icon = false) {
             endpoint.name = "Docker"
             break;
         case 2:
-            endpoint.name = "Docker (Local)"
+            endpoint.name = "Docker (via Socket)"
     }
     if (icon) {
         switch (type){

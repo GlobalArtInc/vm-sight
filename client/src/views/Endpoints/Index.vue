@@ -6,6 +6,7 @@
           <v-card tile>
             <v-toolbar flat>
               <v-text-field
+                  v-model="search"
                   text
                   solo
                   flat
@@ -24,6 +25,7 @@
             <v-divider/>
             <v-card-text>
               <v-data-table
+                  :search="search"
                   :loading="loadingItems"
                   :headers="headers"
                   :items="endpoints"
@@ -83,6 +85,7 @@ export default {
     return {
       loadingItems: false,
       endpoints: [],
+      search: "",
       actions: [
         {
           text: 'Edit Item',

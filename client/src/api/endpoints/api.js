@@ -18,6 +18,14 @@ export function getEndpoint(id) {
     })
 }
 
+export function updateEndpoint(id, data) {
+    return request({
+        url: '/endpoints/list/' + id,
+        method: 'put',
+        data
+    })
+}
+
 export function listEndpoints() {
     return request({
         url: '/endpoints/list'

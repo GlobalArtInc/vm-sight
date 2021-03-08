@@ -11,14 +11,21 @@ module.exports.connect = (id) => {
                     port: endpoint[0].url.split(':')[1]
                 };
             if (endpoint[0].tls === 1) {
+
                 if (endpoint[0].tls_ca === 1) {
-                    settings.ca = fs.readFileSync(`./data/certs/${endpoint[0].id}/ca.pem`)
+                    const path = `./data/certs/${endpoint[0].id}/ca.pem`
+                    if (fs.existsSync(path))
+                        settings.cert = fs.readFileSync(path)
                 }
                 if (endpoint[0].tls_cert === 1) {
-                    settings.cert = fs.readFileSync(`./data/certs/${endpoint[0].id}/cert.pem`)
+                    const path = `./data/certs/${endpoint[0].id}/cert.pem`
+                    if (fs.existsSync(path))
+                        settings.cert = fs.readFileSync(path)
                 }
                 if (endpoint[0].tls_key === 1) {
-                    settings.key = fs.readFileSync(`./data/certs/${endpoint[0].id}/key.pem`)
+                    const path = `./data/certs/${endpoint[0].id}/key.pem`
+                    if (fs.existsSync(path))
+                        settings.cert = fs.readFileSync(path)
                 }
                 const service = new Docker(settings)
                 return {endpoint: endpoint[0], service: service};
@@ -46,13 +53,19 @@ const getEndpoint = (endpoint) => {
     };
 }
 
+module.exports.checkConnect = (host, data) => {
+    return new Promise(() => {
+
+    })
+}
+
 module.exports.getEndpoint = (endpoint, docker) => {
     if (docker) {
         return docker.version().then(async () => {
             const snap = await db.query(`SELECT * FROM snapshots WHERE endpoint_id = '${endpoint.id}'`)
             let snapshot;
             const timestamp = Math.floor(new Date() / 1000)
-            if (snap.length === 0 || snap[0].createdAt+300 < timestamp) {
+            if (snap.length === 0 || snap[0].createdAt + 300 < timestamp) {
                 const info = await docker.info()
                 const containers = await docker.listContainers()
                 const volumes = await docker.listVolumes()
@@ -80,7 +93,7 @@ module.exports.getEndpoint = (endpoint, docker) => {
                     TotalMemory: info.MemTotal,
                     VolumeCount: volumes.Volumes.length
                 }
-                if (snap.length > 0 && snap[0].createdAt+300 < timestamp) {
+                if (snap.length > 0 && snap[0].createdAt + 300 < timestamp) {
                     db.query(`UPDATE snapshots SET data = '${JSON.stringify(snapshot)}', createdAt = strftime('%s', 'now') WHERE endpoint_id = '${endpoint.id}'`)
                 } else {
                     db.query(`INSERT INTO snapshots (endpoint_id, data, createdAt) VALUES ('${endpoint.id}', '${JSON.stringify(snapshot)}', strftime('%s', 'now'))`)
@@ -184,15 +197,15 @@ module.exports.restartContainer = (docker, hash) => {
 
 module.exports.stopContainer = (docker, hash) => {
     const container = docker.getContainer(hash)
-        if (container) {
-            return new Promise((resolve, reject) => {
-                container.stop().then((() => {
-                    resolve()
-                })).catch((err) => reject(err))
-            })
-        } else {
-            return false;
-        }
+    if (container) {
+        return new Promise((resolve, reject) => {
+            container.stop().then((() => {
+                resolve()
+            })).catch((err) => reject(err))
+        })
+    } else {
+        return false;
+    }
 }
 
 module.exports.killContainer = (docker, hash) => {

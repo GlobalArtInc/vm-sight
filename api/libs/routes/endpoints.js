@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/list/:id', async(req,res) => {
+router.get('/list/:id', async (req, res) => {
     const user = await getUserById(req.user.id);
     if (user.role === 1) {
         db.query(`SELECT id AS Id,
@@ -46,14 +46,68 @@ router.get('/list/:id', async(req,res) => {
          tls_key as TLS_KEY,
          tls_cert as TLS_CERT
          FROM endpoints WHERE id = '${req.params.id}'`).then((endpoint) => {
-             if (endpoint.length > 0) {
-                 return res.send(endpoint[0])
-             } else {
-                 return res.status(404).send({message: "Not Found"})
-             }
+            if (endpoint.length > 0) {
+                return res.send(endpoint[0])
+            } else {
+                return res.status(404).send({message: "Not Found"})
+            }
         }).catch((err) => {
             return res.status(500).send(err)
         })
+    } else {
+        return res.status(403).send({message: "Forbidden"})
+    }
+})
+
+router.put('/list/:id', async (req, res) => {
+    const user = await getUserById(req.user.id);
+    if (user.role === 1) {
+        const endpoint = await db.query(`SELECT * FROM endpoints WHERE id = '${req.params.id}'`)
+        if (endpoint.length > 0) {
+            if (endpoint[0].type === 1) {
+                const {name, tls, url} = req.body
+                let tls_active, tls_ca, tls_cert, tls_key;
+
+                if (tls) {
+                    tls_active = tls.active
+                    tls_ca = tls.ca
+                    tls_cert = tls.cert
+                    tls_key = tls.key
+                }
+
+                if (name) {
+                    db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
+                }
+                return res.send({response: true})
+                // const query = `
+                // UPDATE endpoints SET ${name ? "name='" + name + "'" : ""} WHERE id = '${endpoint[0].id}'
+                // `
+                // db.query(query).then(() => {
+                //     return res.send({response: true})
+                // }).catch((err) => {
+                //     return res.status(500).send(err)
+                // })
+                //if (name) {
+                //    db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`).then(() => {
+                //        return res.send({response: true})
+                //    }).catch((err) => res.send(err))
+                //} else {
+                //    return res.status(405).send({message: 'Name is not specified'})
+                //}
+            } else if (endpoint[0].type === 2) {
+                const name = req.body.name
+
+                if (name) {
+                    db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`).then(() => {
+                        return res.send({response: true})
+                    }).catch((err) => res.send(err))
+                } else {
+                    return res.status(405).send({message: 'Name is not specified'})
+                }
+            }
+        } else {
+            return res.status(404).send({message: "Not Found"})
+        }
     } else {
         return res.status(403).send({message: "Forbidden"})
     }
