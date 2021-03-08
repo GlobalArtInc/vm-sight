@@ -75,10 +75,23 @@ router.put('/list/:id', async (req, res) => {
                     tls_key = tls.key
                 }
 
+                if (url) {
+                    if (tls_active) {
+
+                    } else {
+                        dockerService.checkConnect(url).then(() => {
+                            return res.send({response: true})
+                        }).catch(() => {
+                            return res.status(500).send({message: "Failed to connect to the server"})
+                        })
+                    }
+                } else {
+                    return res.status(400).send({message: "Endpoint URL is not specified"})
+                }
+
                 if (name) {
                     db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
                 }
-                return res.send({response: true})
                 // const query = `
                 // UPDATE endpoints SET ${name ? "name='" + name + "'" : ""} WHERE id = '${endpoint[0].id}'
                 // `

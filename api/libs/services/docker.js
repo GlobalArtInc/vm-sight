@@ -53,10 +53,18 @@ const getEndpoint = (endpoint) => {
     };
 }
 
-module.exports.checkConnect = (host, data) => {
-    return new Promise(() => {
-
-    })
+module.exports.checkConnect = async (host, data) => {
+    const settings = {
+        host: host.split(':')[0],
+        port: host.split(':')[1]
+    }
+    return new Promise(((resolve, reject) => {
+        new Docker(settings).version().then(() => {
+            resolve()
+        }).catch((err) => {
+            reject(err)
+        })
+    }))
 }
 
 module.exports.getEndpoint = (endpoint, docker) => {

@@ -153,6 +153,11 @@ export default {
             color: 'success'
           })
           this.$router.push('/endpoints')
+        }).catch((err) => {
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: err.response.data.message,
+            color: 'error'
+          })
         })
       }  else if (this.form.type === 2) {
         updateEndpoint(this.id, {name: this.formModel.name}).then(() => {
