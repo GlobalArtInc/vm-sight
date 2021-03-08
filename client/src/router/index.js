@@ -128,8 +128,17 @@ export const protectedRoute = [
                 },
                 children: [
                     {
+                        path: ':id',
+                        name: 'endpointsEdit',
+                        meta: {
+                            title: 'endpointsEdit'
+                        },
+                        props: true,
+                        component: () => import('@/views/Endpoints/EditItem')
+                    },
+                    {
                         path: '',
-                        name: 'settingsList',
+                        name: 'endpointsList',
                         meta: {
                             hiddenInMenu: true
                         },

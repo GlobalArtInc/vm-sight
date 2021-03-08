@@ -101,7 +101,7 @@ export default {
       return moment.unix(time).format('DD-MM-YYYY, hh:mm:ss a')
     },
     goCluster(endpoint) {
-      if (endpoint.Type === 1) {
+      if (endpoint.Type === 1 || endpoint.Type === 2) {
         this.$router.push(`/${endpoint.Id}/docker/dashboard`)
       }
     }

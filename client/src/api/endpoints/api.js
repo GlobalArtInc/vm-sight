@@ -11,3 +11,15 @@ export function fetchEndpoint(id) {
         url: '/endpoints/' + id
     })
 }
+
+export function getEndpoint(id) {
+    return request({
+        url: '/endpoints/list/' + id
+    })
+}
+
+export function listEndpoints() {
+    return request({
+        url: '/endpoints/list'
+    })
+}

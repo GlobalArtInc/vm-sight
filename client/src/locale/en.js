@@ -14,7 +14,18 @@ export default {
     //app drawer
     sponsor: 'Sponsor',
     information: 'Information',
+    types: {
+        docker: "Docker",
+        kubernetos: "Kubernetos"
+    },
     // user page
+    yes: "Yes",
+    no: "No",
+    name: "Name",
+    endpoints: {
+        edit: "Edit Endpoint",
+        url: "Endpoint URL"
+    },
     user: {
         username: "Username",
         password: "Password",
@@ -23,6 +34,8 @@ export default {
         created: "User was created",
         updated: "User was updated"
     },
+    endpointsCreate: "New Endpoint",
+    endpointsEdit: "Edit Endpoint",
     usersCreate: "New User",
     usersEdit: "Edit User",
     // menu
@@ -35,7 +48,8 @@ export default {
         containers: "Containers",
         users: 'Users',
         usersCreate: 'New User',
-        usersEdit: 'Edit User'
+        usersEdit: 'Edit User',
+        endpointsEdit: "Edit Endpoint"
     },
     //media
     media: 'Media',

@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
             if (endpoints.length > 0) {
                 let arr = [];
                 for (const endpointQ of endpoints) {
-                    if (endpointQ.type === 1) {
+                    if (endpointQ.type === 1 || endpointQ.type === 2) {
                         const docker = await dockerService.connect(endpointQ.id)
                         const endpoint = await dockerService.getEndpoint(docker.endpoint, docker.service)
                         arr.push(endpoint)
@@ -31,6 +31,49 @@ router.get('/', async (req, res) => {
         })
     } else {
         return res.send([])
+    }
+})
+
+router.get('/list/:id', async(req,res) => {
+    const user = await getUserById(req.user.id);
+    if (user.role === 1) {
+        db.query(`SELECT id AS Id,
+         name AS Name, 
+         type AS Type,
+         url AS URL,
+         tls AS TLS,
+         tls_ca as TLS_CA,
+         tls_key as TLS_KEY,
+         tls_cert as TLS_CERT
+         FROM endpoints WHERE id = '${req.params.id}'`).then((endpoint) => {
+             if (endpoint.length > 0) {
+                 return res.send(endpoint[0])
+             } else {
+                 return res.status(404).send({message: "Not Found"})
+             }
+        }).catch((err) => {
+            return res.status(500).send(err)
+        })
+    } else {
+        return res.status(403).send({message: "Forbidden"})
+    }
+})
+
+router.get('/list', async (req, res) => {
+    const user = await getUserById(req.user.id);
+    if (user.role === 1) {
+        db.query(`SELECT id AS Id,
+         name AS Name, 
+         type AS Type,
+         url AS URL,
+         tls AS TLS
+         FROM endpoints`).then((endpoints) => {
+            return res.send(endpoints)
+        }).catch((err) => {
+            return res.status(500).send(err)
+        })
+    } else {
+        return res.status(403).send({message: "Forbidden"})
     }
 })
 

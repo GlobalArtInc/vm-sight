@@ -45,19 +45,19 @@
     </v-row>
     <v-row>
       <v-col :cols="6" v-if="endpoint">
-        <Widget icon="fa fa-th-list" :count="endpoint.Snapshot.StackCount" name="Stacks" :href="`${id}/docker/stacks`" />
+        <Widget icon="fa fa-th-list" :count="endpoint.Snapshot.StackCount" name="Stacks" :href="`/${id}/docker/stacks`" />
       </v-col>
       <v-col :cols="6" v-if="endpoint">
-        <Widget v-if="endpoint.Snapshot.Swarm" icon="fa fa-list-alt" :count="endpoint.Snapshot.ServiceCount ? endpoint.Snapshot.ServiceCount : 0" name="Services" :href="`${id}/docker/services`" />
+        <Widget v-if="endpoint.Snapshot.Swarm" icon="fa fa-list-alt" :count="endpoint.Snapshot.ServiceCount ? endpoint.Snapshot.ServiceCount : 0" name="Services" :href="`/${id}/docker/services`" />
       </v-col>
       <v-col :cols="6" v-if="endpoint">
-        <Widget icon="fa fa-cubes" :count="endpoint.Snapshot.Containers" name="Containers" :href="`${id}/docker/containers`" />
+        <Widget icon="fa fa-cubes" :count="endpoint.Snapshot.Containers" name="Containers" :href="`/${id}/docker/containers`" />
       </v-col>
       <v-col :cols="6" v-if="endpoint">
-        <Widget icon="fa fa-clone" :count="endpoint.Snapshot.ImageCount" name="Images" :href="`${id}/docker/images`" />
+        <Widget icon="fa fa-clone" :count="endpoint.Snapshot.ImageCount" name="Images" :href="`/${id}/docker/images`" />
       </v-col>
       <v-col :cols="6" v-if="endpoint">
-        <Widget icon="fa fa-hdd" :count="endpoint.Snapshot.VolumeCount" name="Volumes" :href="`${id}/docker/volumes`" />
+        <Widget icon="fa fa-hdd" :count="endpoint.Snapshot.VolumeCount" name="Volumes" :href="`/${id}/docker/volumes`" />
       </v-col>
     </v-row>
   </div>
