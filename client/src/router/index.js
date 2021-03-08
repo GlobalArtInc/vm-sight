@@ -50,21 +50,39 @@ export const protectedRoute = [
             },
             {
                 path: '/:id/docker',
+                redirect: '/:id/docker/dashboard',
                 component: DockerLayout,
-                meta: {
-                    hiddenInMenu: true
-                },
                 props: true,
+                meta: {
+                  title: 'docker'
+                },
                 children: [
                     {
                         path: 'dashboard',
                         meta: {
                             title: 'dashboard',
                             group: 'apps',
-                            icon: 'fab fa-docker'
+                            icon: 'fab fa-docker',
+                            hiddenInMenu: true
                         },
                         props: true,
                         component: () => import('@/views/Docker/Dashboard/Index')
+                    },
+                    {
+                        path: 'containers',
+                        meta: {
+                          hiddenInMenu: true
+                        },
+                        component: Blank,
+                        children: [
+                            {
+                                path: '',
+                                meta: {
+                                  title: 'containers'
+                                },
+                                component: () => import('@/views/Docker/Containers/Index')
+                            }
+                        ]
                     }
                 ]
             },

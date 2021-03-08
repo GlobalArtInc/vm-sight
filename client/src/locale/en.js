@@ -31,7 +31,8 @@ export default {
         dashboard: 'Dashboard',
         endpoints: "Endpoints",
         settings: 'Settings',
-        CMS: 'CMS',
+        docker: "Docker",
+        containers: "Containers",
         users: 'Users',
         usersCreate: 'New User',
         usersEdit: 'Edit User'

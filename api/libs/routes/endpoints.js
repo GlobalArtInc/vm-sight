@@ -37,7 +37,11 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     const endpoint = await dockerService.getEndpoint(docker.endpoint, docker.service)
-    return res.send(endpoint)
+    if (endpoint) {
+        return res.send(endpoint)
+    } else {
+        return res.status(404).send({message: "Not Found"})
+    }
 })
 
 router.get('/:id/docker/containers', async (req, res) => {

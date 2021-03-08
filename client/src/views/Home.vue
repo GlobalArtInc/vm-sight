@@ -24,9 +24,10 @@
                           <span style="float:left">
                           {{ item.Name }}
 
-                          <v-chip label class="font-weight-black" small color="success" v-if="item.Status === 1">on
-                          </v-chip>
+                          <v-chip label class="font-weight-black" small color="success"
+                                  v-if="item.Status === 1">on</v-chip>
                           <v-chip label class="font-weight-black" small color="error" v-else>off</v-chip>
+                            {{ convertDate(item.Snapshot.Time) }}
                           </span>
                         <span style="float:right;padding-right: 1em">
                             sw
@@ -40,7 +41,7 @@
                             {{ item.Snapshot.ServiceCount }} services
                           </span>
                           <span>
-                            <i class="fa fa-cubes" />
+                            <i class="fa fa-cubes"/>
                             {{ item.Snapshot.Containers }} containers
                           </span>
                         </span>
@@ -83,6 +84,7 @@
 <script>
 import {motd} from "@/api/api";
 import {fetchEndpoints} from "@/api/endpoints/api";
+import moment from 'moment'
 
 export default {
   data: () => ({
@@ -95,6 +97,9 @@ export default {
     ]
   }),
   methods: {
+    convertDate(time) {
+      return moment.unix(time).format('DD-MM-YYYY, hh:mm:ss a')
+    },
     goCluster(endpoint) {
       if (endpoint.Type === 1) {
         this.$router.push(`/${endpoint.Id}/docker/dashboard`)

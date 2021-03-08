@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col :cols="12">
+      <v-col :cols="12" v-if="endpoint && endpoint.Snapshot.Swarm">
         <v-card>
           <v-card-subtitle class="font-weight-medium" style="color: #333">
             {{ __('information') }}
@@ -82,8 +82,9 @@ export default {
   },
   created() {
     fetchEndpoint(this.id).then((data) => {
-      console.log(data)
       this.endpoint = data
+    }).catch(() => {
+      this.$router.push('/')
     })
   }
 }
