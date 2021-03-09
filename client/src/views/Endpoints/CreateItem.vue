@@ -32,7 +32,7 @@
             <v-divider class="mt-5"></v-divider>
             <v-card-actions>
               <v-spacer/>
-              <v-btn :loaidng="loading" tile color="primary" @click="handleSubmitForm">
+              <v-btn :loaidng="loading" :disabled="loading" tile color="primary" @click="handleSubmitForm">
                 {{ this.__('create') }}
               </v-btn>
             </v-card-actions>
@@ -78,16 +78,23 @@ export default {
       // }
     },
     onSubmit() {
+      this.loading = true
       if (this.formModel.type === 1) {
         createEndpoint(this.formModel).then(() => {
           this.$router.push('/endpoints')
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
           window._VMA.$emit('SHOW_SNACKBAR', {
             text: 'Endpoint was created',
             color: 'success'
           })
         }).catch((err) => {
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
           window._VMA.$emit('SHOW_SNACKBAR', {
-            text: err.message,
+            text: err.response.data.message,
             color: 'error'
           })
         })
