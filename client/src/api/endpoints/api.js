@@ -26,6 +26,14 @@ export function uploadCert(id, data) {
     })
 }
 
+export function createEndpoint(data) {
+    return request({
+        url: '/endpoints/list',
+        method: 'POST',
+        data
+    })
+}
+
 export function updateEndpoint(id, data) {
     return request({
         url: '/endpoints/list/' + id,

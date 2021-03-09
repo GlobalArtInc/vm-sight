@@ -54,7 +54,7 @@
             <v-divider class="mt-5"></v-divider>
             <v-card-actions>
               <v-spacer/>
-              <v-btn :loaidng="loading" tile color="primary" @click="handleSubmitForm">
+              <v-btn :loaidng="loading" :disabled="loading" tile color="primary" @click="handleSubmitForm">
                 {{ this.__('update') }}
               </v-btn>
             </v-card-actions>
@@ -147,6 +147,7 @@ export default {
     },
     handleSubmitForm() {
       if (this.$refs.form.validate()) {
+        this.loading = true
         this.onSubmit()
       }
     },
@@ -160,6 +161,7 @@ export default {
             })
             this.$router.push('/endpoints')
           }).catch((err) => {
+            this.loading = false
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: err.response.data.message,
               color: 'error'
@@ -173,6 +175,7 @@ export default {
             })
             this.$router.push('/endpoints')
           }).catch((err) => {
+            this.loading = false
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: err.response.data.message,
               color: 'error'
@@ -187,6 +190,8 @@ export default {
           })
           this.$router.push('/endpoints')
         })
+      } else {
+        this.loading = false
       }
     }
   }

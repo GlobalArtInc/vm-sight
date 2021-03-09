@@ -8,6 +8,7 @@ const Docker = require('dockerode');
 const {getUserById} = require('../models/user')
 const {getEndpoint, checkAccess} = require('../models/endpoints')
 const dockerService = require('../services/docker')
+const global = require('../global')
 
 router.use('/', authMiddleware)
 
@@ -65,6 +66,35 @@ router.get('/list/:id', async (req, res) => {
         }).catch((err) => {
             return res.status(500).send(err)
         })
+    } else {
+        return res.status(403).send({message: "Forbidden"})
+    }
+})
+
+router.post('/list', async (req, res) => {
+    const user = await getUserById(req.user.id);
+    if (user.role === 1) {
+        const {name, url, type} = req.body
+        if (!name) {
+            return res.status(400).send({message: "Endpoint name is not specified"})
+        }
+        if (!url) {
+            return res.status(400).send({message: "URL is not specified"})
+        }
+        if (type === 1) {
+            dockerService.checkConnect(null, url).then(() => {
+                const id = global.getGUID()
+                db.query(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`).then(() => {
+                    return res.send({response: true})
+                }).catch((err) => {
+                    return res.status(500).send(err)
+                })
+            }).catch(() => {
+                return res.status(500).send({message: "Failed to connect to the server"})
+            })
+        } else {
+            return res.status(400).send({message: "Incorrect type"})
+        }
     } else {
         return res.status(403).send({message: "Forbidden"})
     }

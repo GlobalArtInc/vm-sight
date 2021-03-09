@@ -8,7 +8,7 @@
             <v-divider/>
             <v-card-text>
               <v-form ref="form" v-model="valid">
-                <v-row>
+                <v-row v-if="formModel.type === 1 || formModel.type === 2">
                   <v-col :cols="12">
                     <v-text-field
                         outlined
@@ -16,12 +16,26 @@
                         :placeholder="form.name.placeholder"
                         v-model="formModel.name"
                         required
-                        :append-icon="'mdi-name'"
+                    />
+
+                    <v-text-field
+                        outlined
+                        :label="__('endpoints.url')"
+                        :placeholder="form.url.placeholder"
+                        v-model="formModel.url"
+                        required
                     />
                   </v-col>
                 </v-row>
               </v-form>
             </v-card-text>
+            <v-divider class="mt-5"></v-divider>
+            <v-card-actions>
+              <v-spacer/>
+              <v-btn :loaidng="loading" tile color="primary" @click="handleSubmitForm">
+                {{ this.__('create') }}
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -30,6 +44,8 @@
 </template>
 
 <script>
+import {createEndpoint} from "@/api/endpoints/api";
+
 export default {
   props: {
     id: [String]
@@ -38,18 +54,50 @@ export default {
     valid: false,
     loading: false,
     formModel: {
-      name: ""
+      type: 1,
+      name: "",
+      url: ""
     },
     form: {
+      type: {
+        placeholder: ""
+      },
       name: {
+        placeholder: ""
+      },
+      url: {
         placeholder: ""
       }
     }
   }),
+  methods: {
+    handleSubmitForm() {
+      this.onSubmit()
+      // if (this.$refs.form.validate()) {
+      //   this.onSubmit()
+      // }
+    },
+    onSubmit() {
+      if (this.formModel.type === 1) {
+        createEndpoint(this.formModel).then(() => {
+          this.$router.push('/endpoints')
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: 'Endpoint was created',
+            color: 'success'
+          })
+        }).catch((err) => {
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: err.message,
+            color: 'error'
+          })
+        })
+      }
+    }
+  },
   computed: {
     formTitle() {
       return this.__('endpointsCreate')
-    }
+    },
   }
 }
 </script>
