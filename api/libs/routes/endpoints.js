@@ -47,7 +47,18 @@ router.get('/list/:id', async (req, res) => {
          tls_cert as TLS_CERT
          FROM endpoints WHERE id = '${req.params.id}'`).then((endpoint) => {
             if (endpoint.length > 0) {
-                return res.send(endpoint[0])
+                const arr = {Id: "", Name: "", Type: 0, URL: ""};
+                arr.Id = endpoint[0].Id
+                arr.Name = endpoint[0].Name
+                arr.Type = endpoint[0].Type
+                arr.URL = endpoint[0].URL
+                if (arr.Type === 1) {
+                    arr.TLS = endpoint[0].TLS
+                    arr.TLS_CA = endpoint[0].TLS_CA
+                    arr.TLS_CERT = endpoint[0].TLS_CERT
+                    arr.TLS_KEY = endpoint[0].TLS_KEY
+                }
+                return res.send(arr)
             } else {
                 return res.status(404).send({message: "Not Found"})
             }
@@ -77,9 +88,20 @@ router.put('/list/:id', async (req, res) => {
 
                 if (url) {
                     if (tls_active) {
-
+                        console.log(tls)
+                        dockerService.checkConnect(req.params.id, url, {
+                            ca: tls_ca,
+                            cert: tls_cert,
+                            key: tls_key
+                        }).then(() => {
+                            return res.status(500).send({message: "Failed to connect to the server"})
+                            //return res.send({response: true})
+                        }).catch(() => {
+                            return res.status(500).send({message: "Failed to connect to the server"})
+                        })
                     } else {
-                        dockerService.checkConnect(url).then(() => {
+                        await db.query(`UPDATE endpoints SET tls=0, tls_ca=0, tls_cert=0, tls_key=0 WHERE id = '${endpoint[0].id}'`)
+                        dockerService.checkConnect(req.params.id, url).then(() => {
                             return res.send({response: true})
                         }).catch(() => {
                             return res.status(500).send({message: "Failed to connect to the server"})
@@ -90,7 +112,7 @@ router.put('/list/:id', async (req, res) => {
                 }
 
                 if (name) {
-                    db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
+                    await db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
                 }
                 // const query = `
                 // UPDATE endpoints SET ${name ? "name='" + name + "'" : ""} WHERE id = '${endpoint[0].id}'

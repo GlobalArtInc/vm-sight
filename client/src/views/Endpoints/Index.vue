@@ -18,7 +18,7 @@
               <v-btn icon>
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
-              <v-btn icon>
+              <v-btn icon @click="handleCreateItem">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
@@ -119,6 +119,11 @@ export default {
     }
   },
   methods: {
+    handleCreateItem() {
+      this.$router.push({
+        path: '/endpoints/create'
+      })
+    },
     getType(type) {
       return getEndpointType(type, true)
     },

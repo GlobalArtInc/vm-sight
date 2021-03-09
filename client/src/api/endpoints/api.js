@@ -18,10 +18,18 @@ export function getEndpoint(id) {
     })
 }
 
+export function uploadCert(id, data) {
+    return request({
+        url: `/endpoints/list/${id}/cert`,
+        method: 'POST',
+        data
+    })
+}
+
 export function updateEndpoint(id, data) {
     return request({
         url: '/endpoints/list/' + id,
-        method: 'put',
+        method: 'PUT',
         data
     })
 }

@@ -49,7 +49,8 @@ export default {
         users: 'Users',
         usersCreate: 'New User',
         usersEdit: 'Edit User',
-        endpointsEdit: "Edit Endpoint"
+        endpointsEdit: "Edit Endpoint",
+        endpointsCreate: "New Endpoint"
     },
     //media
     media: 'Media',

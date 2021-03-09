@@ -54,7 +54,7 @@ export const protectedRoute = [
                 component: DockerLayout,
                 props: true,
                 meta: {
-                  title: 'docker'
+                    title: 'docker'
                 },
                 children: [
                     {
@@ -71,14 +71,14 @@ export const protectedRoute = [
                     {
                         path: 'containers',
                         meta: {
-                          hiddenInMenu: true
+                            hiddenInMenu: true
                         },
                         component: Blank,
                         children: [
                             {
                                 path: '',
                                 meta: {
-                                  title: 'containers'
+                                    title: 'containers'
                                 },
                                 component: () => import('@/views/Docker/Containers/Index')
                             }
@@ -127,6 +127,15 @@ export const protectedRoute = [
                     title: "endpoints"
                 },
                 children: [
+                    {
+                        path: 'create',
+                        name: 'endpointsCreate',
+                        meta: {
+                            title: 'endpointsCreate'
+                        },
+                        props: true,
+                        component: () => import('@/views/Endpoints/CreateItem')
+                    },
                     {
                         path: ':id',
                         name: 'endpointsEdit',

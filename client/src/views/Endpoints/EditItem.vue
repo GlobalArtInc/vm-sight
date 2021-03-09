@@ -31,15 +31,17 @@
                       <v-switch label="TLS" v-model="formModel.tls.active"/>
                       <template v-if="formModel.tls.active">
                         <v-file-input
+                            @change="uploadCert($event, 'ca')"
                             :prepend-icon="form.tls.ca === true ? 'fa-check':'fa-times'"
-                            v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%"
-                            outlined
+                            v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%" outlined
                             chips class="col-3"/>
                         <v-file-input
+                            @change="uploadCert($event, 'cert')"
                             :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
                                       chips class="col-3"/>
                         <v-file-input
+                            @change="uploadCert($event, 'key')"
                             :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
                                       class="col-3"/>
@@ -124,6 +126,9 @@ export default {
     }
   },
   methods: {
+    uploadCert(file) {
+      console.log(file)
+    },
     getItemById(id) {
       this.loading = true
       getEndpoint(id).then(data => {
@@ -147,18 +152,33 @@ export default {
     },
     onSubmit() {
       if (this.form.type === 1) {
-        updateEndpoint(this.id, this.formModel).then(() => {
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: 'Endpoint was updated',
-            color: 'success'
+        if(this.formModel.tls.active === true) {
+          updateEndpoint(this.id, this.formModel).then(() => {
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: 'Endpoint was updated',
+              color: 'success'
+            })
+            this.$router.push('/endpoints')
+          }).catch((err) => {
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: err.response.data.message,
+              color: 'error'
+            })
           })
-          this.$router.push('/endpoints')
-        }).catch((err) => {
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: err.response.data.message,
-            color: 'error'
+        } else {
+          updateEndpoint(this.id, this.formModel).then(() => {
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: 'Endpoint was updated',
+              color: 'success'
+            })
+            this.$router.push('/endpoints')
+          }).catch((err) => {
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: err.response.data.message,
+              color: 'error'
+            })
           })
-        })
+        }
       }  else if (this.form.type === 2) {
         updateEndpoint(this.id, {name: this.formModel.name}).then(() => {
           window._VMA.$emit('SHOW_SNACKBAR', {

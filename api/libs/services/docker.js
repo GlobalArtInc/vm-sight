@@ -53,7 +53,7 @@ const getEndpoint = (endpoint) => {
     };
 }
 
-module.exports.checkConnect = async (host, data) => {
+module.exports.checkConnect = async (id, host, data) => {
     const settings = {
         host: host.split(':')[0],
         port: host.split(':')[1]
@@ -65,6 +65,25 @@ module.exports.checkConnect = async (host, data) => {
             reject(err)
         })
     }))
+}
+
+module.exports.snapshot = (data) => {
+    return {
+        DockerVersion: data.DockerVersion ? data.DockerVersion : "",
+        Containers: data.Containers ? data.Containers : 0,
+        RunningContainerCount: data.ContainersRunning ? data.ContainersRunning : 0,
+        StoppedContainerCount: data.ContainersStopped ? data.ContainersStopped : 0,
+        HealthyContainerCount: data.HealthyContainerCount ? data.HealthyContainerCount : 0,
+        UnhealthyContainerCount: data.UnhealthyContainerCount ? data.UnhealthyContainerCount : 0,
+        ImageCount: data.ImageCount ? data.ImageCount : 0,
+        ServiceCount: data.ServiceCount ? data.ServiceCount : 0,
+        StackCount: data.StackCount ? data.StackCount : 0,
+        Swarm: data.Swarm ? data.Swarm : false,
+        Time: data.Time ? data.Time : 0,
+        TotalCPU: data.TotalCPU ? data.TotalCPU : 0,
+        TotalMemory: data.TotalMemory ? data.TotalMemory : 0,
+        VolumeCount: data.VolumeCount ? data.VolumeCount : 0
+    }
 }
 
 module.exports.getEndpoint = (endpoint, docker) => {
@@ -85,7 +104,7 @@ module.exports.getEndpoint = (endpoint, docker) => {
                 const unhealthy = containers.filter(i => {
                     return i.Status.match('(unhealthy)');
                 })
-                snapshot = {
+                snapshot = this.snapshot({
                     DockerVersion: info.ServerVersion,
                     Containers: info.Containers,
                     RunningContainerCount: info.ContainersRunning,
@@ -100,15 +119,15 @@ module.exports.getEndpoint = (endpoint, docker) => {
                     TotalCPU: info.NCPU,
                     TotalMemory: info.MemTotal,
                     VolumeCount: volumes.Volumes.length
-                }
+                })
                 if (snap.length > 0 && snap[0].createdAt + 300 < timestamp) {
-                    db.query(`UPDATE snapshots SET data = '${JSON.stringify(snapshot)}', createdAt = strftime('%s', 'now') WHERE endpoint_id = '${endpoint.id}'`)
+                    await db.query(`UPDATE snapshots SET data = '${JSON.stringify(snapshot)}', createdAt = strftime('%s', 'now') WHERE endpoint_id = '${endpoint.id}'`)
                 } else {
-                    db.query(`INSERT INTO snapshots (endpoint_id, data, createdAt) VALUES ('${endpoint.id}', '${JSON.stringify(snapshot)}', strftime('%s', 'now'))`)
+                    await db.query(`INSERT INTO snapshots (endpoint_id, data, createdAt) VALUES ('${endpoint.id}', '${JSON.stringify(snapshot)}', strftime('%s', 'now'))`)
                 }
             } else {
                 const data = JSON.parse(snap[0].data)
-                snapshot = data
+                snapshot = this.snapshot(data)
             }
 
 
@@ -135,7 +154,8 @@ module.exports.getEndpoint = (endpoint, docker) => {
                 groupId: endpoint.groupId,
                 status: 0,
                 publicURL: endpoint.publicURL,
-                url: endpoint.url
+                url: endpoint.url,
+                snapshot: this.snapshot({})
             })
         })
     } else {
