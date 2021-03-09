@@ -137,27 +137,24 @@ router.put('/list/:id', async (req, res) => {
 
                 if (url) {
                     if (tls_active) {
-                        if (tls_ca) {
-                            let tls_ca_path = `./data/certs/${endpoint[0].id}/ca.pem`
-                            if (fs.existsSync(tls_ca_path))
-                                tls_ca = fs.readFileSync(tls_ca_path)
-                        }
-                        if (tls_cert) {
-                            let tls_cert_path = `./data/certs/${endpoint[0].id}/cert.pem`
-                            if (fs.existsSync(tls_cert_path))
-                                tls_cert = fs.readFileSync(tls_cert_path)
-                        }
-                        if (tls_key) {
-                            let tls_key_path = `./data/certs/${endpoint[0].id}/key.pem`
-                            if (fs.existsSync(tls_key_path))
-                                tls_key = fs.readFileSync(tls_key_path)
-                        }
+                        let tls_ca_path = `./data/certs/${endpoint[0].id}/ca.pem`
+                        if (fs.existsSync(tls_ca_path))
+                            tls_ca = fs.readFileSync(tls_ca_path)
+
+                        let tls_cert_path = `./data/certs/${endpoint[0].id}/cert.pem`
+                        if (fs.existsSync(tls_cert_path))
+                            tls_cert = fs.readFileSync(tls_cert_path)
+
+                        let tls_key_path = `./data/certs/${endpoint[0].id}/key.pem`
+                        if (fs.existsSync(tls_key_path))
+                            tls_key = fs.readFileSync(tls_key_path)
+
 
                         dockerService.checkConnect(req.params.id, url, {
                             ca: tls_ca,
                             cert: tls_cert,
                             key: tls_key
-                        }).then(async() => {
+                        }).then(async () => {
                             if (tls_ca) {
                                 await db.query(`UPDATE endpoints SET tls=1, tls_ca=1 WHERE id = '${endpoint[0].id}'`)
                             }
@@ -187,21 +184,6 @@ router.put('/list/:id', async (req, res) => {
                 if (name) {
                     await db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
                 }
-                // const query = `
-                // UPDATE endpoints SET ${name ? "name='" + name + "'" : ""} WHERE id = '${endpoint[0].id}'
-                // `
-                // db.query(query).then(() => {
-                //     return res.send({response: true})
-                // }).catch((err) => {
-                //     return res.status(500).send(err)
-                // })
-                //if (name) {
-                //    db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`).then(() => {
-                //        return res.send({response: true})
-                //    }).catch((err) => res.send(err))
-                //} else {
-                //    return res.status(405).send({message: 'Name is not specified'})
-                //}
             } else if (endpoint[0].type === 2) {
                 const name = req.body.name
 
@@ -328,108 +310,4 @@ router.get('/:id/docker/info', async (req, res) => {
     return res.send(await dockerService.getInfo(docker.service))
 })
 
-/*
-router.get('/', async (req, res) => {
-    const user = await getUserById(req.user.id);
-    if (user.role === 1) {
-        db.query('SELECT * FROM endpoints').then((endpoints) => {
-            const promises = endpoints
-                .map((endpoint) => {
-                    // DOCKER
-                    if (endpoint.type === 1) {
-
-                        const docker = dockerService.connect(endpoint)
-
-                        return dockerService.getInfo(docker).then((r) => {
-
-                            const {ServerVersion, Images, ContainersRunning, } = r;
-
-                            const result = {
-                                Id: endpoint.id,
-                                Name: endpoint.name,
-                                Type: endpoint.type,
-                                URL: endpoint.url,
-                                GroupId: endpoint.groupId,
-                                Stat: {
-                                    DockerVersion: ServerVersion,
-                                    ImageCount: Images,
-                                    RunningContainerCount: ContainersRunning
-                                },
-                                Snapshots: []
-                            };
-                            return docker.version(undefined).then(() => {
-                                result.Status = 1
-                                return result;
-                            }).catch(() => {
-                                result.Status = 0
-                                return result
-                            })
-                        })
-
-
-                    } else if (endpoint.type === 2) {
-                        // KUBERNETES
-                    }
-                });
-
-            Promise.all(promises).then((results) => res.send(results))
-        })
-    } else {
-        return res.send([])
-    }
-});
-
-
-router.get('/snapshots', async (req, res) => {
-    const user = await getUserById(req.user.id);
-
-    if (user.role === 1) {
-        db.query('SELECT * FROM endpoints').then((endpoints) => {
-            endpoints.forEach((endpoint) => {
-                const docker = dockerService.connect(endpoint)
-                console.log(dockerService.getSnapshot(docker))
-                return res.send({response: true})
-            })
-        })
-    } else {
-        return res.send([])
-    }
-});
-
-router.get('/:id/docker/version', async (req, res) => {
-    if (checkAccess(req.params.id)) {
-        const endpoint = await getEndpoint(req.params.id)
-        if (endpoint) {
-            const docker = dockerService.connect(endpoint)
-            return res.send(await dockerService.getVersion(docker))
-        }
-    } else {
-        return res.status(403).send({msg: "Forbidden"})
-    }
-})
-
-router.get('/:id/docker/info', async (req, res) => {
-    if (checkAccess(req.params.id)) {
-        const endpoint = await getEndpoint(req.params.id)
-        if (endpoint) {
-            const docker = dockerService.connect(endpoint)
-            return res.send(await dockerService.getInfo(docker))
-        }
-    } else {
-        return res.status(403).send({msg: "Forbidden"})
-    }
-})
-
-router.get('/:id/docker/containers/json', async (req, res) => {
-    if (checkAccess(req.params.id)) {
-        const endpoint = await getEndpoint(req.params.id)
-        if (endpoint) {
-            const docker = dockerService.connect(endpoint)
-            return res.send(await dockerService.getContainers(docker))
-        }
-    } else {
-        return res.status(403).send({msg: "Forbidden"})
-    }
-})
-*/
 module.exports = router;
