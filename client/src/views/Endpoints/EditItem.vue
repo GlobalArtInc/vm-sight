@@ -74,6 +74,8 @@
 </style>
 <script>
 import {getEndpoint, updateEndpoint} from '@/api/endpoints/api'
+// eslint-disable-next-line no-unused-vars
+import {uploadCA, uploadCert, uploadKey} from "@/api/endpoints/upload";
 
 export default {
   props: {
@@ -126,8 +128,16 @@ export default {
     }
   },
   methods: {
-    uploadCert(file) {
-      console.log(file)
+    // eslint-disable-next-line no-unused-vars
+    uploadCert(file, type) {
+      //let formData = new FormData();
+      //formData.append('file', file);
+      //
+      //switch (type){
+      //  case 'ca':
+      //    uploadCA(this.id, formData)
+      //    break;
+      //}
     },
     getItemById(id) {
       this.loading = true
@@ -145,9 +155,26 @@ export default {
         this.loading = false
       })
     },
-    handleSubmitForm() {
+    async handleSubmitForm() {
       if (this.$refs.form.validate()) {
         this.loading = true
+        if (this.formModel.tls.active === true) {
+          if (this.formModel.tls.ca) {
+            let formData = new FormData();
+            formData.append('file', this.formModel.tls.ca);
+            await uploadCA(this.id, formData)
+          }
+          if (this.formModel.tls.cert) {
+            let formData = new FormData();
+            formData.append('file', this.formModel.tls.cert);
+            await uploadCert(this.id, formData)
+          }
+          if (this.formModel.tls.key) {
+            let formData = new FormData();
+            formData.append('file', this.formModel.tls.key);
+            await uploadKey(this.id, formData)
+          }
+        }
         this.onSubmit()
       }
     },

@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import {listEndpoints} from "@/api/endpoints/api";
+import {listEndpoints, deleteEndpoint} from "@/api/endpoints/api";
 import TooltipMixin from '@/mixins/Tooltip'
 import {getEndpointType} from "@/utils/global";
 
@@ -130,8 +130,16 @@ export default {
     handleEditItem({Id}) {
       return this.$router.push('/endpoints/' + Id)
     },
-    async handleDeleteItem() {
-
+    async handleDeleteItem({Id}) {
+      this.loadingItems = true
+      deleteEndpoint(Id).then(() => {
+        listEndpoints().then((data) => {
+          this.endpoints = data
+          setTimeout(() => {
+            this.loadingItems = false
+          }, 500)
+        })
+      })
     },
     async getEndpoints() {
       listEndpoints().then((data) => {

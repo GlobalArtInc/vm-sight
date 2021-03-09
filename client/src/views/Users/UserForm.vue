@@ -24,7 +24,8 @@
                 :label="__('user.password')"
                 type="password"
                 :placeholder="form.password.placeholder"
-                value=""
+                autocomplete="false"
+                readonly onfocus="this.removeAttribute('readonly');"
                 v-model="formModel.password"
                 required
                 :append-icon="'mdi-lock'"
@@ -35,6 +36,9 @@
                 outlined
                 :label="__('user.repeatPassword')"
                 type="password"
+                autocomplete="false"
+                readonly
+                onfocus="this.removeAttribute('readonly');"
                 :placeholder="form.password.placeholder"
                 value=""
                 v-model="formModel.repeatPassword"

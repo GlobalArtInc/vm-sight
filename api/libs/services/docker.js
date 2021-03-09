@@ -15,7 +15,7 @@ module.exports.connect = (id) => {
                 if (endpoint[0].tls_ca === 1) {
                     const path = `./data/certs/${endpoint[0].id}/ca.pem`
                     if (fs.existsSync(path))
-                        settings.cert = fs.readFileSync(path)
+                        settings.ca = fs.readFileSync(path)
                 }
                 if (endpoint[0].tls_cert === 1) {
                     const path = `./data/certs/${endpoint[0].id}/cert.pem`
@@ -25,7 +25,7 @@ module.exports.connect = (id) => {
                 if (endpoint[0].tls_key === 1) {
                     const path = `./data/certs/${endpoint[0].id}/key.pem`
                     if (fs.existsSync(path))
-                        settings.cert = fs.readFileSync(path)
+                        settings.key = fs.readFileSync(path)
                 }
                 const service = new Docker(settings)
                 return {endpoint: endpoint[0], service: service};
@@ -53,10 +53,23 @@ const getEndpoint = (endpoint) => {
     };
 }
 
-module.exports.checkConnect = async (id, host, data) => {
+module.exports.checkConnect = async (id, host, data = {
+    ca: false,
+    cert: false,
+    key: false
+}) => {
     const settings = {
         host: host.split(':')[0],
         port: host.split(':')[1]
+    }
+    if (data.ca) {
+        settings.ca = data.ca
+    }
+    if (data.cert) {
+        settings.cert = data.cert
+    }
+    if (data.key) {
+        settings.key = data.key
     }
     return new Promise(((resolve, reject) => {
         new Docker(settings).version().then(() => {

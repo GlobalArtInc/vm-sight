@@ -9,6 +9,7 @@ const {getUserById} = require('../models/user')
 const {getEndpoint, checkAccess} = require('../models/endpoints')
 const dockerService = require('../services/docker')
 const global = require('../global')
+const fs = require('fs')
 
 router.use('/', authMiddleware)
 
@@ -100,6 +101,24 @@ router.post('/list', async (req, res) => {
     }
 })
 
+router.delete('/list/:id', async (req, res) => {
+    const user = await getUserById(req.user.id);
+    if (user.role === 1) {
+        const endpoint = await db.query(`SELECT * FROM endpoints WHERE id = '${req.params.id}'`)
+        if (endpoint.length > 0) {
+            db.query(`DELETE FROM endpoints WHERE id = '${endpoint[0].id}'`).then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(500).send(err)
+            })
+        } else {
+            return res.status(404).send({message: "Not Found"})
+        }
+    } else {
+        return res.status(403).send({message: "Forbidden"})
+    }
+})
+
 router.put('/list/:id', async (req, res) => {
     const user = await getUserById(req.user.id);
     if (user.role === 1) {
@@ -118,13 +137,37 @@ router.put('/list/:id', async (req, res) => {
 
                 if (url) {
                     if (tls_active) {
-                        console.log(tls)
+                        if (tls_ca) {
+                            let tls_ca_path = `./data/certs/${endpoint[0].id}/ca.pem`
+                            if (fs.existsSync(tls_ca_path))
+                                tls_ca = fs.readFileSync(tls_ca_path)
+                        }
+                        if (tls_cert) {
+                            let tls_cert_path = `./data/certs/${endpoint[0].id}/cert.pem`
+                            if (fs.existsSync(tls_cert_path))
+                                tls_cert = fs.readFileSync(tls_cert_path)
+                        }
+                        if (tls_key) {
+                            let tls_key_path = `./data/certs/${endpoint[0].id}/key.pem`
+                            if (fs.existsSync(tls_key_path))
+                                tls_key = fs.readFileSync(tls_key_path)
+                        }
+
                         dockerService.checkConnect(req.params.id, url, {
                             ca: tls_ca,
                             cert: tls_cert,
                             key: tls_key
-                        }).then(() => {
-                            return res.status(500).send({message: "Failed to connect to the server"})
+                        }).then(async() => {
+                            if (tls_ca) {
+                                await db.query(`UPDATE endpoints SET tls=1, tls_ca=1 WHERE id = '${endpoint[0].id}'`)
+                            }
+                            if (tls_cert) {
+                                await db.query(`UPDATE endpoints SET tls=1, tls_cert=1 WHERE id = '${endpoint[0].id}'`)
+                            }
+                            if (tls_key) {
+                                await db.query(`UPDATE endpoints SET tls=1, tls_key=1 WHERE id = '${endpoint[0].id}'`)
+                            }
+                            return res.send({response: true})
                             //return res.send({response: true})
                         }).catch(() => {
                             return res.status(500).send({message: "Failed to connect to the server"})

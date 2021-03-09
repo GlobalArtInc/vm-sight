@@ -26,6 +26,13 @@ export function uploadCert(id, data) {
     })
 }
 
+export function deleteEndpoint(id) {
+    return request({
+        url: '/endpoints/list/' + id,
+        method: 'delete'
+    })
+}
+
 export function createEndpoint(data) {
     return request({
         url: '/endpoints/list',

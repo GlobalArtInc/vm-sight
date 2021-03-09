@@ -8,7 +8,7 @@
           </v-card-subtitle>
           <v-divider/>
           <v-card-text>
-            dev
+            VM-SIGHT is connected to a node that is part of a Swarm cluster. Some resources located on other nodes in the cluster might not be available for management.
           </v-card-text>
         </v-card>
       </v-col>

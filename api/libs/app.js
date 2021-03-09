@@ -6,6 +6,7 @@ const path = require('path');
 var log = require('./log')(module);
 
 const api = require('./routes/api');
+const upload = require('./routes/upload');
 const auth = require('./routes/auth')
 const settings = require('./routes/settings')
 const users = require('./routes/users')
@@ -21,6 +22,7 @@ if (global.env === 'production') {
 }
 
 app.use('/api', api);
+app.use('/api/upload', upload);
 app.use('/api/auth', auth)
 app.use('/api/settings', settings)
 app.use('/api/users', users)
