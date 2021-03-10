@@ -12,6 +12,8 @@ const global = require('../global')
 const fs = require('fs')
 
 router.use('/', authMiddleware)
+const dockerRoute = require('./docker.js')
+router.use('/:id/docker', dockerRoute)
 
 router.get('/', async (req, res) => {
     const user = await getUserById(req.user.id);
@@ -253,85 +255,6 @@ router.get('/:id', async (req, res) => {
     } else {
         return res.status(404).send({message: "Not Found"})
     }
-})
-
-router.get('/:id/docker/containers', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    const containers = await dockerService.getContainers(docker.service)
-    return res.send(containers)
-})
-
-router.get('/:id/docker/containers/:hash', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    return dockerService.getContainer(docker.service, req.params.hash).then((data) => {
-        return res.send(data)
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
-    })
-})
-
-router.post('/:id/docker/containers/:hash/start', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.startContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
-    })
-})
-
-router.post('/:id/docker/containers/:hash/restart', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.restartContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
-    })
-})
-
-router.post('/:id/docker/containers/:hash/stop', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.stopContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
-    })
-})
-
-router.post('/:id/docker/containers/:hash/kill', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.killContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
-    })
-})
-
-router.post('/:id/docker/containers/:hash/pause', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.pauseContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
-    })
-})
-
-router.post('/:id/docker/containers/:hash/unpause', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.unpauseContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
-    })
-})
-
-router.get('/:id/docker/version', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    return res.send(await dockerService.getVersion(docker.service))
-})
-
-router.get('/:id/docker/info', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    return res.send(await dockerService.getInfo(docker.service))
 })
 
 module.exports = router;

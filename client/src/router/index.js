@@ -74,12 +74,14 @@ export const protectedRoute = [
                             hiddenInMenu: true
                         },
                         component: Blank,
+                        props: true,
                         children: [
                             {
                                 path: '',
                                 meta: {
                                     title: 'containers'
                                 },
+                                props: true,
                                 component: () => import('@/views/Docker/Containers/Index')
                             }
                         ]

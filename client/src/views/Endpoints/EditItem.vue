@@ -11,6 +11,7 @@
                 <v-row>
                   <v-col :cols="12">
                     <v-text-field
+                        dense
                         outlined
                         :label="__('name')"
                         :placeholder="form.name.placeholder"
@@ -19,6 +20,7 @@
                         :append-icon="'mdi-name'"
                     />
                     <v-text-field
+                        dense
                         outlined
                         :label="__('endpoints.url')"
                         :placeholder="form.url.placeholder"
@@ -31,16 +33,19 @@
                       <v-switch label="TLS" v-model="formModel.tls.active"/>
                       <template v-if="formModel.tls.active">
                         <v-file-input
+                            dense
                             @change="uploadCert($event, 'ca')"
                             :prepend-icon="form.tls.ca === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%" outlined
                             chips class="col-3"/>
                         <v-file-input
+                            dense
                             @change="uploadCert($event, 'cert')"
                             :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
                                       chips class="col-3"/>
                         <v-file-input
+                            dense
                             @change="uploadCert($event, 'key')"
                             :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips

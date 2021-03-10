@@ -22,3 +22,7 @@ export function getEndpointType(type, icon = false) {
     }
     return endpoint;
 }
+
+export function removePort(url) {
+    return url.split(":")[0]
+}

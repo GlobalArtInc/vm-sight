@@ -12,7 +12,7 @@ export default new Vuetify({
         current: 'en'
     },
     icons: {
-        iconfont: 'fa', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+        iconfont: 'mdiSvg', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
     },
     theme: {
         options: {

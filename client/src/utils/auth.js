@@ -12,11 +12,11 @@ export function getRefreshToken() {
 }
 
 export function setToken(token) {
-    return cookie.set(TokenKey, token)
+    return cookie.set(TokenKey, token, {expires: "1Y"})
 }
 
 export function setRefreshToken(token) {
-    return cookie.set(RefreshKey, token)
+    return cookie.set(RefreshKey, token, {expires: "1Y"})
 }
 
 export function removeToken() {

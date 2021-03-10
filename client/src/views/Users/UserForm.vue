@@ -55,8 +55,7 @@
     </v-card-text>
     <v-divider class="mt-5"></v-divider>
     <v-card-actions>
-      <v-spacer/>
-      <v-btn :loaidng="loading" tile color="primary" @click="handleSubmitForm">
+      <v-btn :loading="loading" tile color="primary" @click="handleSubmitForm">
         {{ !this.userId ? this.__('create') : this.__('update') }}
       </v-btn>
     </v-card-actions>

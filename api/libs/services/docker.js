@@ -298,7 +298,7 @@ module.exports.unpauseContainer = async (docker, hash) => {
 }
 
 module.exports.getContainers = async (docker) => {
-    return docker.listContainers().then((containers) => {
+    return docker.listContainers({all:1}).then((containers) => {
         let arr = [];
         containers.forEach((item) => {
             arr.push(item)

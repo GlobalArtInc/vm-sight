@@ -23,50 +23,49 @@
               </v-btn>
             </v-toolbar>
             <v-divider/>
-            <v-card-text>
-              <v-data-table
-                  :search="search"
-                  :loading="loadingItems"
-                  :headers="headers"
-                  :items="endpoints"
-                  :items-per-page-options="[15, 30, 50]"
-                  :items-per-page="10"
-                  item-key="Id"
-              >
-                <template #item.Type="{item}">
-                  <i :class="getType(item.Type).icon"></i>
-                  <span class="space-left font-weight-medium">
+            <v-data-table
+                :search="search"
+                :loading="loadingItems"
+                :headers="headers"
+                :items="endpoints"
+                :items-per-page-options="[15, 30, 50]"
+                :items-per-page="10"
+                show-select
+                item-key="Id"
+            >
+              <template #item.Type="{item}">
+                <i :class="getType(item.Type).icon"></i>
+                <span class="space-left font-weight-medium">
                     {{ getType(item.Type).name }}
                   </span>
-                </template>
-                <template #item.TLS="{item}">
+              </template>
+              <template #item.TLS="{item}">
                   <span class="font-weight-medium">
                   {{ item.TLS === 1 ? __('yes') : __('no') }}
                   </span>
-                </template>
-                <template v-slot:[`item.action`]="{ item }">
-                  <v-menu>
-                    <template v-slot:activator="{ on: menu }">
-                      <v-btn icon v-on="onTooltip({ ...menu })">
-                        <v-icon>mdi-dots-vertical</v-icon>
-                      </v-btn>
-                    </template>
-                    <v-list class="pa-0" dense>
-                      <v-list-item
-                          v-for="action in actions"
-                          :key="action.text"
-                          @click="action.click(item)"
-                      >
-                        <v-list-item-icon class="mr-2">
-                          <v-icon small>{{ action.icon }}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>{{ action.text }}</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-menu>
-                </template>
-              </v-data-table>
-            </v-card-text>
+              </template>
+              <template v-slot:[`item.action`]="{ item }">
+                <v-menu>
+                  <template v-slot:activator="{ on: menu }">
+                    <v-btn icon v-on="onTooltip({ ...menu })">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list class="pa-0" dense>
+                    <v-list-item
+                        v-for="action in actions"
+                        :key="action.text"
+                        @click="action.click(item)"
+                    >
+                      <v-list-item-icon class="mr-2">
+                        <v-icon small>{{ action.icon }}</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-title>{{ action.text }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </template>
+            </v-data-table>
           </v-card>
         </v-col>
       </v-row>
