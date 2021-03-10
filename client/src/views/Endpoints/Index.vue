@@ -15,7 +15,7 @@
                   hide-details
                   clearable
               />
-              <v-btn icon>
+              <v-btn icon @click="handleRefreshItems">
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn icon @click="handleCreateItem">
@@ -119,6 +119,15 @@ export default {
     }
   },
   methods: {
+    handleRefreshItems() {
+      this.loadingItems = true
+      listEndpoints().then((data) => {
+        this.endpoints = data
+        setTimeout(() => {
+          this.loadingItems = false
+        }, 500)
+      })
+    },
     handleCreateItem() {
       this.$router.push({
         path: '/endpoints/create'

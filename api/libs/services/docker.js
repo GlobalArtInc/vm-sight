@@ -73,6 +73,7 @@ module.exports.checkConnect = async (id, host, data = {
         settings.key = data.key
     }
     return new Promise(((resolve, reject) => {
+        if (settings.host && !settings.port) reject()
         new Docker(settings).version().then(() => {
             resolve()
         }).catch((err) => {

@@ -1,6 +1,16 @@
 body
   font-family: 'Montserrat', sans-serif
 
+.code, kbd
+  padding: 2px 4px
+  font-size: 90%
+
+.code
+  color: #c7254e
+  background-color: #f9f2f4
+  border-radius: 4px
+
+
 .space-left
   margin-left: 5px
 
@@ -15,12 +25,12 @@ body
   margin-top: 2em
   margin-bottom: 2em
 
-.boxselector_wrapper>div
+.boxselector_wrapper > div
   -webkit-box-flex: 1
   -ms-flex: 1
   flex: 1
 
-.boxselector_wrapper input[type=radio]:checked+label
+.boxselector_wrapper input[type=radio]:checked + label
   background: #337ab7
   color: #fff
   padding-top: 2rem
@@ -38,7 +48,7 @@ input[type=checkbox], input[type=radio]
   box-sizing: border-box
   padding: 0
 
-.boxselector_wrapper input[type=radio]:not(:disabled)~label
+.boxselector_wrapper input[type=radio]:not(:disabled) ~ label
   cursor: pointer
 
 .boxselector_wrapper label
@@ -50,8 +60,8 @@ input[type=checkbox], input[type=radio]
   border-radius: 2px
   padding: 10px 10px 0
   text-align: center
-  -webkit-box-shadow: 0 3px 10px -2px hsla(153,5%,65%,.5)
-  box-shadow: 0 3px 10px -2px hsla(153,5%,65%,.5)
+  -webkit-box-shadow: 0 3px 10px -2px hsla(153, 5%, 65%, .5)
+  box-shadow: 0 3px 10px -2px hsla(153, 5%, 65%, .5)
   position: relative
 
 .boxselector_wrapper .boxselector_header
@@ -64,7 +74,7 @@ input[type=checkbox], input[type=radio]
   margin-bottom: 5px
   font-weight: 700
 
-.boxselector_wrapper input[type=radio]:checked+label:after
+.boxselector_wrapper input[type=radio]:checked + label:after
   color: #337ab7
   font-family: Font Awesome\ 5 Free
   border: 2px solid #337ab7
@@ -82,5 +92,5 @@ input[type=checkbox], input[type=radio]
   text-align: center
   border-radius: 50%
   background: #fff
-  -webkit-box-shadow: 0 2px 5px -2px rgba(0,0,0,.25)
-  box-shadow: 0 2px 5px -2px rgba(0,0,0,.25)
+  -webkit-box-shadow: 0 2px 5px -2px rgba(0, 0, 0, .25)
+  box-shadow: 0 2px 5px -2px rgba(0, 0, 0, .25)

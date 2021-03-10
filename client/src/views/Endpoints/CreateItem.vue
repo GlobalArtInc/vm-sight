@@ -11,19 +11,28 @@
                 Environment Type
                 <v-divider/>
               </p>
-
-              <div class="boxselector_wrapper">
-                <div>
-                  <input type="radio" v-model="formModel.type" id="docker_endpoint"
-                         :checked="formModel.type === 2 || formModel.type === 1" value="1">
-                  <label for="docker_endpoint">
-                    <div class="boxselector_header">
-                      <i class="fab fa-docker" aria-hidden="true" style="margin-right: 2px;"></i>
-                      Docker
-                    </div>
-                    <p>Directly connect to the Docker API</p>
-                  </label>
+              <v-radio-group v-model="formModel.type">
+                <v-radio disabled :ripple="false" :value="10" :label="this.__('types.agent')"></v-radio>
+                <v-radio :ripple="false" :value="1" :label="this.__('types.docker')"></v-radio>
+                <v-radio disabled :ripple="false" :value="4" :label="this.__('types.kubernetos')"></v-radio>
+              </v-radio-group>
+              <div>
+                <div class="font-weight-bold">
+                  Important notice
+                  <v-divider/>
                 </div>
+                <p style="margin-top:1em;margin-bottom: 1em;" class="text-muted small">
+                  You can connect SIGHT to a Docker environment via socket or via TCP. You can find more information
+                  about how to expose the Docker API over TCP
+                  <a href="https://docs.docker.com/engine/security/https/"> in the Docker documentation</a>.
+                </p>
+                <p style="margin-top:1em;margin-bottom: 1em;" class="text-muted small">
+                  When using the socket, ensure that you have started the SIGHT container with the following Docker flag
+                  <span class="code"> -v "/var/run/docker.sock:/var/run/docker.sock" </span>
+                  (on Linux) or
+                  <span class="code"> -v \.\pipe\docker_engine:\.\pipe\docker_engine </span>
+                  (on Windows).
+                </p>
               </div>
               <p class="font-weight-bold">
                 Environment details
@@ -34,16 +43,19 @@
                 <v-row v-if="formModel.type === 1 || formModel.type === 2">
                   <v-col :cols="12">
                     <v-text-field
+                        dense
                         outlined
                         :label="__('name')"
                         :placeholder="form.name.placeholder"
                         v-model="formModel.name"
                         required
                     />
-                    <v-switch v-model="form.docker.type" value="socket" label="Connect via socket "></v-switch>
+                    <v-switch style="margin: 0" v-model="form.docker.type" value="socket"
+                              label="Connect via socket "></v-switch>
                     <template v-if="formModel.type === 1 || formModel.type === 2">
                       <template v-if="formModel.type === 1">
                         <v-text-field
+                            dense
                             outlined
                             v-if="!form.docker.type"
                             :label="__('endpoints.url')"

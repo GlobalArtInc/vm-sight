@@ -15,6 +15,7 @@ export default {
     sponsor: 'Sponsor',
     information: 'Information',
     types: {
+        agent: "Agent",
         docker: "Docker",
         kubernetos: "Kubernetos"
     },
