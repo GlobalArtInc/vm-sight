@@ -11,6 +11,9 @@ export default {
     //
     create: "Create",
     update: "Update",
+    cancel: "Cancel",
+    create_endpoint: "Add Endpoint",
+    update_endpoint: "Update Endpoint",
     //app drawer
     sponsor: 'Sponsor',
     information: 'Information',

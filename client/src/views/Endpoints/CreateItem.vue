@@ -74,9 +74,11 @@
             </v-card-text>
             <v-divider class="mt-5"></v-divider>
             <v-card-actions>
-              <v-spacer/>
-              <v-btn :loaidng="loading" :disabled="loading" tile color="primary" @click="handleSubmitForm">
-                {{ this.__('create') }}
+              <v-btn :loading="loading" tile color="primary" @click="handleSubmitForm">
+                <v-icon>fa fa-plus</v-icon>
+                <span class="space-left">
+                  {{ this.__('create_endpoint') }}
+                </span>
               </v-btn>
             </v-card-actions>
           </v-card>

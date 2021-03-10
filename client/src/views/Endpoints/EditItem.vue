@@ -53,9 +53,11 @@
             </v-card-text>
             <v-divider class="mt-5"></v-divider>
             <v-card-actions>
-              <v-spacer/>
-              <v-btn :loaidng="loading" :disabled="loading" tile color="primary" @click="handleSubmitForm">
-                {{ this.__('update') }}
+              <v-btn :loading="loading" tile color="primary" @click="handleSubmitForm">
+                {{ this.__('update_endpoint') }}
+              </v-btn>
+              <v-btn tile color="error" @click="handleCancel">
+                {{ this.__('cancel') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -177,6 +179,9 @@ export default {
         }
         this.onSubmit()
       }
+    },
+    handleCancel() {
+      this.$router.push('/endpoints')
     },
     onSubmit() {
       if (this.form.type === 1) {
