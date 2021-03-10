@@ -205,6 +205,9 @@ router.put('/list/:id', async (req, res) => {
                 if (name) {
                     await db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
                 }
+                if (url) {
+                    await db.query(`UPDATE endpoints SET url = '${url}' WHERE id = '${endpoint[0].id}'`)
+                }
             } else if (endpoint[0].type === 2) {
                 const name = req.body.name
 
