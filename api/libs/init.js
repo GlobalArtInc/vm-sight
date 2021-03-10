@@ -53,16 +53,16 @@ module.exports.createSettings = async () => {
 module.exports.createEndpoints = async () => {
     await db.query(`
         CREATE TABLE IF NOT EXISTS endpoints (
-            id          TEXT PRIMARY KEY     NOT NULL,
-            name        TEXT                 NOT NULL,
-            type        INT                  NOT NULL,
-            url         TEXT                 NOT NULL,
-            groupId     INT                  NOT NULL DEFAULT 0,
-            tags        STRING                                 ,
-            tls         INT CHAR(1)          DEFAULT 0         ,
-            tls_ca      STRING                                 ,
-            tls_cert    STRING                                 ,
-            tls_key     STRING                                 
+            id          TEXT PRIMARY KEY NOT NULL,
+            name        TEXT NOT NULL,
+            type        INT NOT NULL,
+            url         TEXT NOT NULL,
+            groupId     INT NOT NULL DEFAULT 0,
+            tags        STRING,
+            tls         INT CHAR(1) DEFAULT 0,
+            tls_ca      INT CHAR(1) DEFAULT 0,
+            tls_cert    INT CHAR(1) DEFAULT 0,
+            tls_key     INT CHAR(1) DEFAULT 0              
         )
     `)
 }

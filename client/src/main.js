@@ -16,6 +16,7 @@ import '@mdi/font/css/materialdesignicons.css'
 library.add(faUserSecret)
 library.add(faDocker)
 
+Vue.use(require('vue-moment'));
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false

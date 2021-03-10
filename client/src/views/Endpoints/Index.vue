@@ -4,26 +4,50 @@
       <v-row>
         <v-col cols="12">
           <v-card tile>
-            <v-toolbar flat>
-              <v-text-field
-                  v-model="search"
-                  text
-                  solo
-                  flat
-                  append-icon="mdi-magnify"
-                  placeholder="Type something"
-                  hide-details
-                  clearable
-              />
-              <v-btn icon @click="handleRefreshItems">
+            <v-card-subtitle class="font-weight-medium" style="color: #333">
+              <i class="fa fa-cubes"></i>
+              <span class="font-weight-medium pl-1" style="color: #333">Endpoints</span>
+              <v-btn icon @click="handleRefreshItems" class="space-left">
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn icon @click="handleCreateItem">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
-            </v-toolbar>
+            </v-card-subtitle>
+            <v-divider/>
+            <v-card-subtitle>
+              <v-btn color="error" :disabled="selected.length === 0" @click="handleDeleteItems(selected)">
+                <v-icon left>
+                  mdi-delete
+                </v-icon>
+                <span>
+                  Delete
+                </span>
+              </v-btn>
+              <v-btn color="primary" class="ml-3" @click="handleCreateItem">
+                <v-icon left>
+                  mdi-plus
+                </v-icon>
+                <span>
+                  Add Endpoint
+                </span>
+              </v-btn>
+            </v-card-subtitle>
+            <v-divider/>
+            <v-text-field
+                dense
+                v-model="search"
+                text
+                solo
+                flat
+                prepend-inner-icon="mdi-magnify"
+                placeholder="Type something"
+                hide-details
+                clearable
+            />
             <v-divider/>
             <v-data-table
+                v-model="selected"
                 :search="search"
                 :loading="loadingItems"
                 :headers="headers"
@@ -84,6 +108,7 @@ export default {
     return {
       loadingItems: false,
       endpoints: [],
+      selected: [],
       search: "",
       actions: [
         {
@@ -137,6 +162,18 @@ export default {
     },
     handleEditItem({Id}) {
       return this.$router.push('/endpoints/' + Id)
+    },
+    async handleDeleteItems(ids) {
+      for (let i = 0; i < ids.length; i++) {
+        if (ids.length - 1 === i) {
+          deleteEndpoint(ids[i].Id).then(() => {
+            this.selected = []
+            this.getEndpoints()
+          })
+        } else {
+          await deleteEndpoint(ids[i].Id)
+        }
+      }
     },
     async handleDeleteItem({Id}) {
       this.loadingItems = true

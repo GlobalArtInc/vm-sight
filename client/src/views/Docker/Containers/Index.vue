@@ -5,6 +5,9 @@
         <v-card-subtitle class="font-weight-medium" style="color: #333">
           <i class="fa fa-cubes"></i>
           <span class="font-weight-medium pl-1" style="color: #333">Containers</span>
+          <v-btn icon class="space-left" color="primary" :loading="loadingItems" @click="fetchContainers">
+            <i class="fa fa-sync"></i>
+          </v-btn>
         </v-card-subtitle>
         <v-divider/>
         <v-card-subtitle>
@@ -23,9 +26,15 @@
           <template #item.Name="{item}">
             <span>{{ item.Name }}</span>
           </template>
+          <template #item.State="{item}">
+            <State :state="item.State" :status="item.Status" />
+          </template>
           <template #item.Stack="{item}">
-            <span class="font-weight-black" v-if="item.Stack" v-text="item.Stack" />
+            <span class="font-weight-black" v-if="item.Stack" v-text="item.Stack"/>
             <span class="font-weight-black" v-else>-</span>
+          </template>
+          <template #item.Created="{item}">
+            {{ item.Created | moment("YYYY-MM-DD HH:mm:ss") }}
           </template>
           <template #item.Ports="{item}">
             <template v-if="item.Ports.length > 0">
@@ -48,8 +57,10 @@
 import {fetchEndpoint} from "@/api/endpoints/api";
 import {fetchContainers} from "@/api/endpoints/docker";
 import {removePort} from '@/utils/global'
+import State from "@/components/docker/State";
 
 export default {
+  components: {State},
   props: {
     id: [String, Number]
   },
@@ -90,17 +101,27 @@ export default {
     itemsPerPage: 10
   }),
   methods: {
+    // eslint-disable-next-line no-unused-vars
+    getState(state, status){
+
+    },
     removePort(url) {
       return removePort(url)
+    },
+    fetchContainers() {
+      this.loadingItems = true
+      fetchContainers(this.id).then((data) => {
+        this.loadingItems = false
+        this.items = data
+      })
     }
   },
   created() {
     fetchEndpoint(this.id).then((endpoint) => {
       this.endpoint = endpoint
-      fetchContainers(this.id).then((data) => {
-        this.loadingItems = false
-        this.items = data
-      })
+      this.fetchContainers()
+    }).catch(() => {
+      this.$router.push('/')
     })
 
   }
