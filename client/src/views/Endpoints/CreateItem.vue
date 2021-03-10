@@ -7,6 +7,29 @@
             <v-card-title>{{ formTitle }}</v-card-title>
             <v-divider/>
             <v-card-text>
+              <p class="font-weight-bold">
+                Environment Type
+                <v-divider/>
+              </p>
+
+              <div class="boxselector_wrapper">
+                <div>
+                  <input type="radio" v-model="formModel.type" id="docker_endpoint"
+                         :checked="formModel.type === 2 || formModel.type === 1" value="1">
+                  <label for="docker_endpoint">
+                    <div class="boxselector_header">
+                      <i class="fab fa-docker" aria-hidden="true" style="margin-right: 2px;"></i>
+                      Docker
+                    </div>
+                    <p>Directly connect to the Docker API</p>
+                  </label>
+                </div>
+              </div>
+              <p class="font-weight-bold">
+                Environment details
+                <v-divider/>
+              </p>
+
               <v-form ref="form" v-model="valid">
                 <v-row v-if="formModel.type === 1 || formModel.type === 2">
                   <v-col :cols="12">
@@ -17,14 +40,22 @@
                         v-model="formModel.name"
                         required
                     />
+                    <v-switch v-model="form.docker.type" value="socket" label="Connect via socket "></v-switch>
+                    <template v-if="formModel.type === 1 || formModel.type === 2">
+                      <template v-if="formModel.type === 1">
+                        <v-text-field
+                            outlined
+                            v-if="!form.docker.type"
+                            :label="__('endpoints.url')"
+                            :placeholder="form.url.placeholder"
+                            v-model="formModel.url"
+                            required
+                        />
+                      </template>
+                      <template v-else-if="formModel.type === 2">
 
-                    <v-text-field
-                        outlined
-                        :label="__('endpoints.url')"
-                        :placeholder="form.url.placeholder"
-                        v-model="formModel.url"
-                        required
-                    />
+                      </template>
+                    </template>
                   </v-col>
                 </v-row>
               </v-form>
@@ -59,6 +90,9 @@ export default {
       url: ""
     },
     form: {
+      docker: {
+        type: ''
+      },
       type: {
         placeholder: ""
       },
@@ -79,7 +113,26 @@ export default {
     },
     onSubmit() {
       this.loading = true
-      if (this.formModel.type === 1) {
+      if (this.formModel.type === 1 || this.form.docker.type === 'socket') {
+        createEndpoint(this.formModel, this.form.docker.type).then(() => {
+          this.$router.push('/endpoints')
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: 'Endpoint was created',
+            color: 'success'
+          })
+        }).catch((err) => {
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: this.__(err.response.data.message),
+            color: 'error'
+          })
+        })
+      } else if (this.formModel.type === 1) {
         createEndpoint(this.formModel).then(() => {
           this.$router.push('/endpoints')
           setTimeout(() => {

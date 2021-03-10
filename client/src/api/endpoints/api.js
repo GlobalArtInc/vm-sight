@@ -33,11 +33,11 @@ export function deleteEndpoint(id) {
     })
 }
 
-export function createEndpoint(data) {
+export function createEndpoint(data, type) {
     return request({
         url: '/endpoints/list',
         method: 'POST',
-        data
+        data: {data, type}
     })
 }
 

@@ -7,6 +7,10 @@ const fs = require('fs')
 var storage = multer.diskStorage(
     {
         destination: function (req, file, cb) {
+            const certs_dir = './data/certs/'
+            if (!fs.existsSync(certs_dir)) {
+                fs.mkdirSync(certs_dir);
+            }
             const dir = './data/certs/' + req.query.folder
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);

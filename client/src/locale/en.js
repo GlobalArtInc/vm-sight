@@ -38,6 +38,7 @@ export default {
     endpointsEdit: "Edit Endpoint",
     usersCreate: "New User",
     usersEdit: "Edit User",
+    endpoint_already_exists: "Endpoint is already exist",
     // menu
     menu: {
         home: 'Home',

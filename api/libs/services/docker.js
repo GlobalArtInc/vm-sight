@@ -58,10 +58,11 @@ module.exports.checkConnect = async (id, host, data = {
     cert: false,
     key: false
 }) => {
-    const settings = {
-        host: host.split(':')[0],
-        port: host.split(':')[1]
-    }
+    let settings = (host.match('/var/run/docker.sock')) ?
+        {socketPath: '/var/run/docker.sock'} : {
+            host: host.split(':')[0],
+            port: host.split(':')[1]
+        };
     if (data.ca) {
         settings.ca = data.ca
     }

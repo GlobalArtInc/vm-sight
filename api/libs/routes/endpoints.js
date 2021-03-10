@@ -75,24 +75,45 @@ router.get('/list/:id', async (req, res) => {
 router.post('/list', async (req, res) => {
     const user = await getUserById(req.user.id);
     if (user.role === 1) {
-        const {name, url, type} = req.body
+        const {name, url, type} = req.body.data
+        const d = req.body.type
         if (!name) {
             return res.status(400).send({message: "Endpoint name is not specified"})
         }
-        if (!url) {
-            return res.status(400).send({message: "URL is not specified"})
+        if (d === '' || d === null) {
+            if (!url) {
+                return res.status(400).send({message: "URL is not specified"})
+            }
         }
+        const id = global.getGUID()
         if (type === 1) {
-            dockerService.checkConnect(null, url).then(() => {
-                const id = global.getGUID()
-                db.query(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`).then(() => {
-                    return res.send({response: true})
-                }).catch((err) => {
-                    return res.status(500).send(err)
+            if (d === 'socket') {
+                db.query("SELECT * FROM endpoints WHERE url LIKE '%/var/run/docker.sock%'").then((e) => {
+                    if (e.length > 0) {
+                        return res.status(403).send({message: "endpoint_already_exists"})
+                    } else {
+                        dockerService.checkConnect(null, '/var/run/docker.sock').then(() => {
+                            db.query(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','2', '/var/run/docker.sock')`).then(() => {
+                                return res.send({response: true})
+                            }).catch((err) => {
+                                return res.status(500).send(err)
+                            })
+                        }).catch(() => {
+                            return res.status(500).send({message: "Failed to connect to the server"})
+                        })
+                    }
                 })
-            }).catch(() => {
-                return res.status(500).send({message: "Failed to connect to the server"})
-            })
+            }else {
+                dockerService.checkConnect(null, url).then(() => {
+                    db.query(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`).then(() => {
+                        return res.send({response: true})
+                    }).catch((err) => {
+                        return res.status(500).send(err)
+                    })
+                }).catch(() => {
+                    return res.status(500).send({message: "Failed to connect to the server"})
+                })
+            }
         } else {
             return res.status(400).send({message: "Incorrect type"})
         }

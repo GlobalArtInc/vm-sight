@@ -6,7 +6,7 @@
           <v-card :loading="loading" tile>
             <v-card-title>{{ formTitle }}</v-card-title>
             <v-divider/>
-            <v-card-text>
+            <v-card-text v-if="form.type === 1 || form.type === 2">
               <v-form ref="form" v-model="valid">
                 <v-row>
                   <v-col :cols="12">
