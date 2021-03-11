@@ -296,6 +296,20 @@ module.exports.unpauseContainer = async (docker, hash) => {
         return false;
     }
 }
+module.exports.removeContainer = async (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return new Promise((resolve, reject) => {
+            container.remove({force: true}).then((() => {
+                resolve()
+            })).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
 
 module.exports.getContainers = async (docker) => {
     return docker.listContainers({all:1}).then((containers) => {
@@ -304,5 +318,7 @@ module.exports.getContainers = async (docker) => {
             arr.push(item)
         })
         return arr;
+    }).catch(() => {
+        return false
     })
 }

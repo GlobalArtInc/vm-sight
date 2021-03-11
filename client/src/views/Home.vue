@@ -102,7 +102,7 @@ export default {
     },
     goCluster(endpoint) {
       if (endpoint.Type === 1 || endpoint.Type === 2) {
-        this.$router.push(`/${endpoint.Id}/docker/dashboard`)
+        this.$router.push({name: 'endpointDocker', params: {id: endpoint.Id}})
       }
     }
   },

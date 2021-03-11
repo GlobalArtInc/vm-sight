@@ -24,11 +24,13 @@ router.get('/containers', async (req, res) => {
             })
         })
         return res.send(arr.reverse())
+    }).catch(() => {
+        return res.status(404).send({message: "Not Found"})
     })
 })
 
 
-router.get('/:id/docker/containers/:hash', async (req, res) => {
+router.get('/containers/:hash', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     return dockerService.getContainer(docker.service, req.params.hash).then((data) => {
         return res.send(data)
@@ -37,7 +39,7 @@ router.get('/:id/docker/containers/:hash', async (req, res) => {
     })
 })
 
-router.post('/:id/docker/containers/:hash/start', async (req, res) => {
+router.post('/containers/:hash/start', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.startContainer(docker.service, req.params.hash).then(() => {
         return res.send({response: true})
@@ -46,7 +48,7 @@ router.post('/:id/docker/containers/:hash/start', async (req, res) => {
     })
 })
 
-router.post('/:id/docker/containers/:hash/restart', async (req, res) => {
+router.post('/containers/:hash/restart', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.restartContainer(docker.service, req.params.hash).then(() => {
         return res.send({response: true})
@@ -55,7 +57,7 @@ router.post('/:id/docker/containers/:hash/restart', async (req, res) => {
     })
 })
 
-router.post('/:id/docker/containers/:hash/stop', async (req, res) => {
+router.post('/containers/:hash/stop', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.stopContainer(docker.service, req.params.hash).then(() => {
         return res.send({response: true})
@@ -64,7 +66,7 @@ router.post('/:id/docker/containers/:hash/stop', async (req, res) => {
     })
 })
 
-router.post('/:id/docker/containers/:hash/kill', async (req, res) => {
+router.post('/containers/:hash/kill', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.killContainer(docker.service, req.params.hash).then(() => {
         return res.send({response: true})
@@ -73,7 +75,7 @@ router.post('/:id/docker/containers/:hash/kill', async (req, res) => {
     })
 })
 
-router.post('/:id/docker/containers/:hash/pause', async (req, res) => {
+router.post('/containers/:hash/pause', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.pauseContainer(docker.service, req.params.hash).then(() => {
         return res.send({response: true})
@@ -82,7 +84,7 @@ router.post('/:id/docker/containers/:hash/pause', async (req, res) => {
     })
 })
 
-router.post('/:id/docker/containers/:hash/unpause', async (req, res) => {
+router.post('/containers/:hash/resume', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.unpauseContainer(docker.service, req.params.hash).then(() => {
         return res.send({response: true})
@@ -91,12 +93,21 @@ router.post('/:id/docker/containers/:hash/unpause', async (req, res) => {
     })
 })
 
-router.get('/:id/docker/version', async (req, res) => {
+router.post('/containers/:hash/remove', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.removeContainer(docker.service, req.params.hash).then(() => {
+        return res.send({response: true})
+    }).catch((err) => {
+        return res.status(err.statusCode).send(err)
+    })
+})
+
+router.get('/version', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     return res.send(await dockerService.getVersion(docker.service))
 })
 
-router.get('/:id/docker/info', async (req, res) => {
+router.get('/info', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     return res.send(await dockerService.getInfo(docker.service))
 })

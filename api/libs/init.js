@@ -56,6 +56,7 @@ module.exports.createEndpoints = async () => {
             id          TEXT PRIMARY KEY NOT NULL,
             name        TEXT NOT NULL,
             type        INT NOT NULL,
+            public_url  TEXT,
             url         TEXT NOT NULL,
             groupId     INT NOT NULL DEFAULT 0,
             tags        STRING,

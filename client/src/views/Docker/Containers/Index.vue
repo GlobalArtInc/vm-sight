@@ -11,10 +11,24 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-subtitle>
-          Action Menu
+          <ActionMenu :selected="selected" @update="onUpdate" />
         </v-card-subtitle>
         <v-divider/>
+        <v-text-field
+            dense
+            v-model="search"
+            text
+            solo
+            flat
+            prepend-inner-icon="mdi-magnify"
+            placeholder="Type something"
+            hide-details
+            clearable
+        />
+        <v-divider/>
         <v-data-table
+            v-model="selected"
+            :search="search"
             :loading="loadingItems"
             :headers="headers"
             :items="items"
@@ -24,10 +38,10 @@
             show-select
         >
           <template #item.Name="{item}">
-            <span>{{ item.Name }}</span>
+            <router-link :to="`containers/${item.Id}`">{{ item.Name }}</router-link>
           </template>
           <template #item.State="{item}">
-            <State :state="item.State" :status="item.Status" />
+            <State :state="item.State" :status="item.Status"/>
           </template>
           <template #item.Stack="{item}">
             <span class="font-weight-black" v-if="item.Stack" v-text="item.Stack"/>
@@ -41,8 +55,10 @@
               <a :key="port.PublicPort" v-for="port in item.Ports" class="space-left"
                  :href="`http://`+removePort(endpoint.URL)+`:`+port.PublicPort"
                  target="_blank">
-                <i class="fa fa-external-link-alt" aria-hidden="true"></i>
-                {{ port.PublicPort }}:{{ port.PrivatePort }}
+                <template v-if="port.PublicPort">
+                  <i class="fa fa-external-link-alt" aria-hidden="true"></i>
+                  {{ port.PublicPort }}:{{ port.PrivatePort }}
+                </template>
               </a>
             </template>
             <span v-else class="font-weight-black">-</span>
@@ -58,15 +74,18 @@ import {fetchEndpoint} from "@/api/endpoints/api";
 import {fetchContainers} from "@/api/endpoints/docker";
 import {removePort} from '@/utils/global'
 import State from "@/components/docker/State";
+import ActionMenu from "@/components/docker/ActionMenu";
 
 export default {
-  components: {State},
+  components: {ActionMenu, State},
   props: {
     id: [String, Number]
   },
   data: () => ({
     loadingItems: true,
     items: [],
+    selected: [],
+    search: "",
     endpoint: {},
     headers: [
       {
@@ -79,7 +98,8 @@ export default {
       },
       {
         text: 'Quick actions',
-        value: 'actions'
+        value: 'actions',
+        sortable: false
       },
       {
         text: 'Stack',
@@ -101,8 +121,12 @@ export default {
     itemsPerPage: 10
   }),
   methods: {
+    onUpdate() {
+      this.selected = []
+      this.fetchContainers()
+    },
     // eslint-disable-next-line no-unused-vars
-    getState(state, status){
+    getState(state, status) {
 
     },
     removePort(url) {
@@ -117,6 +141,7 @@ export default {
     }
   },
   created() {
+
     fetchEndpoint(this.id).then((endpoint) => {
       this.endpoint = endpoint
       this.fetchContainers()

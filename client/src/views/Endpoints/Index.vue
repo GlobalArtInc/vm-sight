@@ -5,7 +5,7 @@
         <v-col cols="12">
           <v-card tile>
             <v-card-subtitle class="font-weight-medium" style="color: #333">
-              <i class="fa fa-cubes"></i>
+              <i class="fa fa-plug"></i>
               <span class="font-weight-medium pl-1" style="color: #333">Endpoints</span>
               <v-btn icon @click="handleRefreshItems" class="space-left">
                 <v-icon>mdi-refresh</v-icon>
@@ -34,6 +34,7 @@
               </v-btn>
             </v-card-subtitle>
             <v-divider/>
+
             <v-text-field
                 dense
                 v-model="search"

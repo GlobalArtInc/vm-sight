@@ -28,7 +28,8 @@ export default {
     name: "Name",
     endpoints: {
         edit: "Edit Endpoint",
-        url: "Endpoint URL"
+        url: "Endpoint URL",
+        public_url:"Public URL"
     },
     user: {
         username: "Username",
@@ -51,11 +52,13 @@ export default {
         settings: 'Settings',
         docker: "Docker",
         containers: "Containers",
+        edit: "Edit",
         users: 'Users',
         usersCreate: 'New User',
         usersEdit: 'Edit User',
         endpointsEdit: "Edit Endpoint",
-        endpointsCreate: "New Endpoint"
+        endpointsCreate: "New Endpoint",
+        list: "List",
     },
     //media
     media: 'Media',

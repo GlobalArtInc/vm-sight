@@ -49,15 +49,16 @@ export const protectedRoute = [
                 component: () => import('@/views/Home'),
             },
             {
+                name: 'endpointDocker',
                 path: '/:id/docker',
                 redirect: '/:id/docker/dashboard',
                 component: DockerLayout,
-                props: true,
                 meta: {
                     title: 'docker'
                 },
                 children: [
                     {
+                        name: 'endpointDockerDashboard',
                         path: 'dashboard',
                         meta: {
                             title: 'dashboard',
@@ -65,21 +66,30 @@ export const protectedRoute = [
                             icon: 'fab fa-docker',
                             hiddenInMenu: true
                         },
-                        props: true,
+                        props: route => ({ id: route.params.id }),
                         component: () => import('@/views/Docker/Dashboard/Index')
                     },
                     {
                         path: 'containers',
                         meta: {
-                            hiddenInMenu: true
+                            title: 'containers'
                         },
                         component: Blank,
-                        props: true,
                         children: [
                             {
-                                path: '',
+                                name: 'containerDockerEdit',
+                                path: ':hash',
                                 meta: {
-                                    title: 'containers'
+                                    title: 'edit'
+                                },
+                                props: true,
+                                component: () => import('@/views/Docker/Containers/Edit')
+                            },
+                            {
+                                name: 'containersDockerList',
+                                path: '/',
+                                meta: {
+                                    title: 'list'
                                 },
                                 props: true,
                                 component: () => import('@/views/Docker/Containers/Index')

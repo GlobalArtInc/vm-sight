@@ -29,6 +29,16 @@
                         :disabled="form.type === 2"
                         :append-icon="'mdi-name'"
                     />
+                    <v-text-field
+                        dense
+                        outlined
+                        :label="__('endpoints.public_url')"
+                        :placeholder="form.public_url.placeholder"
+                        v-model="formModel.public_url"
+                        required
+                        :disabled="form.type === 2"
+                        :append-icon="'mdi-name'"
+                    />
                     <template v-if="form.type === 1">
                       <v-switch label="TLS" v-model="formModel.tls.active"/>
                       <template v-if="formModel.tls.active">
@@ -95,6 +105,7 @@ export default {
     formModel: {
       name: "",
       url: "",
+      public_url: "",
       tls: {
         active: false,
         ca: null,
@@ -109,6 +120,9 @@ export default {
       },
       url: {
         label: "URL"
+      },
+      public_url: {
+        placeholder: ""
       },
       type: 0,
       tls: {
