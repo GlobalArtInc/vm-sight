@@ -36,7 +36,6 @@
                         :placeholder="form.public_url.placeholder"
                         v-model="formModel.public_url"
                         required
-                        :disabled="form.type === 2"
                         :append-icon="'mdi-name'"
                     />
                     <template v-if="form.type === 1">
