@@ -57,6 +57,7 @@ export default {
   methods: {
     onStart() {
       this.disableAll = true
+      this.$emit('idle')
       startContainer(this.$route.params.id, this.$route.params.hash).then(() => {
         this.disableAll = false
         this.$toast(this.__('containers.started'), {
@@ -67,6 +68,7 @@ export default {
     },
     onStop() {
       this.disableAll = true
+      this.$emit('idle')
       stopContainer(this.$route.params.id, this.$route.params.hash).then(() => {
         this.disableAll = false
         this.$toast(this.__('containers.stopped'), {
@@ -77,6 +79,7 @@ export default {
     },
     onKill() {
       this.disableAll = true
+      this.$emit('idle')
       killContainer(this.$route.params.id, this.$route.params.hash).then(() => {
         this.disableAll = false
         this.$toast(this.__('containers.killed'), {
@@ -87,6 +90,7 @@ export default {
     },
     onRestart() {
       this.disableAll = true
+      this.$emit('idle')
       restartContainer(this.$route.params.id, this.$route.params.hash).then(() => {
         this.disableAll = false
         this.$toast(this.__('containers.restarted'), {
@@ -97,6 +101,7 @@ export default {
     },
     onPause() {
       this.disableAll = true
+      this.$emit('idle')
       pauseContainer(this.$route.params.id, this.$route.params.hash).then(() => {
         this.disableAll = false
         this.$toast(this.__('containers.paused'), {
@@ -107,6 +112,7 @@ export default {
     },
     onResume() {
       this.disableAll = true
+      this.$emit('idle')
       resumeContainer(this.$route.params.id, this.$route.params.hash).then(() => {
         this.disableAll = false
         this.$toast(this.__('containers.resumed'), {

@@ -2,6 +2,7 @@
   <v-row>
     <v-col :cols="12">
       <v-card>
+        <v-progress-linear indeterminate color="primary" v-if="idle" absolute top/>
         <v-card-subtitle class="font-weight-medium" style="color: #333">
           <i class="fa fa-cogs"></i>
           <span class="font-weight-medium pl-1" style="color: #333">Actions</span>
@@ -9,7 +10,7 @@
         <v-divider/>
         <v-card-text>
           <template v-if="endpoint">
-            <Action :endpoint="endpoint" :hash="hash" @update="fetchContainer" />
+            <Action :endpoint="endpoint" :hash="hash" @idle="onIdle()" @update="fetchContainer" />
           </template>
         </v-card-text>
       </v-card>
@@ -88,12 +89,17 @@ export default {
     hash: [String, Number]
   },
   data: () => ({
-    endpoint: false
+    endpoint: false,
+    idle: false
   }),
   methods: {
+    onIdle() {
+      this.idle = true
+    },
     fetchContainer() {
       fetchContainer(this.id, this.hash).then((endpoint) => {
         this.endpoint = endpoint
+        this.idle = false
       }).catch(() => {
         this.$router.push('/')
       })
