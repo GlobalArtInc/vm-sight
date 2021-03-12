@@ -83,11 +83,21 @@ export default {
     breadcrumbs() {
       const {matched} = this.$route
       return matched.filter(route => !route.meta.hiddenInMenu).map((route, index) => {
-        const to =
-            index === matched.length - 1
-                ? this.$route.path
-                : route.path || route.redirect
+
         const text = this.$vuetify.lang.t('$vuetify.menu.' + route.meta.title) ? this.$vuetify.lang.t('$vuetify.menu.' + route.meta.title) : ""
+        let to;
+        if (route.meta.type === 'endpointDocker') {
+          const url = this.$route.fullPath.split('/')
+          to =
+              index === matched.length - 1
+                  ? this.$route.path.replace(':id', url[1])
+                  : route.path.replace(':id', url[1]) || route.redirect
+        } else {
+          to =
+              index === matched.length - 1
+                  ? this.$route.path
+                  : route.path || route.redirect
+        }
         return {
           text: text,
           to: to,

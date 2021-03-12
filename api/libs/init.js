@@ -1,4 +1,5 @@
 const db = require('./db')
+const fs = require('fs')
 
 module.exports.createDB = async () => {
     await db.query(`
@@ -15,6 +16,7 @@ module.exports.createDB = async () => {
     this.createSettings()
     this.createSnapshots()
     this.createEndpoints()
+
 }
 
 module.exports.createSnapshots = async () => {
@@ -66,4 +68,30 @@ module.exports.createEndpoints = async () => {
             tls_key     INT CHAR(1) DEFAULT 0              
         )
     `)
+}
+
+module.exports.generateKeys = () => {
+    const key = `./data/vm-sight.pem`
+    const pub = `./data/vm-sight.pub`
+
+    const {generateKeyPairSync} = require('crypto');
+    const {publicKey, privateKey} = generateKeyPairSync('rsa',
+        {
+            modulusLength: 2048,  // the length of your key in bits
+            publicKeyEncoding: {
+                type: 'spki',       // recommended to be 'spki' by the Node.js docs
+                format: 'pem'
+            },
+            privateKeyEncoding: {
+                type: 'pkcs8',      // recommended to be 'pkcs8' by the Node.js docs
+                format: 'pem'
+            }
+        });
+
+    if (!fs.existsSync(key)) {
+        fs.appendFileSync(key, privateKey)
+    }
+    if (!fs.existsSync(pub)) {
+        fs.appendFileSync(pub, publicKey)
+    }
 }

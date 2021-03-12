@@ -11,12 +11,18 @@ const auth = require('./routes/auth')
 const settings = require('./routes/settings')
 const users = require('./routes/users')
 const endpoints = require('./routes/endpoints')
+const init = require('./init')
+const fs = require('fs')
 
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.set('jwt-secret', "test")
-app.use(passport.initialize());
+
+init.generateKeys()
+
+const key = fs.readFileSync(`./data/vm-sight.pem`)
+app.set('jwt-secret', key)
+
 if (global.env === 'production') {
     app.use(express.static(path.join(__dirname, '../../client/dist')));
 }

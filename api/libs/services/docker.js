@@ -201,7 +201,21 @@ module.exports.getContainer = (docker, hash) => {
     const container = docker.getContainer(hash)
     if (container) {
         return container.inspect().then(((data) => {
-            return data;
+            return {
+                Id: data.Id,
+                Name: data.Name.substr(1),
+                Image: data.Image,
+                ImageID: data.ImageID,
+                Command: data.Command,
+                Created: data.Created,
+                Ports: data.Ports,
+                Labels: data.Labels,
+                State: data.State,
+                Status: data.Status,
+                HostConfig: data.HostConfig,
+                NetworkSettings: data.NetworkSettings,
+                Mounts: data.Mounts
+            };
         }))
     } else {
         return false;

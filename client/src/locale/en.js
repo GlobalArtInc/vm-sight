@@ -29,7 +29,12 @@ export default {
     endpoints: {
         edit: "Edit Endpoint",
         url: "Endpoint URL",
-        public_url:"Public URL"
+        public_url: "Public URL",
+        logs: "Logs",
+        inspect: "Inspect",
+        stats: "Stats",
+        console: "Console",
+        attach: "Attach"
     },
     user: {
         username: "Username",

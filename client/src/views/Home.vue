@@ -52,7 +52,12 @@
 
                       <v-list-item-subtitle>
                         <span>
-                          s
+                          <span class="small text-muted ng-binding">
+                            <i class="fa fa-microchip"></i>
+                            {{ item.Snapshot.TotalCPU }}
+                            <i class="fa fa-memory space-left"></i>
+                            {{convert(item.Snapshot.TotalMemory)}}
+                          </span>
                         </span>
                         <span style="float:right;padding-right: 1em">
                           {{ item.URL }}
@@ -85,6 +90,7 @@
 import {motd} from "@/api/api";
 import {fetchEndpoints} from "@/api/endpoints/api";
 import moment from 'moment'
+import {BiteToGb} from "@/utils/math";
 
 export default {
   data: () => ({
@@ -97,6 +103,9 @@ export default {
     ]
   }),
   methods: {
+    convert(number) {
+      return BiteToGb(number)
+    },
     convertDate(time) {
       return moment.unix(time).format('DD-MM-YYYY, hh:mm:ss a')
     },

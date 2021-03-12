@@ -4,7 +4,10 @@
       <i class="fa fa-heartbeat space-right green-icon"></i>
       Running
     </span>
-    <span v-else-if="state === 'paused'">Paused</span>
+    <span v-else-if="state === 'paused'">
+      <i class="fa fa-heartbeat space-right green-icon"></i>
+      Paused
+    </span>
     <span v-else>
       <i class="fa fa-heartbeat space-right red-icon"></i>
       Stopped

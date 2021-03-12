@@ -38,7 +38,7 @@ export const protectedRoute = [
         },
         children: [
             {
-                path: '/home',
+                path: 'home',
                 name: 'home',
                 meta: {
                     title: 'dashboard',
@@ -50,11 +50,12 @@ export const protectedRoute = [
             },
             {
                 name: 'endpointDocker',
-                path: '/:id/docker',
-                redirect: '/:id/docker/dashboard',
+                path: ':id/docker',
+                redirect: ':id/docker/dashboard',
                 component: DockerLayout,
                 meta: {
-                    title: 'docker'
+                    title: 'docker',
+                    type: 'endpointDocker'
                 },
                 children: [
                     {
@@ -64,7 +65,8 @@ export const protectedRoute = [
                             title: 'dashboard',
                             group: 'apps',
                             icon: 'fab fa-docker',
-                            hiddenInMenu: true
+                            hiddenInMenu: true,
+                            type: 'endpointDocker'
                         },
                         props: route => ({ id: route.params.id }),
                         component: () => import('@/views/Docker/Dashboard/Index')
@@ -72,7 +74,8 @@ export const protectedRoute = [
                     {
                         path: 'containers',
                         meta: {
-                            title: 'containers'
+                            title: 'containers',
+                            type: 'endpointDocker'
                         },
                         component: Blank,
                         children: [
@@ -80,7 +83,8 @@ export const protectedRoute = [
                                 name: 'containerDockerEdit',
                                 path: ':hash',
                                 meta: {
-                                    title: 'edit'
+                                    title: 'edit',
+                                    type: 'endpointDocker'
                                 },
                                 props: true,
                                 component: () => import('@/views/Docker/Containers/Edit')
@@ -89,7 +93,9 @@ export const protectedRoute = [
                                 name: 'containersDockerList',
                                 path: '/',
                                 meta: {
-                                    title: 'list'
+                                    title: 'list',
+                                    type: 'endpointDocker',
+                                    hiddenInMenu: true
                                 },
                                 props: true,
                                 component: () => import('@/views/Docker/Containers/Index')

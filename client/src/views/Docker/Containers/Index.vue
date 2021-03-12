@@ -41,7 +41,7 @@
             <router-link :to="`containers/${item.Id}`">{{ item.Name }}</router-link>
           </template>
           <template #item.State="{item}">
-            <State :state="item.State" :status="item.Status"/>
+            <State :state="item.State"/>
           </template>
           <template #item.Stack="{item}">
             <span class="font-weight-black" v-if="item.Stack" v-text="item.Stack"/>

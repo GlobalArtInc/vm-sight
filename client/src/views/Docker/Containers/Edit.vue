@@ -8,7 +8,9 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-text>
-          Action Menu
+          <template v-if="endpoint">
+            <Action :endpoint="endpoint" :hash="hash" @update="fetchContainer" />
+          </template>
         </v-card-text>
       </v-card>
     </v-col>
@@ -60,9 +62,13 @@
             </template>
           </v-simple-table>
         </v-card-text>
-        <v-divider />
+        <v-divider/>
         <v-card-actions style="padding: 1em">
-          asd
+          <v-btn text v-text="this.__('endpoints.logs')"/>
+          <v-btn text class="space-left" v-text="this.__('endpoints.inspect')"/>
+          <v-btn text class="space-left" v-text="this.__('endpoints.stats')"/>
+          <v-btn text class="space-left" v-text="this.__('endpoints.console')"/>
+          <v-btn text class="space-left" v-text="this.__('endpoints.attach')"/>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -73,9 +79,10 @@
 import {fetchContainer} from "@/api/endpoints/docker";
 import {fetchEndpoint} from "@/api/endpoints/api";
 import State from "@/components/docker/State";
+import Action from "@/components/docker/Action";
 
 export default {
-  components: {State},
+  components: {Action, State},
   props: {
     id: [String, Number],
     hash: [String, Number]
@@ -83,13 +90,18 @@ export default {
   data: () => ({
     endpoint: false
   }),
-  created() {
-    fetchEndpoint(this.id).then(() => {
+  methods: {
+    fetchContainer() {
       fetchContainer(this.id, this.hash).then((endpoint) => {
         this.endpoint = endpoint
       }).catch(() => {
         this.$router.push('/')
       })
+    }
+  },
+  created() {
+    fetchEndpoint(this.id).then(() => {
+      this.fetchContainer()
     }).catch(() => {
       this.$router.push('/')
     })
