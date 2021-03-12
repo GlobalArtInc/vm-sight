@@ -10,7 +10,7 @@
         <v-divider/>
         <v-card-text>
           <template v-if="endpoint">
-            <Action :endpoint="endpoint" :hash="hash" @idle="onIdle()" @update="fetchContainer" />
+            <Action :endpoint="endpoint" :hash="hash" @idle="onIdle" @update="fetchContainer"/>
           </template>
         </v-card-text>
       </v-card>
@@ -90,11 +90,11 @@ export default {
   },
   data: () => ({
     endpoint: false,
-    idle: false
+    idle: true
   }),
   methods: {
-    onIdle() {
-      this.idle = true
+    onIdle(state) {
+      this.idle = state
     },
     fetchContainer() {
       fetchContainer(this.id, this.hash).then((endpoint) => {
