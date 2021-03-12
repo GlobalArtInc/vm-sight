@@ -29,6 +29,7 @@ export default {
         restarted: "Container was restarted",
         paused: "Container was paused",
         resumes: "Container was resumed",
+        removed: "Container was removed"
     },
     // user page
     yes: "Yes",
@@ -72,6 +73,8 @@ export default {
         endpointsEdit: "Edit Endpoint",
         endpointsCreate: "New Endpoint",
         list: "List",
+        registries: "Registries",
+        logs: "Logs"
     },
     //media
     media: 'Media',

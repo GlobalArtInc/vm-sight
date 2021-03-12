@@ -197,6 +197,17 @@ module.exports.getImages = (docker) => {
 
 }
 
+module.exports.logsContainer = (docker, hash, options) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return container.logs(options).then((data) => {
+            return data;
+        })
+    } else {
+        return false;
+    }
+}
+
 module.exports.getContainer = (docker, hash) => {
     const container = docker.getContainer(hash)
     if (container) {

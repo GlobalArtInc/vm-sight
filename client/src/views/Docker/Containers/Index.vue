@@ -136,7 +136,7 @@ export default {
       this.loadingItems = true
       fetchContainers(this.id).then((data) => {
         this.loadingItems = false
-        this.items = data
+        this.items = data.reverse()
       })
     }
   },

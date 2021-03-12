@@ -23,7 +23,7 @@ router.get('/containers', async (req, res) => {
                 Mounts: container.Mounts
             })
         })
-        return res.send(arr.reverse())
+        return res.send(arr)
     }).catch(() => {
         return res.status(404).send({message: "Not Found"})
     })
@@ -36,6 +36,16 @@ router.get('/containers/:hash', async (req, res) => {
         return res.send(data)
     }).catch((err) => {
         return res.status(err.statusCode).send(err)
+    })
+})
+
+router.get('/containers/:hash/logs', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+
+    dockerService.logsContainer(docker.service, req.params.hash, req.query).then((data) => {
+        return res.send(data)
+    }).catch((err) => {
+        return res.status(403).send(err)
     })
 })
 

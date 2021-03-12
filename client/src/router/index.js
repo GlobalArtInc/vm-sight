@@ -68,7 +68,7 @@ export const protectedRoute = [
                             hiddenInMenu: true,
                             type: 'endpointDocker'
                         },
-                        props: route => ({ id: route.params.id }),
+                        props: route => ({id: route.params.id}),
                         component: () => import('@/views/Docker/Dashboard/Index')
                     },
                     {
@@ -80,14 +80,36 @@ export const protectedRoute = [
                         component: Blank,
                         children: [
                             {
-                                name: 'containerDockerEdit',
+                                name: 'containerDocker',
                                 path: ':hash',
                                 meta: {
                                     title: 'edit',
                                     type: 'endpointDocker'
                                 },
                                 props: true,
-                                component: () => import('@/views/Docker/Containers/Edit')
+                                component: Blank,
+                                children: [
+                                    {
+                                        path: 'logs',
+                                        meta: {
+                                            title: 'logs',
+                                            type: 'endpointDocker'
+                                        },
+                                        props: true,
+                                        component: () => import('@/views/Docker/Containers/Logs'),
+                                    },
+                                    {
+                                        name: 'containerDockerEdit',
+                                        path: '',
+                                        meta: {
+                                            title: 'edit',
+                                            type: 'endpointDocker',
+                                            hiddenInMenu: true
+                                        },
+                                        props: true,
+                                        component: () => import('@/views/Docker/Containers/Edit'),
+                                    }
+                                ]
                             },
                             {
                                 name: 'containersDockerList',
@@ -174,6 +196,24 @@ export const protectedRoute = [
                 ]
             },
             {
+                path: '/registries',
+                name: "registries",
+                component: Blank,
+                meta: {
+                    title: 'registries'
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'registriesMain',
+                        meta: {
+                            hiddenInMenu: true
+                        },
+                        component: () => import('@/views/Registries/Index')
+                    }
+                ]
+            },
+            {
                 path: '/settings',
                 component: Blank,
                 meta: {
@@ -221,61 +261,6 @@ export const protectedRoute = [
             }
         ]
     }
-    /*{
-        path: '/users',
-        component: Layout,
-        children: [
-            {
-                path: '',
-                name: 'users',
-                component: () => import('@/views/Users/Index'),
-                meta: {
-                    title: 'users',
-                    group: 'apps',
-                    icon: 'mdi-view-dashboard'
-                }
-            }
-        ]
-    },
-    {
-        path: '/:hash/docker',
-        component: DockerLayout,
-        children: [
-            {
-                path: 'dashboard',
-                component: () => import('@/views/docker/Dashboard/Index')
-            }
-        ]
-    },
-    {
-        path: '/init',
-        meta: {
-            title: 'home',
-            group: 'apps',
-            icon: ''
-        },
-        component: BlankLayout,
-        children: [
-            {
-                meta: {
-                    title: 'home',
-                    group: 'apps',
-                    icon: ''
-                },
-                path: 'endpoint',
-                component: () => import('@/views/Init/Endpoint')
-            },
-            {
-                meta: {
-                    title: 'home',
-                    group: 'apps',
-                    icon: ''
-                },
-                path: 'admin',
-                component: () => import('@/views/Init/Admin')
-            }
-        ]
-    }*/
 ]
 
 

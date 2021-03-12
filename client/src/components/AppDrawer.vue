@@ -1,11 +1,11 @@
 <template>
   <v-navigation-drawer
-    app
-    class="app-drawer"
-    :mini-variant.sync="mini"
-    v-model="drawer"
-    :width="drawerWidth"
-    style="background: #30426A"
+      app
+      class="app-drawer"
+      :mini-variant.sync="mini"
+      v-model="drawer"
+      :width="drawerWidth"
+      style="background: #30426A"
   >
     <v-toolbar color="#2D3E63" dark st>
       <v-toolbar-title class="ml-0 pl-3">
@@ -56,6 +56,20 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item to="/registries" v-if="user.role === 1">
+          <v-list-item-icon>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">fa-database</v-icon>
+              </template>
+              <span>Registries</span>
+            </v-tooltip>
+          </v-list-item-icon>
+          <v-list-item-content v-if="drawerWidth !== 64">
+            <v-list-item-title>Registries</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item to="/settings" v-if="user.role === 1">
           <v-list-item-icon>
             <v-tooltip bottom>
@@ -74,7 +88,7 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { protectedRoute as routes } from '@/router'
+import {protectedRoute as routes} from '@/router'
 import {mapGetters} from 'vuex';
 
 export default {
@@ -111,7 +125,8 @@ export default {
       return routes[0].children
     }
   },
-  created() {},
+  created() {
+  },
 
   methods: {
     handleDrawerCollapse() {
@@ -130,8 +145,10 @@ export default {
 <style lang="sass" scoped>
 .app-drawer
   overflow: hidden !important
+
   &__inner
     height: calc(100vh - 100px)
+
   .drawer-menu--scroll
     height: calc(100vh - 48px)
     overflow: auto

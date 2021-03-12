@@ -859,6 +859,13 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@femessage/log-viewer@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@femessage/log-viewer/-/log-viewer-1.5.0.tgz#e4d5a3d26c0c5c109609f15399b0bc74320b25c0"
+  integrity sha512-M26D7tqii6g+8yRRycyTevbaAJhO6FqVhCVpoNAdqJTOJD1D8P9wxt0SKqGuzYGE0AbKogE6UdHC02aVqFSDpw==
+  dependencies:
+    vue-virtual-scroll-list "^1.4.1"
+
 "@fortawesome/fontawesome-common-types@^0.2.34":
   version "0.2.34"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.34.tgz#0a8c348bb23b7b760030f5b1d912e582be4ec915"
@@ -8366,6 +8373,11 @@ vue-toastification@^1.7.11:
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.7.11.tgz#3e46157b7361f5005b1a60112bc91f5bd00c66d7"
   integrity sha512-CT/DYttb/VtWDNdhJG0BskLVfveZq5rGOgO/u3qTX+RPQQzX0WSai8VVxxUuvR8UpxfSGPS+JQleR33bo3Vadg==
+
+vue-virtual-scroll-list@^1.4.1:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/vue-virtual-scroll-list/-/vue-virtual-scroll-list-1.4.7.tgz#12ee26833885f5bb4d37dc058085ccf3ce5b5a74"
+  integrity sha512-R8bk+k7WMGGoFQ9xF0krGCAlZhQjbJOkDUX+YZD2J+sHQWTzDtmTLS6kiIJToOHK1d/8QPGiD8fd9w0lDP4arg==
 
 vue@^2.6.11:
   version "2.6.12"

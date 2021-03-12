@@ -56,6 +56,25 @@ export function removeContainer(endpoint_id, container) {
     })
 }
 
+const createUrl = (obj) => {
+    var str = "";
+    for (var key in obj) {
+        if (str != "") {
+            str += "&";
+        }
+        str += key + "=" + encodeURIComponent(obj[key]);
+    }
+    return str
+}
+
+export function fetchLogsContainer(endpoint_id, container, options) {
+    return request({
+        url: `/endpoints/${endpoint_id}/docker/containers/${container}/logs?${createUrl(options)}`,
+        method: 'get'
+    })
+}
+
+
 export function fetchContainer(endpoint_id, container) {
     return request({
         url: `/endpoints/${endpoint_id}/docker/containers/${container}`,

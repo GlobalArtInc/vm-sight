@@ -90,8 +90,8 @@ export default {
           const url = this.$route.fullPath.split('/')
           to =
               index === matched.length - 1
-                  ? this.$route.path.replace(':id', url[1])
-                  : route.path.replace(':id', url[1]) || route.redirect
+                  ? this.$route.path.replace(':id', url[1]).replace(':hash', url[4])
+                  : route.path.replace(':id', url[1]).replace(':hash', url[4]) || route.redirect
         } else {
           to =
               index === matched.length - 1

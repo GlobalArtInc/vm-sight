@@ -65,7 +65,7 @@
         </v-card-text>
         <v-divider/>
         <v-card-actions style="padding: 1em">
-          <v-btn text v-text="this.__('endpoints.logs')"/>
+          <v-btn text v-text="this.__('endpoints.logs')" @click="$router.push(`${hash}/logs`)"/>
           <v-btn text class="space-left" v-text="this.__('endpoints.inspect')"/>
           <v-btn text class="space-left" v-text="this.__('endpoints.stats')"/>
           <v-btn text class="space-left" v-text="this.__('endpoints.console')"/>

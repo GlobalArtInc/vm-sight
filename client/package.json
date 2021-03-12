@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "test:dev": "http-server dist -p 3600 --proxy http://localhost:3600?",
-    "serve": "vue-cli-service serve --port 3600",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve --port 3600 --mode development",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@femessage/log-viewer": "^1.5.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",

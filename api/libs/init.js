@@ -16,6 +16,7 @@ module.exports.createDB = async () => {
     this.createSettings()
     this.createSnapshots()
     this.createEndpoints()
+    this.createRegistries()
 
 }
 
@@ -68,6 +69,24 @@ module.exports.createEndpoints = async () => {
             tls_key     INT CHAR(1) DEFAULT 0              
         )
     `)
+}
+
+module.exports.createRegistries = async () => {
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS registries (
+            id          TEXT PRIMARY KEY NOT NULL,
+            user_id     TEXT NOT NULL,
+            type        TEXT NOT NULL,
+            name        TEXT NOT NULL,
+            url         TEXT,
+            login       TEXT,
+            password    TEXT,
+            createdAt   INT CHAR(11) NOT NULL
+        )
+    `)
+    await db.query(`
+    INSERT OR IGNORE INTO registries (id, user_id, type, name, createdAt)
+    VALUES ('dockerhub', '0', 'dockerhub', 'DockerHub', strftime('%s', 'now'))`)
 }
 
 module.exports.generateKeys = () => {

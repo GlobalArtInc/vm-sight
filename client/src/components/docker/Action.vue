@@ -24,14 +24,73 @@
       <v-icon left>fa-play</v-icon>
       Resume
     </v-btn>
-    <v-btn depressed dense color="error" tile>
-      <v-icon left>fa-trash</v-icon>
-      Remove
-    </v-btn>
-    <v-btn class="ml-2" depressed dense color="error" tile>
-      <v-icon left>fa-sync</v-icon>
-      Recreate
-    </v-btn>
+
+    <v-dialog
+        v-model="dialog.remove"
+        width="500">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+               v-bind="attrs"
+               v-on="on"
+               depressed dense color="error" tile>
+          <v-icon left>fa-trash</v-icon>
+          Remove
+        </v-btn>
+      </template>
+      <v-card>
+        <v-toolbar
+            color="primary"
+            dark>You are about to remove a running container.
+        </v-toolbar>
+        <v-card-text>
+          <p style="margin: 10px">
+            This container will be deleted.
+          </p>
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn text @click="dialog.remove = false">
+            Close
+          </v-btn>
+          <v-btn class="space-left" tile @click="onRemove" color="error">
+            Remove
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+        v-model="dialog.recreate"
+        width="500">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn class="ml-2"
+               v-bind="attrs"
+               v-on="on"
+               depressed dense color="error" tile>
+          <v-icon left>fa-sync</v-icon>
+          Recreate
+        </v-btn>
+      </template>
+      <v-card>
+        <v-toolbar
+            color="primary"
+            dark>Are you sure?
+        </v-toolbar>
+        <v-card-text>
+          <p style="margin: 10px">
+            You're about to re-create this container, any non-persisted data will be lost. This container will be
+            removed and another one will be created using the same configuration.
+          </p>
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn text @click="dialog.recreate = false">
+            Close
+          </v-btn>
+          <v-btn class="space-left" tile @click="onRecreate" color="error">
+            Recreate
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -39,12 +98,17 @@
 // eslint-disable-next-line no-unused-vars
 import {
   startContainer, stopContainer, killContainer,
-  restartContainer, pauseContainer, resumeContainer
+  restartContainer, pauseContainer, resumeContainer,
+  removeContainer
 } from "@/api/endpoints/docker";
 
 export default {
   data: () => ({
-    disableAll: false
+    disableAll: false,
+    dialog: {
+      recreate: "",
+      remove: ""
+    }
   }),
   props: {
     endpoint: {
@@ -120,6 +184,21 @@ export default {
         });
         this.$emit('update')
       })
+    },
+    onRemove() {
+      this.dialog.remove = false
+      this.disableAll = true
+      this.$emit('idle', true)
+      removeContainer(this.$route.params.id, this.$route.params.hash).then(() => {
+        this.disableAll = false
+        this.$toast(this.__('containers.removed'), {
+          type: 'success'
+        });
+        this.$router.push(`/${this.$route.params.id}/docker/containers`)
+      })
+    },
+    onRecreate() {
+
     }
   }
 }
