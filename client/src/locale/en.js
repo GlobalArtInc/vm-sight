@@ -22,6 +22,14 @@ export default {
         docker: "Docker",
         kubernetos: "Kubernetos"
     },
+    containers: {
+        started: "Container was started",
+        stopped: "Container was stopped",
+        killed: "Container was killed",
+        restarted: "Container was restarted",
+        paused: "Container was paused",
+        resumes: "Container was resumed",
+    },
     // user page
     yes: "Yes",
     no: "No",

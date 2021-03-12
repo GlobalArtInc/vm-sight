@@ -7,6 +7,9 @@ import './permission'
 import './theme/style.sass'
 import './theme/default.sass'
 
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faDocker } from '@fortawesome/free-brands-svg-icons'
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
@@ -17,6 +20,16 @@ library.add(faUserSecret)
 library.add(faDocker)
 
 Vue.use(require('vue-moment'));
+Vue.use(Toast, {
+  transition: "Vue-Toastification__bounce",
+  position: "top-right",
+  maxToasts: 20,
+  newestOnTop: true,
+  pauseOnFocusLoss: false,
+  pauseOnHover: false,
+  timeout: 2000
+});
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
