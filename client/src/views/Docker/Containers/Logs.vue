@@ -41,6 +41,7 @@ export default {
       lines: 100
     },
     logs: "",
+    interval: "",
     fetch: [
       {
         value: 0,
@@ -71,13 +72,16 @@ export default {
     let options = {since: 0, stdout: 1, tail: 100, timestamps: 0};
     // since=0&stdout=1&tail=100&timestamps=
     this.getLogs(options)
-    setInterval(() => {
+    this.interval = setInterval(() => {
       if (this.formModel.autoRefresh !== false) {
         options.tail = this.formModel.lines
         options.timestamps = this.formModel.timestamps === true ? 1 : 0
         this.getLogs(options)
       }
     }, 5000)
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
   methods: {
     getLogs(options) {
