@@ -39,7 +39,7 @@
                 <td style="width: 25%">
                   Name
                 </td>
-                <td v-text="container.Name">Dev</td>
+                <td v-text="container.Name.substr(1)" />
               </tr>
               <tr>
                 <td style="width: 25%">Dev</td>
