@@ -1,4 +1,4 @@
 cd ./client && yarn build && cd ..
-cd ./api && yarn build
+cd ./api
 mv ../client/dist .
 docker build -t vm-sight .
