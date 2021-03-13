@@ -27,6 +27,14 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <template v-if="currentEndpoint">
+          <v-subheader v-text="currentEndpoint.Name" />
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/dashboard`">Dashboard</v-list-item>
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/containers`">Containers</v-list-item>
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/images`">Images</v-list-item>
+        </template>
+
         <v-subheader>SETTINGS</v-subheader>
         <v-list-item to="/users">
           <v-list-item-icon>
@@ -41,7 +49,6 @@
             <v-list-item-title>Users</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
         <v-list-item to="/endpoints" v-if="user.role === 1">
           <v-list-item-icon>
             <v-tooltip bottom>
@@ -117,7 +124,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(['user', 'currentEndpoint']),
     computeLogo() {
       return '/static/m.png'
     },

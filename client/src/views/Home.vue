@@ -90,7 +90,7 @@
 import {motd} from "@/api/api";
 import {fetchEndpoints} from "@/api/endpoints/api";
 import moment from 'moment'
-import {BiteToGb} from "@/utils/math";
+import {ByteToSize} from "@/utils/math";
 
 export default {
   data: () => ({
@@ -104,7 +104,7 @@ export default {
   }),
   methods: {
     convert(number) {
-      return BiteToGb(number)
+      return ByteToSize(number)
     },
     convertDate(time) {
       return moment.unix(time).format('DD-MM-YYYY, hh:mm:ss a')

@@ -1,7 +1,7 @@
 import {fetchEndpoint} from "@/api/endpoints/api";
 
 const state = {
-    endpoint: {}
+    endpoint: false
 }
 
 const mutations = {
@@ -12,8 +12,13 @@ const mutations = {
 
 const actions = {
     getEndpoint({commit}, id) {
-        fetchEndpoint(id).then((data) => {
-            commit('SET_ENDPOINT', data)
+        return new Promise((resolve, reject) => {
+            fetchEndpoint(id).then((data) => {
+                commit('SET_ENDPOINT', data)
+                resolve(data)
+            }).catch((err) => {
+                reject(err)
+            })
         })
     }
 }

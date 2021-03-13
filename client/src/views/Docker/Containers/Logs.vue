@@ -85,9 +85,11 @@ export default {
   },
   methods: {
     getLogs(options) {
-      fetchLogsContainer(this.id, this.hash, options).then((logs) => {
-        // eslint-disable-next-line vue/no-parsing-error
-        this.logs = logs.replaceAll("", "")
+      this.$store.dispatch('app/getEndpoint', this.id).then(() => {
+        fetchLogsContainer(this.id, this.hash, options).then((logs) => {
+          // eslint-disable-next-line vue/no-parsing-error
+          this.logs = logs.replaceAll("", "")
+        })
       })
     },
     getTimeStamp() {

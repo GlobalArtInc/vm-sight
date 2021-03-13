@@ -123,6 +123,26 @@ export const protectedRoute = [
                                 component: () => import('@/views/Docker/Containers/Index')
                             }
                         ]
+                    },
+                    {
+                        path: 'images',
+                        meta: {
+                            title: 'images',
+                            type: 'endpointDocker',
+                        },
+                        component: Blank,
+                        children: [
+                            {
+                                name: 'endpointDockerImagesList',
+                                path: '/',
+                                meta: {
+                                    type: 'endpointDocker',
+                                    hiddenInMenu: true
+                                },
+                                props: true,
+                                component: () => import('@/views/Docker/Images/Index')
+                            }
+                        ]
                     }
                 ]
             },

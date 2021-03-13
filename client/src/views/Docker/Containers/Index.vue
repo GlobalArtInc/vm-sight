@@ -35,8 +35,7 @@
             :items-per-page-options="[15, 30, 50]"
             :items-per-page="itemsPerPage"
             item-key="Id"
-            show-select
-        >
+            show-select>
           <template #item.Name="{item}">
             <router-link :to="`containers/${item.Id}`">{{ item.Name }}</router-link>
           </template>
@@ -70,7 +69,6 @@
 </template>
 
 <script>
-import {fetchEndpoint} from "@/api/endpoints/api";
 import {fetchContainers} from "@/api/endpoints/docker";
 import {removePort} from '@/utils/global'
 import State from "@/components/docker/State";
@@ -142,8 +140,8 @@ export default {
   },
   created() {
 
-    fetchEndpoint(this.id).then((endpoint) => {
-      this.endpoint = endpoint
+    this.$store.dispatch('app/getEndpoint', this.id).then((data) => {
+      this.endpoint = data
       this.fetchContainers()
     }).catch(() => {
       this.$router.push('/')

@@ -150,7 +150,6 @@
 
 <script>
 import {fetchContainer} from "@/api/endpoints/docker";
-import {fetchEndpoint} from "@/api/endpoints/api";
 import State from "@/components/docker/State";
 import Action from "@/components/docker/Action";
 
@@ -178,7 +177,7 @@ export default {
     }
   },
   created() {
-    fetchEndpoint(this.id).then(() => {
+    this.$store.dispatch('app/getEndpoint', this.id).then(() => {
       this.fetchContainer()
     }).catch(() => {
       this.$router.push('/')

@@ -64,8 +64,7 @@
 </template>
 
 <script>
-import {BiteToGb} from "@/utils/math";
-import {fetchEndpoint} from '@/api/endpoints/api'
+import {ByteToSize} from "@/utils/math";
 import Widget from "@/components/docker/Widget";
 
 export default {
@@ -80,11 +79,11 @@ export default {
   }),
   methods: {
     convert(number) {
-      return BiteToGb(number)
+      return ByteToSize(number)
     }
   },
   created() {
-    fetchEndpoint(this.id).then((data) => {
+    this.$store.dispatch('app/getEndpoint', this.id).then((data) => {
       this.endpoint = data
     }).catch(() => {
       this.$router.push('/')

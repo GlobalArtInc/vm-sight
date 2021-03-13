@@ -351,7 +351,7 @@ module.exports.getContainers = async (docker) => {
 
 // IMAGES
 module.exports.getImages = async (docker) => {
-    return docker.listImages({all: 0}).then(images => {
+    return docker.listImages({all: 1}).then(images => {
         return images;
     }).catch(() => {
         return false

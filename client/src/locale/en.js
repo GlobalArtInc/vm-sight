@@ -77,7 +77,8 @@ export default {
         endpointsCreate: "New Endpoint",
         list: "List",
         registries: "Registries",
-        logs: "Logs"
+        logs: "Logs",
+        images: "Images"
     },
     //media
     media: 'Media',

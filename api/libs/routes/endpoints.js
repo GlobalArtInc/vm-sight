@@ -210,9 +210,7 @@ router.put('/list/:id', async (req, res) => {
                     await db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
                 }
                 if (public_url) {
-                    await db.query(`UPDATE endpoints SET public_url = '${public_url}' WHERE id = '${endpoint[0].id}'`).catch((e) => {
-                        console.log(e)
-                    })
+                    await db.query(`UPDATE endpoints SET public_url = '${public_url}' WHERE id = '${endpoint[0].id}'`)
                 }
                 if (url) {
                     await db.query(`UPDATE endpoints SET url = '${url}' WHERE id = '${endpoint[0].id}'`)
