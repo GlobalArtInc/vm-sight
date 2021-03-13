@@ -86,6 +86,7 @@ export default {
         auth(this.username, this.password).then((response) => {
           const jwt = response.jwt;
           setToken(jwt)
+          this.$store.dispatch('user/getInfo')
           this.$router.push('/init/endpoint')
         })
       })
