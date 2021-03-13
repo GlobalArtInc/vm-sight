@@ -24,7 +24,7 @@ const key = fs.readFileSync(`./data/vm-sight.pem`)
 app.set('jwt-secret', key)
 
 if (global.env === 'production') {
-    app.use(express.static(path.join(__dirname, '../../client/dist')));
+    app.use(express.static(path.join(__dirname, '../dist')));
 }
 
 app.use('/api', api);
