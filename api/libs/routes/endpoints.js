@@ -45,6 +45,7 @@ router.get('/list/:id', async (req, res) => {
          name AS Name, 
          type AS Type,
          url AS URL,
+         public_url as PublicURL,
          tls AS TLS,
          tls_ca as TLS_CA,
          tls_key as TLS_KEY,
@@ -54,6 +55,7 @@ router.get('/list/:id', async (req, res) => {
                 const arr = {Id: "", Name: "", Type: 0, URL: ""};
                 arr.Id = endpoint[0].Id
                 arr.Name = endpoint[0].Name
+                arr.PublicURL = endpoint[0].PublicURL
                 arr.Type = endpoint[0].Type
                 arr.URL = endpoint[0].URL
                 if (arr.Type === 1) {
@@ -148,7 +150,7 @@ router.put('/list/:id', async (req, res) => {
         const endpoint = await db.query(`SELECT * FROM endpoints WHERE id = '${req.params.id}'`)
         if (endpoint.length > 0) {
             if (endpoint[0].type === 1) {
-                const {name, tls, url} = req.body
+                const {name, tls, url, public_url} = req.body
                 let tls_active, tls_ca, tls_cert, tls_key;
 
                 if (tls) {
@@ -206,6 +208,11 @@ router.put('/list/:id', async (req, res) => {
 
                 if (name) {
                     await db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
+                }
+                if (public_url) {
+                    await db.query(`UPDATE endpoints SET public_url = '${public_url}' WHERE id = '${endpoint[0].id}'`).catch((e) => {
+                        console.log(e)
+                    })
                 }
                 if (url) {
                     await db.query(`UPDATE endpoints SET url = '${url}' WHERE id = '${endpoint[0].id}'`)

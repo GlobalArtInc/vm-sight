@@ -1,26 +1,26 @@
 <template>
   <div>
-    <v-btn depressed :disabled="disableAll ||  endpoint.State.Running" color="success" tile @click="onStart">
+    <v-btn depressed :disabled="disableAll ||  container.State.Running" color="success" tile @click="onStart">
       <v-icon left>fa-play</v-icon>
       Start
     </v-btn>
-    <v-btn depressed dense color="error" tile :disabled="disableAll || !endpoint.State.Running" @click="onStop">
+    <v-btn depressed dense color="error" tile :disabled="disableAll || !container.State.Running" @click="onStop">
       <v-icon left>fa-stop</v-icon>
       Stop
     </v-btn>
-    <v-btn depressed dense color="error" tile :disabled="disableAll || !endpoint.State.Running" @click="onKill">
+    <v-btn depressed dense color="error" tile :disabled="disableAll || !container.State.Running" @click="onKill">
       <v-icon left>fa-bomb</v-icon>
       Kill
     </v-btn>
-    <v-btn depressed dense color="primary" tile :disabled="disableAll || !endpoint.State.Running" @click="onRestart">
+    <v-btn depressed dense color="primary" tile :disabled="disableAll || !container.State.Running" @click="onRestart">
       <v-icon left>fa-sync</v-icon>
       Restart
     </v-btn>
-    <v-btn depressed dense color="primary" tile :disabled="disableAll || endpoint.State.Paused" @click="onPause">
+    <v-btn depressed dense color="primary" tile :disabled="disableAll || container.State.Paused" @click="onPause">
       <v-icon left>fa-pause</v-icon>
       Pause
     </v-btn>
-    <v-btn depressed dense color="primary" tile :disabled="disableAll || !endpoint.State.Paused" @click="onResume">
+    <v-btn depressed dense color="primary" tile :disabled="disableAll || !container.State.Paused" @click="onResume">
       <v-icon left>fa-play</v-icon>
       Resume
     </v-btn>
@@ -111,7 +111,7 @@ export default {
     }
   }),
   props: {
-    endpoint: {
+    container: {
       type: Object
     },
     hash: {

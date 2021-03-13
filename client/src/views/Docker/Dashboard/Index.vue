@@ -2,7 +2,7 @@
   <v-row>
     <v-col :cols="12" v-if="endpoint && endpoint.Snapshot.Swarm">
       <v-card>
-        <v-card-subtitle class="font-weight-medium" style="color: #333">
+        <v-card-subtitle class="font-weight-medium" style="color: #333;background: #f6f6f6">
           {{ __('information') }}
         </v-card-subtitle>
         <v-divider/>
@@ -14,7 +14,7 @@
     </v-col>
     <v-col :cols="12">
       <v-card>
-        <v-card-subtitle>
+        <v-card-subtitle style="background: #f6f6f6">
           <i class="fa fa-tachometer-alt"></i>
           <span class="font-weight-medium pl-1" style="color: #333">Info</span>
         </v-card-subtitle>

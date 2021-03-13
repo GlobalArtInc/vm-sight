@@ -212,7 +212,8 @@ module.exports.getContainer = (docker, hash) => {
     const container = docker.getContainer(hash)
     if (container) {
         return container.inspect().then(((data) => {
-            return {
+            return data;
+            /*return {
                 Id: data.Id,
                 Name: data.Name.substr(1),
                 Image: data.Image,
@@ -226,7 +227,7 @@ module.exports.getContainer = (docker, hash) => {
                 HostConfig: data.HostConfig,
                 NetworkSettings: data.NetworkSettings,
                 Mounts: data.Mounts
-            };
+            }; */
         }))
     } else {
         return false;
@@ -343,6 +344,15 @@ module.exports.getContainers = async (docker) => {
             arr.push(item)
         })
         return arr;
+    }).catch(() => {
+        return false
+    })
+}
+
+// IMAGES
+module.exports.getImages = async (docker) => {
+    return docker.listImages({all: 0}).then(images => {
+        return images;
     }).catch(() => {
         return false
     })

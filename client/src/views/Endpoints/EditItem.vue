@@ -16,6 +16,7 @@
                         :label="__('name')"
                         :placeholder="form.name.placeholder"
                         v-model="formModel.name"
+                        :rules="nameRules"
                         required
                         :append-icon="'mdi-name'"
                     />
@@ -28,6 +29,7 @@
                         required
                         :disabled="form.type === 2"
                         :append-icon="'mdi-name'"
+                        :rules="urlRules"
                     />
                     <v-text-field
                         dense
@@ -101,6 +103,13 @@ export default {
     genders: ['male', 'female', 'other'],
     valid: true,
     loading: false,
+    nameRules: [
+      v => !!v || 'Field is required',
+      v => (v && v.length > 4) || 'Name must be less than 4 characters',
+    ],
+    urlRules: [
+      v => !!v || "Field is required",
+    ],
     formModel: {
       name: "",
       url: "",
@@ -163,6 +172,7 @@ export default {
       this.loading = true
       getEndpoint(id).then(data => {
         this.formModel.name = data.Name;
+        this.formModel.public_url = data.PublicURL;
         this.formModel.url = data.URL;
         this.formModel.tls.active = data.TLS === 1
 

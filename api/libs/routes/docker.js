@@ -2,6 +2,37 @@ const express = require('express');
 const router = express.Router({mergeParams: true});
 const dockerService = require('../services/docker')
 
+
+// IMAGES
+
+router.get('/images', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.getContainers(docker.service).then((containers) => {
+        let arr = []
+        containers.forEach((container) => {
+            arr.push({
+                Id: container.Id,
+                Name: container.Names[0].substr(1),
+                Image: container.Image,
+                ImageID: container.ImageID,
+                Command: container.Command,
+                Created: container.Created,
+                Ports: container.Ports,
+                Labels: container.Labels,
+                State: container.State,
+                Status: container.Status,
+                HostConfig: container.HostConfig,
+                NetworkSettings: container.NetworkSettings,
+                Mounts: container.Mounts
+            })
+        })
+        return res.send(arr)
+    }).catch(() => {
+        return res.status(404).send({message: "Not Found"})
+    })
+})
+
+// IMAGES
 router.get('/containers', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.getContainers(docker.service).then((containers) => {

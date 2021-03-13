@@ -58,6 +58,9 @@ export default {
     usersCreate: "New User",
     usersEdit: "Edit User",
     endpoint_already_exists: "Endpoint is already exist",
+    errors: {
+        field_is_required: "Field is required"
+    },
     // menu
     menu: {
         home: 'Home',

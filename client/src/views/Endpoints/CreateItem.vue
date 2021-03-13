@@ -48,6 +48,7 @@
                         :label="__('name')"
                         :placeholder="form.name.placeholder"
                         v-model="formModel.name"
+                        :rules="nameRules"
                         required
                     />
                     <v-switch style="margin: 0" v-model="form.docker.type" value="socket"
@@ -61,6 +62,7 @@
                             :label="__('endpoints.url')"
                             :placeholder="form.url.placeholder"
                             v-model="formModel.url"
+                            :rules="urlRules"
                             required
                         />
                       </template>
@@ -98,6 +100,13 @@ export default {
   data: () => ({
     valid: false,
     loading: false,
+    nameRules: [
+      v => !!v || "Field is required",
+      v => (v && v.length > 4) || 'Name must be less than 4 characters',
+    ],
+    urlRules: [
+      v => !!v || "Field is required",
+    ],
     formModel: {
       type: 1,
       name: "",
@@ -126,45 +135,47 @@ export default {
       // }
     },
     onSubmit() {
-      this.loading = true
-      if (this.formModel.type === 1 || this.form.docker.type === 'socket') {
-        createEndpoint(this.formModel, this.form.docker.type).then(() => {
-          this.$router.push('/endpoints')
-          setTimeout(() => {
-            this.loading = false
-          }, 500)
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: 'Endpoint was created',
-            color: 'success'
+      if (this.$refs.form.validate()) {
+        this.loading = true
+        if (this.formModel.type === 1 || this.form.docker.type === 'socket') {
+          createEndpoint(this.formModel, this.form.docker.type).then(() => {
+            this.$router.push('/endpoints')
+            setTimeout(() => {
+              this.loading = false
+            }, 500)
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: 'Endpoint was created',
+              color: 'success'
+            })
+          }).catch((err) => {
+            setTimeout(() => {
+              this.loading = false
+            }, 500)
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: this.__(err.response.data.message),
+              color: 'error'
+            })
           })
-        }).catch((err) => {
-          setTimeout(() => {
-            this.loading = false
-          }, 500)
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: this.__(err.response.data.message),
-            color: 'error'
+        } else if (this.formModel.type === 1) {
+          createEndpoint(this.formModel).then(() => {
+            this.$router.push('/endpoints')
+            setTimeout(() => {
+              this.loading = false
+            }, 500)
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: 'Endpoint was created',
+              color: 'success'
+            })
+          }).catch((err) => {
+            setTimeout(() => {
+              this.loading = false
+            }, 500)
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: err.response.data.message,
+              color: 'error'
+            })
           })
-        })
-      } else if (this.formModel.type === 1) {
-        createEndpoint(this.formModel).then(() => {
-          this.$router.push('/endpoints')
-          setTimeout(() => {
-            this.loading = false
-          }, 500)
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: 'Endpoint was created',
-            color: 'success'
-          })
-        }).catch((err) => {
-          setTimeout(() => {
-            this.loading = false
-          }, 500)
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: err.response.data.message,
-            color: 'error'
-          })
-        })
+        }
       }
     }
   },
