@@ -13,17 +13,17 @@ module.exports.connect = (id) => {
             if (endpoint[0].tls === 1) {
 
                 if (endpoint[0].tls_ca === 1) {
-                    const path = `./data/certs/${endpoint[0].id}/ca.pem`
+                    const path = `${global.data}/certs/${endpoint[0].id}/ca.pem`
                     if (fs.existsSync(path))
                         settings.ca = fs.readFileSync(path)
                 }
                 if (endpoint[0].tls_cert === 1) {
-                    const path = `./data/certs/${endpoint[0].id}/cert.pem`
+                    const path = `${global.data}/certs/${endpoint[0].id}/cert.pem`
                     if (fs.existsSync(path))
                         settings.cert = fs.readFileSync(path)
                 }
                 if (endpoint[0].tls_key === 1) {
-                    const path = `./data/certs/${endpoint[0].id}/key.pem`
+                    const path = `${global.data}/certs/${endpoint[0].id}/key.pem`
                     if (fs.existsSync(path))
                         settings.key = fs.readFileSync(path)
                 }

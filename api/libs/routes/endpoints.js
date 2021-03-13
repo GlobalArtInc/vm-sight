@@ -162,15 +162,15 @@ router.put('/list/:id', async (req, res) => {
 
                 if (url) {
                     if (tls_active) {
-                        let tls_ca_path = `./data/certs/${endpoint[0].id}/ca.pem`
+                        let tls_ca_path = `${global.data}/certs/${endpoint[0].id}/ca.pem`
                         if (fs.existsSync(tls_ca_path))
                             tls_ca = fs.readFileSync(tls_ca_path)
 
-                        let tls_cert_path = `./data/certs/${endpoint[0].id}/cert.pem`
+                        let tls_cert_path = `${global.data}/certs/${endpoint[0].id}/cert.pem`
                         if (fs.existsSync(tls_cert_path))
                             tls_cert = fs.readFileSync(tls_cert_path)
 
-                        let tls_key_path = `./data/certs/${endpoint[0].id}/key.pem`
+                        let tls_key_path = `${global.data}/certs/${endpoint[0].id}/key.pem`
                         if (fs.existsSync(tls_key_path))
                             tls_key = fs.readFileSync(tls_key_path)
 

@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 console.log(__dirname)
-const db = new sqlite3.Database('./data/base.db');
+const db = new sqlite3.Database(`${global.data}/base.db`);
 
 module.exports.query = (query) => {
     return new Promise(((resolve, reject) => {

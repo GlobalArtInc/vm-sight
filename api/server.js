@@ -1,4 +1,11 @@
 global.env = "production"
+global.data = "/data"
+const fs = require('fs')
+
+if (!fs.existsSync(global.data)) {
+    fs.mkdirSync(global.data);
+}
+
 const libs = './libs/';
 const log = require(libs + 'log')(module);
 const app = require(libs + 'app');

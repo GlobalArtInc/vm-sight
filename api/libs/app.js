@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 init.generateKeys()
 
-const key = fs.readFileSync(`./data/vm-sight.pem`)
+const key = fs.readFileSync(`${global.data}/vm-sight.pem`)
 app.set('jwt-secret', key)
 
 if (global.env === 'production') {

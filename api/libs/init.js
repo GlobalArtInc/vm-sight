@@ -90,8 +90,8 @@ module.exports.createRegistries = async () => {
 }
 
 module.exports.generateKeys = () => {
-    const key = `./data/vm-sight.pem`
-    const pub = `./data/vm-sight.pub`
+    const key = `${global.data}/vm-sight.pem`
+    const pub = `${global.data}/vm-sight.pub`
 
     const {generateKeyPairSync} = require('crypto');
     const {publicKey, privateKey} = generateKeyPairSync('rsa',

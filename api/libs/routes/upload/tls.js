@@ -7,15 +7,15 @@ const fs = require('fs')
 var storage = multer.diskStorage(
     {
         destination: function (req, file, cb) {
-            const certs_dir = './data/certs/'
+            const certs_dir = `${global.data}/certs/`
             if (!fs.existsSync(certs_dir)) {
                 fs.mkdirSync(certs_dir);
             }
-            const dir = './data/certs/' + req.query.folder
+            const dir = `${global.data}/certs/` + req.query.folder
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
             }
-            cb(null, './data/certs/' + req.query.folder)
+            cb(null, `${global.data}/certs/` + req.query.folder)
         },
         filename: function (req, file, cb) {
             cb(null, file.originalname);
