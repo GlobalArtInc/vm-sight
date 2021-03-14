@@ -22,6 +22,7 @@
         <v-divider/>
         <v-card-text style="padding: 0">
           <v-data-table
+              :search="search"
               :headers="headers"
               :items="networks"
               :items-per-page="-1"
@@ -33,6 +34,11 @@
                 {{ item.Name }}
               </router-link>
             </template>
+
+            <template #item.Stack>
+              <span class="font-weight-bold">-</span>
+            </template>
+
             <template #item.IPv4-Subnet="{item}">
               <template v-if="item.IPAM.Config.length > 0">
                 <span :key="ip.Subnet" v-for="ip in item.IPAM.Config">
@@ -42,12 +48,19 @@
               <span v-else class="font-weight-bold">-</span>
             </template>
 
+
             <template #item.IPv4-Gateway="{item}">
               <template v-if="item.IPAM.Config.length > 0">
                 <span :key="ip.Gateway" v-for="ip in item.IPAM.Config">
                   {{ ip.Gateway }}
                 </span>
               </template>
+              <span v-else class="font-weight-bold">-</span>
+            </template>
+            <template #item.IPv6="{item}">
+              <span v-if="item.EnableIPv6">
+
+              </span>
               <span v-else class="font-weight-bold">-</span>
             </template>
           </v-data-table>

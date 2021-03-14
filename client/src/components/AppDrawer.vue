@@ -29,11 +29,39 @@
         </v-list-item>
 
         <template v-if="currentEndpoint">
-          <v-subheader v-text="currentEndpoint.Name" />
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/dashboard`">Dashboard</v-list-item>
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/containers`">Containers</v-list-item>
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/images`">Images</v-list-item>
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/networks`">Networks</v-list-item>
+          <v-subheader v-text="currentEndpoint.Name"/>
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/dashboard`">
+            <v-list-item-icon>
+              <v-icon>mdi-view-dashboard</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content v-if="drawerWidth !== 64">
+              <v-list-item-title>Dashboard</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/containers`">
+            <v-list-item-icon>
+              <v-icon>fa-cubes</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content v-if="drawerWidth !== 64">
+              <v-list-item-title>Containers</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/images`">
+            <v-list-item-icon>
+              <v-icon>mdi-content-copy</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content v-if="drawerWidth !== 64">
+              <v-list-item-title>Images</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/networks`">
+            <v-list-item-icon>
+              <v-icon>mdi-sitemap</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content v-if="drawerWidth !== 64">
+              <v-list-item-title>Networks</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </template>
 
         <v-subheader>SETTINGS</v-subheader>
