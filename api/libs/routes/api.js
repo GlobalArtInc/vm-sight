@@ -49,6 +49,9 @@ router.get('/dockerhub', async (req, res) => {
             })
         })
     } else {
+        await db.query(`INSERT OR IGNORE INTO registries (id, user_id, type, name, createdAt)
+        VALUES ('dockerhub', '0', 'dockerhub', 'DockerHub', strftime('%s', 'now'))`)
+
         return res.status(403).send({
             Authentication: false,
             Username: null

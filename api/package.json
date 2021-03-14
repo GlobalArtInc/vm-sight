@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "docker-hub-api": "^0.8.0",
     "dockerode": "^3.2.1",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.4",

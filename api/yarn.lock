@@ -1680,6 +1680,14 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
+docker-hub-api@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/docker-hub-api/-/docker-hub-api-0.8.0.tgz#686af54cb219215cfb7e1e5a880439207754e99b"
+  integrity sha512-wVDysVkW3ahSyU/CXD5SnbjyTvgNo0QzQ2tBdfyB83oEAvmCloCxWMHBkz+y4AZ/HNLuqN4BsTxbOs6WYzvtqQ==
+  dependencies:
+    lodash "^3.10.1"
+    request "^2.67.0"
+
 docker-modem@^2.1.0:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/docker-modem/-/docker-modem-2.1.4.tgz#54ec1079287624a8d30cc3c55ab0e1201e7c46c9"
@@ -3817,6 +3825,11 @@ lodash.some@^4.2.2:
   resolved "https://registry.yarnpkg.com/lodash.some/-/lodash.some-4.6.0.tgz#1bb9f314ef6b8baded13b549169b2a945eb68e4d"
   integrity sha1-G7nzFO9ri63tE7VJFpsqlF62jk0=
 
+lodash@^3.10.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
+  integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
+
 lodash@^4.17.20:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
@@ -5255,7 +5268,7 @@ replace-homedir@^1.0.0:
     is-absolute "^1.0.0"
     remove-trailing-separator "^1.1.0"
 
-request@^2.87.0:
+request@^2.67.0, request@^2.87.0:
   version "2.88.2"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"
   integrity sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==
