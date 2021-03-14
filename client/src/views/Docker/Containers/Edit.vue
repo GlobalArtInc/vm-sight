@@ -101,13 +101,13 @@
               </tr>
               <tr>
                 <td style="width: 25%">CMD</td>
-                <td><span class="code" v-text="container.Config.Cmd.join(' ')"/></td>
+                <td><span class="code" v-if="container.Config.Cmd" v-text="container.Config.Cmd.join(' ')"/></td>
               </tr>
               <tr>
                 <td style="width: 25%">
                   ENTRYPOINT
                 </td>
-                <td><span class="code" v-text="container.Config.Entrypoint.join('')"/></td>
+                <td><span class="code" v-if="container.Config.Entrypoint" v-text="container.Config.Entrypoint.join('')"/></td>
               </tr>
               </tbody>
             </template>
@@ -116,7 +116,7 @@
       </v-card>
     </v-col>
 
-    <v-col :cols="12" v-if="container">
+    <v-col :cols="12" v-if="container && container.Mounts.length > 0">
       <v-card>
         <v-card-subtitle class="font-weight-medium" style="color: #333;background: #f6f6f6">
           <i class="fa fa-hdd"></i>

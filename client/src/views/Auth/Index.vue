@@ -118,7 +118,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.page-blank__card
+.page-login__card
   max-width: 600px
   margin: 0 auto
 </style>
