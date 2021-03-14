@@ -64,7 +64,8 @@ export default {
     networks: {
         details: "Networks Details",
         options: "Network Options",
-        containers: "Containers in network"
+        containers: "Containers in network",
+        disconnected: "Network was disconnected"
     },
     // menu
     menu: {

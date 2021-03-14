@@ -112,7 +112,9 @@ export default {
     }
   },
   created() {
-    this.fetchNetworks()
+    this.$store.dispatch('app/getEndpoint', this.id).then(() => {
+      this.fetchNetworks()
+    })
   }
 }
 </script>

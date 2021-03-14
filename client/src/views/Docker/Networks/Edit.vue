@@ -35,8 +35,10 @@
               <td>Internal</td>
               <td>{{ network.Internal }}</td>
             </tr>
-            <tr>
-              <td>IPV4 Subnet - {{ network.IPAM.Config[0].Subnet }}</td>
+            <tr v-if="network.IPAM.Config.length > 0">
+              <td>
+                IPV4 Subnet - {{ network.IPAM.Config[0].Subnet }}
+              </td>
               <td>IPV4 Gateway - {{ network.IPAM.Config[0].Gateway }}</td>
             </tr>
             </tbody>
@@ -154,6 +156,9 @@ export default {
     disconnectNetwork(container) {
       disconnectNetwork(this.id, this.hash, container).then(() => {
         this.fetchNetwork()
+        this.$toast(this.__('networks.disconnected'), {
+          type: 'success'
+        });
       })
     },
     fetchNetwork() {
@@ -164,7 +169,9 @@ export default {
     }
   },
   created() {
-    this.fetchNetwork()
+    this.$store.dispatch('app/getEndpoint', this.id).then(() => {
+      this.fetchNetwork()
+    })
   }
 }
 </script>
