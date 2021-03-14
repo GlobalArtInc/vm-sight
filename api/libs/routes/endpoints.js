@@ -8,7 +8,7 @@ const Docker = require('dockerode');
 const {getUserById} = require('../models/user')
 const {getEndpoint, checkAccess} = require('../models/endpoints')
 const dockerService = require('../services/docker')
-const global = require('../global')
+const g = require('../global')
 const fs = require('fs')
 
 router.use('/', authMiddleware)
@@ -89,7 +89,7 @@ router.post('/list', async (req, res) => {
                 return res.status(400).send({message: "URL is not specified"})
             }
         }
-        const id = global.getGUID()
+        const id = g.getGUID()
         if (type === 1) {
             if (d === 'socket') {
                 db.query("SELECT * FROM endpoints WHERE url LIKE '%/var/run/docker.sock%'").then((e) => {
@@ -163,6 +163,7 @@ router.put('/list/:id', async (req, res) => {
                 if (url) {
                     if (tls_active) {
                         let tls_ca_path = `${global.data}/certs/${endpoint[0].id}/ca.pem`
+
                         if (fs.existsSync(tls_ca_path))
                             tls_ca = fs.readFileSync(tls_ca_path)
 

@@ -324,7 +324,7 @@ module.exports.removeContainer = async (docker, hash) => {
 }
 
 module.exports.getContainers = async (docker) => {
-    return docker.listContainers({all:1}).then((containers) => {
+    return docker.listContainers({all: 1}).then((containers) => {
         let arr = [];
         containers.forEach((item) => {
             arr.push(item)
@@ -351,4 +351,35 @@ module.exports.getNetworks = async (docker) => {
     }).catch(() => {
         return false
     })
+}
+
+module.exports.getNetwork = async (docker, hash) => {
+    const network = docker.getNetwork(hash)
+
+    if (network) {
+        return new Promise((resolve, reject) => {
+            network.inspect().then((data) => {
+                resolve(data)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
+
+module.exports.disconnectNetwork = async (docker, hash, container) => {
+    const network = docker.getNetwork(hash)
+    if (network) {
+        return new Promise((resolve, reject) => {
+            network.disconnect({Container: container, Force: true}).then(data => {
+                resolve()
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
 }

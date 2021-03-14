@@ -20,8 +20,27 @@ router.get('/images', async (req, res) => {
 
 router.get('/networks', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
-    dockerService.getNetworks(docker.service).then((images) => {
-        return res.send(images)
+    dockerService.getNetworks(docker.service).then((data) => {
+        return res.send(data)
+    }).catch(() => {
+        return res.status(404).send({message: "Not Found"})
+    })
+})
+
+router.get('/networks/:hash', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.getNetwork(docker.service, req.params.hash).then((data) => {
+        return res.send(data)
+    }).catch(() => {
+        return res.status(404).send({message: "Not Found"})
+    })
+})
+
+router.post('/networks/:hash/disconnect', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    const {Container} = req.body
+    dockerService.disconnectNetwork(docker.service, req.params.hash, Container).then((data) => {
+        return res.send(data)
     }).catch(() => {
         return res.status(404).send({message: "Not Found"})
     })

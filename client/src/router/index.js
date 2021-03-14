@@ -141,6 +141,16 @@ export const protectedRoute = [
                                 },
                                 props: true,
                                 component: () => import('@/views/Docker/Networks/Index')
+                            },
+                            {
+                                name: 'endpointsDockerNetworksEdit',
+                                path: ':hash',
+                                meta: {
+                                    title: "edit",
+                                    type: 'endpointDocker'
+                                },
+                                props: true,
+                                component: () => import('@/views/Docker/Networks/Edit')
                             }
                         ]
                     },

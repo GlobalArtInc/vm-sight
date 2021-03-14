@@ -61,6 +61,11 @@ export default {
     errors: {
         field_is_required: "Field is required"
     },
+    networks: {
+        details: "Networks Details",
+        options: "Network Options",
+        containers: "Containers in network"
+    },
     // menu
     menu: {
         home: 'Home',

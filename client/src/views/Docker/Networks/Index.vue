@@ -20,7 +20,7 @@
             clearable
         />
         <v-divider/>
-        <v-card-text>
+        <v-card-text style="padding: 0">
           <v-data-table
               :headers="headers"
               :items="networks"
@@ -28,6 +28,11 @@
               class="elevation-1"
               item-key="Id"
               show-select>
+            <template #item.Name="{item}">
+              <router-link :to="`networks/`+item.Id">
+                {{ item.Name }}
+              </router-link>
+            </template>
             <template #item.IPv4-Subnet="{item}">
               <template v-if="item.IPAM.Config.length > 0">
                 <span :key="ip.Subnet" v-for="ip in item.IPAM.Config">
