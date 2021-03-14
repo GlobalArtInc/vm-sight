@@ -45,19 +45,16 @@
                       <template v-if="formModel.tls.active">
                         <v-file-input
                             dense
-                            @change="uploadCert($event, 'ca')"
                             :prepend-icon="form.tls.ca === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%" outlined
                             chips class="col-3"/>
                         <v-file-input
                             dense
-                            @change="uploadCert($event, 'cert')"
                             :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
                                       chips class="col-3"/>
                         <v-file-input
                             dense
-                            @change="uploadCert($event, 'key')"
                             :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
                                       class="col-3"/>
@@ -157,17 +154,6 @@ export default {
     }
   },
   methods: {
-    // eslint-disable-next-line no-unused-vars
-    uploadCert(file, type) {
-      //let formData = new FormData();
-      //formData.append('file', file);
-      //
-      //switch (type){
-      //  case 'ca':
-      //    uploadCA(this.id, formData)
-      //    break;
-      //}
-    },
     getItemById(id) {
       this.loading = true
       getEndpoint(id).then(data => {

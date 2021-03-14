@@ -1,5 +1,6 @@
 <template>
-  <v-row>
+  <v-progress-linear indeterminate absolute top v-if="!isLoading" />
+  <v-row v-else>
     <v-col :cols="12" v-if="endpoint && endpoint.Snapshot.Swarm">
       <v-card>
         <v-card-subtitle class="font-weight-medium" style="color: #333;background: #f6f6f6">
@@ -79,6 +80,7 @@ export default {
     }
   },
   data: () => ({
+    isLoading: false,
     endpoint: false,
     Networks: []
   }),
@@ -92,6 +94,7 @@ export default {
       fetchNetworks(this.id).then((networks) => {
         this.endpoint = data
         this.Networks = networks
+        this.isLoading = true
       })
     }).catch(() => {
       this.$router.push('/')

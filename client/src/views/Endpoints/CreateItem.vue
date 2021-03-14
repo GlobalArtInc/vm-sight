@@ -65,6 +65,25 @@
                             :rules="urlRules"
                             required
                         />
+                        <v-switch label="TLS" v-model="formModel.tls.active"/>
+                        <template v-if="formModel.tls.active">
+                          <v-file-input
+                              dense
+                              :prepend-icon="form.tls.ca === true ? 'fa-check':'fa-times'"
+                              v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%" outlined
+                              chips class="col-3"/>
+                          <v-file-input
+                              dense
+                              :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
+                              v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
+                              chips class="col-3"/>
+                          <v-file-input
+                              dense
+                              :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
+                              v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
+                              class="col-3"/>
+                        </template>
+
                       </template>
                       <template v-else-if="formModel.type === 2">
 
@@ -92,6 +111,8 @@
 
 <script>
 import {createEndpoint} from "@/api/endpoints/api";
+// eslint-disable-next-line no-unused-vars
+import {uploadCA, uploadCert, uploadKey} from "@/api/endpoints/upload";
 
 export default {
   props: {
@@ -110,11 +131,22 @@ export default {
     formModel: {
       type: 1,
       name: "",
-      url: ""
+      url: "",
+      tls: {
+        active: false,
+        ca: null,
+        cert: null,
+        key: null
+      }
     },
     form: {
       docker: {
         type: ''
+      },
+      tls: {
+        ca: false,
+        cert: false,
+        key: false
       },
       type: {
         placeholder: ""
@@ -137,43 +169,41 @@ export default {
     onSubmit() {
       if (this.$refs.form.validate()) {
         this.loading = true
-        if (this.formModel.type === 1 || this.form.docker.type === 'socket') {
+        if (this.formModel.type === 1 && this.form.docker.type === 'socket') {
+          console.log(1)
           createEndpoint(this.formModel, this.form.docker.type).then(() => {
             this.$router.push('/endpoints')
             setTimeout(() => {
               this.loading = false
             }, 500)
-            window._VMA.$emit('SHOW_SNACKBAR', {
-              text: 'Endpoint was created',
-              color: 'success'
-            })
+            this.$toast("Endpoint was created", {
+              type: 'success'
+            });
           }).catch((err) => {
             setTimeout(() => {
               this.loading = false
             }, 500)
-            window._VMA.$emit('SHOW_SNACKBAR', {
-              text: this.__(err.response.data.message),
-              color: 'error'
-            })
+            this.$toast(err.response.data.message, {
+              type: 'error'
+            });
           })
         } else if (this.formModel.type === 1) {
+          console.log(2)
           createEndpoint(this.formModel).then(() => {
             this.$router.push('/endpoints')
             setTimeout(() => {
               this.loading = false
             }, 500)
-            window._VMA.$emit('SHOW_SNACKBAR', {
-              text: 'Endpoint was created',
-              color: 'success'
-            })
+            this.$toast("Endpoint was created", {
+              type: 'success'
+            });
           }).catch((err) => {
             setTimeout(() => {
               this.loading = false
             }, 500)
-            window._VMA.$emit('SHOW_SNACKBAR', {
-              text: err.response.data.message,
-              color: 'error'
-            })
+            this.$toast(err.response.data.message, {
+              type: 'error'
+            });
           })
         }
       }

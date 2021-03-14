@@ -2,6 +2,7 @@
   <v-row>
     <v-col :cols="12">
       <v-card>
+        <v-progress-linear indeterminate color="primary" v-if="!isLoading" absolute top/>
         <v-card-subtitle class="font-weight-medium" style="color: #333;background: #f6f6f6">
           <i class="fa fa-download"></i>
           <span class="font-weight-medium pl-3" style="color: #333">Pull Image</span>
@@ -58,6 +59,7 @@ export default {
   },
   data: () => ({
     images: false,
+    isLoading: false,
     headers: [
       {
         text: 'Id',
@@ -90,6 +92,7 @@ export default {
     this.$store.dispatch('app/getEndpoint', this.id).then(() => {
       fetchImages(this.id).then((data) => {
         this.images = data
+        this.isLoading = true
       })
     })
   }
