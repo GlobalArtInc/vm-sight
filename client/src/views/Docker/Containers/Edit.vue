@@ -39,7 +39,7 @@
                 <td style="width: 25%">
                   Name
                 </td>
-                <td v-text="container.Name.substr(1)" />
+                <td v-text="container.Name.substr(1)"/>
               </tr>
               <tr>
                 <td style="width: 25%">Dev</td>
@@ -107,7 +107,8 @@
                 <td style="width: 25%">
                   ENTRYPOINT
                 </td>
-                <td><span class="code" v-if="container.Config.Entrypoint" v-text="container.Config.Entrypoint.join('')"/></td>
+                <td><span class="code" v-if="container.Config.Entrypoint"
+                          v-text="container.Config.Entrypoint.join('')"/></td>
               </tr>
               </tbody>
             </template>
@@ -135,9 +136,56 @@
             </thead>
             <tbody>
             <tr :key="volume.Source" v-for="volume in container.Mounts">
-              <td v-text="volume.Name" v-if="volume.Name" />
-              <td v-text="volume.Source" v-else />
-              <td v-text="volume.Destination" />
+              <td v-text="volume.Name" v-if="volume.Name"/>
+              <td v-text="volume.Source" v-else/>
+              <td v-text="volume.Destination"/>
+            </tr>
+            </tbody>
+          </v-simple-table>
+        </v-card-text>
+      </v-card>
+    </v-col>
+
+    <v-col :cols="12">
+      <v-card>
+        <v-card-subtitle class="font-weight-medium">
+          <i class="fa fa-sitemap"></i>
+          <span class="font-weight-medium pl-1" style="color: #333">
+            Connected networks
+          </span>
+        </v-card-subtitle>
+        <v-divider/>
+        <v-card-subtitle>
+          <div style="display: flex">
+            <v-select style="max-width: 20%" :items="networks" outlined item-text="Name" item-value="Id" dense/>
+            <v-btn color="primary" class="space-left">
+              Join
+            </v-btn>
+          </div>
+        </v-card-subtitle>
+        <v-divider/>
+        <v-card-text style="padding: 0;margin-bottom: 6em" >
+          <v-simple-table class="font-weight-medium">
+            <thead>
+            <tr>
+              <th>Network</th>
+              <th>IP Address</th>
+              <th>IP Gateway</th>
+              <th>MAC</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr :key="key" v-for="(network, key) in container.NetworkSettings.Networks">
+              <td>{{ key }}</td>
+              <td>{{ network.IPAddress }}</td>
+              <td>{{ network.Gateway }}</td>
+              <td>{{ network.MacAddress }}</td>
+              <td>
+                <v-btn @click="disconnectNetwork(network.NetworkID)" large icon color="error">
+                  <v-icon class="space-right">fa-trash</v-icon>
+                </v-btn>
+              </td>
             </tr>
             </tbody>
           </v-simple-table>
@@ -149,7 +197,9 @@
 </template>
 
 <script>
+import {disconnectNetwork} from "@/api/endpoints/networks";
 import {fetchContainer} from "@/api/endpoints/docker";
+import {fetchNetworks} from "@/api/endpoints/networks";
 import State from "@/components/docker/State";
 import Action from "@/components/docker/Action";
 
@@ -161,16 +211,41 @@ export default {
   },
   data: () => ({
     container: false,
-    idle: true
+    idle: true,
+    networkHeaders: [
+      {
+        text: 'Network',
+        value: 'Network'
+      },
+      {
+        text: 'IPAddress',
+        value: 'IPAddress'
+      },
+      {
+
+      }
+    ],
+    networks: []
   }),
   methods: {
+    disconnectNetwork(network){
+      disconnectNetwork(this.id, network, this.hash).then(() => {
+        this.fetchContainer()
+        this.$toast(this.__('networks.disconnected'), {
+          type: 'success'
+        });
+      })
+    },
     onIdle(state) {
       this.idle = state
     },
     fetchContainer() {
       fetchContainer(this.id, this.hash).then((container) => {
-        this.container = container
-        this.idle = false
+        fetchNetworks(this.id).then((networks) => {
+          this.container = container
+          this.networks = networks
+          this.idle = false
+        })
       }).catch(() => {
         this.$router.push('/')
       })
