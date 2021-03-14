@@ -146,7 +146,7 @@
       </v-card>
     </v-col>
 
-    <v-col :cols="12">
+    <v-col :cols="12" v-if="container">
       <v-card>
         <v-card-subtitle class="font-weight-medium">
           <i class="fa fa-sitemap"></i>
@@ -157,8 +157,8 @@
         <v-divider/>
         <v-card-subtitle>
           <div style="display: flex">
-            <v-select style="max-width: 20%" :items="networks" outlined item-text="Name" item-value="Id" dense/>
-            <v-btn color="primary" class="space-left">
+            <v-select style="max-width: 20%" v-model="currentNetwork" :items="networks" outlined item-text="Name" item-value="Id" dense/>
+            <v-btn color="primary" class="space-left" @click="connectNetwork(currentNetwork)">
               Join
             </v-btn>
           </div>
@@ -197,7 +197,7 @@
 </template>
 
 <script>
-import {disconnectNetwork} from "@/api/endpoints/networks";
+import {disconnectNetwork, connectNetwork} from "@/api/endpoints/networks";
 import {fetchContainer} from "@/api/endpoints/docker";
 import {fetchNetworks} from "@/api/endpoints/networks";
 import State from "@/components/docker/State";
@@ -212,6 +212,7 @@ export default {
   data: () => ({
     container: false,
     idle: true,
+    currentNetwork: "",
     networkHeaders: [
       {
         text: 'Network',
@@ -228,6 +229,18 @@ export default {
     networks: []
   }),
   methods: {
+    connectNetwork(network) {
+      connectNetwork(this.id, network, this.hash).then(() => {
+        this.fetchContainer()
+        this.$toast(this.__('networks.connected'), {
+          type: 'success'
+        });
+      }).catch((err) => {
+        this.$toast(err.response.data.message, {
+          type: 'error'
+        });
+      })
+    },
     disconnectNetwork(network){
       disconnectNetwork(this.id, network, this.hash).then(() => {
         this.fetchContainer()

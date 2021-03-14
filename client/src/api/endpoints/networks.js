@@ -6,9 +6,21 @@ export function fetchNetwork(endpoint_id, hash) {
     })
 }
 
-export function disconnectNetwork(endpoint_id, hash, container) {
+// eslint-disable-next-line no-unused-vars
+export function connectNetwork(endpoint_id, network, container) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/networks/${hash}/disconnect`,
+        url: `/endpoints/${endpoint_id}/docker/networks/${network}/connect`,
+        method: "POST",
+        data: {
+            Container: container,
+            Force: true
+        }
+    })
+}
+
+export function disconnectNetwork(endpoint_id, network, container) {
+    return request({
+        url: `/endpoints/${endpoint_id}/docker/networks/${network}/disconnect`,
         method: "POST",
         data: {
             Container: container,

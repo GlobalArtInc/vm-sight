@@ -369,11 +369,26 @@ module.exports.getNetwork = async (docker, hash) => {
     }
 }
 
+module.exports.connectNetwork = async (docker, network_id, container) => {
+    const network = docker.getNetwork(network_id)
+    if (network) {
+        return new Promise((resolve, reject) => {
+            network.connect({Container: container, Force: true}).then(() => {
+                resolve()
+            }).catch((err) => {
+                reject(err)
+            })
+        })
+    } else {
+        return false;
+    }
+}
+
 module.exports.disconnectNetwork = async (docker, hash, container) => {
     const network = docker.getNetwork(hash)
     if (network) {
         return new Promise((resolve, reject) => {
-            network.disconnect({Container: container, Force: true}).then(data => {
+            network.disconnect({Container: container, Force: true}).then(() => {
                 resolve()
             }).catch((err) => {
                 reject(err)

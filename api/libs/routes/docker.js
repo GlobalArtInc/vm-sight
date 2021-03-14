@@ -36,6 +36,16 @@ router.get('/networks/:hash', async (req, res) => {
     })
 })
 
+router.post('/networks/:hash/connect', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    const {Container} = req.body
+    dockerService.connectNetwork(docker.service, req.params.hash, Container).then((data) => {
+        return res.send(data)
+    }).catch((err) => {
+        return res.status(err.statusCode).send(err.json)
+    })
+})
+
 router.post('/networks/:hash/disconnect', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     const {Container} = req.body
