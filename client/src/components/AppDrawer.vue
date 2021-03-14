@@ -33,6 +33,7 @@
           <v-list-item :to="`/${currentEndpoint.Id}/docker/dashboard`">Dashboard</v-list-item>
           <v-list-item :to="`/${currentEndpoint.Id}/docker/containers`">Containers</v-list-item>
           <v-list-item :to="`/${currentEndpoint.Id}/docker/images`">Images</v-list-item>
+          <v-list-item :to="`/${currentEndpoint.Id}/docker/networks`">Networks</v-list-item>
         </template>
 
         <v-subheader>SETTINGS</v-subheader>

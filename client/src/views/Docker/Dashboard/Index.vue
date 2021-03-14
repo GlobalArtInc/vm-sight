@@ -60,10 +60,14 @@
     <v-col :cols="12" :md="6" :xs="12" v-if="endpoint">
       <Widget icon="fa fa-hdd" :count="endpoint.Snapshot.VolumeCount" name="Volumes" :href="`/${id}/docker/volumes`"/>
     </v-col>
+    <v-col :cols="12" :md="6" :xs="12" v-if="endpoint">
+      <Widget icon="fa fa-sitemap" :count="Networks.length" name="Networks" :href="`/${id}/docker/networks`"/>
+    </v-col>
   </v-row>
 </template>
 
 <script>
+import {fetchNetworks} from "@/api/endpoints/networks";
 import {ByteToSize} from "@/utils/math";
 import Widget from "@/components/docker/Widget";
 
@@ -75,7 +79,8 @@ export default {
     }
   },
   data: () => ({
-    endpoint: false
+    endpoint: false,
+    Networks: []
   }),
   methods: {
     convert(number) {
@@ -84,7 +89,10 @@ export default {
   },
   created() {
     this.$store.dispatch('app/getEndpoint', this.id).then((data) => {
-      this.endpoint = data
+      fetchNetworks(this.id).then((networks) => {
+        this.endpoint = data
+        this.Networks = networks
+      })
     }).catch(() => {
       this.$router.push('/')
     })

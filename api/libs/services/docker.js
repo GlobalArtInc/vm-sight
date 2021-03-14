@@ -119,6 +119,7 @@ module.exports.getEndpoint = (endpoint, docker) => {
                 const unhealthy = containers.filter(i => {
                     return i.Status.match('(unhealthy)');
                 })
+
                 snapshot = this.snapshot({
                     DockerVersion: info.ServerVersion,
                     Containers: info.Containers,
@@ -338,6 +339,15 @@ module.exports.getContainers = async (docker) => {
 module.exports.getImages = async (docker) => {
     return docker.listImages({all: 1}).then(images => {
         return images;
+    }).catch(() => {
+        return false
+    })
+}
+// IMAGES
+// NETWORKS
+module.exports.getNetworks = async (docker) => {
+    return docker.listNetworks().then((networks) => {
+        return networks
     }).catch(() => {
         return false
     })

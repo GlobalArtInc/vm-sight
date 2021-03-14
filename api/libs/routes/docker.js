@@ -15,6 +15,20 @@ router.get('/images', async (req, res) => {
 })
 
 // IMAGES
+
+// NETWORKS
+
+router.get('/networks', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+    dockerService.getNetworks(docker.service).then((images) => {
+        return res.send(images)
+    }).catch(() => {
+        return res.status(404).send({message: "Not Found"})
+    })
+})
+
+// NETWORKS
+
 router.get('/containers', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     dockerService.getContainers(docker.service).then((containers) => {

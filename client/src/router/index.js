@@ -125,6 +125,26 @@ export const protectedRoute = [
                         ]
                     },
                     {
+                        path: 'networks',
+                        meta: {
+                            title: 'networks',
+                            type: 'endpointDocker',
+                        },
+                        component: Blank,
+                        children: [
+                            {
+                                name: 'endpointDockerNetworksList',
+                                path: '/',
+                                meta: {
+                                    type: 'endpointDocker',
+                                    hiddenInMenu: true
+                                },
+                                props: true,
+                                component: () => import('@/views/Docker/Networks/Index')
+                            }
+                        ]
+                    },
+                    {
                         path: 'images',
                         meta: {
                             title: 'images',

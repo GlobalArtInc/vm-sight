@@ -78,7 +78,8 @@ export default {
         list: "List",
         registries: "Registries",
         logs: "Logs",
-        images: "Images"
+        images: "Images",
+        networks: "Networks"
     },
     //media
     media: 'Media',
