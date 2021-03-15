@@ -398,3 +398,18 @@ module.exports.disconnectNetwork = async (docker, hash, container) => {
         return false;
     }
 }
+
+module.exports.startExec = async (docker, hash) => {
+    const container = docker.getContainer(hash)
+    if (container) {
+        return new Promise((resolve, reject) => {
+            container.exec({Cmd: ['bash'], AttachStdin: true, AttachStdout: true}, function (err, exec) {
+                exec.inspect()
+                    .then((stream) => resolve(stream))
+                    .catch((err) => reject(err))
+            });
+        })
+    } else {
+        return false;
+    }
+}

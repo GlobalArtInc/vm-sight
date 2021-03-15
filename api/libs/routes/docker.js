@@ -168,6 +168,17 @@ router.post('/containers/:hash/remove', async (req, res) => {
     })
 })
 
+router.post('/containers/:hash/exec', async (req, res) => {
+    const docker = await dockerService.connect(req.params.id)
+
+    dockerService.startExec(docker.service, req.params.hash).then((data) => {
+        return res.send({Id: data.ID})
+    }).catch((err) => {
+        return res.status(err.statusCode).send(err)
+    })
+})
+
+
 router.get('/version', async (req, res) => {
     const docker = await dockerService.connect(req.params.id)
     return res.send(await dockerService.getVersion(docker.service))

@@ -85,6 +85,7 @@ export default {
         list: "List",
         registries: "Registries",
         logs: "Logs",
+        exec: "Console",
         images: "Images",
         networks: "Networks"
     },

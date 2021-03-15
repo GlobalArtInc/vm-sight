@@ -68,7 +68,7 @@
           <v-btn text v-text="this.__('endpoints.logs')" @click="$router.push(`${hash}/logs`)"/>
           <v-btn text class="space-left" v-text="this.__('endpoints.inspect')"/>
           <v-btn text class="space-left" v-text="this.__('endpoints.stats')"/>
-          <v-btn text class="space-left" v-text="this.__('endpoints.console')"/>
+          <v-btn text class="space-left" v-text="this.__('endpoints.console')" @click="$router.push(`${hash}/exec`)"/>
           <v-btn text class="space-left" v-text="this.__('endpoints.attach')"/>
         </v-card-actions>
       </v-card>

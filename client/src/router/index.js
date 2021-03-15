@@ -99,6 +99,15 @@ export const protectedRoute = [
                                         component: () => import('@/views/Docker/Containers/Logs'),
                                     },
                                     {
+                                        path: 'exec',
+                                        meta: {
+                                            title: 'exec',
+                                            type: 'endpointDocker'
+                                        },
+                                        props: true,
+                                        component: () => import('@/views/Docker/Containers/Exec'),
+                                    },
+                                    {
                                         name: 'containerDockerEdit',
                                         path: '',
                                         meta: {

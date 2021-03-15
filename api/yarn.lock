@@ -5643,6 +5643,11 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+socker.io@^0.0.0-alpha-beta:
+  version "0.0.0-alpha-beta"
+  resolved "https://registry.yarnpkg.com/socker.io/-/socker.io-0.0.0-alpha-beta.tgz#8b7ca61cff05178c9f69acf630afa4ec17083d38"
+  integrity sha1-i3ymHP8FF4yfaaz2MK+k7BcIPTg=
+
 source-list-map@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"

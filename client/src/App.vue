@@ -32,6 +32,7 @@
 
 <script>
 import {getToken} from "@/utils/auth";
+import {mapGetters} from 'vuex'
 
 export default {
   mounted() {
@@ -48,6 +49,9 @@ export default {
       color: ''
     }
   }),
+  computed: {
+    ...mapGetters(['loaded'])
+  },
   created() {
     if (getToken()) {
       this.$store.dispatch('user/getInfo')

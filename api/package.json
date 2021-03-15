@@ -25,6 +25,7 @@
     "passport-http-bearer": "^1.0.1",
     "passport-oauth2-client-password": "^0.1.2",
     "path": "^0.12.7",
+    "socker.io": "^0.0.0-alpha-beta",
     "sqlite3": "^5.0.2",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"

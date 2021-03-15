@@ -81,3 +81,11 @@ export function fetchContainer(endpoint_id, container) {
         method: 'get'
     })
 }
+
+export function startExec(endpoint_id, container, data) {
+    return request({
+        url: `/endpoints/${endpoint_id}/docker/containers/${container}/exec`,
+        method: 'post',
+        data
+    })
+}

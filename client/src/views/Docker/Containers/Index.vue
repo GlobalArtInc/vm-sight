@@ -39,6 +39,12 @@
           <template #item.Name="{item}">
             <router-link :to="`containers/${item.Id}`">{{ item.Name }}</router-link>
           </template>
+          <template #item.actions="{item}">
+            <div>
+              <router-link :to="`containers/${item.Id}/logs`"><i class="fa fa-file-alt space-right" /></router-link>
+              <router-link :to="`containers/${item.Id}/exec`"><i class="fa fa-terminal space-right" /></router-link>
+            </div>
+          </template>
           <template #item.State="{item}">
             <State :state="item.State"/>
           </template>
