@@ -17,6 +17,7 @@
     "docker-hub-api": "^0.8.0",
     "dockerode": "^3.2.1",
     "express": "^4.17.1",
+    "express-ws": "^4.0.0",
     "http-proxy-middleware": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
@@ -26,9 +27,11 @@
     "passport-oauth2-client-password": "^0.1.2",
     "path": "^0.12.7",
     "socker.io": "^0.0.0-alpha-beta",
+    "socket.io": "^4.0.0",
     "sqlite3": "^5.0.2",
     "uuid": "^8.3.2",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "ws": "^7.4.4"
   },
   "devDependencies": {
     "aws-sdk": "^2.858.0",

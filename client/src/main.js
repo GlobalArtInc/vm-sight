@@ -30,6 +30,9 @@ Vue.use(Toast, {
   timeout: 2000
 });
 
+import Xterm from '@swzry/xterm-vue'
+Vue.use(Xterm)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false

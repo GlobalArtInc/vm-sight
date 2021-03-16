@@ -27,6 +27,23 @@ if (global.env === 'production') {
     app.use(express.static(path.join(__dirname, '../dist')));
 }
 
+require('express-ws')(app);
+
+app.get('/api/ws/exec', function(req, res, next){
+    res.end();
+});
+
+const dockerService = require('./services/docker')
+
+app.ws('/api/ws/exec', function(ws, req) {
+    const {token, endpoint, id} = req.query
+    ws.on('message', function(msg) {
+        ws.send(msg)
+    })
+});
+
+
+
 app.use('/api', api);
 app.use('/api/upload', upload);
 app.use('/api/auth', auth)
