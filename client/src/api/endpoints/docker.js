@@ -49,10 +49,25 @@ export function resumeContainer(endpoint_id, container) {
     })
 }
 
-export function removeContainer(endpoint_id, container) {
+export function removeContainer(endpointId, containerId) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/remove`,
+        url: `/endpoints/${endpointId}/docker/containers/${containerId}`,
+        method: 'delete'
+    })
+}
+
+export function renameContainer(endpointId, containerId, name) {
+    return request({
+        url: `/endpoints/${endpointId}/docker/containers/${containerId}/rename?name=${name}`,
         method: 'post'
+    })
+}
+
+export function createContainer(endpointId, data) {
+    return request({
+        url: `/endpoints/${endpointId}/docker/containers/create`,
+        method: 'post',
+        data
     })
 }
 
@@ -67,9 +82,9 @@ const createUrl = (obj) => {
     return str
 }
 
-export function fetchLogsContainer(endpoint_id, container, options) {
+export function fetchLogsContainer(endpointId, container, options) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/logs?${createUrl(options)}`,
+        url: `/endpoints/${endpointId}/docker/containers/${container}/logs?${createUrl(options)}`,
         method: 'get'
     })
 }

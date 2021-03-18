@@ -10,7 +10,7 @@
         <v-divider/>
         <v-card-text>
           <template v-if="container">
-            <Action :container="container" :hash="hash" @idle="onIdle" @update="fetchContainer"/>
+            <Action :endpointId="id" :container="container" :hash="hash" @idle="onIdle" @update="fetchContainer"/>
           </template>
         </v-card-text>
       </v-card>

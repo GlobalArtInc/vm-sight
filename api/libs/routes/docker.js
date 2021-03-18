@@ -221,12 +221,12 @@ router.post('/containers/:containerId/resume', async (req, res) => {
     })
 })
 
-router.post('/containers/:containerId/remove', async (req, res) => {
+router.delete('/containers/:containerId', async (req, res) => {
     const {endpointId, containerId} = req.params
     dockerService.connect(endpointId, true).then((docker) => {
         const container = docker.getContainer(containerId)
         if (container) {
-            container.remove().then(() => {
+            container.remove({force: true, v: 1}).then(() => {
                 return res.send({response: true})
             }).catch((err) => {
                 return res.status(err.statusCode).send({message: err.json.message})
@@ -235,17 +235,30 @@ router.post('/containers/:containerId/remove', async (req, res) => {
     })
 })
 
-router.post('/containers/:containerId/recreate', async (req, res) => {
+router.post('/containers/:containerId/rename', async (req, res) => {
     const {endpointId, containerId} = req.params
+    const {name} = req.query
+
     dockerService.connect(endpointId, true).then((docker) => {
         const container = docker.getContainer(containerId)
         if (container) {
-            container.remove().then(() => {
+            container.rename({name}).then(() => {
                 return res.send({response: true})
             }).catch((err) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
+    })
+})
+
+router.post('/containers/create', async (req, res) => {
+    const {endpointId} = req.params
+
+    dockerService.connect(endpointId, true).then((docker) => {
+        docker.createContainer(req.body, function (err, container) {
+            if (err) return res.status(err.statusCode).send(err)
+            return res.send(container)
+        });
     })
 })
 

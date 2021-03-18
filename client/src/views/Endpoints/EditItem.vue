@@ -39,6 +39,7 @@
                         v-model="formModel.public_url"
                         required
                         :append-icon="'mdi-name'"
+                        :rules="publicUrlRules"
                     />
                     <template v-if="form.type === 1">
                       <v-switch label="TLS" v-model="formModel.tls.active"/>
@@ -105,6 +106,9 @@ export default {
       v => (v && v.length > 4) || 'Name must be less than 4 characters',
     ],
     urlRules: [
+      v => !!v || "Field is required",
+    ],
+    publicUrlRules: [
       v => !!v || "Field is required",
     ],
     formModel: {

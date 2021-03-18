@@ -30,9 +30,9 @@
         width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-               v-bind="attrs"
-               v-on="on"
-               depressed dense color="error" tile>
+            v-bind="attrs"
+            v-on="on"
+            depressed dense color="error" tile>
           <v-icon left>fa-trash</v-icon>
           Remove
         </v-btn>
@@ -99,8 +99,12 @@
 import {
   startContainer, stopContainer, killContainer,
   restartContainer, pauseContainer, resumeContainer,
-  removeContainer
+  // eslint-disable-next-line no-unused-vars
+  createContainer, removeContainer, renameContainer
 } from "@/api/endpoints/docker";
+
+// eslint-disable-next-line no-unused-vars
+import {connectNetwork} from "@/api/endpoints/networks";
 
 export default {
   data: () => ({
@@ -111,6 +115,9 @@ export default {
     }
   }),
   props: {
+    endpointId: {
+      type: String
+    },
     container: {
       type: Object
     },
@@ -197,8 +204,16 @@ export default {
         this.$router.push(`/${this.$route.params.id}/docker/containers`)
       })
     },
-    onRecreate() {
-
+    async onRecreate() {
+      let container = this.container
+      container.Config.name = this.container.Name.substr(1)
+      await stopContainer(this.endpointId, this.container.Id)
+      await renameContainer(this.endpointId, this.container.Id, this.container.Name.substr(1) + '_old')
+      const newContainer = await createContainer(this.endpointId, container.Config)
+      await connectNetwork(this.endpointId, Object.keys(container.NetworkSettings.Networks)[0], newContainer.id)
+      await startContainer(this.endpointId, newContainer.id)
+      await removeContainer(this.endpointId, this.container.Id)
+      await this.$router.push(`/${this.endpointId}/docker/containers`)
     }
   }
 }

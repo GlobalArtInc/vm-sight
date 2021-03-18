@@ -55,6 +55,7 @@ module.exports.connect = (id, throwService = false) => {
 }
 
 const getEndpoint = (endpoint) => {
+
     return {
         Id: endpoint.id,
         Name: endpoint.name,
@@ -171,7 +172,7 @@ module.exports.getEndpoint = (endpoint, docker) => {
                 type: endpoint.type,
                 groupId: endpoint.groupId,
                 status: 1,
-                publicURL: endpoint.publicURL,
+                publicURL: endpoint.public_url,
                 url: endpoint.url,
                 snapshot: snapshot
             })
@@ -183,7 +184,7 @@ module.exports.getEndpoint = (endpoint, docker) => {
                 type: endpoint.type,
                 groupId: endpoint.groupId,
                 status: 0,
-                publicURL: endpoint.publicURL,
+                publicURL: endpoint.public_url,
                 url: endpoint.url,
                 snapshot: this.snapshot({})
             })
