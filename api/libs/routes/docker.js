@@ -6,11 +6,13 @@ const dockerService = require('../services/docker')
 // IMAGES
 
 router.get('/images', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.getImages(docker.service).then((images) => {
-        return res.send(images)
-    }).catch(() => {
-        return res.status(404).send({message: "Not Found"})
+    const {endpointId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        docker.listImages().then(images => {
+            return res.send(images)
+        }).catch(() => {
+            return res.status(404).send({message: "Not Found"})
+        })
     })
 })
 
@@ -19,7 +21,7 @@ router.get('/images', async (req, res) => {
 // NETWORKS
 
 router.get('/networks', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
+    const docker = await dockerService.connect(req.params.endpointId)
     dockerService.getNetworks(docker.service).then((data) => {
         return res.send(data)
     }).catch(() => {
@@ -27,39 +29,59 @@ router.get('/networks', async (req, res) => {
     })
 })
 
-router.get('/networks/:hash', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.getNetwork(docker.service, req.params.hash).then((data) => {
-        return res.send(data)
-    }).catch(() => {
-        return res.status(404).send({message: "Not Found"})
+router.get('/networks/:networkId', async (req, res) => {
+    const {endpointId, networkId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const network = docker.getNetwork(networkId)
+
+        if (network) {
+            network.inspect().then((data) => {
+                return res.send(data)
+            }).catch((err) => {
+                return res.status(err.statusCode).send(err)
+            })
+        }
     })
 })
 
-router.post('/networks/:hash/connect', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
+router.post('/networks/:networkId/connect', async (req, res) => {
+    const {endpointId, networkId} = req.params
     const {Container} = req.body
-    dockerService.connectNetwork(docker.service, req.params.hash, Container).then((data) => {
-        return res.send(data)
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err.json)
+
+    dockerService.connect(endpointId, true).then((docker) => {
+        const network = docker.getNetwork(networkId)
+
+        if (network) {
+            network.connect({Container, Force: true}).then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send(err)
+            })
+        }
     })
 })
 
-router.post('/networks/:hash/disconnect', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
+router.post('/networks/:networkId/disconnect', async (req, res) => {
+    const {endpointId, networkId} = req.params
     const {Container} = req.body
-    dockerService.disconnectNetwork(docker.service, req.params.hash, Container).then((data) => {
-        return res.send(data)
-    }).catch(() => {
-        return res.status(404).send({message: "Not Found"})
+
+    dockerService.connect(endpointId, true).then((docker) => {
+        const network = docker.getNetwork(networkId)
+
+        if (network) {
+            network.disconnect({Container, Force: true}).then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send(err)
+            })
+        }
     })
 })
 
 // NETWORKS
 
 router.get('/containers', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
+    const docker = await dockerService.connect(req.params.endpointId)
     dockerService.getContainers(docker.service).then((containers) => {
         let arr = []
         containers.forEach((container) => {
@@ -86,89 +108,159 @@ router.get('/containers', async (req, res) => {
 })
 
 
-router.get('/containers/:hash', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    return dockerService.getContainer(docker.service, req.params.hash).then((data) => {
-        return res.send(data)
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
+router.get('/containers/:containerId', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.inspect().then(inspect => {
+                return res.send(inspect)
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
+    })
+
+})
+
+router.get('/containers/:containerId/logs', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.logs(req.query).then(inspect => {
+                return res.send(inspect)
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.get('/containers/:hash/logs', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-
-    dockerService.logsContainer(docker.service, req.params.hash, req.query).then((data) => {
-        return res.send(data)
-    }).catch((err) => {
-        return res.status(403).send(err)
+router.post('/containers/:containerId/start', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.start().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/start', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.startContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
+router.post('/containers/:containerId/restart', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.restart().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/restart', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.restartContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
+router.post('/containers/:containerId/stop', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.stop().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/stop', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.stopContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
+router.post('/containers/:containerId/kill', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.kill().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/kill', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.killContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(403).send(err)
+router.post('/containers/:containerId/pause', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.pause().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/pause', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.pauseContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
+router.post('/containers/:containerId/resume', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.unpause().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/resume', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.unpauseContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
+router.post('/containers/:containerId/remove', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.remove().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/remove', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    dockerService.removeContainer(docker.service, req.params.hash).then(() => {
-        return res.send({response: true})
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
+router.post('/containers/:containerId/recreate', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.remove().then(() => {
+                return res.send({response: true})
+            }).catch((err) => {
+                return res.status(err.statusCode).send({message: err.json.message})
+            })
+        }
     })
 })
 
-router.post('/containers/:hash/exec', async (req, res) => {
+router.post('/containers/:containerId/exec', async (req, res) => {
+    const {endpointId, containerId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        const container = docker.getContainer(containerId)
+        if (container) {
+            container.exec({Cmd: ['bash'], AttachStdin: true, AttachStdout: true}, function (err, exec) {
+                exec.inspect()
+                    .then((stream) => res.send(stream))
+                    .catch((err) => res.status(err.statusCode).send(err.json.message))
+            });
+        }
+    })
     const docker = await dockerService.connect(req.params.id)
 
     dockerService.startExec(docker.service, req.params.hash).then((data) => {

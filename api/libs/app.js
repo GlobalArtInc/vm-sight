@@ -16,7 +16,7 @@ const fs = require('fs')
 
 var app = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 init.generateKeys()
 
@@ -29,19 +29,44 @@ if (global.env === 'production') {
 
 require('express-ws')(app);
 
-app.get('/api/ws/exec', function(req, res, next){
+const dockerService = require('./services/docker')
+
+app.get('/api/ws/exec', function (req, res, next) {
     res.end();
 });
 
-const dockerService = require('./services/docker')
+app.get('/api/ws/attach', (req, res) => {
+    res.end();
+})
 
-app.ws('/api/ws/exec', function(ws, req) {
+app.ws('/api/ws/attach', (ws, res) => {
+    const {endpointId, id} = res.query
+    const docker = dockerService.connect(endpointId, true)
+
+    docker.then((connect) => {
+        const container = connect.getContainer(id);
+
+        container.attach({
+            stream: true,
+            stdout: true,
+            stderr: true
+        }, function handler(err, stream) {
+            // something here
+            return ws.send(container.modem.demuxStream(stream, process.stdout, process.stderr));
+        })
+
+    }).catch((err) => {
+        console.log(err)
+    })
+})
+
+
+app.ws('/api/ws/exec', function (ws, req) {
     const {token, endpoint, id} = req.query
-    ws.on('message', function(msg) {
+    ws.on('message', function (msg) {
         ws.send(msg)
     })
 });
-
 
 
 app.use('/api', api);

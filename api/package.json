@@ -29,6 +29,7 @@
     "socker.io": "^0.0.0-alpha-beta",
     "socket.io": "^4.0.0",
     "sqlite3": "^5.0.2",
+    "stream": "^0.0.2",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "ws": "^7.4.4"

@@ -13,7 +13,7 @@ const fs = require('fs')
 
 router.use('/', authMiddleware)
 const dockerRoute = require('./docker.js')
-router.use('/:id/docker', dockerRoute)
+router.use('/:endpointId/docker', dockerRoute)
 
 router.get('/', async (req, res) => {
     const user = await getUserById(req.user.id);

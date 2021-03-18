@@ -2,40 +2,54 @@ const db = require('../db')
 const Docker = require('dockerode')
 const fs = require('fs')
 
-module.exports.connect = (id) => {
-    return db.query(`SELECT * FROM endpoints WHERE id = '${id}'`).then((endpoint) => {
-        if (endpoint.length > 0) {
-            let settings = (endpoint[0].url.match('/var/run/docker.sock')) ?
-                {socketPath: '/var/run/docker.sock'} : {
-                    host: endpoint[0].url.split(':')[0],
-                    port: endpoint[0].url.split(':')[1]
-                };
-            if (endpoint[0].tls === 1) {
+module.exports.service = (id) => {
+    return this.connect(id)
+}
 
-                if (endpoint[0].tls_ca === 1) {
-                    const path = `${global.data}/certs/${endpoint[0].id}/ca.pem`
-                    if (fs.existsSync(path))
-                        settings.ca = fs.readFileSync(path)
+module.exports.connect = (id, throwService = false) => {
+    return new Promise((resolve, reject) => {
+        db.query(`SELECT * FROM endpoints WHERE id = '${id}'`).then((endpoint) => {
+            if (endpoint.length > 0) {
+                let settings = (endpoint[0].url.match('/var/run/docker.sock')) ?
+                    {socketPath: '/var/run/docker.sock'} : {
+                        host: endpoint[0].url.split(':')[0],
+                        port: endpoint[0].url.split(':')[1]
+                    };
+                if (endpoint[0].tls === 1) {
+
+                    if (endpoint[0].tls_ca === 1) {
+                        const path = `${global.data}/certs/${endpoint[0].id}/ca.pem`
+                        if (fs.existsSync(path))
+                            settings.ca = fs.readFileSync(path)
+                    }
+                    if (endpoint[0].tls_cert === 1) {
+                        const path = `${global.data}/certs/${endpoint[0].id}/cert.pem`
+                        if (fs.existsSync(path))
+                            settings.cert = fs.readFileSync(path)
+                    }
+                    if (endpoint[0].tls_key === 1) {
+                        const path = `${global.data}/certs/${endpoint[0].id}/key.pem`
+                        if (fs.existsSync(path))
+                            settings.key = fs.readFileSync(path)
+                    }
+                    const service = new Docker(settings)
+                    if (throwService === true) {
+                        resolve(service)
+                    } else {
+                        resolve({endpoint: endpoint[0], service: service})
+                    }
+                } else {
+                    const service = new Docker(settings)
+                    if (throwService === true) {
+                        resolve(service)
+                    } else {
+                        resolve({endpoint: endpoint[0], service: service})
+                    }
                 }
-                if (endpoint[0].tls_cert === 1) {
-                    const path = `${global.data}/certs/${endpoint[0].id}/cert.pem`
-                    if (fs.existsSync(path))
-                        settings.cert = fs.readFileSync(path)
-                }
-                if (endpoint[0].tls_key === 1) {
-                    const path = `${global.data}/certs/${endpoint[0].id}/key.pem`
-                    if (fs.existsSync(path))
-                        settings.key = fs.readFileSync(path)
-                }
-                const service = new Docker(settings)
-                return {endpoint: endpoint[0], service: service};
             } else {
-                const service = new Docker(settings)
-                return {endpoint: endpoint[0], service: service};
+                reject()
             }
-        } else {
-            return false;
-        }
+        })
     })
 
 }
