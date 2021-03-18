@@ -217,15 +217,16 @@ router.put('/list/:id', async (req, res) => {
                     await db.query(`UPDATE endpoints SET url = '${url}' WHERE id = '${endpoint[0].id}'`)
                 }
             } else if (endpoint[0].type === 2) {
-                const name = req.body.name
+                const {name, public_url} = req.body
 
                 if (name) {
-                    db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`).then(() => {
-                        return res.send({response: true})
-                    }).catch((err) => res.send(err))
-                } else {
-                    return res.status(405).send({message: 'Name is not specified'})
+                    await db.query(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
                 }
+                if (public_url) {
+                    await db.query(`UPDATE endpoints SET public_url = '${public_url}' WHERE id = '${endpoint[0].id}'`)
+                }
+
+                return res.send({response: true})
             }
         } else {
             return res.status(404).send({message: "Not Found"})
