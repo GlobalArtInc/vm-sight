@@ -30,6 +30,11 @@
               class="elevation-1"
               item-key="Id"
               show-select>
+            <template #item.Id="{item}">
+              <router-link :to="`images/`+item.Id">
+                {{ item.Id.substring(0, 49) }}...
+              </router-link>
+            </template>
             <template #item.RepoTags="{item}">
               <v-chip class="font-weight-bold" color="primary" v-if="item.RepoTags === null">
                 {{item.RepoDigests.join('').split('@')[0]}}

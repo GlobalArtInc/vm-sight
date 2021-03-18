@@ -1,6 +1,7 @@
 <template>
   <v-app-bar color="primary" dark app>
     <v-app-bar-nav-icon @click="handleDrawerToggle"/>
+    {{ getTitle }}
     <v-spacer/>
     <v-toolbar-items>
       <v-menu offset-y origin="center center" transition="scale-transition">
@@ -64,6 +65,9 @@ export default {
     ...mapGetters(['getAvatar', 'getUsername']),
     toolbarColor() {
       return this.$vuetify.options.extra.mainNav
+    },
+    getTitle() {
+      return this.$route.meta.title ? this.$vuetify.lang.t('$vuetify.menu.' + this.$route.meta.title) : this.$route.path;
     },
     availableLanguages() {
       const {locales} = this.$vuetify.lang

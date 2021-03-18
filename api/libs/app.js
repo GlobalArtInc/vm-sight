@@ -51,8 +51,9 @@ app.ws('/api/ws/attach', (ws, res) => {
             stdout: true,
             stderr: true
         }, function handler(err, stream) {
-            // something here
-            return ws.send(container.modem.demuxStream(stream, process.stdout, process.stderr));
+            stream.on('data', (chunk) => {
+                ws.send(chunk.toString('utf8'))
+            })
         })
 
     }).catch((err) => {

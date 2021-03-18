@@ -86,8 +86,13 @@ export default {
         registries: "Registries",
         logs: "Logs",
         exec: "Console",
+        attach: "Attach the Screen",
         images: "Images",
-        networks: "Networks"
+        networks: "Networks",
+        networksList: "Networks List",
+        networksEdit: "Networks Edit",
+        dockerDashboard: "Docker Dashboard",
+        containersList: "Containers List"
     },
     //media
     media: 'Media',

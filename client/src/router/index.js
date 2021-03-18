@@ -62,8 +62,7 @@ export const protectedRoute = [
                         name: 'endpointDockerDashboard',
                         path: 'dashboard',
                         meta: {
-                            title: 'dashboard',
-                            group: 'apps',
+                            title: 'dockerDashboard',
                             icon: 'fab fa-docker',
                             hiddenInMenu: true,
                             type: 'endpointDocker'
@@ -108,6 +107,15 @@ export const protectedRoute = [
                                         component: () => import('@/views/Docker/Containers/Exec'),
                                     },
                                     {
+                                        path: 'attach',
+                                        meta: {
+                                            title: 'attach',
+                                            type: 'endpointDocker'
+                                        },
+                                        props: true,
+                                        component: () => import('@/views/Docker/Containers/Attach'),
+                                    },
+                                    {
                                         name: 'containerDockerEdit',
                                         path: '',
                                         meta: {
@@ -124,7 +132,7 @@ export const protectedRoute = [
                                 name: 'containersDockerList',
                                 path: '/',
                                 meta: {
-                                    title: 'list',
+                                    title: 'containersList',
                                     type: 'endpointDocker',
                                     hiddenInMenu: true
                                 },
@@ -145,6 +153,7 @@ export const protectedRoute = [
                                 name: 'endpointDockerNetworksList',
                                 path: '/',
                                 meta: {
+                                    title: 'networksList',
                                     type: 'endpointDocker',
                                     hiddenInMenu: true
                                 },
@@ -155,7 +164,7 @@ export const protectedRoute = [
                                 name: 'endpointsDockerNetworksEdit',
                                 path: ':hash',
                                 meta: {
-                                    title: "edit",
+                                    title: "networksEdit",
                                     type: 'endpointDocker'
                                 },
                                 props: true,
@@ -213,6 +222,7 @@ export const protectedRoute = [
                         path: '',
                         name: 'usersList',
                         meta: {
+                            title: "users",
                             hiddenInMenu: true
                         },
                         component: () => import('@/views/Users/Index')
@@ -248,6 +258,7 @@ export const protectedRoute = [
                         path: '',
                         name: 'endpointsList',
                         meta: {
+                            title: "endpoints",
                             hiddenInMenu: true
                         },
                         component: () => import('@/views/Endpoints/Index')
@@ -266,6 +277,7 @@ export const protectedRoute = [
                         path: '',
                         name: 'registriesMain',
                         meta: {
+                            title: 'registries',
                             hiddenInMenu: true
                         },
                         component: () => import('@/views/Registries/Index')
@@ -283,6 +295,7 @@ export const protectedRoute = [
                         path: '',
                         name: 'settingsList',
                         meta: {
+                            title: "settings",
                             hiddenInMenu: true
                         },
                         component: () => import('@/views/Settings/Index')

@@ -20,12 +20,12 @@ router.get('/images', async (req, res) => {
 
 // NETWORKS
 
-router.get('/networks', async (req, res) => {
-    const docker = await dockerService.connect(req.params.endpointId)
-    dockerService.getNetworks(docker.service).then((data) => {
-        return res.send(data)
-    }).catch(() => {
-        return res.status(404).send({message: "Not Found"})
+router.get('/networks', (req, res) => {
+    const {endpointId} = req.params
+    dockerService.connect(endpointId, true).then((docker) => {
+        return docker.listNetworks()
+            .then(networks => res.send(networks))
+            .catch((err) => res.status(err.statusCode).send(err.json))
     })
 })
 
@@ -75,36 +75,40 @@ router.post('/networks/:networkId/disconnect', async (req, res) => {
                 return res.status(err.statusCode).send(err)
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 // NETWORKS
 
-router.get('/containers', async (req, res) => {
-    const docker = await dockerService.connect(req.params.endpointId)
-    dockerService.getContainers(docker.service).then((containers) => {
-        let arr = []
-        containers.forEach((container) => {
-            arr.push({
-                Id: container.Id,
-                Name: container.Names[0].substr(1),
-                Image: container.Image,
-                ImageID: container.ImageID,
-                Command: container.Command,
-                Created: container.Created,
-                Ports: container.Ports,
-                Labels: container.Labels,
-                State: container.State,
-                Status: container.Status,
-                HostConfig: container.HostConfig,
-                NetworkSettings: container.NetworkSettings,
-                Mounts: container.Mounts
+router.get('/containers', (req, res) => {
+
+    const {endpointId} = req.params
+
+    dockerService.connect(endpointId, true).then((docker) => {
+        dockerService.getContainers(docker).then((containers) => {
+            let arr = []
+            containers.forEach((container) => {
+                arr.push({
+                    Id: container.Id,
+                    Name: container.Names[0].substr(1),
+                    Image: container.Image,
+                    ImageID: container.ImageID,
+                    Command: container.Command,
+                    Created: container.Created,
+                    Ports: container.Ports,
+                    Labels: container.Labels,
+                    State: container.State,
+                    Status: container.Status,
+                    HostConfig: container.HostConfig,
+                    NetworkSettings: container.NetworkSettings,
+                    Mounts: container.Mounts
+                })
             })
+            return res.send(arr)
+        }).catch(() => {
+            return res.status(404).send({message: "Not Found"})
         })
-        return res.send(arr)
-    }).catch(() => {
-        return res.status(404).send({message: "Not Found"})
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 
@@ -119,11 +123,11 @@ router.get('/containers/:containerId', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 
 })
 
-router.get('/containers/:containerId/logs', async (req, res) => {
+router.get('/containers/:containerId/logs', (req, res) => {
     const {endpointId, containerId} = req.params
     dockerService.connect(endpointId, true).then((docker) => {
         const container = docker.getContainer(containerId)
@@ -134,7 +138,7 @@ router.get('/containers/:containerId/logs', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/start', async (req, res) => {
@@ -148,7 +152,7 @@ router.post('/containers/:containerId/start', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/restart', async (req, res) => {
@@ -162,7 +166,7 @@ router.post('/containers/:containerId/restart', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/stop', async (req, res) => {
@@ -176,7 +180,7 @@ router.post('/containers/:containerId/stop', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/kill', async (req, res) => {
@@ -190,7 +194,7 @@ router.post('/containers/:containerId/kill', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/pause', async (req, res) => {
@@ -204,7 +208,7 @@ router.post('/containers/:containerId/pause', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/resume', async (req, res) => {
@@ -218,7 +222,7 @@ router.post('/containers/:containerId/resume', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.delete('/containers/:containerId', async (req, res) => {
@@ -232,7 +236,7 @@ router.delete('/containers/:containerId', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/rename', async (req, res) => {
@@ -248,7 +252,7 @@ router.post('/containers/:containerId/rename', async (req, res) => {
                 return res.status(err.statusCode).send({message: err.json.message})
             })
         }
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/create', async (req, res) => {
@@ -259,7 +263,7 @@ router.post('/containers/create', async (req, res) => {
             if (err) return res.status(err.statusCode).send(err)
             return res.send(container)
         });
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 router.post('/containers/:containerId/exec', async (req, res) => {
@@ -269,29 +273,28 @@ router.post('/containers/:containerId/exec', async (req, res) => {
         if (container) {
             container.exec({Cmd: ['bash'], AttachStdin: true, AttachStdout: true}, function (err, exec) {
                 exec.inspect()
-                    .then((stream) => res.send(stream))
+                    .then((data) => res.send({Id: data.ID}))
                     .catch((err) => res.status(err.statusCode).send(err.json.message))
             });
         }
-    })
-    const docker = await dockerService.connect(req.params.id)
-
-    dockerService.startExec(docker.service, req.params.hash).then((data) => {
-        return res.send({Id: data.ID})
-    }).catch((err) => {
-        return res.status(err.statusCode).send(err)
-    })
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 
-router.get('/version', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    return res.send(await dockerService.getVersion(docker.service))
+router.get('/version', (req, res) => {
+    dockerService.connect(req.params.endpointId, true).then(docker => {
+        docker.version().then(data => {
+            return res.send(data)
+        }).catch(err => res.status(err.statusCode).send(err.json))
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
-router.get('/info', async (req, res) => {
-    const docker = await dockerService.connect(req.params.id)
-    return res.send(await dockerService.getInfo(docker.service))
+router.get('/info', (req, res) => {
+    dockerService.connect(req.params.endpointId, true).then(docker => {
+        docker.info().then(data => {
+            return res.send(data)
+        }).catch(err => res.status(err.statusCode).send(err.json))
+    }).catch(() => res.status(500).send({message: 'no_connection'}))
 })
 
 module.exports = router
