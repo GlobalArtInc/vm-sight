@@ -8,22 +8,21 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-text>
-          <v-btn color="primary" v-if="status === 'detached'" @click="onAttach">Attach</v-btn>
+          <v-btn color="primary" v-if="status === 'detached'" @click="onAttach">Attach to Container</v-btn>
           <v-btn color="primary" v-else-if="status === 'attached'" @click="onDetach">Detach</v-btn>
           <v-btn color="primary" v-else disabled>Attaching...</v-btn>
         </v-card-text>
       </v-card>
-      <div style="width: 50%;margin:0 auto">
-        <br/>
-        <div :style="`${status==='attached'?'display:block':'display:none'}`" class="hideScroll" id="terminal" ></div>
-        <!--  <xterm-vue/> -->
-      </div>
+      <br/>
+      <div :style="`${status==='attached'?'display:block':'display:none'}`" class="hideScroll"
+           id="terminal-container"></div>
     </v-col>
   </v-row>
 </template>
 
 <script>
 import {Terminal} from 'xterm';
+import {FitAddon} from 'xterm-addon-fit';
 
 export default {
   props: {
@@ -37,15 +36,34 @@ export default {
   data: () => ({
     status: "",
     ws: "",
-    terminal: ""
+    terminal: new Terminal()
   }),
+  beforeDestroy() {
+    this.ws.close()
+  },
   methods: {
     onAttach() {
       this.status = ''
       this.ws = new WebSocket(`ws://${location.host}/api/ws/attach?endpointId=${this.id}&id=${this.hash}`)
+
+      const fitAddon = new FitAddon();
+      this.terminal.loadAddon(fitAddon);
       this.ws.onopen = () => {
+        this.terminal.onData((data) => {
+          this.ws.send(data)
+        });
+        // this.terminal.on('data', function (data) {
+        //   this.ws.send(data);
+        // });
+        var termWidth = 150;
+        var termHeight = 30;
+        this.terminal.resize(termWidth, termHeight);
+        this.terminal.focus();
+        this.terminal.setOption('cursorBlink', true);
+
         this.status = 'attached'
       }
+
       this.ws.onmessage = (message) => {
         this.terminal.writeln(message.data)
       }
@@ -60,11 +78,14 @@ export default {
     }
   },
   mounted() {
-    this.terminal = new Terminal();
-    this.terminal.open(document.getElementById('terminal'));
+    const terminal_container = document.getElementById('terminal-container');
+    this.terminal.open(terminal_container);
+    this.onAttach()
   },
   created() {
-    this.onAttach()
+    this.$store.dispatch('app/getEndpoint', this.id).catch(() => {
+      this.$router.push('/')
+    })
   }
 }
 

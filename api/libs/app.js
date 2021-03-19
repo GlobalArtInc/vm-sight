@@ -45,16 +45,19 @@ app.ws('/api/ws/attach', (ws, res) => {
 
     docker.then((connect) => {
         const container = connect.getContainer(id);
-
-        container.attach({
-            stream: true,
-            stdout: true,
-            stderr: true
-        }, function handler(err, stream) {
-            stream.on('data', (chunk) => {
-                ws.send(chunk.toString('utf8'))
+        try {
+            container.attach({
+                stream: true,
+                stdout: true,
+                stderr: true
+            }, function handler(err, stream) {
+                stream.on('data', (chunk) => {
+                    ws.send(chunk.toString('utf8'))
+                })
             })
-        })
+        } catch (err) {
+            return res.status(500).send(err)
+        }
 
     }).catch((err) => {
         console.log(err)
