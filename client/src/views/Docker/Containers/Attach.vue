@@ -68,8 +68,17 @@ export default {
         this.terminal.writeln(message.data)
       }
       this.ws.onclose = () => {
+        this.ws.close()
         this.status = 'detached'
       }
+      this.ws.onerror = () => {
+        this.ws.close()
+        this.$toast("Connection error", {
+          type: 'error'
+        });
+        this.status = 'detached'
+      }
+
     },
     onDetach() {
       this.ws.close()

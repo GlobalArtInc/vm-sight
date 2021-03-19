@@ -52,7 +52,9 @@ app.ws('/api/ws/attach', (ws, res) => {
                 stderr: true
             }, function handler(err, stream) {
                 stream.on('data', (chunk) => {
-                    ws.send(chunk.toString('utf8'))
+                    if (ws.readyState === 1) {
+                        ws.send(chunk.toString())
+                    }
                 })
             })
         } catch (err) {
