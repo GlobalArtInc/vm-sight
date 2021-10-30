@@ -55,7 +55,7 @@ class UsersController extends App implements Controller {
 
                             dbQuery(`INSERT INTO users 
                                     (id, username, password, role, createdAt, updatedAt) VALUES
-                                    ('${id}', '${Username}', '${hash}', ${Role}, strftime('%s', 'now'), strftime('%s', 'now'))`).then(() => {
+                                    ('${id}', '${Username}', '${hash}', ${Role}, strife('%s', 'now'), strife('%s', 'now'))`).then(() => {
                                 return res.send({response: true})
                             })
                         })
@@ -93,7 +93,6 @@ class UsersController extends App implements Controller {
                     }
                     if (Username) {
                         const checkUser = await dbQuery(`SELECT username FROM users WHERE LOWER(username) = LOWER("${Username}")`)
-                        const currentUser = await dbQuery(`SELECT username FROM users WHERE id = '${req.user.id}'`);
 
                         // @ts-ignore
                         if (checkUser.length > 0 && user[0].username !== Username) {
