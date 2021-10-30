@@ -14,6 +14,8 @@ export function findUser(username, password) {
                    //     reject()
                    // }
                 })
+            } else {
+                reject(401)
             }
         })
     })
