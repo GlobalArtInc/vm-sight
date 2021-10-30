@@ -1,8 +1,9 @@
-const jwt = require('jsonwebtoken')
-const db = require('../db')
+import {IRequest, IResponse, INext} from "../interfaces/express.interface";
 
-const authMiddleware = (req, res, next) => {
-    // read the token from header or url
+const jwt = require('jsonwebtoken')
+const db = require('../utils/DB')
+
+export default function (req: IRequest, res: IResponse, next: INext) {
     if (req.headers.authorization) {
         const token = req.headers.authorization.split('Bearer ')
 
@@ -17,9 +18,9 @@ const authMiddleware = (req, res, next) => {
         // create a promise that decodes the token
         const p = new Promise(
             (resolve, reject) => {
-                jwt.verify(token[1], req.app.get('jwt-secret'), (err, user) => {
+                jwt.verify(token[1], req.app.get('jwt-secret'), (err: any, user: any) => {
                     if (err) reject(err)
-                    db.query(`SELECT * FROM users WHERE id = '${user.id}'`).then((u) => {
+                    db.query(`SELECT * FROM users WHERE id = '${user.id}'`).then((u: any) => {
                         if (u.length > 0) {
                             resolve(u[0])
                         } else {
@@ -31,7 +32,7 @@ const authMiddleware = (req, res, next) => {
         )
 
         // if it has failed to verify, it will return an error message
-        const onError = (error) => {
+        const onError = (error: any) => {
             res.status(401).json({
                 message: "Unauthorized",
                 details: "Unauthorized"
@@ -40,6 +41,7 @@ const authMiddleware = (req, res, next) => {
 
         // process the promise
         p.then((user) => {
+            // @ts-ignore
             req.user = user
             next()
         }).catch(onError)
@@ -50,5 +52,3 @@ const authMiddleware = (req, res, next) => {
         })
     }
 }
-
-module.exports = authMiddleware
