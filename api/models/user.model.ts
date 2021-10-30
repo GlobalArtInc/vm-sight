@@ -1,5 +1,6 @@
 import {dbQuery} from "../utils/DB";
 import {comparePassword} from "../utils/Security";
+import {IUser} from "../interfaces/express.interface";
 
 export function findUser(username, password) {
     return new Promise((resolve, reject) => {
@@ -20,3 +21,22 @@ export function findUser(username, password) {
         })
     })
 }
+
+
+export function getUserById(id) {
+    return dbQuery(`SELECT * FROM users WHERE id = '${id}'`).then((user: any[]) => {
+        if (user.length > 0) {
+            return user[0]
+        } else {
+            return false
+        }
+    })
+
+}
+
+export function getUserByIdAndCheckIfAdmin(id) {
+    return getUserById(id).then((user: IUser) => {
+        return user.role === 1;
+    })
+}
+

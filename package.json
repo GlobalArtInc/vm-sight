@@ -11,7 +11,7 @@
   "scripts": {
     "backend:dev": "nodemon ./api/server.ts --env=dev",
     "backend:prod": "nodemon ./api/server.ts --env=prod",
-    "frontend:dev": "",
+    "frontend:dev": "cd client && npm run serve",
     "frontend:prod": ""
   }
 }
