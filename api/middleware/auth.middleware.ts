@@ -1,7 +1,6 @@
 import {IRequest, IResponse, INext} from "../interfaces/express.interface";
-
-const jwt = require('jsonwebtoken')
-const db = require('../utils/DB')
+import {verify as jwtVerify} from "jsonwebtoken";
+import {dbQuery} from "../utils/DB";
 
 export default function (req: IRequest, res: IResponse, next: INext) {
     if (req.headers.authorization) {
@@ -18,9 +17,9 @@ export default function (req: IRequest, res: IResponse, next: INext) {
         // create a promise that decodes the token
         const p = new Promise(
             (resolve, reject) => {
-                jwt.verify(token[1], req.app.get('jwt-secret'), (err: any, user: any) => {
+                jwtVerify(token[1], req.app.get('jwt-secret'), (err: any, user: any) => {
                     if (err) reject(err)
-                    db.query(`SELECT * FROM users WHERE id = '${user.id}'`).then((u: any) => {
+                    dbQuery(`SELECT * FROM users WHERE id = '${user.id}'`).then((u: any) => {
                         if (u.length > 0) {
                             resolve(u[0])
                         } else {
