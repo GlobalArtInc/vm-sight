@@ -5,9 +5,7 @@ import * as fs from 'fs';
 import Controller from "./interfaces/controller.interface";
 import DebugLogger from "./utils/DebugLogger";
 import errorMiddleware from './middleware/error.middleware';
-import {IRequest, IResponse, INext} from "./interfaces/express.interface";
-import NotFoundException from "./exceptions/NotFoundException";
-import HttpException from "./exceptions/HttpException";
+import {IRequest, IResponse} from "./interfaces/express.interface";
 import Init from "./utils/Init";
 global.data = "./data"
 export const port = 3601
@@ -35,9 +33,9 @@ export default class App {
         });
     }
 
-    public getServer() {
-        return this.app
-    }
+    // public getServer() {
+    //     return this.app
+    // }
 
     private initializeMiddlewares() {
         this.app.use(bodyParser.json());
@@ -46,7 +44,7 @@ export default class App {
 
     private initializeErrorHandling() {
         this.app.use(errorMiddleware);
-        this.app.use("*", (req: IRequest, res: IResponse, next: INext) => {
+        this.app.use("*", (req: IRequest, res: IResponse) => {
             return res.status(404).send({status: 404, message: "Not Found"})
         })
     }
