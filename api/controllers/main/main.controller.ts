@@ -2,7 +2,6 @@ import {NextFunction, Router} from 'express';
 import {IRequest, IResponse} from '../../interfaces/express.interface'
 import Controller from "../../interfaces/controller.interface";
 import authMiddleware from "../../middleware/auth.middleware";
-import query from "../../utils/DB";
 import App from "../../app";
 
 class MainController extends App implements Controller {

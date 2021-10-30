@@ -7,8 +7,8 @@ function errorMiddleware(error: HttpException, request: IRequest, response: IRes
     response
         .status(status)
         .send({
-            message,
             status,
+            message
         });
 }
 
