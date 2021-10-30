@@ -1,6 +1,7 @@
 import {IRequest, IResponse, INext} from "../interfaces/express.interface";
 import {verify as jwtVerify} from "jsonwebtoken";
 import {dbQuery} from "../utils/DB";
+import NotAuthorizedException from "../exceptions/NotAuthorizedException";
 
 export default function (req: IRequest, res: IResponse, next: INext) {
     if (req.headers.authorization) {
@@ -8,10 +9,7 @@ export default function (req: IRequest, res: IResponse, next: INext) {
 
         // token does not exist
         if (!token) {
-            res.status(401).json({
-                message: "Unauthorized",
-                details: "Unauthorized"
-            })
+            return next(new NotAuthorizedException)
         }
 
         // create a promise that decodes the token
@@ -32,10 +30,7 @@ export default function (req: IRequest, res: IResponse, next: INext) {
 
         // if it has failed to verify, it will return an error message
         const onError = (error: any) => {
-            res.status(401).json({
-                message: "Unauthorized",
-                details: "Unauthorized"
-            })
+            return next(new NotAuthorizedException)
         }
 
         // process the promise
@@ -45,9 +40,6 @@ export default function (req: IRequest, res: IResponse, next: INext) {
             next()
         }).catch(onError)
     } else {
-        return res.status(401).json({
-            message: "Unauthorized",
-            details: "Unauthorized"
-        })
+        return next(new NotAuthorizedException)
     }
 }
