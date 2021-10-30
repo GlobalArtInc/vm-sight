@@ -29,7 +29,7 @@ export default function (req: IRequest, res: IResponse, next: INext) {
         )
 
         // if it has failed to verify, it will return an error message
-        const onError = (error: any) => {
+        const onError = () => {
             return next(new NotAuthorizedException)
         }
 
