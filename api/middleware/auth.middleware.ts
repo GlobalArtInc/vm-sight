@@ -1,4 +1,4 @@
-import {IRequest, IResponse, INext} from "../interfaces/express.interface";
+import {IRequest, IResponse, INext, IUser} from "../interfaces/express.interface";
 import {verify as jwtVerify} from "jsonwebtoken";
 import {dbQuery} from "../utils/DB";
 import NotAuthorizedException from "../exceptions/NotAuthorizedException";
@@ -12,8 +12,13 @@ export default function (req: IRequest, res: IResponse, next: INext) {
             return next(new NotAuthorizedException)
         }
 
+        // if it has failed to verify, it will return an error message
+        const onError = (error: any) => {
+            return next(new NotAuthorizedException)
+        }
+
         // create a promise that decodes the token
-        const p = new Promise(
+        new Promise(
             (resolve, reject) => {
                 jwtVerify(token[1], req.app.get('jwt-secret'), (err: any, user: any) => {
                     if (err) reject(err)
@@ -26,16 +31,7 @@ export default function (req: IRequest, res: IResponse, next: INext) {
                     })
                 })
             }
-        )
-
-        // if it has failed to verify, it will return an error message
-        const onError = () => {
-            return next(new NotAuthorizedException)
-        }
-
-        // process the promise
-        p.then((user) => {
-            // @ts-ignore
+        ).then((user: IUser) => {
             req.user = user
             next()
         }).catch(onError)
