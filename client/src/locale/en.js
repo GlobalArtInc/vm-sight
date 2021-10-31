@@ -23,13 +23,14 @@ export default {
         kubernetos: "Kubernetos"
     },
     containers: {
-        started: "Container was started",
-        stopped: "Container was stopped",
-        killed: "Container was killed",
-        restarted: "Container was restarted",
-        paused: "Container was paused",
-        resumes: "Container was resumed",
-        removed: "Container was removed"
+        started: "The container has been started",
+        stopped: "The container has been stopped",
+        killed: "The container has been killed",
+        restarted: "The container has been restarted",
+        paused: "The container has been paused",
+        resumes: "The container has been resumed",
+        removed: "The container has been removed",
+        renamed: "The container has been renamed"
     },
     // user page
     yes: "Yes",

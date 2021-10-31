@@ -39,7 +39,34 @@
                 <td style="width: 25%">
                   Name
                 </td>
-                <td v-text="container.Name.substr(1)"/>
+                <td>
+                  {{ container.Name.substr(1) }}
+                  <v-btn style="margin-left: 0.3em" icon @click="openRenameDialog">
+                    <v-icon color="primary" small>
+                      fa-edit
+                    </v-icon>
+                    <v-dialog width="500" v-model="dialog.rename.show">
+                      <v-card>
+                        <v-card-title>Change name of container</v-card-title>
+                        <v-divider></v-divider>
+
+                        <v-card-text>
+                          <v-text-field v-model="dialog.rename.name" style="margin-top: 1.5em" filled label="Name" />
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="primary" text @click="dialog.rename.show = false">
+                            Close
+                          </v-btn>
+                          <v-btn color="primary" @click="onRename">Rename</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-btn>
+                </td>
               </tr>
               <tr>
                 <td style="width: 25%">Dev</td>
@@ -157,14 +184,15 @@
         <v-divider/>
         <v-card-subtitle>
           <div style="display: flex">
-            <v-select style="max-width: 20%" v-model="currentNetwork" :items="networks" outlined item-text="Name" item-value="Id" dense/>
+            <v-select style="max-width: 20%" v-model="currentNetwork" :items="networks" outlined item-text="Name"
+                      item-value="Id" dense/>
             <v-btn color="primary" class="space-left" @click="connectNetwork(currentNetwork)">
               Join
             </v-btn>
           </div>
         </v-card-subtitle>
         <v-divider/>
-        <v-card-text style="padding: 0;margin-bottom: 6em" >
+        <v-card-text style="padding: 0;margin-bottom: 6em">
           <v-simple-table class="font-weight-medium">
             <thead>
             <tr>
@@ -198,6 +226,7 @@
 
 <script>
 import {disconnectNetwork, connectNetwork} from "@/api/endpoints/networks";
+import {renameContainer} from "../../../api/endpoints/docker";
 import {fetchContainer} from "@/api/endpoints/docker";
 import {fetchNetworks} from "@/api/endpoints/networks";
 import State from "@/components/docker/State";
@@ -213,6 +242,12 @@ export default {
     container: false,
     idle: true,
     currentNetwork: "",
+    dialog: {
+      rename: {
+        show: false,
+        name: ""
+      }
+    },
     networkHeaders: [
       {
         text: 'Network',
@@ -222,13 +257,28 @@ export default {
         text: 'IPAddress',
         value: 'IPAddress'
       },
-      {
-
-      }
+      {}
     ],
     networks: []
   }),
   methods: {
+    openRenameDialog() {
+      this.dialog.rename.show = true
+      this.dialog.rename.name = this.container.Name.substr(1)
+    },
+    onRename() {
+      renameContainer(this.id, this.hash, this.dialog.rename.name).then(() => {
+        this.dialog.rename.show = false
+        this.container.Name = '/' + this.dialog.rename.name
+        this.$toast(this.__('containers.renamed'), {
+          type: 'success'
+        });
+      }).catch((err) => {
+        this.$toast(err.response.data.message, {
+          type: 'error'
+        });
+      })
+    },
     connectNetwork(network) {
       connectNetwork(this.id, network, this.hash).then(() => {
         this.fetchContainer()
@@ -241,7 +291,7 @@ export default {
         });
       })
     },
-    disconnectNetwork(network){
+    disconnectNetwork(network) {
       disconnectNetwork(this.id, network, this.hash).then(() => {
         this.fetchContainer()
         this.$toast(this.__('networks.disconnected'), {

@@ -8,7 +8,7 @@ import NotFoundException from "../../exceptions/NotFoundException";
 
 class DockerController extends App implements Controller {
     public path = '/docker'
-    public router = Router()
+    public router = Router({mergeParams: true})
 
     constructor(...props) {
         super(props);
@@ -158,6 +158,21 @@ class DockerController extends App implements Controller {
             }
         })
 
+        this.router.get('/containers/:containerId/logs', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const container = await service.getContainer(req.params.containerId)
+                if (container) {
+                    return res.send(await container.logs(req.query))
+                } else {
+                    next(new NotFoundException)
+                }
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
 
         this.router.post('/containers/:containerId/start', async (req: IRequest, res: IResponse, next: INext) => {
             try {
@@ -226,6 +241,21 @@ class DockerController extends App implements Controller {
                 await service.connect(endpointId)
                 await service.resumeContainer(req.params.containerId)
                 return res.send({status: 200, message: "The container has been resumed"})
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
+        this.router.post('/containers/:containerId/rename', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, containerId} = req.params
+            const {name} = req.query
+
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                await service.renameContainer(req.params.containerId, name)
+                return res.send({status: 200, message: "The container has been renamed"})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
