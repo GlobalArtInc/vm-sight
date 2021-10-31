@@ -126,6 +126,7 @@ class dockerService {
         return this.service.listNetworks()
     }
 
+
     public snapshot(data) {
         return {
             DockerVersion: data.DockerVersion ? data.DockerVersion : "",
