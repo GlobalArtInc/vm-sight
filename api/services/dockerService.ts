@@ -60,6 +60,32 @@ class dockerService {
         })
     }
 
+    public checkConnect(id, host, data: any = {ca: false, ert: false, key: false}) {
+        let settings: any = (host.match('/var/run/docker.sock')) ?
+            {socketPath: '/var/run/docker.sock'} : {
+                host: host.split(':')[0],
+                port: host.split(':')[1]
+            };
+        if (data.ca) {
+            settings.ca = data.ca
+        }
+        if (data.cert) {
+            settings.cert = data.cert
+        }
+        if (data.key) {
+            settings.key = data.key
+        }
+        return new Promise(((resolve, reject) => {
+            if (settings.host && !settings.port) reject()
+            new Docker(settings).version().then(() => {
+                resolve(true)
+            }).catch((err) => {
+                reject(err)
+            })
+        }))
+
+    }
+
     public async getEndpoint() {
         if (this.endpoint) {
             const snap = await dbQuery(`SELECT * FROM snapshots WHERE endpoint_id = '${this.endpoint.id}'`)
@@ -96,9 +122,9 @@ class dockerService {
                     VolumeCount: volumes ? volumes.Volumes.length : 0
                 })
                 if (snap['length'] > 0 && snap[0].createdAt + 300 < timestamp) {
-                    await dbQuery(`UPDATE snapshots SET data = '${JSON.stringify(snapshot)}', createdAt = strife('%s', 'now') WHERE endpoint_id = '${this.endpoint.id}'`)
+                    await dbQuery(`UPDATE snapshots SET data = '${JSON.stringify(snapshot)}', createdAt = strftime('%s', 'now') WHERE endpoint_id = '${this.endpoint.id}'`)
                 } else {
-                    await dbQuery(`INSERT INTO snapshots (endpoint_id, data, createdAt) VALUES ('${this.endpoint.id}', '${JSON.stringify(snapshot)}', strife('%s', 'now'))`)
+                    await dbQuery(`INSERT INTO snapshots (endpoint_id, data, createdAt) VALUES ('${this.endpoint.id}', '${JSON.stringify(snapshot)}', strftime('%s', 'now'))`)
                 }
 
 

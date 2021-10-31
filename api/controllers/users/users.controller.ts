@@ -55,7 +55,7 @@ class UsersController extends App implements Controller {
 
                             dbQuery(`INSERT INTO users 
                                     (id, username, password, role, createdAt, updatedAt) VALUES
-                                    ('${id}', '${Username}', '${hash}', ${Role}, strife('%s', 'now'), strife('%s', 'now'))`).then(() => {
+                                    ('${id}', '${Username}', '${hash}', ${Role}, strftime('%s', 'now'), strftime('%s', 'now'))`).then(() => {
                                 return res.send({response: true})
                             })
                         })
@@ -148,6 +148,28 @@ class UsersController extends App implements Controller {
 
         })
 
+        this.router.post(this.path + '/admin/init', async (req: IRequest, res: IResponse, next: INext) => {
+            dbQuery('SELECT COUNT(*) as count FROM users WHERE role = 1').then((r) => {
+                if (r[0].count === 0) {
+                    const {Username, Password} = req.body;
+                    if (Username && Password) {
+                        cryptPassword(Password).then((hash) => {
+                            const id = getGUID()
+                            dbQuery(`INSERT INTO users 
+                                    (id, username, password, role, createdAt, updatedAt) VALUES
+                                    ('${id}', '${Username}', '${hash}', 1, strftime('%s', 'now'), strftime('%s', 'now'))`).then(() => {
+                                return res.send({response: true})
+                            })
+                        })
+                    } else {
+                        next(new HttpException(405, 'No username or password'))
+                    }
+                } else {
+                    next(new ForbiddenException)
+                }
+            })
+
+        })
 
         this.router.get(this.path + '/admin/check', (req: IRequest, res: IResponse, next: INext) => {
             dbQuery('SELECT COUNT(*) as count FROM users WHERE role = 1').then((r) => {
