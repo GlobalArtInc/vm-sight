@@ -165,7 +165,7 @@ class DockerController extends App implements Controller {
                 const service = new dockerService()
                 await service.connect(endpointId)
                 await service.startContainer(req.params.containerId)
-                return res.send({response: true})
+                return res.send({status: 200, message: "The container has been started"})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
@@ -177,7 +177,7 @@ class DockerController extends App implements Controller {
                 const service = new dockerService()
                 await service.connect(endpointId)
                 await service.stopContainer(req.params.containerId)
-                return res.send({response: true})
+                return res.send({status: 200, message: "The container has been stopped"})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
@@ -189,7 +189,7 @@ class DockerController extends App implements Controller {
                 const service = new dockerService()
                 await service.connect(endpointId)
                 await service.killContainer(req.params.containerId)
-                return res.send({response: true})
+                return res.send({status: 200, message: "The container has been killed"})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
@@ -201,7 +201,7 @@ class DockerController extends App implements Controller {
                 const service = new dockerService()
                 await service.connect(endpointId)
                 await service.restartContainer(req.params.containerId)
-                return res.send({response: true})
+                return res.send({status: 200, message: "The container has been restarted"})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
@@ -225,7 +225,7 @@ class DockerController extends App implements Controller {
                 const service = new dockerService()
                 await service.connect(endpointId)
                 await service.resumeContainer(req.params.containerId)
-                return res.send({response: true})
+                return res.send({status: 200, message: "The container has been resumed"})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
