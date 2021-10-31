@@ -29,7 +29,7 @@ export default class App {
     public listen() {
         this.app.listen(port, async () => {
             await new Init().start()
-            this.log.info(`App listening on the port ${port}`)
+            this.log.info(`Api server listening on the port ${port}`)
         });
     }
 

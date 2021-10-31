@@ -84,7 +84,7 @@ class EndpointsController extends App implements Controller {
                                 const service = new dockerService()
 
                                 service.checkConnect(null, '/var/run/docker.sock').then(() => {
-                                    dbQuery(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','2', '/var/run/docker.sock')`).then(() => {
+                                    dbQuery(`INSERT INTO endpoints (id,name,type,url,public_url)VALUES('${id}','${name}','2', '/var/run/docker.sock', 'http://127.0.0.1')`).then(() => {
                                         return res.send({response: true})
                                     }).catch((err) => {
                                         next(new HttpException(500, err))
