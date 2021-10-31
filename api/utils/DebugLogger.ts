@@ -37,19 +37,19 @@ function parseLogs(logObject: ILogObject) {
 }
 
 function logToDebugFile(logObject: ILogObject) {
-    appendFileSync(global.data + '/data/debug.log', parseLogs(logObject) + '\n');
+    appendFileSync(global.data + '/debug.log', parseLogs(logObject) + '\n');
 }
 
 function logToErrorFile(logObject: ILogObject) {
-    appendFileSync(global.data + '/data/error.log', parseLogs(logObject) + '\n');
+    appendFileSync(global.data + '/error.log', parseLogs(logObject) + '\n');
 }
 
 function logToFile(logObject: ILogObject) {
-    appendFileSync(global.data + '/data/app.log', parseLogs(logObject) + '\n');
+    appendFileSync(global.data + '/app.log', parseLogs(logObject) + '\n');
 }
 
-if (!existsSync(global.data + '/data')) {
-    mkdirSync(global.data + '/data');
+if (!existsSync(global.data)) {
+    mkdirSync(global.data);
 }
 
 const logger: Logger = new Logger({
