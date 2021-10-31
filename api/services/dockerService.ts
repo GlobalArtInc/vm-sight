@@ -126,6 +126,9 @@ class dockerService {
         return this.service.listNetworks()
     }
 
+    public getNetwork(networkId) {
+        return this.service.getNetwork(networkId)
+    }
 
     public snapshot(data) {
         return {

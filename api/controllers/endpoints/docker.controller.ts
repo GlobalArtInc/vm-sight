@@ -23,7 +23,43 @@ class DockerController extends App implements Controller {
                 await service.connect(endpointId)
                 return res.send(await service.listNetworks())
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
+        this.router.post('/networks/:networkId/connect', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, networkId} = req.params
+            const {Container} = req.body
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const network = await service.getNetwork(networkId)
+                if (network && await network.connect({Container, Force: true})) {
+                    return res.send({response: true})
+                } else {
+                    next(new NotFoundException)
+                }
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
+        this.router.post('/networks/:networkId/disconnect', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, networkId} = req.params
+            const {Container} = req.body
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const network = await service.getNetwork(networkId)
+                if (network && await network.disconnect({Container, Force: true})) {
+                    return res.send({response: true})
+                } else {
+                    next(new NotFoundException)
+                }
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -34,7 +70,7 @@ class DockerController extends App implements Controller {
                 await service.connect(endpointId)
                 return res.send(await service.info())
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -45,7 +81,18 @@ class DockerController extends App implements Controller {
                 await service.connect(endpointId)
                 return res.send(await service.version())
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
+        this.router.get('/images', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                return res.send(await service.getImages())
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -75,7 +122,7 @@ class DockerController extends App implements Controller {
                 })
                 return res.send(arr)
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -91,7 +138,7 @@ class DockerController extends App implements Controller {
                     next(new NotFoundException)
                 }
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -107,7 +154,7 @@ class DockerController extends App implements Controller {
                     next(new NotFoundException)
                 }
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -120,7 +167,7 @@ class DockerController extends App implements Controller {
                 await service.startContainer(req.params.containerId)
                 return res.send({response: true})
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -132,7 +179,7 @@ class DockerController extends App implements Controller {
                 await service.stopContainer(req.params.containerId)
                 return res.send({response: true})
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -144,7 +191,7 @@ class DockerController extends App implements Controller {
                 await service.killContainer(req.params.containerId)
                 return res.send({response: true})
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -156,7 +203,7 @@ class DockerController extends App implements Controller {
                 await service.restartContainer(req.params.containerId)
                 return res.send({response: true})
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -168,7 +215,7 @@ class DockerController extends App implements Controller {
                 await service.pauseContainer(req.params.containerId)
                 return res.send({response: true})
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
@@ -180,7 +227,7 @@ class DockerController extends App implements Controller {
                 await service.resumeContainer(req.params.containerId)
                 return res.send({response: true})
             } catch (err) {
-                next(new HttpException(err.statusCode, err.json))
+                next(new HttpException(err.statusCode, err.message))
             }
         })
 
