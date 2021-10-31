@@ -4,6 +4,7 @@ import {Router} from "express";
 import {IRequest, IResponse, INext} from "../../interfaces/express.interface";
 import dockerService from "../../services/dockerService";
 import HttpException from "../../exceptions/HttpException";
+import NotFoundException from "../../exceptions/NotFoundException";
 
 class DockerController extends App implements Controller {
     public path = '/docker'
@@ -73,6 +74,111 @@ class DockerController extends App implements Controller {
                     })
                 })
                 return res.send(arr)
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+        this.router.get('/containers/:containerId', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const container = await service.getContainer(req.params.containerId)
+                if (container) {
+                    return res.send(await container.inspect())
+                } else {
+                    next(new NotFoundException)
+                }
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+        this.router.delete('/containers/:containerId', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const container = await service.getContainer(req.params.containerId)
+                if (container) {
+                    return res.send(await container.remove({force: true, v: 1}))
+                } else {
+                    next(new NotFoundException)
+                }
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+
+        this.router.post('/containers/:containerId/start', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                await service.startContainer(req.params.containerId)
+                return res.send({response: true})
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+        this.router.post('/containers/:containerId/stop', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                await service.stopContainer(req.params.containerId)
+                return res.send({response: true})
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+        this.router.post('/containers/:containerId/kill', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                await service.killContainer(req.params.containerId)
+                return res.send({response: true})
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+        this.router.post('/containers/:containerId/restart', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                await service.restartContainer(req.params.containerId)
+                return res.send({response: true})
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+        this.router.post('/containers/:containerId/pause', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                await service.pauseContainer(req.params.containerId)
+                return res.send({response: true})
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.json))
+            }
+        })
+
+        this.router.post('/containers/:containerId/resume', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId} = req.params
+                const service = new dockerService()
+                await service.connect(endpointId)
+                await service.resumeContainer(req.params.containerId)
+                return res.send({response: true})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.json))
             }

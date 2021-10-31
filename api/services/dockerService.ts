@@ -150,6 +150,64 @@ class dockerService {
         return this.service.listServices()
     }
 
+    public getContainer(containerId) {
+        return this.service.getContainer(containerId)
+    }
+
+    public async startContainer(containerId) {
+        const container = await this.getContainer(containerId)
+        if (container) {
+            return container.start()
+        } else {
+            return false
+        }
+    }
+
+    public async stopContainer(containerId) {
+        const container = await this.getContainer(containerId)
+        if (container) {
+            return container.stop()
+        } else {
+            return false
+        }
+    }
+
+    public async killContainer(containerId) {
+        const container = await this.getContainer(containerId)
+        if (container) {
+            return container.kill()
+        } else {
+            return false
+        }
+    }
+
+    public async restartContainer(containerId) {
+        const container = await this.getContainer(containerId)
+        if (container) {
+            return container.restart()
+        } else {
+            return false
+        }
+    }
+
+    public async pauseContainer(containerId) {
+        const container = await this.getContainer(containerId)
+        if (container) {
+            return container.pause()
+        } else {
+            return false
+        }
+    }
+
+    public async resumeContainer(containerId) {
+        const container = await this.getContainer(containerId)
+        if (container) {
+            return container.unpause()
+        } else {
+            return false
+        }
+    }
+
     public getContainers() {
         return this.service.listContainers({all: 1}).then((containers) => {
             let arr = [];
