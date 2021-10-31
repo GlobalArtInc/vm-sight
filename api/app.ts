@@ -7,6 +7,7 @@ import DebugLogger from "./utils/DebugLogger";
 import errorMiddleware from './middleware/error.middleware';
 import {IRequest, IResponse} from "./interfaces/express.interface";
 import Init from "./utils/Init";
+
 global.data = "./data"
 export const port = 3601
 
@@ -27,6 +28,10 @@ export default class App {
     }
 
     public listen() {
+        process.on('uncaughtException', function (err) {
+            this.log.error(err)
+        });
+
         this.app.listen(port, async () => {
             await new Init().start()
             this.log.info(`Api server listening on the port ${port}`)

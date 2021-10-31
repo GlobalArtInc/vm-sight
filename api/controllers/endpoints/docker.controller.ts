@@ -251,10 +251,9 @@ class DockerController extends App implements Controller {
             const {name} = req.query
 
             try {
-                const {endpointId} = req.params
                 const service = new dockerService()
                 await service.connect(endpointId)
-                await service.renameContainer(req.params.containerId, name)
+                await service.renameContainer(containerId, name)
                 return res.send({status: 200, message: "The container has been renamed"})
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
