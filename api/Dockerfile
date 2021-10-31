@@ -1,8 +1,7 @@
 FROM node:alpine
 WORKDIR /app
-COPY . .
+COPY . /app
 RUN yarn
 
 EXPOSE 3600
-CMD ["node", "./server.js"]
-ENTRYPOINT ["/vm-sight"]
+CMD ["npm", "run", "start"]

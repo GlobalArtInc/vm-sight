@@ -2,16 +2,19 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as fs from 'fs';
+import * as path from 'path';
 import Controller from "./interfaces/controller.interface";
 import DebugLogger from "./utils/DebugLogger";
 import errorMiddleware from './middleware/error.middleware';
 import {IRequest, IResponse} from "./interfaces/express.interface";
 import Init from "./utils/Init";
 
-global.data = "./data"
-export const port = 3601
+const opts = require('optimist').argv;
 
-const key = fs.readFileSync(`${global.data}/vm-sight.pem`)
+global.data = opts.env === 'dev' ? "./data" : "/data"
+global.env = opts.env
+
+export const port = 3601
 
 export default class App {
     public app: express.Application;
@@ -20,8 +23,9 @@ export default class App {
     constructor(controllers: Controller[]) {
         this.app = express()
         this.log = DebugLogger
-        this.app.set('jwt-secret', key)
-
+        if (global.env === 'prod') {
+            this.app.use("/", express.static(path.join(__dirname, './dist')));
+        }
         this.initializeMiddlewares()
         this.initializeControllers(controllers);
         this.initializeErrorHandling();
@@ -29,11 +33,14 @@ export default class App {
 
     public listen() {
         process.on('uncaughtException', function (err) {
-            this.log.error(err)
+            console.log(err)
+            // this.log.error(err)
         });
 
         this.app.listen(port, async () => {
             await new Init().start()
+            const key = fs.readFileSync(`${global.data}/vm-sight.pem`)
+            this.app.set('jwt-secret', key)
             this.log.info(`Api server listening on the port ${port}`)
         });
     }
