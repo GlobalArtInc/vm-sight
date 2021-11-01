@@ -1,16 +1,13 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import * as fs from 'fs';
 import * as path from 'path';
 import Controller from "./interfaces/controller.interface";
 import DebugLogger from "./utils/DebugLogger";
 import errorMiddleware from './middleware/error.middleware';
 import {IRequest, IResponse} from "./interfaces/express.interface";
 import Init from "./utils/Init";
-import {dataDir, environment} from "./constants";
-
-export const port = 3601
+import {port, environment} from "./constants";
 
 export default class App {
     public app: express.Application;
@@ -28,6 +25,8 @@ export default class App {
     }
 
     public listen() {
+        require('express-ws')(this.app);
+
         process.on('uncaughtException', function (err) {
             console.log(err)
             // this.log.error(err)
@@ -35,8 +34,6 @@ export default class App {
 
         this.app.listen(port, async () => {
             await new Init().start()
-            const key = fs.readFileSync(`${dataDir}/vm-sight.pem`)
-            this.app.set('jwt-secret', key)
             this.log.info(`Api server listening on the port ${port}`)
         });
     }

@@ -1,10 +1,10 @@
 import {Router} from 'express';
 import {INext, IRequest, IResponse, IUser} from '../../interfaces/express.interface';
 import Controller from "../../interfaces/controller.interface";
-import authMiddleware from "../../middleware/auth.middleware";
 import {findUser} from "../../models/user.model";
 import App from "../../app";
 import HttpException from "../../exceptions/HttpException";
+import {jwtSecret} from "../../constants";
 const jwt = require('jsonwebtoken')
 
 class AuthController extends App implements Controller {
@@ -15,7 +15,6 @@ class AuthController extends App implements Controller {
         super(props);
         this.router.post(this.path, (req: IRequest, res: IResponse, next: INext) => {
             const {Username, Password} = req.body;
-            const secret = req.app.get('jwt-secret')
 
             findUser(Username, Password).then((user: IUser) => {
                 return new Promise((resolve, reject) => {
@@ -23,7 +22,7 @@ class AuthController extends App implements Controller {
                         {
                             id: user.id
                         },
-                        secret, {
+                        jwtSecret, {
                             expiresIn: '365d', subject: 'userInfo'
                         }, (err, token) => {
                             if (err) reject(err)

@@ -2,10 +2,11 @@ import {IRequest, IResponse, INext, IUser} from "../interfaces/express.interface
 import {verify as jwtVerify} from "jsonwebtoken";
 import {dbQuery} from "../utils/DB";
 import NotAuthorizedException from "../exceptions/NotAuthorizedException";
+import {jwtSecret} from "../constants";
 
 export default function (req: IRequest, res: IResponse, next: INext) {
-    if (req.headers.authorization) {
-        const token = req.headers.authorization.split('Bearer ')
+    if (req.headers.authorization || req.cookies.token) {
+        const token = req.headers.authorization ? req.headers.authorization.split('Bearer ') : req.cookies.token
 
         // token does not exist
         if (!token) {
@@ -20,7 +21,7 @@ export default function (req: IRequest, res: IResponse, next: INext) {
         // create a promise that decodes the token
         new Promise(
             (resolve, reject) => {
-                jwtVerify(token[1], req.app.get('jwt-secret'), (err: any, user: any) => {
+                jwtVerify(req.headers.authorization ? token[1] : token, jwtSecret, (err: any, user: any) => {
                     if (err) reject(err)
                     dbQuery(`SELECT * FROM users WHERE id = '${user.id}'`).then((u: any) => {
                         if (u.length > 0) {

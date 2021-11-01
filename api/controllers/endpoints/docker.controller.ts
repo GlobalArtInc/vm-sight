@@ -16,6 +16,33 @@ class DockerController extends App implements Controller {
     }
 
     private initializeRoutes() {
+        require('express-ws')(this.router);
+        // @ts-ignore
+        this.router.ws('/:containerId/attach', async (ws, req) => {
+            const {endpointId, containerId} = req.params
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const container = await service.getContainer(containerId)
+                container.attach({
+                    stream: true,
+                    stdout: true,
+                    stderr: true
+                }, function handler(err, stream) {
+                    stream.on('data', (chunk) => {
+                        if (ws.readyState === 1) {
+                            ws.send(chunk.toString())
+                        }
+                    })
+                })
+            } catch (err) {
+                return ws.send({status: 400, message: 'No connection'})
+            }
+        })
+        this.router.get('/:containerId/attach', (req: IRequest, res: IResponse, next: INext) => {
+            return next(new HttpException(403, "Only websocket connections"))
+        })
         this.router.get('/networks', async (req: IRequest, res: IResponse, next: INext) => {
             const {endpointId} = req.params
             try {
