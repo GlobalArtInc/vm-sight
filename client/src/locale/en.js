@@ -51,8 +51,8 @@ export default {
         password: "Password",
         repeatPassword: "Repeat password",
         administrator: "Administrator",
-        created: "User was created",
-        updated: "User was updated"
+        created: "The user has been created",
+        updated: "The user has been updated"
     },
     endpointsCreate: "New Endpoint",
     endpointsEdit: "Edit Endpoint",

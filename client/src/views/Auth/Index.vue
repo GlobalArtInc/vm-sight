@@ -88,27 +88,34 @@ export default {
     })
   },
   methods: {
-    login() {
+    async login() {
       if (this.$refs.form.validate()) {
         this.loading = true
-        auth(this.formModel.username, this.formModel.password).then((response) => {
-          const {jwt} = response
-          setToken(jwt)
-          this.$store.dispatch('user/getInfo').then(() => {
-            this.$router.push("/home").catch(() => {
-            });
-          })
-        }).catch((err) => {
-          console.log(err)
+        try {
+          const response = await auth(this.formModel.username, this.formModel.password)
+          if (response) {
+            const {jwt} = response
+            setToken(jwt)
+            this.$store.dispatch('user/getInfo').then(() => {
+              this.$router.push("/home").catch(() => {
+              });
+            })
+          } else {
+            window._VMA.$emit('SHOW_SNACKBAR', {
+              text: "Login Error",
+              color: 'error'
+            })
+          }
+        } catch (err) {
           window._VMA.$emit('SHOW_SNACKBAR', {
-            text: err.response.data.message,
+            text: "Login Error",
             color: 'error'
           })
-        }).finally(() => {
+        } finally {
           setTimeout(() => {
             this.loading = false
           }, 750)
-        })
+        }
       }
     },
     handleSocialLogin() {

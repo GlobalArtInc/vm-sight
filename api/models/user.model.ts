@@ -8,12 +8,11 @@ export function findUser(username, password) {
             // @ts-ignore
             if (user.length > 0) {
                 comparePassword(password, user[0].password, (err, isMatch) => {
-                    resolve(user[0])
-                   // if (isMatch) {
-                   //     resolve(user[0])
-                   // } else {
-                   //     reject()
-                   // }
+                    if (isMatch) {
+                        resolve(user[0])
+                    } else {
+                        reject(401)
+                    }
                 })
             } else {
                 reject(401)

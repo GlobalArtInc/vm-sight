@@ -9,9 +9,7 @@
                   text
                   solo
                   flat
-                  :prepend-icon="
-                  showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'
-                "
+                  :prepend-icon="showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'"
                   append-icon="mdi-magnify"
                   placeholder="Type something"
                   v-model="filter['filter[username]']"
@@ -160,7 +158,6 @@ export default {
     }
   },
   methods: {
-    //
     updateFilterQuery(query) {
       const filter = Object.assign(this.filter, query)
       filter.page = parseInt(filter.page)
