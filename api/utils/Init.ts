@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import {dbQuery} from "./DB";
 import {generateKeyPairSync} from "crypto";
+import {dataDir} from "../constants";
 
 class Init {
     public async start() {
@@ -90,8 +91,8 @@ class Init {
     }
 
     private static generateKeys() {
-        const key = `${global.data}/vm-sight.pem`
-        const pub = `${global.data}/vm-sight.pub`
+        const key = `${dataDir}/vm-sight.pem`
+        const pub = `${dataDir}/vm-sight.pub`
 
         const {publicKey, privateKey} = generateKeyPairSync('rsa',
             {

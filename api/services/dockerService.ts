@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import {dbQuery} from "../utils/DB";
 import * as Docker from 'dockerode';
+import {dataDir} from "../constants";
 
 const getEndpoint = (endpoint) => {
 
@@ -38,17 +39,17 @@ class dockerService {
 
                 if (endpoint[0].tls === 1) {
                     if (endpoint[0].tls_ca === 1) {
-                        const path = `${global.data}/certs/${endpoint[0].id}/ca.pem`
+                        const path = `${dataDir}/certs/${endpoint[0].id}/ca.pem`
                         if (fs.existsSync(path))
                             settings.ca = fs.readFileSync(path)
                     }
                     if (endpoint[0].tls_cert === 1) {
-                        const path = `${global.data}/certs/${endpoint[0].id}/cert.pem`
+                        const path = `${dataDir}/certs/${endpoint[0].id}/cert.pem`
                         if (fs.existsSync(path))
                             settings.cert = fs.readFileSync(path)
                     }
                     if (endpoint[0].tls_key === 1) {
-                        const path = `${global.data}/certs/${endpoint[0].id}/key.pem`
+                        const path = `${dataDir}/certs/${endpoint[0].id}/key.pem`
                         if (fs.existsSync(path))
                             settings.key = fs.readFileSync(path)
                     }

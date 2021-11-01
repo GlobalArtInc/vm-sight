@@ -8,11 +8,7 @@ import DebugLogger from "./utils/DebugLogger";
 import errorMiddleware from './middleware/error.middleware';
 import {IRequest, IResponse} from "./interfaces/express.interface";
 import Init from "./utils/Init";
-
-const opts = require('optimist').argv;
-
-global.data = opts.env === 'dev' ? "./data" : "/data"
-global.env = opts.env
+import {dataDir, environment} from "./constants";
 
 export const port = 3601
 
@@ -23,7 +19,7 @@ export default class App {
     constructor(controllers: Controller[]) {
         this.app = express()
         this.log = DebugLogger
-        if (global.env === 'prod') {
+        if (environment === 'prod') {
             this.app.use("/", express.static(path.join(__dirname, './dist')));
         }
         this.initializeMiddlewares()
@@ -39,7 +35,7 @@ export default class App {
 
         this.app.listen(port, async () => {
             await new Init().start()
-            const key = fs.readFileSync(`${global.data}/vm-sight.pem`)
+            const key = fs.readFileSync(`${dataDir}/vm-sight.pem`)
             this.app.set('jwt-secret', key)
             this.log.info(`Api server listening on the port ${port}`)
         });

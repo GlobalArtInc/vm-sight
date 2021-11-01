@@ -1,6 +1,6 @@
 import {ILogObject, Logger} from 'tslog';
 import {appendFileSync, existsSync, mkdirSync} from 'fs';
-import * as moment from 'moment';
+import {dataDir} from "../constants";
 
 function getLogLevel(level: string) {
     let color = '9';
@@ -37,19 +37,19 @@ function parseLogs(logObject: ILogObject) {
 }
 
 function logToDebugFile(logObject: ILogObject) {
-    appendFileSync(global.data + '/debug.log', parseLogs(logObject) + '\n');
+    appendFileSync(dataDir + '/debug.log', parseLogs(logObject) + '\n');
 }
 
 function logToErrorFile(logObject: ILogObject) {
-    appendFileSync(global.data + '/error.log', parseLogs(logObject) + '\n');
+    appendFileSync(dataDir + '/error.log', parseLogs(logObject) + '\n');
 }
 
 function logToFile(logObject: ILogObject) {
-    appendFileSync(global.data + '/app.log', parseLogs(logObject) + '\n');
+    appendFileSync(dataDir + '/app.log', parseLogs(logObject) + '\n');
 }
 
-if (!existsSync(global.data)) {
-    mkdirSync(global.data);
+if (!existsSync(dataDir)) {
+    mkdirSync(dataDir);
 }
 
 const logger: Logger = new Logger({

@@ -12,6 +12,7 @@ import DockerController from "./docker.controller";
 import ForbiddenException from "../../exceptions/ForbiddenException";
 import HttpException from "../../exceptions/HttpException";
 import {getGUID} from "../../utils/Security";
+import {dataDir} from "../../constants";
 
 class EndpointsController extends App implements Controller {
     public path = '/endpoints'
@@ -116,7 +117,7 @@ class EndpointsController extends App implements Controller {
             }
         })
 
-        this.router.get(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.get(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
                 const endpoint = await dbQuery(`SELECT id AS Id,
@@ -183,16 +184,16 @@ class EndpointsController extends App implements Controller {
 
                         if (url) {
                             if (tls_active) {
-                                let tls_ca_path = `${global.data}/certs/${endpoint[0].id}/ca.pem`
+                                let tls_ca_path = `${dataDir}/certs/${endpoint[0].id}/ca.pem`
 
                                 if (fs.existsSync(tls_ca_path))
                                     tls_ca = fs.readFileSync(tls_ca_path)
 
-                                let tls_cert_path = `${global.data}/certs/${endpoint[0].id}/cert.pem`
+                                let tls_cert_path = `${dataDir}/certs/${endpoint[0].id}/cert.pem`
                                 if (fs.existsSync(tls_cert_path))
                                     tls_cert = fs.readFileSync(tls_cert_path)
 
-                                let tls_key_path = `${global.data}/certs/${endpoint[0].id}/key.pem`
+                                let tls_key_path = `${dataDir}/certs/${endpoint[0].id}/key.pem`
                                 if (fs.existsSync(tls_key_path))
                                     tls_key = fs.readFileSync(tls_key_path)
 
