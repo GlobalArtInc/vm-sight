@@ -39,16 +39,16 @@ class UsersController extends App implements Controller {
             const access = await getUserByIdAndCheckIfAdmin(req.user.id);
             if (access) {
                 const {Username, Password, Role} = req.body
-                if (!Username) return new HttpException(400, "Username is not specified")
-                if (!Password) return new HttpException(400, "Password is not specified")
+                if (!Username) return next(new HttpException(400, "Username is not specified"))
+                if (!Password) return next(new HttpException(400, "Password is not specified"))
                 if (Role < 0 || Role > 1) {
-                    return new HttpException(400, "ROle is not specified")
+                    return next(new HttpException(400, "Role is not specified"))
                 } else {
                     const user = await dbQuery(`SELECT username FROM users WHERE username = '${Username}'`)
 
                     // @ts-ignore
                     if (user.length > 0) {
-                        return new HttpException(400, "User already exists")
+                        return next(new HttpException(400, "User already exists"))
                     } else {
                         cryptPassword(Password).then((hash) => {
                             const id = getGUID()
@@ -86,34 +86,29 @@ class UsersController extends App implements Controller {
                 const user = await dbQuery(`SELECT id,username,role FROM users WHERE id = '${req.params.id}'`)
                 const {Username, Password, Role} = req.body
 
-                // @ts-ignore
-                if (user.length > 0) {
+                if (user['length'] > 0) {
                     if (req.user.id === user[0].id && Role === 0) {
                         return next(new HttpException(403, "You can't remove yourself from administrator group"))
                     }
                     if (Username) {
                         const checkUser = await dbQuery(`SELECT username FROM users WHERE LOWER(username) = LOWER("${Username}")`)
 
-                        // @ts-ignore
-                        if (checkUser.length > 0 && user[0].username !== Username) {
+                        if (checkUser['length'] > 0 && user[0].username !== Username) {
                             return next(new HttpException(403, "Username is already used"))
                         }
+                        await dbQuery(`UPDATE users SET username = '${Username}' WHERE id = '${user[0].id}'`)
                     }
 
                     if (Password) {
                         if (Password.length < 4) {
                             return next(new HttpException(403, "Simple Password"))
                         }
+                        const hash = Password ? await cryptPassword(Password) : ''
+                        await dbQuery(`UPDATE users SET password = '${hash}' WHERE id = '${user[0].id}'`)
                     }
+                    await dbQuery(`UPDATE users SET role = '${Role}' WHERE id = '${user[0].id}'`)
 
-                    const hash = Password ? await cryptPassword(Password) : ''
-
-                    const query = `UPDATE users SET ${Username ? "username='" + Username + "'" : ''}${Password ? ", password='" + hash + "'" : ""}${Role ? ", role=" + Role : "role=" + Role} WHERE id = '${user[0].id}'`
-                    dbQuery(query).then(() => {
-                        return res.send({response: true})
-                    }).catch(() => {
-                        return res.status(403).send({response: false})
-                    })
+                    return res.send({status: 200, message: "The user has been updated"})
                 } else {
                     return next(new HttpException(404, "User not found"))
                 }

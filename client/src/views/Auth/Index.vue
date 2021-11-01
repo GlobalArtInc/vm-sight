@@ -80,12 +80,12 @@ export default {
       return ''
     }
   },
-  created() {
-    check().then(() => {
-
-    }).catch(() => {
-      this.$router.push('/init/admin')
-    })
+  async created() {
+    try {
+      await check()
+    } catch (err) {
+      await this.$router.push('/init/admin')
+    }
   },
   methods: {
     async login() {
