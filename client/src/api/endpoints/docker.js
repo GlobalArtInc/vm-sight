@@ -7,6 +7,14 @@ export function fetchContainers(endpoint_id) {
     })
 }
 
+export function updateContainer(endpoint_id, container, data) {
+    return request({
+        url: `/endpoints/${endpoint_id}/docker/containers/${container}/update`,
+        method: 'post',
+        data
+    })
+}
+
 export function startContainer(endpoint_id, container) {
     return request({
         url: `/endpoints/${endpoint_id}/docker/containers/${container}/start`,

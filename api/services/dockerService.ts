@@ -247,6 +247,15 @@ class dockerService {
         }
     }
 
+    public async updateContainer(containerId, data) {
+        const container = await this.getContainer(containerId)
+        if (container) {
+            return container.rename(data)
+        } else {
+            return false
+        }
+    }
+
     public getContainers() {
         return this.service.listContainers({all: 1}).then((containers) => {
             let arr = [];

@@ -287,6 +287,20 @@ class DockerController extends App implements Controller {
             }
         })
 
+        this.router.post('/containers/:containerId/update', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, containerId} = req.params
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const container = await service.getContainer(containerId)
+                await container.update(req.body)
+                return res.send({status: 200, message: "The container has been updated"})
+            } catch (err) {
+               return next(new HttpException(500, err))
+            }
+        })
+
     }
 
 }

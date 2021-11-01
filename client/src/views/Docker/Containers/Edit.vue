@@ -51,7 +51,7 @@
                         <v-divider></v-divider>
 
                         <v-card-text>
-                          <v-text-field v-model="dialog.rename.name" style="margin-top: 1.5em" filled label="Name" />
+                          <v-text-field v-model="dialog.rename.name" style="margin-top: 1.5em" filled label="Name"/>
                         </v-card-text>
 
                         <v-divider></v-divider>
@@ -136,6 +136,35 @@
                 </td>
                 <td><span class="code" v-if="container.Config.Entrypoint"
                           v-text="container.Config.Entrypoint.join('')"/></td>
+              </tr>
+              <tr>
+                <td style="width: 25%">
+                  Restart Policy
+                </td>
+                <td>
+                  <table>
+                    <tr>
+                      <td style="width: 50%">Name</td>
+                      <td style="width: 50%">
+                        <div style="display: flex">
+                          <v-select dense
+                                    v-model="container.HostConfig.RestartPolicy.Name"
+                                    :items="restartPolicyItems"
+                                    item-text="text"
+                                    item-value="Name"
+                          ></v-select>
+                          <v-btn @click="onUpdate({
+                          RestartPolicy: {
+                            Name: container.HostConfig.RestartPolicy.Name,
+                            MaximumRetryCount: container.HostConfig.RestartPolicy.MaximumRetryCount
+                          }}, 'restartPolicy')" style="margin-left: 3em" color="primary">
+                            Update
+                          </v-btn>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
               </tr>
               </tbody>
             </template>
@@ -226,7 +255,7 @@
 
 <script>
 import {disconnectNetwork, connectNetwork} from "@/api/endpoints/networks";
-import {renameContainer} from "../../../api/endpoints/docker";
+import {renameContainer, updateContainer} from "../../../api/endpoints/docker";
 import {fetchContainer} from "@/api/endpoints/docker";
 import {fetchNetworks} from "@/api/endpoints/networks";
 import State from "@/components/docker/State";
@@ -241,6 +270,24 @@ export default {
   data: () => ({
     container: false,
     idle: true,
+    restartPolicyItems: [
+      {
+        text: "None",
+        Name: "no"
+      },
+      {
+        text: "On Failure",
+        Name: "on-failure"
+      },
+      {
+        text: "Always",
+        Name: "always"
+      },
+      {
+        text: "Unless Stopped",
+        Name: "unless-stopped"
+      }
+    ],
     currentNetwork: "",
     dialog: {
       rename: {
@@ -262,6 +309,20 @@ export default {
     networks: []
   }),
   methods: {
+    async onUpdate(data, type) {
+      try {
+        await updateContainer(this.id, this.hash, data)
+        if (type === 'restartPolicy') {
+          this.$toast("The restart policy has been updated", {
+            type: 'success'
+          });
+        }
+      } catch (err) {
+        this.$toast("An error occurred", {
+          type: 'error'
+        });
+      }
+    },
     openRenameDialog() {
       this.dialog.rename.show = true
       this.dialog.rename.name = this.container.Name.substr(1)
