@@ -308,7 +308,7 @@ class DockerController extends App implements Controller {
                 await service.connect(endpointId)
                 const container = await service.getContainer(containerId)
                 if (container) {
-                    const exec = await container.exec({Cmd: ['bash'], AttachStdin: true, AttachStdout: true})
+                    const exec = await container.exec({Cmd: req.body.Cmd, AttachStdin: true, AttachStdout: true})
                     return res.send({Id: exec.id})
                 } else {
                     next(new NotFoundException)

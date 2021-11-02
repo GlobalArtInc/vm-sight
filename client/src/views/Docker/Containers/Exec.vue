@@ -8,10 +8,16 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-text>
-          <v-text-field v-model="formModel.cmd" outlined dense label="Command"/>
+          <v-select
+              label="Command"
+              outlined
+              dense
+              v-model="formModel.cmd"
+              :items="itemsCommands"
+              item-text="text"
+                item-value="command"/>
           <v-text-field v-model="formModel.user" outlined dense label="User"/>
           <v-btn color="primary" @click="onConnect">Connect</v-btn>
-          <v-btn color="primary" @click="send">Connectss</v-btn>
         </v-card-text>
       </v-card>
       <div style="width: 50%;margin:0 auto">
@@ -32,6 +38,11 @@ export default {
     hash: {type: String}
   },
   data: () => ({
+    itemsCommands: [
+      {text: '/bin/ash', command: 'ash'},
+      {text: '/bin/bash', command: 'bash'},
+      {text: '/bin/sh', command: 'sh'}
+    ],
     formModel: {
       cmd: "bash",
       user: "root"
