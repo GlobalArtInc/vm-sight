@@ -318,6 +318,25 @@ class DockerController extends App implements Controller {
             }
         })
 
+        this.router.post('/containers/:containerId/resize', async (req: IRequest, res: IResponse, next: INext) => {
+            try {
+                const {endpointId, containerId} = req.params
+                const {id} = req.body
+                const {w, h} = req.query
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const container = await service.getContainer(containerId)
+                if (container) {
+                    const resize = await container.resize({id, w, h})
+                    return res.send(resize)
+                } else {
+                    next(new NotFoundException)
+                }
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
     }
 
 }
