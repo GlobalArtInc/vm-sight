@@ -142,28 +142,23 @@
                   Restart Policy
                 </td>
                 <td>
-                  <table>
-                    <tr>
-                      <td style="width: 50%">Name</td>
-                      <td style="width: 50%">
-                        <div style="display: flex">
-                          <v-select dense
-                                    v-model="container.HostConfig.RestartPolicy.Name"
-                                    :items="restartPolicyItems"
-                                    item-text="text"
-                                    item-value="Name"
-                          ></v-select>
-                          <v-btn @click="onUpdate({
+                  <div style="display: flex;padding-top: 1em">
+                    <div style="width: 25%">
+                      <v-select
+                          dense
+                          v-model="container.HostConfig.RestartPolicy.Name"
+                          :items="restartPolicyItems"
+                          item-text="text"
+                          item-value="Name"/>
+                    </div>
+                    <v-btn @click="onUpdate({
                           RestartPolicy: {
                             Name: container.HostConfig.RestartPolicy.Name,
                             MaximumRetryCount: container.HostConfig.RestartPolicy.MaximumRetryCount
-                          }}, 'restartPolicy')" style="margin-left: 3em" color="primary">
-                            Update
-                          </v-btn>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
+                          }}, 'restartPolicy')" style="margin-left: 2em" color="primary">
+                      Update
+                    </v-btn>
+                  </div>
                 </td>
               </tr>
               </tbody>

@@ -11,11 +11,14 @@
           <v-btn color="primary" v-if="status === 'detached'" @click="onAttach">Attach to Container</v-btn>
           <v-btn color="primary" v-else-if="status === 'attached'" @click="onDetach">Detach</v-btn>
           <v-btn color="primary" v-else disabled>Attaching...</v-btn>
+          <template v-if="status === 'attached'">
+            <br />
+            <br />
+          </template>
+          <div :style="`${status==='attached'?'display:block':'display:none'}`" class="hideScroll"
+               id="terminal-container"></div>
         </v-card-text>
       </v-card>
-      <br/>
-      <div :style="`${status==='attached'?'display:block':'display:none'}`" class="hideScroll"
-           id="terminal-container"></div>
     </v-col>
   </v-row>
 </template>
@@ -23,6 +26,7 @@
 <script>
 import {Terminal} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
+import {getToken} from "../../../utils/auth";
 
 export default {
   props: {
@@ -44,7 +48,7 @@ export default {
   methods: {
     onAttach() {
       this.status = ''
-      this.ws = new WebSocket(`ws://${location.host}/api/endpoints/${this.id}/docker/${this.hash}/attach`)
+      this.ws = new WebSocket(`ws://${location.host}/api/endpoints/${this.id}/docker/${this.hash}/attach?token=${getToken()}`)
       //this.ws = new WebSocket(`ws://${location.host}/api/ws/attach?endpointId=${this.id}&id=${this.hash}`)
 
       const fitAddon = new FitAddon();

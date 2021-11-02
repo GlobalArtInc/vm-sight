@@ -5,8 +5,8 @@ import NotAuthorizedException from "../exceptions/NotAuthorizedException";
 import {jwtSecret} from "../constants";
 
 export default function (req: IRequest, res: IResponse, next: INext) {
-    if (req.headers.authorization || req.cookies.token) {
-        const token = req.headers.authorization ? req.headers.authorization.split('Bearer ') : req.cookies.token
+    if (req.headers.authorization || req.query.token) {
+        const token = req.headers.authorization ? req.headers.authorization.split('Bearer ') : req.query.token
 
         // token does not exist
         if (!token) {
@@ -14,7 +14,7 @@ export default function (req: IRequest, res: IResponse, next: INext) {
         }
 
         // if it has failed to verify, it will return an error message
-        const onError = (error: any) => {
+        const onError = () => {
             return next(new NotAuthorizedException)
         }
 

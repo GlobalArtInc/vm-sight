@@ -22,6 +22,11 @@
             Images
           </span>
         </v-card-subtitle>
+        <v-divider/>
+        <v-card-subtitle>
+          <ImagesActionMenu remove newImage importExport />
+        </v-card-subtitle>
+        <v-divider />
         <v-card-text style="padding: 0">
           <v-data-table
               :headers="headers"
@@ -57,8 +62,10 @@
 <script>
 import {fetchImages} from "@/api/endpoints/images";
 import {ByteToSize} from "@/utils/math";
+import ImagesActionMenu from "../../../components/docker/ImagesActionMenu";
 
 export default {
+  components: {ImagesActionMenu},
   props: {
     id: {type: String}
   },
