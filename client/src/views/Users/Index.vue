@@ -11,7 +11,7 @@
                   flat
                   :prepend-icon="showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'"
                   append-icon="mdi-magnify"
-                  placeholder="Type something"
+                  placeholder="Type username"
                   v-model="filter['filter[username]']"
                   hide-details
                   clearable
