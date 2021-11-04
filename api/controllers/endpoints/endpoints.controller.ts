@@ -164,6 +164,22 @@ class EndpointsController extends App implements Controller {
             }
         })
 
+        this.router.delete(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
+          const {endpointId} = req.params
+            const user = await getUserById(req.user.id);
+            if (user.role === 1) {
+                const endpoint = await dbQuery(`SELECT * FROM endpoints WHERE id = '${endpointId}'`)
+                if (endpoint['length'] > 0) {
+                    await dbQuery(`DELETE FROM endpoints WHERE id = '${endpointId}'`)
+                    return res.send({status: 200, message: "The endpoint has been deleted."})
+                } else {
+                    return next(new NotFoundException())
+                }
+            } else {
+                return next(new ForbiddenException())
+            }
+        })
+
         this.router.put(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {

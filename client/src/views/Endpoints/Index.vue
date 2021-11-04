@@ -4,49 +4,49 @@
       <v-row>
         <v-col cols="12">
           <v-card tile>
-            <v-card-subtitle class="font-weight-medium" style="color: #333">
-              <i class="fa fa-plug"></i>
-              <span class="font-weight-medium pl-1" style="color: #333">Endpoints</span>
+            <v-toolbar flat>
+              <v-text-field
+                  text
+                  solo
+                  flat
+                  :prepend-icon="showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'"
+                  append-icon="mdi-magnify"
+                  placeholder="Type name"
+                  hide-details
+                  clearable
+                  @click:prepend="showFilter = !showFilter"
+              />
+              <v-btn icon color="error" :disabled="selected.length === 0" @click="handleDeleteItems(selected)">
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </v-btn>
               <v-btn icon @click="handleRefreshItems" class="space-left">
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn icon @click="handleCreateItem">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
-            </v-card-subtitle>
-            <v-divider/>
-            <v-card-subtitle>
-              <v-btn color="error" :disabled="selected.length === 0" @click="handleDeleteItems(selected)">
-                <v-icon left>
-                  mdi-delete
-                </v-icon>
-                <span>
-                  Delete
-                </span>
-              </v-btn>
-              <v-btn color="primary" class="ml-3" @click="handleCreateItem">
-                <v-icon left>
-                  mdi-plus
-                </v-icon>
-                <span>
-                  Add Endpoint
-                </span>
-              </v-btn>
-            </v-card-subtitle>
+            </v-toolbar>
             <v-divider/>
 
-            <v-text-field
-                dense
-                v-model="search"
-                text
-                solo
-                flat
-                prepend-inner-icon="mdi-magnify"
-                placeholder="Type something"
-                hide-details
-                clearable
-            />
-            <v-divider/>
+            <v-card v-show="showFilter" flat class="grey lighten-4">
+              <v-card-text>
+                <v-select v-model="filter['filter[type]']" :items="selectTypes" item-value="type" item-text="name"
+                          label="Type" outlined/>
+                <v-select v-model="filter['filter[tls]']" :items="selectTLS" item-value="id" item-text="name"
+                          label="TLS" outlined/>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text>Reset</v-btn>
+                <v-btn tile color="primary">
+                  Apply
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+
+            <v-divider v-if="showFilter"/>
             <v-data-table
                 v-model="selected"
                 :search="search"
@@ -108,9 +108,25 @@ export default {
   data() {
     return {
       loadingItems: false,
+      showFilter: false,
       endpoints: [],
       selected: [],
       search: "",
+      filter: {
+        page: 1,
+        'filter[name]': null,
+        'filter[type]': 'any',
+        'filter[tls]': null
+      },
+      selectTLS: [
+        {id: null, name: "Any"},
+        {id: 0, name: "No"},
+        {id: 1, name: "Yes"}
+      ],
+      selectTypes: [
+        {type: 'any', name: 'Any'},
+        {type: 'docker', name: 'Docker'}
+      ],
       actions: [
         {
           text: 'Edit Item',
@@ -126,19 +142,23 @@ export default {
       headers: [
         {
           text: 'Name',
-          value: 'Name'
+          value: 'Name',
+          sortable: false
         },
         {
           text: 'Type',
-          value: 'Type'
+          value: 'Type',
+          sortable: false
         },
         {
           text: 'TLS',
-          value: 'TLS'
+          value: 'TLS',
+          sortable: false
         },
         {
           text: 'Action',
-          value: 'action'
+          value: 'action',
+          sortable: false
         }
       ]
     }
@@ -193,12 +213,16 @@ export default {
       })
     }
   },
-  created() {
-    this.getEndpoints().then(() => {
+  async created() {
+    try {
+      await this.getEndpoints()
+    } catch (err) {
+      //
+    } finally {
       setTimeout(() => {
         this.loadingItems = false
       }, 750)
-    })
+    }
   }
 }
 </script>

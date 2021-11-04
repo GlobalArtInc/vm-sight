@@ -69,10 +69,6 @@
                 </td>
               </tr>
               <tr>
-                <td style="width: 25%">Dev</td>
-                <td>Dev</td>
-              </tr>
-              <tr>
                 <td style="width: 25%">Status</td>
                 <td>
                   <State text :state="container.State.Status"/>
