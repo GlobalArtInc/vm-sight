@@ -27,7 +27,7 @@ Vue.use(Toast, {
   newestOnTop: true,
   pauseOnFocusLoss: false,
   pauseOnHover: false,
-  timeout: 2000
+  timeout: 4000
 });
 
 import Xterm from '@swzry/xterm-vue'

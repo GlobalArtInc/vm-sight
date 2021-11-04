@@ -24,11 +24,12 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-subtitle>
-          <ImagesActionMenu remove newImage importExport />
+          <ImagesActionMenu remove newImage importExport :selected="selected" @update="onUpdate" />
         </v-card-subtitle>
         <v-divider />
         <v-card-text style="padding: 0">
           <v-data-table
+              v-model="selected"
               :headers="headers"
               :items="images"
               :items-per-page="-1"
@@ -70,6 +71,7 @@ export default {
     id: {type: String}
   },
   data: () => ({
+    selected: [],
     images: false,
     isLoading: false,
     headers: [
@@ -96,6 +98,14 @@ export default {
     ]
   }),
   methods: {
+    // eslint-disable-next-line no-unused-vars
+    onUpdate() {
+      fetchImages(this.id).then((data) => {
+        this.selected = []
+        this.images = data
+        this.isLoading = true
+      })
+    },
     byteToSize(size) {
       return ByteToSize(size)
     }

@@ -22,6 +22,7 @@
         <v-divider/>
         <v-card-text style="padding: 0">
           <v-data-table
+              v-model="selected"
               :search="search"
               :headers="headers"
               :items="networks"
@@ -32,6 +33,9 @@
             <template #item.Name="{item}">
               <router-link :to="`networks/`+item.Id">
                 {{ item.Name }}
+                <v-chip color="primary" ripple v-if="item.Name === 'host' || item.Name === 'none' || item.Name === 'bridge'" class="ml-2 font-weight-bold">
+                  System
+                </v-chip>
               </router-link>
             </template>
 
@@ -78,6 +82,7 @@ export default {
     id: {type: String}
   },
   data: () => ({
+    selected: [],
     isLoading: false,
     search: "",
     headers: [

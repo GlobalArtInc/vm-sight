@@ -57,7 +57,7 @@
           </template>
           <template #item.Ports="{item}">
             <template v-if="item.Ports.length > 0">
-              <a :key="port.PublicPort" v-for="port in item.Ports" class="space-left"
+              <a :key="i" v-for="(port, i) in item.Ports" class="space-left"
                  :href="`${endpoint.PublicURL}:${port.PublicPort}`"
                  target="_blank">
                 <template v-if="port.PublicPort">

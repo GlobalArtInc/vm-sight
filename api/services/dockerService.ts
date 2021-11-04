@@ -157,6 +157,10 @@ class dockerService {
         return this.service.getNetwork(networkId)
     }
 
+    public getImage(imageId) {
+        return this.service.getImage(imageId)
+    }
+
     public snapshot(data) {
         return {
             DockerVersion: data.DockerVersion ? data.DockerVersion : "",

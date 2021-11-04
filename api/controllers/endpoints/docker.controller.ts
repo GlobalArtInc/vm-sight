@@ -5,6 +5,7 @@ import {IRequest, IResponse, INext} from "../../interfaces/express.interface";
 import dockerService from "../../services/dockerService";
 import HttpException from "../../exceptions/HttpException";
 import NotFoundException from "../../exceptions/NotFoundException";
+import * as fs from "fs";
 
 class DockerController extends App implements Controller {
     public path = '/docker'
@@ -49,6 +50,18 @@ class DockerController extends App implements Controller {
                 const service = new dockerService()
                 await service.connect(endpointId)
                 return res.send(await service.listNetworks())
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
+        this.router.get('/networks/:networkId', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, networkId} = req.params
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const network = await service.getNetwork(networkId)
+                return res.send(await network.inspect())
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
@@ -121,6 +134,49 @@ class DockerController extends App implements Controller {
             } catch (err) {
                 next(new HttpException(err.statusCode, err.message))
             }
+        })
+
+        this.router.delete('/images/:imageId', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, imageId} = req.params
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const image = service.getImage(imageId)
+                return res.send(await image.remove(req.query))
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
+        this.router.get('/images/get', async (req: IRequest, res: IResponse, next: INext) => {
+            const {names} = req.query
+            const {endpointId} = req.params
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                res.header('Content-Type', 'application/x-tar')
+                if (typeof names === "object") {
+                    let arr = []
+                    const images = service.getImage(names)
+                    return res.send(fs.createReadStream(await images.get()))
+                    //  return res.send(await images.get())
+                   // for (let i = 0; i < names.length; i++) {
+                   //     const image = service.getImage(names)
+                   //     arr
+                   // }
+                } else {
+                    const image = service.getImage(names)
+                    const get = await image.get()
+                    console.log(get)
+                    return res.send({'dev': true})
+                }
+                // return res.send(await image.remove(req.query))
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+            //  return res.send(names)
         })
 
         this.router.get('/containers', async (req: IRequest, res: IResponse, next: INext) => {
