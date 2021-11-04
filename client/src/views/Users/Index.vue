@@ -57,6 +57,7 @@
                   :loading="loadingItems"
                   :headers="headers"
                   :items="items"
+                  :footer-props="footerProps"
                   :items-per-page-options="[5]"
                   :items-per-page="itemsPerPage"
                   :username.sync="filter['username']"
@@ -113,8 +114,9 @@ export default {
       search: '',
       loadingItems: false,
       serverItemsLength: 0,
-      itemsPerPage: 5,
+      itemsPerPage: 50,
       showFilter: false,
+      footerProps: {'items-per-page-options': [50, 100]},
       filter: {
         page: 1,
         'filter[username]': null,
@@ -123,15 +125,18 @@ export default {
       headers: [
         {
           text: 'Name',
-          value: 'username'
+          value: 'username',
+          sortable: false
         },
         {
           text: 'Role',
-          value: 'role'
+          value: 'role',
+          sortable: false
         },
         {
           text: 'Action',
-          value: 'action'
+          value: 'action',
+          sortable: false
         }
       ],
       items: [],
@@ -177,10 +182,10 @@ export default {
 
       return fetchUsers(query)
           .then((data) => {
-            if (this.filter['filter[role]'] !== null) {
+            if (this.filter['filter[role]'] !== null && this.filter['filter[role]'] !== undefined) {
               data = data.filter((i) => i.role === parseInt(this.filter['filter[role]']))
             }
-            if (this.filter['filter[username]'] !== null) {
+            if (this.filter['filter[username]'] !== null && this.filter['filter[username]'] !== undefined) {
               data = data.filter((i) => i.username.includes(this.filter['filter[username]']))
             }
 
@@ -229,35 +234,59 @@ export default {
       this.fetchRecords(this.filter)
     },
     // filter
-    handlePageChanged(page) {
+    async handlePageChanged(page) {
       this.filter.page = page
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter
-      })
+      try {
+        await this.$router.replace({
+          path: this.$route.path,
+          query: this.filter
+        })
+      } catch (err) {
+        //
+      } finally {
+        this.showFilter = false
+      }
     },
-    handleResetFilter() {
+    async handleResetFilter() {
       this.filter = {
         page: 1,
         'filter[username]': null,
         'filter[role]': null
       }
-      this.$router.replace({
-        path: this.$route.path
-      })
+      try {
+        await this.$router.replace({
+          path: this.$route.path
+        })
+      } catch (err) {
+        //
+      } finally {
+        this.showFilter = false
+      }
     },
-    handleApplyFilter() {
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter
-      })
+    async handleApplyFilter() {
+      try {
+        await this.$router.replace({
+          path: this.$route.path,
+          query: this.filter
+        })
+      } catch (err) {
+        //
+      } finally {
+        this.showFilter = false
+      }
     },
-    handleClear() {
+    async handleClear() {
       this.resetFilter()
-      this.$router.replace({
-        path: this.$route.path,
-        query: this.filter
-      })
+      try {
+        await this.$router.replace({
+          path: this.$route.path,
+          query: this.filter
+        })
+      } catch (err) {
+        //
+      } finally {
+        this.showFilter = false
+      }
     }
   }
 }
