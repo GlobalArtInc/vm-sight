@@ -2,12 +2,13 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as path from 'path';
+import * as fs from 'fs';
 import Controller from "./interfaces/controller.interface";
 import DebugLogger from "./utils/DebugLogger";
 import errorMiddleware from './middleware/error.middleware';
 import {IRequest, IResponse} from "./interfaces/express.interface";
 import Init from "./utils/Init";
-import {port, environment} from "./constants";
+import {port, environment, dataDir} from "./constants";
 
 export default class App {
     public app: express.Application;
@@ -19,6 +20,7 @@ export default class App {
         if (environment === 'prod') {
             this.app.use("/", express.static(path.join(__dirname, './dist')));
         }
+
         this.initializeMiddlewares()
         this.initializeControllers(controllers);
         this.initializeErrorHandling();
@@ -26,7 +28,9 @@ export default class App {
 
     public listen() {
         require('express-ws')(this.app);
-
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir);
+        }
         process.on('uncaughtException', function (err) {
             console.log(err)
             // this.log.error(err)

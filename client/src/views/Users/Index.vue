@@ -27,7 +27,7 @@
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-toolbar>
-            <v-divider />
+            <v-divider/>
             <v-card v-show="showFilter" flat class="grey lighten-4">
               <v-card-text>
                 <v-btn-toggle
@@ -47,7 +47,8 @@
                 <v-spacer></v-spacer>
                 <v-btn @click="handleResetFilter" text>Reset</v-btn>
                 <v-btn tile @click="handleApplyFilter" color="primary"
-                >Apply</v-btn
+                >Apply
+                </v-btn
                 >
               </v-card-actions>
             </v-card>
@@ -56,8 +57,9 @@
                   :loading="loadingItems"
                   :headers="headers"
                   :items="items"
-                  :items-per-page-options="[15, 30, 50]"
+                  :items-per-page-options="[5]"
                   :items-per-page="itemsPerPage"
+                  :username.sync="filter['username']"
                   :page.sync="filter['page']"
                   @update:page="handlePageChanged"
                   item-key="id"
@@ -82,8 +84,7 @@
                       <v-list-item
                           v-for="action in actions"
                           :key="action.text"
-                          @click="action.click(item)"
-                      >
+                          @click="action.click(item)">
                         <v-list-item-icon class="mr-2">
                           <v-icon small>{{ action.icon }}</v-icon>
                         </v-list-item-icon>
@@ -103,7 +104,7 @@
 
 <script>
 import TooltipMixin from '@/mixins/Tooltip'
-import { fetchUsers, deleteUser } from '@/api/users/users'
+import {fetchUsers, deleteUser} from '@/api/users/users'
 
 export default {
   mixins: [TooltipMixin],
@@ -112,7 +113,7 @@ export default {
       search: '',
       loadingItems: false,
       serverItemsLength: 0,
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       showFilter: false,
       filter: {
         page: 1,
@@ -166,15 +167,25 @@ export default {
     resetFilter() {
       this.filter = {
         page: 1,
-        'filter[username]': null
+        'filter[username]': null,
+        'filter[role]': null
       }
     },
     fetchRecords(query) {
       this.loadingItems = true
       this.items = []
+
       return fetchUsers(query)
           .then((data) => {
+            if (this.filter['filter[role]'] !== null) {
+              data = data.filter((i) => i.role === parseInt(this.filter['filter[role]']))
+            }
+            if (this.filter['filter[username]'] !== null) {
+              data = data.filter((i) => i.username.includes(this.filter['filter[username]']))
+            }
+
             this.items = data
+
             this.serverItemsLength = 0
             this.loadingItems = false
           })
@@ -188,13 +199,14 @@ export default {
         path: '/users/create'
       })
     },
-    handleViewItem() {},
-    handleEditItem({ id }) {
+    handleViewItem() {
+    },
+    handleEditItem({id}) {
       this.$router.push({
         path: `/users/${id}`
       })
     },
-    handleDeleteItem({ id }) {
+    handleDeleteItem({id}) {
       this.loadingItems = true
       deleteUser(id).then((data) => {
         this.fetchRecords(this.filter)
@@ -211,14 +223,14 @@ export default {
         setTimeout(() => this.loadingItems = false, 500)
       })
     },
-    handleSubmit() {},
+    handleSubmit() {
+    },
     handleRefreshItem() {
       this.fetchRecords(this.filter)
     },
     // filter
     handlePageChanged(page) {
       this.filter.page = page
-      this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
         query: this.filter
@@ -228,14 +240,13 @@ export default {
       this.filter = {
         page: 1,
         'filter[username]': null,
-        'filter[gender]': null
+        'filter[role]': null
       }
       this.$router.replace({
         path: this.$route.path
       })
     },
     handleApplyFilter() {
-      this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
         query: this.filter
@@ -243,7 +254,6 @@ export default {
     },
     handleClear() {
       this.resetFilter()
-      this.filter.t = Date.now()
       this.$router.replace({
         path: this.$route.path,
         query: this.filter

@@ -10,8 +10,7 @@
               :items="endpoints"
               hide-default-header
               :items-per-page="10"
-              class="elevation-1"
-          >
+              class="elevation-1">
             <template #body="{items}">
               <v-list>
                 <template v-for="(item, index) in items">

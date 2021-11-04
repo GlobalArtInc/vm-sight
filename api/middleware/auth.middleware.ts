@@ -3,6 +3,7 @@ import {verify as jwtVerify} from "jsonwebtoken";
 import {dbQuery} from "../utils/DB";
 import NotAuthorizedException from "../exceptions/NotAuthorizedException";
 import {jwtSecret} from "../constants";
+import * as fs from "fs";
 
 export default function (req: IRequest, res: IResponse, next: INext) {
     if (req.headers.authorization || req.query.token) {
@@ -21,7 +22,7 @@ export default function (req: IRequest, res: IResponse, next: INext) {
         // create a promise that decodes the token
         new Promise(
             (resolve, reject) => {
-                jwtVerify(req.headers.authorization ? token[1] : token, jwtSecret, (err: any, user: any) => {
+                jwtVerify(req.headers.authorization ? token[1] : token, fs.readFileSync(jwtSecret), (err: any, user: any) => {
                     if (err) reject(err)
                     dbQuery(`SELECT * FROM users WHERE id = '${user.id}'`).then((u: any) => {
                         if (u.length > 0) {

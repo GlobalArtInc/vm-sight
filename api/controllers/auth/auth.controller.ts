@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import * as fs from 'fs';
 import {INext, IRequest, IResponse, IUser} from '../../interfaces/express.interface';
 import Controller from "../../interfaces/controller.interface";
 import {findUser} from "../../models/user.model";
@@ -22,7 +23,7 @@ class AuthController extends App implements Controller {
                         {
                             id: user.id
                         },
-                        jwtSecret, {
+                        fs.readFileSync(jwtSecret), {
                             expiresIn: '365d', subject: 'userInfo'
                         }, (err, token) => {
                             if (err) reject(err)
