@@ -6,6 +6,7 @@
           <v-card tile>
             <v-toolbar flat>
               <v-text-field
+                  v-model="filter['filter[name]']"
                   text
                   solo
                   flat
@@ -123,12 +124,13 @@ export default {
       },
       selectTLS: [
         {id: null, name: "Any"},
-        {id: 0, name: "No"},
-        {id: 1, name: "Yes"}
+        {id: "0", name: "No"},
+        {id: "1", name: "Yes"}
       ],
       selectTypes: [
         {type: null, name: 'Any'},
-        {type: 'docker', name: 'Docker'}
+        {type: 'docker', name: 'Docker'},
+        {type: 'kubernetes', name: "Kubernetes"}
       ],
       actions: [
         {
@@ -194,6 +196,12 @@ export default {
       this.items = []
       listEndpoints(query).then((data) => {
         this.loadingItems = false
+        if(this.filter['filter[name]'] !== null && this.filter['filter[name]'] !== undefined) {
+          data = data.filter((item) => item.Name.includes(this.filter['filter[name]']))
+        }
+        if(this.filter['filter[tls]'] !== null && this.filter['filter[tls]'] !== undefined) {
+          data = data.filter((item) => item.TLS === parseInt(this.filter['filter[tls]']))
+        }
         this.items = data
       })
     },
