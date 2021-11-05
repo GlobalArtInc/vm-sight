@@ -258,6 +258,11 @@ export default {
         path: '/endpoints/create'
       })
     },
+    handleEditItem({Id}) {
+      this.$router.push({
+        path: `/endpoints/${Id}`
+      })
+    },
     async handleDeleteItems(ids) {
       for (let i = 0; i < ids.length; i++) {
         if (ids.length - 1 === i) {
@@ -273,12 +278,7 @@ export default {
     async handleDeleteItem({Id}) {
       this.loadingItems = true
       deleteEndpoint(Id).then(() => {
-        listEndpoints().then((data) => {
-          this.endpoints = data
-          setTimeout(() => {
-            this.loadingItems = false
-          }, 500)
-        })
+        this.fetchRecords(this.filter)
       })
     },
     getType(type) {
