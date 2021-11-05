@@ -120,7 +120,16 @@
                 <td style="width: 25%">
                   Port Configuration
                 </td>
-                <td>Port Configuration</td>
+                <td>
+                  <template v-for="ports in container.NetworkSettings.Ports">
+                    <template v-for="(port, portKey) in ports">
+                      <span :key="portKey">
+                        {{ port.HostIp }}:{{ port.HostPort }}
+                        <br />
+                      </span>
+                    </template>
+                  </template>
+                </td>
               </tr>
               <tr>
                 <td style="width: 25%">CMD</td>

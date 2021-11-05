@@ -231,16 +231,9 @@ class EndpointsController extends App implements Controller {
                                 } catch (err) {
                                     return next(new HttpException(500, "Failed to connect to the server."))
                                 }
-                            } else {
-                                try {
-                                    await service.checkConnect(url)
-                                    await dbQuery(`UPDATE endpoints SET tls=0, tls_ca=0, tls_cert=0, tls_key=0 WHERE id = '${endpoint[0].id}'`)
-                                } catch (err) {
-                                    return next(new HttpException(500, "Failed to connect to the server."))
-                                }
                             }
                         } else {
-                            return res.status(400).send({message: "Endpoint URL is not specified"})
+                            return next(new HttpException(400, 'The endpoint url is not specified'))
                         }
 
                         if (name) {
@@ -253,7 +246,8 @@ class EndpointsController extends App implements Controller {
                         if (url) {
                             await dbQuery(`UPDATE endpoints SET url = '${url}' WHERE id = '${endpoint[0].id}'`)
                         }
-                        return res.send({response: true})
+
+                        return res.send({status: 200, message: "The endpoint has been saved."})
                     } else if (endpoint[0].type === 2) {
                         const {name, public_url} = req.body
 
@@ -264,7 +258,7 @@ class EndpointsController extends App implements Controller {
                             await dbQuery(`UPDATE endpoints SET public_url = '${public_url}' WHERE id = '${endpoint[0].id}'`)
                         }
 
-                        return res.send({response: true})
+                        return res.send({status: 200, message: "The endpoint has been saved."})
                     }
                 } else {
                     return next(new NotFoundException())
