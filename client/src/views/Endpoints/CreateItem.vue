@@ -170,7 +170,6 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
         if (this.formModel.type === 1 && this.form.docker.type === 'socket') {
-          console.log(1)
           createEndpoint(this.formModel, this.form.docker.type).then(() => {
             this.$router.push('/endpoints')
             setTimeout(() => {
@@ -188,7 +187,6 @@ export default {
             });
           })
         } else if (this.formModel.type === 1) {
-          console.log(2)
           createEndpoint(this.formModel).then(() => {
             this.$router.push('/endpoints')
             setTimeout(() => {

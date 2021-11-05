@@ -57,8 +57,8 @@
                 :loading="loadingItems"
                 :headers="headers"
                 :items="items"
-                :items-per-page-options="[15, 30, 50]"
-                :items-per-page="10"
+                :items-per-page="50"
+                :footer-props="footerProps"
                 show-select
                 item-key="Id"
             >
@@ -116,6 +116,7 @@ export default {
       items: [],
       selected: [],
       search: "",
+      footerProps: {'items-per-page-options': [50, 100]},
       filter: {
         page: 1,
         'filter[name]': null,
