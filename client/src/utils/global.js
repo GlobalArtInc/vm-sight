@@ -1,3 +1,10 @@
+export function getEndpointSearchType(type) {
+    switch (type) {
+        case 'docker':
+            return 1;
+    }
+}
+
 export function getEndpointType(type, icon = false) {
     const endpoint = {
         name: "",
@@ -5,9 +12,11 @@ export function getEndpointType(type, icon = false) {
     }
     switch (type){
         case 1:
+            endpoint.id = 1
             endpoint.name = "Docker"
             break;
         case 2:
+            endpoint.id = 2
             endpoint.name = "Docker (via Socket)"
     }
     if (icon) {

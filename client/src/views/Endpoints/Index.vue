@@ -196,6 +196,15 @@ export default {
       this.items = []
       listEndpoints(query).then((data) => {
         this.loadingItems = false
+
+        if (this.filter['filter[type]'] !== null && this.filter['filter[type]'] !== undefined) {
+          if (this.filter['filter[type]'] === 'docker') {
+            data = data.filter((item) => item.Type === 1 || item.Type === 2)
+          } else if (this.filter['filter[type]'] === 'kubernetes') {
+            data = data.filter((item) => item.Type === 4)
+          }
+        }
+
         if(this.filter['filter[name]'] !== null && this.filter['filter[name]'] !== undefined) {
           data = data.filter((item) => item.Name.includes(this.filter['filter[name]']))
         }
@@ -335,7 +344,7 @@ export default {
   },
   async created() {
     try {
-      await this.getEndpoints()
+      await this.fetchRecords(this.filter)
     } catch (err) {
       //
     } finally {
