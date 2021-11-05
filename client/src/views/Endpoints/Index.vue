@@ -14,7 +14,10 @@
                   placeholder="Type name"
                   hide-details
                   clearable
+                  @keyup.enter="handleApplyFilter"
+                  @click:append="handleApplyFilter"
                   @click:prepend="showFilter = !showFilter"
+                  @click:clear="handleClear"
               />
               <v-btn icon color="error" :disabled="selected.length === 0" @click="handleDeleteItems(selected)">
                 <v-icon>
@@ -39,8 +42,8 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn text>Reset</v-btn>
-                <v-btn tile color="primary">
+                <v-btn @click="handleResetFilter" text>Reset</v-btn>
+                <v-btn @click="handleApplyFilter" tile color="primary">
                   Apply
                 </v-btn>
               </v-card-actions>
@@ -52,7 +55,7 @@
                 :search="search"
                 :loading="loadingItems"
                 :headers="headers"
-                :items="endpoints"
+                :items="items"
                 :items-per-page-options="[15, 30, 50]"
                 :items-per-page="10"
                 show-select
@@ -100,8 +103,8 @@
 
 <script>
 import {listEndpoints, deleteEndpoint} from "@/api/endpoints/api";
+import {getEndpointType} from "../../utils/global";
 import TooltipMixin from '@/mixins/Tooltip'
-import {getEndpointType} from "@/utils/global";
 
 export default {
   mixins: [TooltipMixin],
@@ -109,13 +112,13 @@ export default {
     return {
       loadingItems: false,
       showFilter: false,
-      endpoints: [],
+      items: [],
       selected: [],
       search: "",
       filter: {
         page: 1,
         'filter[name]': null,
-        'filter[type]': 'any',
+        'filter[type]': null,
         'filter[tls]': null
       },
       selectTLS: [
@@ -124,7 +127,7 @@ export default {
         {id: 1, name: "Yes"}
       ],
       selectTypes: [
-        {type: 'any', name: 'Any'},
+        {type: null, name: 'Any'},
         {type: 'docker', name: 'Docker'}
       ],
       actions: [
@@ -163,33 +166,96 @@ export default {
       ]
     }
   },
+  watch: {
+    '$route.query': {
+      handler(query) {
+        const filter = this.updateFilterQuery(query)
+        this.fetchRecords(filter)
+      },
+      immediate: true
+    }
+  },
   methods: {
-    handleRefreshItems() {
+    updateFilterQuery(query) {
+      const filter = Object.assign(this.filter, query)
+      filter.page = parseInt(filter.page)
+      return filter
+    },
+    resetFilter() {
+      this.filter = {
+        page: 1,
+        'filter[name]': null,
+        'filter[type]': null,
+        'filter[tls]': null
+      }
+    },
+    fetchRecords(query) {
       this.loadingItems = true
-      listEndpoints().then((data) => {
-        this.endpoints = data
-        setTimeout(() => {
-          this.loadingItems = false
-        }, 500)
+      this.items = []
+      listEndpoints(query).then((data) => {
+        this.loadingItems = false
+        this.items = data
       })
+    },
+    handleRefreshItem() {
+      this.fetchRecords(this.filter)
+    },
+    async handleResetFilter() {
+      this.filter = {
+        page: 1,
+        'filter[name]': null,
+        'filter[type]': null,
+        'filter[tls]': null
+      }
+      try {
+        await this.$router.replace({
+          path: this.$route.path
+        })
+      } catch (err) {
+        //
+      } finally {
+        this.showFilter = false
+      }
+    },
+    async handleApplyFilter() {
+      try {
+        await this.$router.replace({
+          path: this.$route.path,
+          query: this.filter
+        })
+      } catch (err) {
+        //
+      } finally {
+        this.showFilter = false
+      }
+    },
+    async handleClear() {
+      this.resetFilter()
+      try {
+        await this.$router.replace({
+          path: this.$route.path,
+          query: this.filter
+        })
+      } catch (err) {
+        //
+      } finally {
+        this.showFilter = false
+      }
+    },
+    handleRefreshItems() {
+
     },
     handleCreateItem() {
       this.$router.push({
         path: '/endpoints/create'
       })
     },
-    getType(type) {
-      return getEndpointType(type, true)
-    },
-    handleEditItem({Id}) {
-      return this.$router.push('/endpoints/' + Id)
-    },
     async handleDeleteItems(ids) {
       for (let i = 0; i < ids.length; i++) {
         if (ids.length - 1 === i) {
           deleteEndpoint(ids[i].Id).then(() => {
             this.selected = []
-            this.getEndpoints()
+            //this.getEndpoints()
           })
         } else {
           await deleteEndpoint(ids[i].Id)
@@ -207,11 +273,57 @@ export default {
         })
       })
     },
-    async getEndpoints() {
-      listEndpoints().then((data) => {
-        this.endpoints = data
-      })
-    }
+    getType(type) {
+      return getEndpointType(type, true)
+    },
+    // handleRefreshItems() {
+    //   this.loadingItems = true
+    //   listEndpoints().then((data) => {
+    //     this.endpoints = data
+    //     setTimeout(() => {
+    //       this.loadingItems = false
+    //     }, 500)
+    //   })
+    // },
+    // handleCreateItem() {
+    //   this.$router.push({
+    //     path: '/endpoints/create'
+    //   })
+    // },
+    // getType(type) {
+    //   return getEndpointType(type, true)
+    // },
+    // handleEditItem({Id}) {
+    //   return this.$router.push('/endpoints/' + Id)
+    // },
+    // async handleDeleteItems(ids) {
+    //   for (let i = 0; i < ids.length; i++) {
+    //     if (ids.length - 1 === i) {
+    //       deleteEndpoint(ids[i].Id).then(() => {
+    //         this.selected = []
+    //         this.getEndpoints()
+    //       })
+    //     } else {
+    //       await deleteEndpoint(ids[i].Id)
+    //     }
+    //   }
+    // },
+    // async handleDeleteItem({Id}) {
+    //   this.loadingItems = true
+    //   deleteEndpoint(Id).then(() => {
+    //     listEndpoints().then((data) => {
+    //       this.endpoints = data
+    //       setTimeout(() => {
+    //         this.loadingItems = false
+    //       }, 500)
+    //     })
+    //   })
+    // },
+    // async getEndpoints() {
+    //   listEndpoints().then((data) => {
+    //     this.endpoints = data
+    //   })
+    // }
   },
   async created() {
     try {

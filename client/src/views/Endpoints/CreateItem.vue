@@ -176,7 +176,7 @@ export default {
             setTimeout(() => {
               this.loading = false
             }, 500)
-            this.$toast("Endpoint was created", {
+            this.$toast("The endpoint has been created", {
               type: 'success'
             });
           }).catch((err) => {
@@ -194,7 +194,7 @@ export default {
             setTimeout(() => {
               this.loading = false
             }, 500)
-            this.$toast("Endpoint was created", {
+            this.$toast("The endpoint has been created", {
               type: 'success'
             });
           }).catch((err) => {

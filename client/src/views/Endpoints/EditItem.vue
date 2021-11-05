@@ -206,7 +206,7 @@ export default {
         if(this.formModel.tls.active === true) {
           updateEndpoint(this.id, this.formModel).then(() => {
             window._VMA.$emit('SHOW_SNACKBAR', {
-              text: 'Endpoint was updated',
+              text: 'The endpoint has been updated',
               color: 'success'
             })
             this.$router.push('/endpoints')
@@ -220,7 +220,7 @@ export default {
         } else {
           updateEndpoint(this.id, this.formModel).then(() => {
             window._VMA.$emit('SHOW_SNACKBAR', {
-              text: 'Endpoint was updated',
+              text: 'The endpoint has been updated',
               color: 'success'
             })
             this.$router.push('/endpoints')
@@ -235,7 +235,7 @@ export default {
       }  else if (this.form.type === 2) {
         updateEndpoint(this.id, {name: this.formModel.name, public_url: this.formModel.public_url}).then(() => {
           window._VMA.$emit('SHOW_SNACKBAR', {
-            text: 'Endpoint was updated',
+            text: 'The endpoint has been updated',
             color: 'success'
           })
           this.$router.push('/endpoints')
