@@ -206,7 +206,7 @@ export default {
         }
 
         if(this.filter['filter[name]'] !== null && this.filter['filter[name]'] !== undefined) {
-          data = data.filter((item) => item.Name.includes(this.filter['filter[name]']))
+          data = data.filter((item) => item.Name.toLowerCase().includes(this.filter['filter[name]'].toLowerCase()))
         }
         if(this.filter['filter[tls]'] !== null && this.filter['filter[tls]'] !== undefined) {
           data = data.filter((item) => item.TLS === parseInt(this.filter['filter[tls]']))
