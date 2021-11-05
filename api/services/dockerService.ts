@@ -61,7 +61,7 @@ class dockerService {
         })
     }
 
-    public checkConnect(id, host, data: any = {ca: false, ert: false, key: false}) {
+    public checkConnect(host, data: any = {ca: false, ert: false, key: false}) {
         let settings: any = (host.match('/var/run/docker.sock')) ?
             {socketPath: '/var/run/docker.sock'} : {
                 host: host.split(':')[0],

@@ -89,7 +89,7 @@ class EndpointsController extends App implements Controller {
                             } else {
                                 const service = new dockerService()
 
-                                service.checkConnect(null, '/var/run/docker.sock').then(() => {
+                                service.checkConnect('/var/run/docker.sock').then(() => {
                                     dbQuery(`INSERT INTO endpoints (id,name,type,url,public_url)VALUES('${id}','${name}','2', '/var/run/docker.sock', 'http://127.0.0.1')`).then(() => {
                                         return res.send({response: true})
                                     }).catch((err) => {
@@ -102,13 +102,13 @@ class EndpointsController extends App implements Controller {
                         })
                     } else {
                         const service = new dockerService()
-                        try {
-                            await service.checkConnect(null, url)
-                            await dbQuery(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`)
-                            return res.send({response: true})
-                        } catch (err) {
-                            return next(new HttpException(500, err))
-                        }
+                        service.checkConnect(url).then(() => {
+                            dbQuery(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`).then(() => {
+                                return res.send({response: true})
+                            })
+                        }).catch(() => {
+                            return res.status(500).send({message: "Failed to connect to the server"})
+                        })
                     }
                 }
 
@@ -165,7 +165,7 @@ class EndpointsController extends App implements Controller {
         })
 
         this.router.delete(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
-          const {endpointId} = req.params
+            const {endpointId} = req.params
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
                 const endpoint = await dbQuery(`SELECT * FROM endpoints WHERE id = '${endpointId}'`)
@@ -213,42 +213,31 @@ class EndpointsController extends App implements Controller {
                                 if (fs.existsSync(tls_key_path))
                                     tls_key = fs.readFileSync(tls_key_path)
 
-                                // @ts-ignore
-
-                                //dockerService.checkConnect(req.params.id, url, {
-                                //    ca: tls_ca,
-                                //    cert: tls_cert,
-                                //    key: tls_key
-                                //}).then(async () => {
-                                //    if (tls_ca) {
-                                //        await db.query(`UPDATE endpoints SET tls=1, tls_ca=1 WHERE id = '${endpoint[0].id}'`)
-                                //    }
-                                //    if (tls_cert) {
-                                //        await db.query(`UPDATE endpoints SET tls=1, tls_cert=1 WHERE id = '${endpoint[0].id}'`)
-                                //    }
-                                //    if (tls_key) {
-                                //        await db.query(`UPDATE endpoints SET tls=1, tls_key=1 WHERE id = '${endpoint[0].id}'`)
-                                //    }
-                                //    return res.send({response: true})
-                                //    //return res.send({response: true})
-                                //}).catch(() => {
-                                //    return res.status(500).send({message: "Failed to connect to the server"})
-                                //})
-                            } else {
-                                await dbQuery(`UPDATE endpoints SET tls=0, tls_ca=0, tls_cert=0, tls_key=0 WHERE id = '${endpoint[0].id}'`)
                                 try {
-                                    service.checkConnect(req.params.endpointId, url).then(() => {
-                                        return res.send({response: true})
+                                    await service.checkConnect(url, {
+                                        ca: tls_ca,
+                                        cert: tls_cert,
+                                        key: tls_key
                                     })
+                                    if (tls_ca) {
+                                        await dbQuery(`UPDATE endpoints SET tls=1, tls_ca=1 WHERE id = '${endpoint[0].id}'`)
+                                    }
+                                    if (tls_cert) {
+                                        await dbQuery(`UPDATE endpoints SET tls=1, tls_cert=1 WHERE id = '${endpoint[0].id}'`)
+                                    }
+                                    if (tls_key) {
+                                        await dbQuery(`UPDATE endpoints SET tls=1, tls_key=1 WHERE id = '${endpoint[0].id}'`)
+                                    }
                                 } catch (err) {
-                                    next(new HttpException(500, "Failed to connect to the server."))
+                                    return next(new HttpException(500, "Failed to connect to the server."))
                                 }
-
-                                // dockerService.checkConnect(req.params.id, url).then(() => {
-                                //     return res.send({response: true})
-                                // }).catch(() => {
-                                //     return res.status(500).send({message: "Failed to connect to the server"})
-                                // })
+                            } else {
+                                try {
+                                    await service.checkConnect(url)
+                                    await dbQuery(`UPDATE endpoints SET tls=0, tls_ca=0, tls_cert=0, tls_key=0 WHERE id = '${endpoint[0].id}'`)
+                                } catch (err) {
+                                    return next(new HttpException(500, "Failed to connect to the server."))
+                                }
                             }
                         } else {
                             return res.status(400).send({message: "Endpoint URL is not specified"})
@@ -257,12 +246,14 @@ class EndpointsController extends App implements Controller {
                         if (name) {
                             await dbQuery(`UPDATE endpoints SET name = '${name}' WHERE id = '${endpoint[0].id}'`)
                         }
+
                         if (public_url) {
                             await dbQuery(`UPDATE endpoints SET public_url = '${public_url}' WHERE id = '${endpoint[0].id}'`)
                         }
                         if (url) {
                             await dbQuery(`UPDATE endpoints SET url = '${url}' WHERE id = '${endpoint[0].id}'`)
                         }
+                        return res.send({response: true})
                     } else if (endpoint[0].type === 2) {
                         const {name, public_url} = req.body
 
@@ -290,7 +281,7 @@ class EndpointsController extends App implements Controller {
             if (endpoint)
                 return res.send(endpoint)
             else
-                next(new NotFoundException)
+                return next(new NotFoundException)
         })
 
     }
