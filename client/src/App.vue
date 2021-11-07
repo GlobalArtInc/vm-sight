@@ -53,6 +53,7 @@ export default {
     ...mapGetters(['loaded'])
   },
   created() {
+    this.$store.dispatch('app/getPublicSettings')
     if (getToken()) {
       this.$store.dispatch('user/getInfo')
     }

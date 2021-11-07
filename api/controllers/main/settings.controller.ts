@@ -4,6 +4,7 @@ import {Router} from "express";
 import {IRequest, IResponse, INext} from "../../interfaces/express.interface";
 import {dbQuery} from "../../utils/DB";
 import authMiddleware from "../../middleware/auth.middleware";
+import {getSetting} from "../../utils/Global";
 
 class SettingsController extends App implements Controller {
     public path = '/settings'
@@ -14,62 +15,55 @@ class SettingsController extends App implements Controller {
         this.initializeRoutes();
     }
 
-    public getSetting(data, name, defaultValue: any = false) {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].key === name) {
-                if (typeof defaultValue === 'boolean') {
-                    return data[i].value === "true"
-                } else {
-                    return data[i].value
-                }
-            }
-        }
-        if (defaultValue) {
-            return defaultValue
-        } else if (typeof defaultValue === "string") {
-            return ""
-        } else if (typeof defaultValue === "number") {
-            return 0
-        }
-        return false
-    }
-
     private initializeRoutes() {
         this.router.get('/', authMiddleware)
+
+        this.router.get('/public', async (req: IRequest, res: IResponse, next: INext) => {
+            const settings = await dbQuery('SELECT * FROM settings')
+
+            return res.send({
+                AuthenticationMethod: getSetting(settings, 'AuthenticationMethod', 1),
+                EnableEdgeComputeFeatures: getSetting(settings, 'EnableEdgeComputeFeatures', false),
+                EnableTelemetry: getSetting(settings, 'EnableTelemetry', true),
+                LogoURL: getSetting(settings, 'LogoURL', ""),
+                OAuthLoginURI: getSetting(settings, 'LoginURI', ""),
+                OAuthLogoutURI: getSetting(settings, 'LogoutURI', ""),
+            })
+        })
 
         this.router.get('/', async (req: IRequest, res: IResponse) => {
             const settings = await dbQuery('SELECT * FROM settings')
 
             res.send({
-                AllowBindMountsForRegularUsers: this.getSetting(settings, 'AllowBindMountsForRegularUsers', false),
-                AllowContainerCapabilitiesForRegularUsers: this.getSetting(settings, 'AllowContainerCapabilitiesForRegularUsers', false),
-                AllowDeviceMappingForRegularUsers: this.getSetting(settings, 'AllowDeviceMappingForRegularUsers', false),
-                AllowPrivilegedModeForRegularUsers: this.getSetting(settings, 'AllowPrivilegedModeForRegularUsers', false),
-                AllowStackManagementForRegularUsers: this.getSetting(settings, 'AllowStackManagementForRegularUsers', false),
-                AllowVolumeBrowserForRegularUsers: this.getSetting(settings, 'AllowVolumeBrowserForRegularUsers', false),
-                AuthenticationMethod: this.getSetting(settings, 'AuthenticationMethod', 1),
-                BlackListedLabels: this.getSetting(settings, 'BlackListedLabels', []),
-                DisplayDonationHeader: this.getSetting(settings, 'DisplayDonationHeader', false),
-                DisplayExternalContributors: this.getSetting(settings, 'DisplayExternalContributors', false),
-                EdgeAgentCheckinInterval: this.getSetting(settings, 'EdgeAgentCheckinInterval', 5),
-                EnableEdgeComputeFeatures: this.getSetting(settings, 'EnableEdgeComputeFeatures', false),
-                EnableHostManagementFeatures: this.getSetting(settings, 'EnableHostManagementFeatures', false),
-                EnableTelemetry: this.getSetting(settings, 'EnableTelemetry', true),
+                AllowBindMountsForRegularUsers: getSetting(settings, 'AllowBindMountsForRegularUsers', false),
+                AllowContainerCapabilitiesForRegularUsers: getSetting(settings, 'AllowContainerCapabilitiesForRegularUsers', false),
+                AllowDeviceMappingForRegularUsers: getSetting(settings, 'AllowDeviceMappingForRegularUsers', false),
+                AllowPrivilegedModeForRegularUsers: getSetting(settings, 'AllowPrivilegedModeForRegularUsers', false),
+                AllowStackManagementForRegularUsers: getSetting(settings, 'AllowStackManagementForRegularUsers', false),
+                AllowVolumeBrowserForRegularUsers: getSetting(settings, 'AllowVolumeBrowserForRegularUsers', false),
+                AuthenticationMethod: getSetting(settings, 'AuthenticationMethod', 1),
+                BlackListedLabels: getSetting(settings, 'BlackListedLabels', []),
+                DisplayDonationHeader: getSetting(settings, 'DisplayDonationHeader', false),
+                DisplayExternalContributors: getSetting(settings, 'DisplayExternalContributors', false),
+                EdgeAgentCheckinInterval: getSetting(settings, 'EdgeAgentCheckinInterval', 5),
+                EnableEdgeComputeFeatures: getSetting(settings, 'EnableEdgeComputeFeatures', false),
+                EnableHostManagementFeatures: getSetting(settings, 'EnableHostManagementFeatures', false),
+                EnableTelemetry: getSetting(settings, 'EnableTelemetry', true),
                 OAuthSettings: {
-                    AccessTokenURI: this.getSetting(settings, 'AccessTokenURI', ""),
-                    AuthorizationURI: this.getSetting(settings, 'AuthorizationURI', ""),
-                    ClientID: this.getSetting(settings, 'ClientID', ""),
-                    LogoutURI: this.getSetting(settings, 'LogoutURI', ""),
-                    OAuthAutoCreateUsers: this.getSetting(settings, 'OAuthAutoCreateUsers', false),
-                    RedirectURI: this.getSetting(settings, 'RedirectURI', ""),
-                    ResourceURI: this.getSetting(settings, 'ResourceURI', ""),
-                    SSO: this.getSetting(settings, 'SSO', false),
-                    Scopes: this.getSetting(settings, 'Scopes', ""),
-                    UserIdentifier: this.getSetting(settings, 'UserIdentifier', ""),
+                    AccessTokenURI: getSetting(settings, 'AccessTokenURI', ""),
+                    AuthorizationURI: getSetting(settings, 'AuthorizationURI', ""),
+                    ClientID: getSetting(settings, 'ClientID', ""),
+                    LogoutURI: getSetting(settings, 'LogoutURI', ""),
+                    OAuthAutoCreateUsers: getSetting(settings, 'OAuthAutoCreateUsers', false),
+                    RedirectURI: getSetting(settings, 'RedirectURI', ""),
+                    ResourceURI: getSetting(settings, 'ResourceURI', ""),
+                    SSO: getSetting(settings, 'SSO', false),
+                    Scopes: getSetting(settings, 'Scopes', ""),
+                    UserIdentifier: getSetting(settings, 'UserIdentifier', ""),
                 },
-                LogoURL: this.getSetting(settings, 'LogoURL', ""),
-                SnapshotInterval: this.getSetting(settings, 'SnapshotInterval', "5m"),
-                UserSessionTimeout: this.getSetting(settings, 'UserSessionTimeout', "8h")
+                LogoURL: getSetting(settings, 'LogoURL', ""),
+                SnapshotInterval: getSetting(settings, 'SnapshotInterval', "5m"),
+                UserSessionTimeout: getSetting(settings, 'UserSessionTimeout', "8h")
             })
         })
 

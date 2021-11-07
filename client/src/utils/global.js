@@ -15,7 +15,7 @@ export function getEndpointType(type, icon = false) {
         name: "",
         icon: ""
     }
-    switch (type){
+    switch (type) {
         case 1:
             endpoint.id = 1
             endpoint.name = "Docker"
@@ -25,7 +25,7 @@ export function getEndpointType(type, icon = false) {
             endpoint.name = "Docker (via Socket)"
     }
     if (icon) {
-        switch (type){
+        switch (type) {
             case 1:
                 endpoint.icon = 'fab fa-docker'
                 break;

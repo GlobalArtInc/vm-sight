@@ -20,8 +20,9 @@
 
             <MethodOauth v-if="settings.AuthenticationMethod === 10" :settings="settings" />
           </v-card-text>
+          <v-divider/>
           <v-card-actions>
-            <v-btn color="primary" tile @click="onUpdate">Save Changes</v-btn>
+            <v-btn color="primary" tile @click="onUpdate" :loading="submitLoading">Save Changes</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -47,15 +48,30 @@ export default {
       {value: '1y', text: '1 year'}
     ],
     authenticationMethods: [
-      {value: "1", text: 'Internal'},
-      {value: "2", text: 'LDAP'},
-      {value: "10", text: 'OAuth'}
+      {value: 1, text: 'Internal'},
+      {value: 2, text: 'LDAP'},
+      {value: 3, text: 'OAuth'}
     ],
-    settings: {}
+    settings: {},
+    submitLoading: false
   }),
   methods: {
-    onUpdate() {
-      updateSettings(this.settings)
+    async onUpdate() {
+      this.submitLoading = true
+      try {
+        await updateSettings(this.settings)
+        this.$toast("Settings has been saved.", {
+          type: 'success'
+        });
+      } catch (err) {
+        this.$toast(err, {
+          type: 'error'
+        });
+      } finally {
+        setTimeout(() => {
+          this.submitLoading = false
+        }, 1000)
+      }
     }
   },
   async created() {

@@ -8,6 +8,12 @@ export function updateSettings(data) {
     })
 }
 
+export function fetchPublicSettings() {
+    return request({
+        url: '/settings/public'
+    })
+}
+
 export function fetchSettings() {
     return request({
         url: '/settings'

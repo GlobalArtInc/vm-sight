@@ -13,15 +13,13 @@
                 ref="form"
                 class="my-10"
                 lazy-validation
-                v-model="formValid"
-            >
+                v-model="formValid">
               <v-text-field
                   append-icon="mdi-email"
                   autocomplete="off"
                   name="login"
                   type="text"
                   label="Username"
-                  placeholder="Username"
                   required
                   outlined
                   :rules="formRule.username"
@@ -34,7 +32,6 @@
                   type="password"
                   :rules="formRule.password"
                   label="Password"
-                  placeholder="Password"
                   required
                   outlined
                   v-model="formModel.password"
@@ -44,6 +41,11 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer/>
+            <template v-if="$store.getters.settings.AuthenticationMethod === 3">
+              <v-btn large tile :href="$store.getters.settings.OAuthLoginURI" color="primary" style="margin: 0 auto">
+                Login via OAuth
+              </v-btn>
+            </template>
             <v-btn large tile color="primary" @click="login" :loading="loading">
               Login
             </v-btn>
@@ -58,6 +60,7 @@
 import {check} from "@/api/users/admin";
 import {auth} from "@/api/auth";
 import {setToken} from "@/utils/auth";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'PageLogin',
@@ -76,6 +79,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['settings']),
     prefix() {
       return ''
     }

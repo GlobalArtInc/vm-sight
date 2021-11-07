@@ -1,7 +1,7 @@
 <template>
-  <v-container>
+  <v-container class="main-container">
     <v-row>
-      <v-col cols="12">
+      <v-col>
         <v-card tile>
           <v-card-subtitle class="font-weight-medium" style="color: #333;background: #f6f6f6">
             <i class="fa fa-cogs"></i>
@@ -46,7 +46,7 @@ export default {
           type: 'success'
         });
       } catch (err) {
-        this.$toast(err.message, {
+        this.$toast(err, {
           type: 'error'
         });
       } finally {
