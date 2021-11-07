@@ -13,12 +13,14 @@
                       label="Session lifetime"
                       :items="sessionLifetimes"
                       outlined/>
-            <v-select v-model="settings.AuthenticationMethod"
-                      label="Authentication method"
-                      :items="authenticationMethods"
-                      outlined/>
 
-            <MethodOauth v-if="settings.AuthenticationMethod === 10" :settings="settings" />
+            <v-radio-group v-model="settings.AuthenticationMethod" row label="Authentication Method">
+              <v-radio :ripple="false" :value="1" label="Internal"></v-radio>
+              <v-radio :ripple="false" :value="2" label="LDAP"></v-radio>
+              <v-radio :ripple="false" :value="3" label="OAuth"></v-radio>
+            </v-radio-group>
+
+            <MethodOauth v-if="settings.AuthenticationMethod === 3" :settings="settings" />
           </v-card-text>
           <v-divider/>
           <v-card-actions>
