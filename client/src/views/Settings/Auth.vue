@@ -54,7 +54,21 @@ export default {
       {value: 2, text: 'LDAP'},
       {value: 3, text: 'OAuth'}
     ],
-    settings: {},
+    settings: {
+      AuthenticationMethod: 1,
+      OAuthSettings: {
+        AccessTokenURI: "",
+        AuthorizationURI: "",
+        ClientID: "",
+        LogoutURI: "",
+        OAuthAutoCreateUsers: false,
+        RedirectURI: "",
+        ResourceURI: "",
+        SSO: false,
+        Scopes: "",
+        UserIdentifier: ""
+      }
+    },
     submitLoading: false
   }),
   methods: {
@@ -77,7 +91,22 @@ export default {
     }
   },
   async created() {
-    this.settings = await fetchSettings()
+    const settings = await fetchSettings()
+    this.settings = {
+      AuthenticationMethod: settings.AuthenticationMethod,
+      OAuthSettings: {
+        AccessTokenURI: settings.OAuthSettings.AccessTokenURI,
+        AuthorizationURI: settings.OAuthSettings.AuthorizationURI,
+        ClientID: settings.OAuthSettings.ClientID,
+        LogoutURI: settings.OAuthSettings.LogoutURI,
+        OAuthAutoCreateUsers: settings.OAuthSettings.OAuthAutoCreateUsers,
+        RedirectURI: settings.OAuthSettings.RedirectURI,
+        ResourceURI: settings.OAuthSettings.ResourceURI,
+        SSO: settings.OAuthSettings.SSO,
+        Scopes: settings.OAuthSettings.Scopes,
+        UserIdentifier: settings.OAuthSettings.UserIdentifier
+      }
+    }
   }
 }
 </script>
