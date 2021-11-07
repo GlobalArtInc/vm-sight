@@ -60,7 +60,7 @@ export default class App {
 
     private initializeControllers(controllers: Controller[]) {
         controllers.forEach((controller) => {
-            this.app.use('/api', controller.router);
+            this.app.use('/api' + controller.path , controller.router);
         });
     }
 

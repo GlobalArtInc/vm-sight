@@ -293,55 +293,7 @@ export default {
     },
     getType(type) {
       return getEndpointType(type, true)
-    },
-    // handleRefreshItems() {
-    //   this.loadingItems = true
-    //   listEndpoints().then((data) => {
-    //     this.endpoints = data
-    //     setTimeout(() => {
-    //       this.loadingItems = false
-    //     }, 500)
-    //   })
-    // },
-    // handleCreateItem() {
-    //   this.$router.push({
-    //     path: '/endpoints/create'
-    //   })
-    // },
-    // getType(type) {
-    //   return getEndpointType(type, true)
-    // },
-    // handleEditItem({Id}) {
-    //   return this.$router.push('/endpoints/' + Id)
-    // },
-    // async handleDeleteItems(ids) {
-    //   for (let i = 0; i < ids.length; i++) {
-    //     if (ids.length - 1 === i) {
-    //       deleteEndpoint(ids[i].Id).then(() => {
-    //         this.selected = []
-    //         this.getEndpoints()
-    //       })
-    //     } else {
-    //       await deleteEndpoint(ids[i].Id)
-    //     }
-    //   }
-    // },
-    // async handleDeleteItem({Id}) {
-    //   this.loadingItems = true
-    //   deleteEndpoint(Id).then(() => {
-    //     listEndpoints().then((data) => {
-    //       this.endpoints = data
-    //       setTimeout(() => {
-    //         this.loadingItems = false
-    //       }, 500)
-    //     })
-    //   })
-    // },
-    // async getEndpoints() {
-    //   listEndpoints().then((data) => {
-    //     this.endpoints = data
-    //   })
-    // }
+    }
   },
   async created() {
     try {

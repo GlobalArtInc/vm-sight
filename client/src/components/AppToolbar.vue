@@ -8,7 +8,7 @@
         <template v-slot:activator="{ on }">
           <v-btn icon large text slot="activator" v-on="on">
             <v-avatar size="30px">
-              <img src="https://www.gravatar.com/avatar/asddw"/>
+              <img src="https://www.gravatar.com/avatar/asddw" alt=""/>
             </v-avatar>
           </v-btn>
         </template>

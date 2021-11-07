@@ -19,13 +19,13 @@ class UsersController extends App implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.get(this.path, authMiddleware)
-        this.router.post(this.path, authMiddleware)
-        this.router.get(this.path + '/:id', authMiddleware)
-        this.router.put(this.path + '/:id', authMiddleware)
-        this.router.delete(this.path + '/:id', authMiddleware)
+        this.router.get('/', authMiddleware)
+        this.router.post('/', authMiddleware)
+        this.router.get('/:id', authMiddleware)
+        this.router.put('/:id', authMiddleware)
+        this.router.delete('/:id', authMiddleware)
 
-        this.router.get(this.path, async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.get('/', async (req: IRequest, res: IResponse, next: INext) => {
             const access = await getUserByIdAndCheckIfAdmin(req.user.id);
             if (access) {
                 const users = await dbQuery('SELECT id,username,role,createdAt,updatedAt FROM users')
@@ -35,7 +35,7 @@ class UsersController extends App implements Controller {
             }
         })
 
-        this.router.post(this.path, async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.post('/', async (req: IRequest, res: IResponse, next: INext) => {
             const access = await getUserByIdAndCheckIfAdmin(req.user.id);
             if (access) {
                 const {Username, Password, Role} = req.body
@@ -66,7 +66,7 @@ class UsersController extends App implements Controller {
             }
         })
 
-        this.router.get(this.path + '/:id', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.get('/:id', async (req: IRequest, res: IResponse, next: INext) => {
             const access = await getUserByIdAndCheckIfAdmin(req.user.id);
             if (access) {
                 const user = await dbQuery(`SELECT id,username,role,createdAt,updatedAt FROM users WHERE id = '${req.params.id}'`)
@@ -80,7 +80,7 @@ class UsersController extends App implements Controller {
             }
         })
 
-        this.router.put(this.path + '/:id', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.put('/:id', async (req: IRequest, res: IResponse, next: INext) => {
             const access = await getUserByIdAndCheckIfAdmin(req.user.id);
             if (access) {
                 const user = await dbQuery(`SELECT id,username,role FROM users WHERE id = '${req.params.id}'`)
@@ -118,7 +118,7 @@ class UsersController extends App implements Controller {
 
         })
 
-        this.router.delete(this.path + '/:id', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.delete('/:id', async (req: IRequest, res: IResponse, next: INext) => {
             const access = await getUserByIdAndCheckIfAdmin(req.user.id);
             if (access) {
                 const user = await dbQuery(`SELECT id,username,role FROM users WHERE id = '${req.params.id}'`)
@@ -143,7 +143,7 @@ class UsersController extends App implements Controller {
 
         })
 
-        this.router.post(this.path + '/admin/init', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.post('/admin/init', async (req: IRequest, res: IResponse, next: INext) => {
             dbQuery('SELECT COUNT(*) as count FROM users WHERE role = 1').then((r) => {
                 if (r[0].count === 0) {
                     const {Username, Password} = req.body;
@@ -166,7 +166,7 @@ class UsersController extends App implements Controller {
 
         })
 
-        this.router.get(this.path + '/admin/check', (req: IRequest, res: IResponse, next: INext) => {
+        this.router.get('/admin/check', (req: IRequest, res: IResponse, next: INext) => {
             dbQuery('SELECT COUNT(*) as count FROM users WHERE role = 1').then((r) => {
                 if (r[0].count > 0) {
                     return res.send({response: true})

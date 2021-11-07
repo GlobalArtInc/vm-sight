@@ -1,0 +1,66 @@
+<template>
+  <v-container class="main-container">
+    <v-row>
+      <v-col>
+        <v-card tile>
+          <v-card-subtitle class="font-weight-medium" style="color: #333;background: #f6f6f6">
+            <i class="fa fa-users"></i>
+            <span class="font-weight-medium pl-1" style="color: #333">Authentication</span>
+          </v-card-subtitle>
+          <v-divider/>
+          <v-card-text>
+            <v-select v-model="settings.UserSessionTimeout"
+                      label="Session lifetime"
+                      :items="sessionLifetimes"
+                      outlined/>
+            <v-select v-model="settings.AuthenticationMethod"
+                      label="Authentication method"
+                      :items="authenticationMethods"
+                      outlined/>
+
+            <MethodOauth v-if="settings.AuthenticationMethod === 10" :settings="settings" />
+
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" tile @click="onUpdate">Save Changes</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import {getSettings, updateSettings} from "../../api/settings";
+import MethodOauth from "./MethodOauth";
+
+export default {
+  components: {MethodOauth},
+  data: () => ({
+    sessionLifetimes: [
+      {value: '1h', text: '1 hour'},
+      {value: '4h', text: '4 hours'},
+      {value: '8h', text: '8 hours'},
+      {value: '24h', text: '24 hours'},
+      {value: '1w', text: '1 week'},
+      {value: '1m', text: '1 month'},
+      {value: '6m', text: '6 months'},
+      {value: '1y', text: '1 year'}
+    ],
+    authenticationMethods: [
+      {value: "1", text: 'Internal'},
+      {value: "2", text: 'LDAP'},
+      {value: "10", text: 'OAuth'}
+    ],
+    settings: {}
+  }),
+  methods: {
+    onUpdate() {
+      updateSettings(this.settings)
+    }
+  },
+  async created() {
+    this.settings = await getSettings()
+  }
+}
+</script>

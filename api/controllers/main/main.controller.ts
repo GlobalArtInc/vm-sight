@@ -1,8 +1,9 @@
-import {NextFunction, Router} from 'express';
-import {IRequest, IResponse} from '../../interfaces/express.interface'
-import Controller from "../../interfaces/controller.interface";
-import authMiddleware from "../../middleware/auth.middleware";
-import App from "../../app";
+import {Router} from 'express';
+import {IRequest, IResponse} from '../../interfaces/express.interface';
+import Controller from '../../interfaces/controller.interface';
+import authMiddleware from '../../middleware/auth.middleware';
+import App from '../../app';
+import SettingsController from './settings.controller';
 
 class MainController extends App implements Controller {
     public path = '/'
@@ -15,6 +16,7 @@ class MainController extends App implements Controller {
 
     private initializeRoutes() {
         this.router.use('/me', authMiddleware)
+        this.router.use('/settings', new SettingsController().router)
         this.router.get('/motd', (req: IRequest, res: IResponse) => {
             return res.json({
                 response: true

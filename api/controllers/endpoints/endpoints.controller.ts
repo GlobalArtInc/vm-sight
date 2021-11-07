@@ -24,10 +24,10 @@ class EndpointsController extends App implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.use(this.path, authMiddleware)
-        this.router.use(this.path + '/:endpointId/docker', new DockerController().router)
+        this.router.use('/', authMiddleware)
+        this.router.use('/:endpointId/docker', new DockerController().router)
 
-        this.router.get(this.path, async (req: IRequest, res: IResponse) => {
+        this.router.get('/', async (req: IRequest, res: IResponse) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
                 dbQuery('SELECT * FROM endpoints').then(async (endpoints: any[]) => {
@@ -50,7 +50,7 @@ class EndpointsController extends App implements Controller {
             }
         })
 
-        this.router.get(this.path + '/list', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.get('/list', async (req: IRequest, res: IResponse, next: INext) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
                 try {
@@ -64,7 +64,7 @@ class EndpointsController extends App implements Controller {
             }
         })
 
-        this.router.post(this.path + '/list', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.post('/list', async (req: IRequest, res: IResponse, next: INext) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
                 const {name, url, type} = req.body.data
@@ -117,7 +117,7 @@ class EndpointsController extends App implements Controller {
             }
         })
 
-        this.router.get(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse) => {
+        this.router.get('/list/:endpointId', async (req: IRequest, res: IResponse) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
                 const endpoint = await dbQuery(`SELECT id AS Id,
@@ -164,7 +164,7 @@ class EndpointsController extends App implements Controller {
             }
         })
 
-        this.router.delete(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.delete('/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
             const {endpointId} = req.params
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
@@ -180,7 +180,7 @@ class EndpointsController extends App implements Controller {
             }
         })
 
-        this.router.put(this.path + '/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.put('/list/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
                 const endpoint = await dbQuery(`SELECT * FROM endpoints WHERE id = '${req.params.endpointId}'`)
@@ -268,7 +268,7 @@ class EndpointsController extends App implements Controller {
             }
         })
 
-        this.router.get(this.path + '/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
+        this.router.get('/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
             const service = new dockerService()
             await service.connect(req.params.endpointId)
             const endpoint = await service.getEndpoint()

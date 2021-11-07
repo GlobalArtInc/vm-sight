@@ -14,7 +14,7 @@ class AuthController extends App implements Controller {
 
     constructor(...props) {
         super(props);
-        this.router.post(this.path, (req: IRequest, res: IResponse, next: INext) => {
+        this.router.post('/', (req: IRequest, res: IResponse, next: INext) => {
             const {Username, Password} = req.body;
 
             findUser(Username, Password).then((user: IUser) => {

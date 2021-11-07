@@ -106,7 +106,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/settings" v-if="user.role === 1">
+        <v-list-item to="/settings/main" v-if="user.role === 1">
           <v-list-item-icon>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -117,6 +117,20 @@
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
             <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item to="/settings/auth" v-if="user.role === 1">
+          <v-list-item-icon>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">mdi-login</v-icon>
+              </template>
+              <span>Authentication</span>
+            </v-tooltip>
+          </v-list-item-icon>
+          <v-list-item-content v-if="drawerWidth !== 64">
+            <v-list-item-title>Authentication</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

@@ -292,13 +292,26 @@ export const protectedRoute = [
                 },
                 children: [
                     {
-                        path: '',
+                        path: 'auth',
+                        name: 'authSettings',
+                        meta: {
+                            title: "settings_auth",
+                            hiddenInMenu: true
+                        },
+                        component: () => import('@/views/Settings/Auth')
+                    },
+                    {
+                        path: 'main',
                         name: 'settingsList',
                         meta: {
                             title: "settings",
                             hiddenInMenu: true
                         },
                         component: () => import('@/views/Settings/Index')
+                    },
+                    {
+                        path: '',
+                        redirect: 'main',
                     }
                 ]
             }
