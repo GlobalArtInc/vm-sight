@@ -19,7 +19,6 @@
                       outlined/>
 
             <MethodOauth v-if="settings.AuthenticationMethod === 10" :settings="settings" />
-
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" tile @click="onUpdate">Save Changes</v-btn>
@@ -31,7 +30,7 @@
 </template>
 
 <script>
-import {getSettings, updateSettings} from "../../api/settings";
+import {fetchSettings, updateSettings} from "../../api/settings";
 import MethodOauth from "./MethodOauth";
 
 export default {
@@ -60,7 +59,7 @@ export default {
     }
   },
   async created() {
-    this.settings = await getSettings()
+    this.settings = await fetchSettings()
   }
 }
 </script>

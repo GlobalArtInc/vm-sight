@@ -8,7 +8,7 @@ export function updateSettings(data) {
     })
 }
 
-export function getSettings() {
+export function fetchSettings() {
     return request({
         url: '/settings'
     })

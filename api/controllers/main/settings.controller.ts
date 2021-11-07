@@ -17,7 +17,11 @@ class SettingsController extends App implements Controller {
     public getSetting(data, name, defaultValue: any = false) {
         for (let i = 0; i < data.length; i++) {
             if (data[i].key === name) {
-                return data[i].value
+                if (typeof defaultValue === 'boolean') {
+                    return data[i].value === "true"
+                } else {
+                    return data[i].value
+                }
             }
         }
         if (defaultValue) {
@@ -92,7 +96,7 @@ class SettingsController extends App implements Controller {
                     }
                 }
             }
-            return res.send({status: 200, message: "Settings has been update."})
+            return res.send({status: 200, message: "Settings has been updated."})
 
         })
 

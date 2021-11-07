@@ -5,6 +5,11 @@ export function getEndpointSearchType(type) {
     }
 }
 
+export function parseSettings(settings) {
+    settings = settings.replace('true', true).replace('false', false)
+    return settings
+}
+
 export function getEndpointType(type, icon = false) {
     const endpoint = {
         name: "",

@@ -19,9 +19,9 @@
                 inset :ripple="false"
                 label="Allow the collection of anonymous statistics"/>
           </v-card-text>
-          <v-divider />
+          <v-divider/>
           <v-card-actions>
-            <v-btn color="primary" tile @click="onUpdate">Save Changes</v-btn>
+            <v-btn color="primary" tile @click="onUpdate" :loading="submitLoading">Save Changes</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -30,19 +30,34 @@
 </template>
 
 <script>
-import {getSettings, updateSettings} from "../../api/settings";
+import {fetchSettings, updateSettings} from "../../api/settings";
 
 export default {
   data: () => ({
-    settings: {}
+    settings: {},
+    submitLoading: false
   }),
   methods: {
-    onUpdate() {
-      updateSettings(this.settings)
+    async onUpdate() {
+      this.submitLoading = true
+      try {
+        await updateSettings(this.settings)
+        this.$toast("Settings has been saved.", {
+          type: 'success'
+        });
+      } catch (err) {
+        this.$toast(err.message, {
+          type: 'error'
+        });
+      } finally {
+        setTimeout(() => {
+          this.submitLoading = false
+        }, 1000)
+      }
     }
   },
   async created() {
-    this.settings = await getSettings()
+    this.settings = await fetchSettings()
   }
 }
 </script>
