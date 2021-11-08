@@ -90,8 +90,17 @@ export default {
       await check()
       const {code} = getGets()
       if (code) {
-        oauth(code).then(() => {
-          console.log(2)
+        oauth(code).then((response) => {
+          const {jwt} = response
+          setToken(jwt)
+          this.$store.dispatch('user/getInfo').then(() => {
+            window.location.href = '/'
+          })
+        }).catch(() => {
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: "Login Error",
+            color: 'error'
+          })
         })
       }
     } catch (err) {

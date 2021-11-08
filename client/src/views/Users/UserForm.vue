@@ -16,6 +16,16 @@
                 :rules="form.username.rules"
             />
           </v-col>
+          <v-col :cols="12">
+            <v-text-field
+                outlined
+                :label="__('user.oauth2_identity')"
+                :placeholder="form.oauth2.placeholder"
+                v-model="formModel.oauth2"
+                required
+                :append-icon="'mdi-account-check'"
+            />
+          </v-col>
         </v-row>
         <v-row>
           <v-col :cols="6">
@@ -77,6 +87,7 @@ export default {
       username: "",
       password: "",
       repeatPassword: "",
+      oauth2: "",
       admin: false
     },
     form: {
@@ -88,6 +99,9 @@ export default {
       password: {
         placeholder: 'xxx',
         rules: [(v) => !!v || 'This field is required']
+      },
+      oauth2: {
+        placeholder: 'OAuth2 Identity'
       },
       email: {
         label: 'Email',

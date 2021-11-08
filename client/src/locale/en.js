@@ -51,6 +51,7 @@ export default {
         password: "Password",
         repeatPassword: "Repeat password",
         administrator: "Administrator",
+        oauth2_identity: "OAuth2 Identity",
         created: "The user has been created",
         updated: "The user has been updated"
     },
