@@ -13,6 +13,11 @@ class Init {
             createdAt   INT  CHAR(11)       NOT NULL,
             updatedAt   INT  CHAR(11)       NOT NULL
         )`)
+
+        await dbQuery(`CREATE TABLE IF NOT EXISTS users_external (
+            user_id          TEXT PRIMARY KEY    NOT NULL,
+            identity         TEXT                NOT NULL
+        )`)
         await Init.createSettings()
         await Init.createSnapshots()
         await Init.createEndpoints()

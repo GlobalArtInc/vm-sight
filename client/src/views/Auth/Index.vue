@@ -58,9 +58,10 @@
 
 <script>
 import {check} from "@/api/users/admin";
-import {auth} from "@/api/auth";
+import {auth, oauth} from "@/api/auth";
 import {setToken} from "@/utils/auth";
 import {mapGetters} from "vuex";
+import {getGets} from "../../utils/global";
 
 export default {
   name: 'PageLogin',
@@ -87,6 +88,12 @@ export default {
   async created() {
     try {
       await check()
+      const {code} = getGets()
+      if (code) {
+        oauth(code).then(() => {
+          console.log(2)
+        })
+      }
     } catch (err) {
       await this.$router.push('/init/admin')
     }

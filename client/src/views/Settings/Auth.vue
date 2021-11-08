@@ -33,12 +33,13 @@
 </template>
 
 <script>
-import {fetchSettings, updateSettings} from "../../api/settings";
+import {fetchSettings, updateAuthSettings} from "../../api/settings";
 import MethodOauth from "./MethodOauth";
 
 export default {
   components: {MethodOauth},
   data: () => ({
+    Loaded: false,
     sessionLifetimes: [
       {value: '1h', text: '1 hour'},
       {value: '4h', text: '4 hours'},
@@ -56,6 +57,7 @@ export default {
     ],
     settings: {
       AuthenticationMethod: 1,
+      UserSessionTimeout: "8h",
       OAuthSettings: {
         AccessTokenURI: "",
         AuthorizationURI: "",
@@ -66,7 +68,8 @@ export default {
         ResourceURI: "",
         SSO: false,
         Scopes: "",
-        UserIdentifier: ""
+        UserIdentifier: "",
+        ClientSecret: ""
       }
     },
     submitLoading: false
@@ -75,7 +78,7 @@ export default {
     async onUpdate() {
       this.submitLoading = true
       try {
-        await updateSettings(this.settings)
+        await updateAuthSettings(this.settings)
         this.$toast("Settings has been saved.", {
           type: 'success'
         });
@@ -94,6 +97,7 @@ export default {
     const settings = await fetchSettings()
     this.settings = {
       AuthenticationMethod: settings.AuthenticationMethod,
+      UserSessionTimeout: settings.UserSessionTimeout,
       OAuthSettings: {
         AccessTokenURI: settings.OAuthSettings.AccessTokenURI,
         AuthorizationURI: settings.OAuthSettings.AuthorizationURI,

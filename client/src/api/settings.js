@@ -8,6 +8,14 @@ export function updateSettings(data) {
     })
 }
 
+export function updateAuthSettings(data) {
+    return request({
+        method: 'put',
+        url: '/settings/auth',
+        data
+    })
+}
+
 export function fetchPublicSettings() {
     return request({
         url: '/settings/public'

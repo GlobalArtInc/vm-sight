@@ -75,6 +75,7 @@ export default {
         dashboard: 'Dashboard',
         endpoints: "Endpoints",
         settings: 'Settings',
+        settings_auth: "Authentication settings",
         docker: "Docker",
         containers: "Containers",
         edit: "Edit",

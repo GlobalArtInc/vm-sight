@@ -14,11 +14,17 @@
         <v-divider />
       </div>
       <v-form style="margin-top: 2em">
-        <v-text-field label="Client ID" v-model="settings.OAuthSettings.ClientID" outlined />
-        <v-text-field label="Client Secret" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.ClientID" label="Client ID" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.ClientSecret" label="Client Secret" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.AuthorizationURI" label="Authorization URL" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.AccessTokenURI" label="Access token URL" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.ResourceURI" label="Resource URL" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.RedirectURI" label="Redirect URL" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.LogoutURI" label="Logout URL" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.UserIdentifier" label="User identifier" outlined />
+        <v-text-field dense v-model="settings.OAuthSettings.Scopes" label="Scopes" outlined />
       </v-form>
     </template>
-    {{ settings }}
   </div>
 </template>
 

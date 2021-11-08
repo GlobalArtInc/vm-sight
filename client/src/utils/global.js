@@ -5,6 +5,17 @@ export function getEndpointSearchType(type) {
     }
 }
 
+export function getGets() {
+    var a = window.location.search;
+    var b = new Object();
+    a = a.substring(1).split("&");
+    for (var i = 0; i < a.length; i++) {
+        let c = a[i].split("=");
+        b[c[0]] = c[1];
+    }
+    return b;
+}
+
 export function parseSettings(settings) {
     settings = settings.replace('true', true).replace('false', false)
     return settings
