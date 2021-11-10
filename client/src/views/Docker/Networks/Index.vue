@@ -8,17 +8,9 @@
           <span class="font-weight-medium pl-1" style="color: #333" v-text="this.__('menu.networks')"/>
         </v-card-subtitle>
         <v-divider/>
-        <v-text-field
-            dense
-            v-model="search"
-            text
-            solo
-            flat
-            prepend-inner-icon="mdi-magnify"
-            placeholder="Type something"
-            hide-details
-            clearable
-        />
+        <v-card-subtitle>
+          <NetworksActionMenu remove newImage importExport :selected="selected" />
+        </v-card-subtitle>
         <v-divider/>
         <v-card-text style="padding: 0">
           <v-data-table
@@ -76,8 +68,10 @@
 
 <script>
 import {fetchNetworks} from "@/api/endpoints/networks";
+import NetworksActionMenu from "../../../components/docker/actions/NetworksActionMenu";
 
 export default {
+  components: {NetworksActionMenu},
   props: {
     id: {type: String}
   },
@@ -85,6 +79,7 @@ export default {
     selected: [],
     isLoading: false,
     search: "",
+    components: {NetworksActionMenu},
     headers: [
       {
         text: 'Name',
