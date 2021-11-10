@@ -9,6 +9,7 @@ import {jwtSecret} from "../../constants";
 import {getSetting} from "../../utils/Global";
 import {dbQuery} from "../../utils/DB";
 import axios from 'axios'
+import NotAuthorizedException from "../../exceptions/NotAuthorizedException";
 
 const jwt = require('jsonwebtoken')
 
@@ -27,6 +28,7 @@ class AuthController extends App implements Controller {
                 if (AuthenticationMethod === 3) {
                     const AccessTokenURI = getSetting(settings, 'AccessTokenURI', ""),
                         ClientID = getSetting(settings, 'ClientID', ""),
+                        ResourceURI = getSetting(settings, 'ResourceURI', ""),
                         RedirectURI = getSetting(settings, 'RedirectURI', ""),
                         ClientSecret = getSetting(settings, 'ClientSecret', "")
 
@@ -38,7 +40,42 @@ class AuthController extends App implements Controller {
                             client_secret: ClientSecret
                         })
                         if (access.data['access_token']) {
-                            console.log(access.data['access_token'])
+                            axios.get(ResourceURI, {
+                                headers: {
+                                    Authorization: "Bearer " + access.data['access_token']
+                                }
+                            }).then((res) => res.data).then(async (user) => {
+                                const users_external = await dbQuery(`SELECT * FROM users_external WHERE identity = '${user.id}'`)
+                                if (users_external['length'] > 0) {
+                                    const user = await dbQuery(`SELECT * FROM users WHERE id = '${users_external[0].user_id}'`)
+                                    if (user['length'] > 0) {
+                                        return new Promise((resolve, reject) => {
+                                            jwt.sign(
+                                                {
+                                                    id: user[0].id
+                                                },
+                                                fs.readFileSync(jwtSecret), {
+                                                    expiresIn: '365d', subject: 'userInfo'
+                                                }, (err, token) => {
+                                                    if (err) reject(err)
+                                                    resolve(token)
+                                                })
+                                        }).then((jwt) => {
+                                            return res.send({jwt})
+                                        }).catch((err) => {
+                                            return next(new HttpException(401, err))
+                                        })
+                                    } else {
+                                        return next(new NotAuthorizedException())
+                                    }
+                                } else {
+                                    return next(new NotAuthorizedException())
+                                }
+                            }).catch(() => {
+                                return next(new NotAuthorizedException())
+                            })
+                        } else {
+                            return next(new NotAuthorizedException())
                         }
                     } catch (err) {
                         return next(new HttpException(err.status, err.message))
