@@ -18,6 +18,16 @@ export function connectNetwork(endpoint_id, network, container) {
     })
 }
 
+export function removeNetwork(endpointId, networkId) {
+    return request({
+        url: `/endpoints/${endpointId}/docker/networks/${networkId}`,
+        method: "DELETE",
+        data: {
+            Force: true
+        }
+    })
+}
+
 export function disconnectNetwork(endpoint_id, network, container) {
     return request({
         url: `/endpoints/${endpoint_id}/docker/networks/${network}/disconnect`,

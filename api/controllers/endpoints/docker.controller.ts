@@ -67,6 +67,18 @@ class DockerController extends App implements Controller {
             }
         })
 
+        this.router.delete('/networks/:networkId', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, networkId} = req.params
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const network = await service.getNetwork(networkId)
+                return res.send(await network.remove())
+            } catch (err) {
+                next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
         this.router.post('/networks/:networkId/connect', async (req: IRequest, res: IResponse, next: INext) => {
             const {endpointId, networkId} = req.params
             const {Container} = req.body
