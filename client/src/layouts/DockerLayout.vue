@@ -1,5 +1,5 @@
 <template>
-  <v-progress-linear v-if="!isLoading" indeterminate />
+  <v-progress-linear v-if="!isLoading" indeterminate/>
   <div class="page-docker" v-else>
     <template v-if="isLoading">
       <v-container class="main-container" v-if="endpoint.Status === 1">
@@ -26,9 +26,14 @@ export default {
   computed: {
     ...mapGetters(['endpoint'])
   },
-  created() {
+  async created() {
     try {
-      this.$store.dispatch('app/getEndpoint', this.id)
+      await this.$store.dispatch('app/getEndpoint', this.id)
+    } catch (err) {
+      this.$toast(err.response.data.message, {
+        type: 'error'
+      });
+      await this.$router.push('/endpoints')
     } finally {
       setTimeout(() => {
         this.isLoading = true

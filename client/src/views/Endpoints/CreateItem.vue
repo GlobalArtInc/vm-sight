@@ -162,31 +162,27 @@ export default {
   methods: {
     handleSubmitForm() {
       this.onSubmit()
-      // if (this.$refs.form.validate()) {
-      //   this.onSubmit()
-      // }
     },
     async onSubmit() {
       const tempId = Math.random()
       if (this.$refs.form.validate()) {
         this.loading = true
         if (this.formModel.type === 1 && this.form.docker.type === 'socket') {
-         createEndpoint(this.formModel, this.form.docker.type).then(() => {
-           this.$router.push('/endpoints')
-           setTimeout(() => {
-             this.loading = false
-           }, 500)
+         try {
+           await createEndpoint(this.formModel, this.form.docker.type)
+           await this.$router.push('/endpoints')
            this.$toast("The endpoint has been created", {
              type: 'success'
            });
-         }).catch((err) => {
-           setTimeout(() => {
-             this.loading = false
-           }, 500)
+         } catch (err) {
            this.$toast(err.response.data.message, {
              type: 'error'
            });
-         })
+         } finally {
+           setTimeout(() => {
+             this.loading = false
+           }, 500)
+         }
         } else if (this.formModel.type === 1) {
           if (this.formModel.tls.active === true) {
             try {
@@ -212,22 +208,23 @@ export default {
               });
             }
           }
-          createEndpoint(this.formModel, tempId).then(() => {
-            this.$router.push('/endpoints')
-            setTimeout(() => {
-              this.loading = false
-            }, 500)
+
+          try {
+            await createEndpoint(this.formModel, tempId)
+            await this.$router.push('/endpoints')
+
             this.$toast("The endpoint has been created", {
               type: 'success'
             });
-          }).catch((err) => {
-            setTimeout(() => {
-              this.loading = false
-            }, 500)
+          } catch (err) {
             this.$toast(err.response.data.message, {
               type: 'error'
             });
-          })
+          } finally {
+            setTimeout(() => {
+              this.loading = false
+            }, 500)
+          }
         }
       }
     }

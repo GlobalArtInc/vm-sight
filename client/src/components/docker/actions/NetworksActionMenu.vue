@@ -4,7 +4,7 @@
       <v-icon class="mr-2">mdi-delete</v-icon>
       Remove
     </v-btn>
-    <v-btn large depressed tile color="primary" class="ml-2" @click="onRemove(false)">
+    <v-btn large depressed tile color="primary" class="ml-2" to="networks/  add">
       <v-icon class="mr-2">mdi-plus</v-icon>
       Add Network
     </v-btn>

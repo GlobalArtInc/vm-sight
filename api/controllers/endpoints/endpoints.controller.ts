@@ -97,7 +97,7 @@ class EndpointsController extends App implements Controller {
                                         next(new HttpException(500, err))
                                     })
                                 }).catch(() => {
-                                    return res.status(500).send({message: "Failed to connect to the server"})
+                                    return next(new HttpException(500, "Failed to connect to the server"))
                                 })
                             }
                         })
@@ -147,7 +147,7 @@ class EndpointsController extends App implements Controller {
                                 return res.send({response: true})
                             }).catch(() => {
                                 fs.rmSync(`${dataDir}/certs/${tempId}`, {recursive: true})
-                                return res.status(500).send({message: "Failed to connect to the server"})
+                                return next(new HttpException(500, "Failed to connect to the server"))
                             })
                         } else {
                             service.checkConnect(url).then(() => {
@@ -155,7 +155,7 @@ class EndpointsController extends App implements Controller {
                                     return res.send({response: true})
                                 })
                             }).catch(() => {
-                                return res.status(500).send({message: "Failed to connect to the server"})
+                                return next(new HttpException(500, "Failed to connect to the server"))
                             })
                         }
                     }
@@ -278,7 +278,7 @@ class EndpointsController extends App implements Controller {
                                         await dbQuery(`UPDATE endpoints SET tls=1, tls_key=1 WHERE id = '${endpoint[0].id}'`)
                                     }
                                 } catch (err) {
-                                    return next(new HttpException(500, "Failed to connect to the server."))
+                                    return next(new HttpException(500, "Failed to connect to the server"))
                                 }
                             }
                         } else {

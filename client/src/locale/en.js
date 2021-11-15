@@ -94,6 +94,7 @@ export default {
         imageEdit: "Image Edit",
         networks: "Networks",
         networksList: "Networks List",
+        networksAdd: "A new network",
         networksEdit: "Networks Edit",
         dockerDashboard: "Docker Dashboard",
         containersList: "Containers List"

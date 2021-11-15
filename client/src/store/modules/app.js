@@ -34,6 +34,7 @@ const actions = {
                 commit('SET_ENDPOINT', data)
                 resolve(data)
             }).catch((err) => {
+                commit('SET_ENDPOINT', false)
                 reject(err)
             })
         })

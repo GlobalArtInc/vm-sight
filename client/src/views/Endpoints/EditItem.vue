@@ -203,51 +203,64 @@ export default {
             });
           }
         }
-        this.onSubmit()
+        await this.onSubmit()
       }
     },
     handleCancel() {
       this.$router.push('/endpoints')
     },
-    onSubmit() {
+    async onSubmit() {
       if (this.form.type === 1) {
         if (this.formModel.tls.active === true) {
-          updateEndpoint(this.id, this.formModel).then(() => {
+          try {
+            await updateEndpoint(this.id, this.formModel)
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: 'The endpoint has been saved',
               color: 'success'
             })
-            this.$router.push('/endpoints')
-          }).catch((err) => {
-            this.loading = false
+            await this.$router.push('/endpoints')
+          } catch (err) {
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: err.response.data.message,
               color: 'error'
             })
-          })
+          } finally {
+            this.loading = false
+          }
+
         } else {
-          updateEndpoint(this.id, this.formModel).then(() => {
+          try {
+            await updateEndpoint(this.id, this.formModel)
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: 'The endpoint has been saved',
               color: 'success'
             })
-            this.$router.push('/endpoints')
-          }).catch((err) => {
-            this.loading = false
+            await this.$router.push('/endpoints')
+          } catch (err) {
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: err.response.data.message,
               color: 'error'
             })
-          })
+          } finally {
+            this.loading = false
+          }
         }
       } else if (this.form.type === 2) {
-        updateEndpoint(this.id, {name: this.formModel.name, public_url: this.formModel.public_url}).then(() => {
+        try {
+          await updateEndpoint(this.id, {name: this.formModel.name, public_url: this.formModel.public_url})
           window._VMA.$emit('SHOW_SNACKBAR', {
             text: 'The endpoint has been saved',
             color: 'success'
           })
-          this.$router.push('/endpoints')
-        })
+          await this.$router.push('/endpoints')
+        } catch (err) {
+          window._VMA.$emit('SHOW_SNACKBAR', {
+            text: err.response.data.message,
+            color: 'error'
+          })
+        } finally {
+          this.loading = false
+        }
       } else {
         this.loading = false
       }
