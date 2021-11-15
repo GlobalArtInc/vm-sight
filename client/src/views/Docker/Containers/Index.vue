@@ -11,7 +11,7 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-subtitle>
-          <ActionMenu :selected="selected" @update="onUpdate" />
+          <ActionMenu :selected="selected" @update="onUpdate"/>
         </v-card-subtitle>
         <v-divider/>
         <v-text-field
@@ -41,8 +41,10 @@
           </template>
           <template #item.actions="{item}">
             <div>
-              <router-link style="color: #337ab7" :to="`containers/${item.Id}/logs`"><i class="fa fa-file-alt space-right" /></router-link>
-              <router-link style="color: #337ab7" class="space-left" :to="`containers/${item.Id}/exec`"><i class="fa fa-terminal space-right" /></router-link>
+              <router-link style="color: #337ab7" :to="`containers/${item.Id}/logs`"><i
+                  class="fa fa-file-alt space-right"/></router-link>
+              <router-link style="color: #337ab7" class="space-left" :to="`containers/${item.Id}/exec`"><i
+                  class="fa fa-terminal space-right"/></router-link>
             </div>
           </template>
           <template #item.State="{item}">
@@ -79,6 +81,7 @@ import {fetchContainers} from "@/api/endpoints/docker";
 import {removePort} from '@/utils/global'
 import State from "@/components/docker/State";
 import ActionMenu from "@/components/docker/ActionMenu";
+import {mapGetters} from "vuex";
 
 export default {
   components: {ActionMenu, State},
@@ -90,7 +93,6 @@ export default {
     items: [],
     selected: [],
     search: "",
-    endpoint: {},
     headers: [
       {
         text: 'Name',
@@ -144,15 +146,11 @@ export default {
       })
     }
   },
+  computed: {
+    ...mapGetters(['endpoint'])
+  },
   created() {
-
-    this.$store.dispatch('app/getEndpoint', this.id).then((data) => {
-      this.endpoint = data
-      this.fetchContainers()
-    }).catch(() => {
-      this.$router.push('/')
-    })
-
+    this.fetchContainers()
   }
 }
 </script>

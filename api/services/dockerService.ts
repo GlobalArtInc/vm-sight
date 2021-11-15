@@ -89,61 +89,88 @@ class dockerService {
 
     public async getEndpoint() {
         if (this.endpoint) {
-            const snap = await dbQuery(`SELECT * FROM snapshots WHERE endpoint_id = '${this.endpoint.id}'`)
-            let snapshot;
-            // @ts-ignore
-            const timestamp = Math.floor(new Date() / 1000)
-            if (snap['length'] === 0 || snap[0].createdAt + 300 < timestamp) {
-                const info = await this.service.info()
-                const containers = await this.getContainers()
-                const volumes = await this.getVolumes()
-                const swarm = info.Swarm
+            try {
+                const snap = await dbQuery(`SELECT * FROM snapshots WHERE endpoint_id = '${this.endpoint.id}'`)
+                let snapshot;
+                // @ts-ignore
+                const timestamp = Math.floor(new Date() / 1000)
+                if (snap['length'] === 0 || snap[0].createdAt + 300 < timestamp) {
+                    const info = await this.service.info()
+                    const containers = await this.getContainers()
+                    const volumes = await this.getVolumes()
+                    const swarm = info.Swarm
 
-                const healthy = containers.filter(i => {
-                    return i.Status.match('(healthy)');
-                })
-                const unhealthy = containers.filter(i => {
-                    return i.Status.match('(unhealthy)');
-                })
+                    const healthy = containers.filter(i => {
+                        return i.Status.match('(healthy)');
+                    })
+                    const unhealthy = containers.filter(i => {
+                        return i.Status.match('(unhealthy)');
+                    })
 
-                snapshot = this.snapshot({
-                    DockerVersion: info.ServerVersion,
-                    Containers: info.Containers,
-                    RunningContainerCount: info.ContainersRunning,
-                    StoppedContainerCount: info.ContainersStopped,
-                    HealthyContainerCount: healthy.length,
-                    UnhealthyContainerCount: unhealthy.length,
-                    ImageCount: Object.keys(await this.getImages()).length,
-                    ServiceCount: swarm.LocalNodeState === 'active' ? this.listServices().length : 0,
-                    StackCount: 0,
-                    Swarm: swarm.LocalNodeState === 'active',
-                    Time: Math.floor(new Date(info.SystemTime).getTime() / 1000),
-                    TotalCPU: info.NCPU,
-                    TotalMemory: info.MemTotal,
-                    VolumeCount: volumes ? volumes.Volumes.length : 0
-                })
-                if (snap['length'] > 0 && snap[0].createdAt + 300 < timestamp) {
-                    await dbQuery(`UPDATE snapshots SET data = '${JSON.stringify(snapshot)}', createdAt = strftime('%s', 'now') WHERE endpoint_id = '${this.endpoint.id}'`)
+                    snapshot = this.snapshot({
+                        DockerVersion: info.ServerVersion,
+                        Containers: info.Containers,
+                        RunningContainerCount: info.ContainersRunning,
+                        StoppedContainerCount: info.ContainersStopped,
+                        HealthyContainerCount: healthy.length,
+                        UnhealthyContainerCount: unhealthy.length,
+                        ImageCount: Object.keys(await this.getImages()).length,
+                        ServiceCount: swarm.LocalNodeState === 'active' ? this.listServices().length : 0,
+                        StackCount: 0,
+                        Swarm: swarm.LocalNodeState === 'active',
+                        Time: Math.floor(new Date(info.SystemTime).getTime() / 1000),
+                        TotalCPU: info.NCPU,
+                        TotalMemory: info.MemTotal,
+                        VolumeCount: volumes ? volumes.Volumes.length : 0
+                    })
+                    if (snap['length'] > 0 && snap[0].createdAt + 300 < timestamp) {
+                        await dbQuery(`UPDATE snapshots SET data = '${JSON.stringify(snapshot)}', createdAt = strftime('%s', 'now') WHERE endpoint_id = '${this.endpoint.id}'`)
+                    } else {
+                        await dbQuery(`INSERT INTO snapshots (endpoint_id, data, createdAt) VALUES ('${this.endpoint.id}', '${JSON.stringify(snapshot)}', strftime('%s', 'now'))`)
+                    }
+
+
                 } else {
-                    await dbQuery(`INSERT INTO snapshots (endpoint_id, data, createdAt) VALUES ('${this.endpoint.id}', '${JSON.stringify(snapshot)}', strftime('%s', 'now'))`)
+                    const data = JSON.parse(snap[0].data)
+                    snapshot = this.snapshot(data)
                 }
 
-
-            } else {
-                const data = JSON.parse(snap[0].data)
-                snapshot = this.snapshot(data)
+                return getEndpoint({
+                    id: this.endpoint.id,
+                    name: this.endpoint.name,
+                    type: this.endpoint.type,
+                    groupId: this.endpoint.groupId,
+                    status: 1,
+                    publicURL: this.endpoint.public_url,
+                    url: this.endpoint.url,
+                    snapshot
+                })
+            } catch (err) {
+                return getEndpoint({
+                    id: this.endpoint.id,
+                    name: this.endpoint.name,
+                    type: this.endpoint.type,
+                    groupId: this.endpoint.groupId,
+                    status: 0,
+                    publicURL: this.endpoint.public_url,
+                    url: this.endpoint.url,
+                    snapshot: {
+                        DockerVersion: null,
+                        Containers: 0,
+                        RunningContainerCount: 0,
+                        StoppedContainerCount: 0,
+                        HealthyContainerCount: 0,
+                        UnhealthyContainerCount: 0,
+                        ImageCount: 0,
+                        StackCount: 0,
+                        Swarm: false,
+                        Time: 0,
+                        TotalCPU: 0,
+                        TotalMemory: 0,
+                        VolumeCount: 0
+                    }
+                })
             }
-
-            return getEndpoint({
-                id: this.endpoint.id,
-                name: this.endpoint.name,
-                type: this.endpoint.type,
-                groupId: this.endpoint.groupId,
-                status: 1,
-                publicURL: this.endpoint.public_url,
-                url: this.endpoint.url,
-                snapshot
-            })
         } else {
             return false;
         }

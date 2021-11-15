@@ -85,7 +85,6 @@ export default {
   },
   async created() {
     try {
-      await this.$store.dispatch('app/getEndpoint', this.id)
       this.image = await getImageById(this.id, this.imageId)
       this.imageHistory = await getImageHistory(this.id, this.imageId)
       this.isLoading = true

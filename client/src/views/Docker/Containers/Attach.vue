@@ -95,11 +95,6 @@ export default {
     const terminal_container = document.getElementById('terminal-container');
     this.terminal.open(terminal_container);
     this.onAttach()
-  },
-  created() {
-    this.$store.dispatch('app/getEndpoint', this.id).catch(() => {
-      this.$router.push('/')
-    })
   }
 }
 

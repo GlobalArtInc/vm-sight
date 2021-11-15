@@ -67,7 +67,8 @@ class EndpointsController extends App implements Controller {
         this.router.post('/list', async (req: IRequest, res: IResponse, next: INext) => {
             const user = await getUserById(req.user.id);
             if (user.role === 1) {
-                const {name, url, type} = req.body.data
+                const {name, url, type, tls} = req.body.data
+                const tempId = req.body.tempId
                 const d = req.body.type
 
                 if (!name) {
@@ -102,13 +103,61 @@ class EndpointsController extends App implements Controller {
                         })
                     } else {
                         const service = new dockerService()
-                        service.checkConnect(url).then(() => {
-                            dbQuery(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`).then(() => {
+                        if (tls.active === true) {
+                            let tls_active, tls_ca, tls_cert, tls_key;
+                            if (tls) {
+                                tls_active = tls.active
+                                tls_ca = tls.ca
+                                tls_cert = tls.cert
+                                tls_key = tls.key
+                            }
+
+                            let tls_ca_path = `${dataDir}/certs/${tempId}/ca.pem`
+
+                            if (fs.existsSync(tls_ca_path))
+                                tls_ca = fs.readFileSync(tls_ca_path)
+
+                            let tls_cert_path = `${dataDir}/certs/${tempId}/cert.pem`
+                            if (fs.existsSync(tls_cert_path))
+                                tls_cert = fs.readFileSync(tls_cert_path)
+
+                            let tls_key_path = `${dataDir}/certs/${tempId}/key.pem`
+                            if (fs.existsSync(tls_key_path))
+                                tls_key = fs.readFileSync(tls_key_path)
+
+                            service.checkConnect(url, {
+                                ca: tls_ca,
+                                cert: tls_cert,
+                                key: tls_key
+                            }).then(async () => {
+                                await dbQuery(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`)
+
+                                if (tls_ca) {
+                                    await dbQuery(`UPDATE endpoints SET tls=1, tls_ca=1 WHERE id = '${id}'`)
+                                }
+                                if (tls_cert) {
+                                    await dbQuery(`UPDATE endpoints SET tls=1, tls_cert=1 WHERE id = '${id}'`)
+                                }
+                                if (tls_key) {
+                                    await dbQuery(`UPDATE endpoints SET tls=1, tls_key=1 WHERE id = '${id}'`)
+                                }
+
+                                fs.renameSync(`${dataDir}/certs/${tempId}`, `${dataDir}/certs/${id}`)
+
                                 return res.send({response: true})
+                            }).catch(() => {
+                                fs.rmSync(`${dataDir}/certs/${tempId}`, {recursive: true})
+                                return res.status(500).send({message: "Failed to connect to the server"})
                             })
-                        }).catch(() => {
-                            return res.status(500).send({message: "Failed to connect to the server"})
-                        })
+                        } else {
+                            service.checkConnect(url).then(() => {
+                                dbQuery(`INSERT INTO endpoints (id,name,type,url)VALUES('${id}','${name}','1', '${url}')`).then(() => {
+                                    return res.send({response: true})
+                                })
+                            }).catch(() => {
+                                return res.status(500).send({message: "Failed to connect to the server"})
+                            })
+                        }
                     }
                 }
 

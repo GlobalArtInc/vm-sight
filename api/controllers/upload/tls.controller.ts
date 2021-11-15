@@ -47,7 +47,7 @@ class TlsUploadController extends App implements Controller {
         this.router.delete('/:endpointId', async (req: IRequest, res: IResponse, next: INext) => {
             const {endpointId} = req.params
             if (fs.existsSync(`${dataDir}/certs/${endpointId}`)) {
-                fs.rmdirSync(`${dataDir}/certs/${endpointId}`, {recursive: true})
+                fs.rmSync(`${dataDir}/certs/${endpointId}`, {recursive: true})
                 const endpoint = await dbQuery(`SELECT * FROM endpoints WHERE id = '${endpointId}'`)
                 if (endpoint['length'] > 0) {
                     if (endpoint[0].tls_active === 1) {

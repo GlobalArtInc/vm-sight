@@ -376,12 +376,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('app/getEndpoint', this.id).then(() => {
-      this.fetchContainer()
-    }).catch(() => {
-      this.$router.push('/')
-    })
-
+    this.fetchContainer()
   }
 }
 </script>

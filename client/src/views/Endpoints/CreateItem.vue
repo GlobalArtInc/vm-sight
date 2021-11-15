@@ -166,28 +166,53 @@ export default {
       //   this.onSubmit()
       // }
     },
-    onSubmit() {
+    async onSubmit() {
+      const tempId = Math.random()
       if (this.$refs.form.validate()) {
         this.loading = true
         if (this.formModel.type === 1 && this.form.docker.type === 'socket') {
-          createEndpoint(this.formModel, this.form.docker.type).then(() => {
-            this.$router.push('/endpoints')
-            setTimeout(() => {
-              this.loading = false
-            }, 500)
-            this.$toast("The endpoint has been created", {
-              type: 'success'
-            });
-          }).catch((err) => {
-            setTimeout(() => {
-              this.loading = false
-            }, 500)
-            this.$toast(err.response.data.message, {
-              type: 'error'
-            });
-          })
+         createEndpoint(this.formModel, this.form.docker.type).then(() => {
+           this.$router.push('/endpoints')
+           setTimeout(() => {
+             this.loading = false
+           }, 500)
+           this.$toast("The endpoint has been created", {
+             type: 'success'
+           });
+         }).catch((err) => {
+           setTimeout(() => {
+             this.loading = false
+           }, 500)
+           this.$toast(err.response.data.message, {
+             type: 'error'
+           });
+         })
         } else if (this.formModel.type === 1) {
-          createEndpoint(this.formModel).then(() => {
+          if (this.formModel.tls.active === true) {
+            try {
+              if (this.formModel.tls.ca) {
+                let formData = new FormData();
+                formData.append('file', this.formModel.tls.ca);
+                await uploadCA(tempId, formData)
+              }
+              if (this.formModel.tls.cert) {
+                let formData = new FormData();
+                formData.append('file', this.formModel.tls.cert);
+                await uploadCert(tempId, formData)
+              }
+              if (this.formModel.tls.key) {
+                let formData = new FormData();
+                formData.append('file', this.formModel.tls.key);
+                await uploadKey(tempId, formData)
+              }
+            } catch (err) {
+              this.loading = false
+              this.$toast(err.message, {
+                type: 'error'
+              });
+            }
+          }
+          createEndpoint(this.formModel, tempId).then(() => {
             this.$router.push('/endpoints')
             setTimeout(() => {
               this.loading = false

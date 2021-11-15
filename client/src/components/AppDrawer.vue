@@ -135,6 +135,11 @@
         </v-list-item>
       </v-list>
     </div>
+    <template v-slot:append>
+      <div class="text-center white--text">
+        {{ $store.getters.settings.Version }}
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 <script>
@@ -143,7 +148,6 @@ import {mapGetters} from 'vuex';
 
 export default {
   name: 'AppDrawer',
-  components: {},
   props: {
     expanded: {
       type: Boolean,

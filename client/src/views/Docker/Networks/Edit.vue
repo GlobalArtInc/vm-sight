@@ -169,9 +169,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('app/getEndpoint', this.id).then(() => {
-      this.fetchNetwork()
-    })
+    this.fetchNetwork()
   }
 }
 </script>

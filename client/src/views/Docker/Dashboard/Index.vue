@@ -1,5 +1,5 @@
 <template>
-  <v-progress-linear indeterminate absolute top v-if="!isLoading" />
+  <v-progress-linear indeterminate absolute top v-if="!isLoading"/>
   <v-row v-else>
     <v-col :cols="12" v-if="endpoint && endpoint.Snapshot.Swarm">
       <v-card>
@@ -71,6 +71,7 @@
 import {fetchNetworks} from "@/api/endpoints/networks";
 import {ByteToSize} from "@/utils/math";
 import Widget from "@/components/docker/Widget";
+import {mapGetters} from "vuex";
 
 export default {
   components: {Widget},
@@ -79,9 +80,11 @@ export default {
       type: String
     }
   },
+  computed: {
+    ...mapGetters(['endpoint'])
+  },
   data: () => ({
     isLoading: false,
-    endpoint: false,
     Networks: []
   }),
   methods: {
@@ -90,14 +93,9 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('app/getEndpoint', this.id).then((data) => {
-      fetchNetworks(this.id).then((networks) => {
-        this.endpoint = data
-        this.Networks = networks
-        this.isLoading = true
-      })
-    }).catch(() => {
-      this.$router.push('/')
+    fetchNetworks(this.id).then((networks) => {
+      this.Networks = networks
+      this.isLoading = true
     })
   }
 }

@@ -4,6 +4,7 @@ import Controller from '../../interfaces/controller.interface';
 import authMiddleware from '../../middleware/auth.middleware';
 import App from '../../app';
 import SettingsController from './settings.controller';
+import {appVersion} from "../../constants";
 
 class MainController extends App implements Controller {
     public path = '/'
@@ -34,7 +35,7 @@ class MainController extends App implements Controller {
         })
 
         this.router.get('/version', (req: IRequest, res: IResponse) => {
-            return res.send({Version: "1.0"})
+            return res.send({Version: appVersion})
         })
 
     }

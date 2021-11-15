@@ -51,6 +51,7 @@ export const protectedRoute = [
             {
                 name: 'endpointDocker',
                 path: ':id/docker',
+                props: true,
                 redirect: ':id/docker/dashboard',
                 component: DockerLayout,
                 meta: {

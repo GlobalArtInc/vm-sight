@@ -8,7 +8,7 @@
         <template v-slot:activator="{ on }">
           <v-btn icon large text slot="activator" v-on="on">
             <v-avatar size="30px">
-              <img src="https://www.gravatar.com/avatar/asddw" alt=""/>
+              <!--<img src="https://www.gravatar.com/avatar/asddw" alt=""/> -->
             </v-avatar>
           </v-btn>
         </template>
@@ -21,8 +21,7 @@
               :disabled="item.disabled"
               :target="item.target"
               rel="noopener"
-              :key="index"
-          >
+              :key="index">
             <v-list-item-action v-if="item.icon">
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -33,13 +32,10 @@
         </v-list>
       </v-menu>
     </v-toolbar-items>
-    <v-toolbar tag="div" dense slot="extension" color="white" light>
+    <v-toolbar tag="div" slot="extension" color="white" light>
       <v-icon>mdi-home</v-icon>
       <v-breadcrumbs :items="breadcrumbs" class="pa-3"/>
       <v-spacer></v-spacer>
-      <!-- <v-btn icon small color="black">
-         <v-icon v-text="'mdi-arrow-left'" @click="handleGoBack" />
-       </v-btn> -->
     </v-toolbar>
   </v-app-bar>
 </template>

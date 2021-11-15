@@ -6,6 +6,7 @@ import {dbQuery} from "../../utils/DB";
 import authMiddleware from "../../middleware/auth.middleware";
 import {getSetting} from "../../utils/Global";
 import HttpException from "../../exceptions/HttpException";
+import {appVersion} from "../../constants";
 
 class SettingsController extends App implements Controller {
     public path = '/settings'
@@ -43,6 +44,7 @@ class SettingsController extends App implements Controller {
             const OAuthLoginURI = `${getSetting(settings, 'AuthorizationURI', "")}?response_type=code&client_id=${getSetting(settings, 'ClientID', "")}&redirect_uri=${getSetting(settings, 'RedirectURI', "")}&scope=${getSetting(settings, 'Scopes', "")}`
 
             return res.send({
+                Version: appVersion,
                 AuthenticationMethod: getSetting(settings, 'AuthenticationMethod', 1),
                 EnableEdgeComputeFeatures: getSetting(settings, 'EnableEdgeComputeFeatures', false),
                 EnableTelemetry: getSetting(settings, 'EnableTelemetry', true),

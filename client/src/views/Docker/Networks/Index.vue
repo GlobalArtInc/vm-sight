@@ -9,7 +9,7 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-subtitle>
-          <NetworksActionMenu remove newImage importExport :selected="selected" />
+          <NetworksActionMenu remove newImage importExport :selected="selected"/>
         </v-card-subtitle>
         <v-divider/>
         <v-card-text style="padding: 0">
@@ -25,7 +25,9 @@
             <template #item.Name="{item}">
               <router-link :to="`networks/`+item.Id">
                 {{ item.Name }}
-                <v-chip color="primary" ripple v-if="item.Name === 'host' || item.Name === 'none' || item.Name === 'bridge'" class="ml-2 font-weight-bold">
+                <v-chip color="primary" ripple
+                        v-if="item.Name === 'host' || item.Name === 'none' || item.Name === 'bridge'"
+                        class="ml-2 font-weight-bold">
                   System
                 </v-chip>
               </router-link>
@@ -125,9 +127,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('app/getEndpoint', this.id).then(() => {
-      this.fetchNetworks()
-    })
+    this.fetchNetworks()
   }
 }
 </script>

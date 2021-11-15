@@ -24,9 +24,9 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-subtitle>
-          <ImagesActionMenu remove newImage importExport :selected="selected" @update="onUpdate" />
+          <ImagesActionMenu remove newImage importExport :selected="selected" @update="onUpdate"/>
         </v-card-subtitle>
-        <v-divider />
+        <v-divider/>
         <v-card-text style="padding: 0">
           <v-data-table
               v-model="selected"
@@ -43,9 +43,10 @@
             </template>
             <template #item.RepoTags="{item}">
               <v-chip class="font-weight-bold" color="primary" v-if="item.RepoTags === null">
-                {{item.RepoDigests.join('').split('@')[0]}}
+                {{ item.RepoDigests.join('').split('@')[0] }}
               </v-chip>
-              <v-chip class="font-weight-bold" color="primary" v-else :key="tag" v-for="tag in item.RepoTags" v-text="tag" rounded />
+              <v-chip class="font-weight-bold" color="primary" v-else :key="tag" v-for="tag in item.RepoTags"
+                      v-text="tag" rounded/>
             </template>
             <template #item.Size="{item}">
               {{ byteToSize(item.Size) }}
@@ -111,11 +112,9 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('app/getEndpoint', this.id).then(() => {
-      fetchImages(this.id).then((data) => {
-        this.images = data
-        this.isLoading = true
-      })
+    fetchImages(this.id).then((images) => {
+      this.images = images
+      this.isLoading = true
     })
   }
 }
