@@ -53,12 +53,12 @@
                             dense
                             :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
-                                      chips class="col-3"/>
+                            chips class="col-3"/>
                         <v-file-input
                             dense
                             :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
                             v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
-                                      class="col-3"/>
+                            class="col-3"/>
                       </template>
                     </template>
                   </v-col>
@@ -84,6 +84,7 @@
 .v-input__prepend-outer .fa-check {
   color: green;
 }
+
 .v-input__prepend-outer .fa-times {
   color: red;
 }
@@ -179,20 +180,27 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true
         if (this.formModel.tls.active === true) {
-          if (this.formModel.tls.ca) {
-            let formData = new FormData();
-            formData.append('file', this.formModel.tls.ca);
-            await uploadCA(this.id, formData)
-          }
-          if (this.formModel.tls.cert) {
-            let formData = new FormData();
-            formData.append('file', this.formModel.tls.cert);
-            await uploadCert(this.id, formData)
-          }
-          if (this.formModel.tls.key) {
-            let formData = new FormData();
-            formData.append('file', this.formModel.tls.key);
-            await uploadKey(this.id, formData)
+          try {
+            if (this.formModel.tls.ca) {
+              let formData = new FormData();
+              formData.append('file', this.formModel.tls.ca);
+              await uploadCA(this.id, formData)
+            }
+            if (this.formModel.tls.cert) {
+              let formData = new FormData();
+              formData.append('file', this.formModel.tls.cert);
+              await uploadCert(this.id, formData)
+            }
+            if (this.formModel.tls.key) {
+              let formData = new FormData();
+              formData.append('file', this.formModel.tls.key);
+              await uploadKey(this.id, formData)
+            }
+          } catch (err) {
+            this.loading = false
+            this.$toast(err.message, {
+              type: 'error'
+            });
           }
         }
         this.onSubmit()
@@ -203,7 +211,7 @@ export default {
     },
     onSubmit() {
       if (this.form.type === 1) {
-        if(this.formModel.tls.active === true) {
+        if (this.formModel.tls.active === true) {
           updateEndpoint(this.id, this.formModel).then(() => {
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: 'The endpoint has been saved',
@@ -232,7 +240,7 @@ export default {
             })
           })
         }
-      }  else if (this.form.type === 2) {
+      } else if (this.form.type === 2) {
         updateEndpoint(this.id, {name: this.formModel.name, public_url: this.formModel.public_url}).then(() => {
           window._VMA.$emit('SHOW_SNACKBAR', {
             text: 'The endpoint has been saved',
