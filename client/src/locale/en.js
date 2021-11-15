@@ -91,6 +91,7 @@ export default {
         exec: "Console",
         attach: "Attach the Screen",
         images: "Images",
+        imageEdit: "Image Edit",
         networks: "Networks",
         networksList: "Networks List",
         networksEdit: "Networks Edit",

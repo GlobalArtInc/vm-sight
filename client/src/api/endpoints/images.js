@@ -6,6 +6,18 @@ export function fetchImages(endpoint_id) {
     })
 }
 
+export function getImageById(endpointId, imageId) {
+    return request({
+        url: `/endpoints/${endpointId}/docker/images/${imageId}`,
+    })
+}
+
+export function getImageHistory(endpointId, imageId) {
+    return request({
+        url: `/endpoints/${endpointId}/docker/images/${imageId}/history`,
+    })
+}
+
 export function removeImage(endpointId, imageId) {
     return request({
         method: "DELETE",

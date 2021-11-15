@@ -148,6 +148,32 @@ class DockerController extends App implements Controller {
             }
         })
 
+        this.router.get('/images/:imageId', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, imageId} = req.params
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const image = service.getImage(imageId)
+                return res.send(await image.inspect())
+            } catch (err) {
+                return next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
+        this.router.get('/images/:imageId/history', async (req: IRequest, res: IResponse, next: INext) => {
+            const {endpointId, imageId} = req.params
+
+            try {
+                const service = new dockerService()
+                await service.connect(endpointId)
+                const image = service.getImage(imageId)
+                return res.send(await image.history())
+            } catch (err) {
+                return next(new HttpException(err.statusCode, err.message))
+            }
+        })
+
         this.router.delete('/images/:imageId', async (req: IRequest, res: IResponse, next: INext) => {
             const {endpointId, imageId} = req.params
 
@@ -170,14 +196,13 @@ class DockerController extends App implements Controller {
                 await service.connect(endpointId)
                 res.header('Content-Type', 'application/x-tar')
                 if (typeof names === "object") {
-                    let arr = []
                     const images = service.getImage(names)
                     return res.send(fs.createReadStream(await images.get()))
                     //  return res.send(await images.get())
-                   // for (let i = 0; i < names.length; i++) {
-                   //     const image = service.getImage(names)
-                   //     arr
-                   // }
+                    // for (let i = 0; i < names.length; i++) {
+                    //     const image = service.getImage(names)
+                    //     arr
+                    // }
                 } else {
                     const image = service.getImage(names)
                     const get = await image.get()

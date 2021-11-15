@@ -189,6 +189,16 @@ export const protectedRoute = [
                                 },
                                 props: true,
                                 component: () => import('@/views/Docker/Images/Index')
+                            },
+                            {
+                                name: 'endpointDockerImageEdit',
+                                path: ':imageId',
+                                meta: {
+                                    title: "imageEdit",
+                                    type: 'endpointDocker'
+                                },
+                                props: true,
+                                component: () => import('@/views/Docker/Images/Edit')
                             }
                         ]
                     }
