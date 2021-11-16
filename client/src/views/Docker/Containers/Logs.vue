@@ -84,10 +84,22 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    cleanString(input) {
+      var output = "";
+      for (var i = 0; i < input.length; i++) {
+        if (input.charCodeAt(i) <= 127) {
+          output += input.charAt(i);
+        }
+      }
+      return output;
+    },
     getLogs(options) {
       fetchLogsContainer(this.id, this.hash, options).then((logs) => {
-        // eslint-disable-next-line vue/no-parsing-error
-        this.logs = logs.replaceAll("", "")
+        const arr = []
+        logs.split('\n').forEach((i) => {
+          arr.push(i.slice(8))
+        })
+        this.logs = arr.join('\r\n')
       })
     },
     getTimeStamp() {
