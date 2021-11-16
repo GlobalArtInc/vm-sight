@@ -1,13 +1,15 @@
 <template>
-  <v-progress-linear v-if="!isLoading" indeterminate/>
-  <div class="page-docker" v-else>
-    <template v-if="isLoading">
-      <v-container class="main-container" v-if="endpoint.Status === 1">
-        <router-view/>
-      </v-container>
-      <v-container class="error--text text-center" v-else-if="endpoint.Status === 0">
-        Сервер не доступен
-      </v-container>
+  <div class="page-docker">
+    <v-progress-linear v-if="!isLoading" indeterminate/>
+    <template v-else>
+      <template v-if="isLoading">
+        <v-container class="main-container" v-if="endpoint.Status === 1">
+          <router-view/>
+        </v-container>
+        <v-container class="error--text text-center" v-else-if="endpoint.Status === 0">
+          Сервер не доступен
+        </v-container>
+      </template>
     </template>
   </div>
 </template>
