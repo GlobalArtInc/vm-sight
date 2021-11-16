@@ -32,7 +32,7 @@
         </v-list>
       </v-menu>
     </v-toolbar-items>
-    <v-toolbar elevation="0"  dense slot="extension" color="white" light>
+    <v-toolbar elevation="0" dense slot="extension" color="white" light>
       <v-icon>mdi-home</v-icon>
       <v-breadcrumbs :items="breadcrumbs"/>
       <v-spacer></v-spacer>
