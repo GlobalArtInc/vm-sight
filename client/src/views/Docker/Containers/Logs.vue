@@ -86,8 +86,11 @@ export default {
   methods: {
     getLogs(options) {
       fetchLogsContainer(this.id, this.hash, options).then((logs) => {
-        // eslint-disable-next-line vue/no-parsing-error
-        this.logs = logs.replaceAll("", "")
+        const arr = []
+        logs.split('\n').forEach((i) => {
+          arr.push(i.slice(8))
+        })
+        this.logs = arr.join('\r\n')
       })
     },
     getTimeStamp() {

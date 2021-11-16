@@ -8,7 +8,7 @@
         <template v-slot:activator="{ on }">
           <v-btn icon large text slot="activator" v-on="on">
             <v-avatar size="30px">
-              <!--<img src="https://www.gravatar.com/avatar/asddw" alt=""/> -->
+              <img src="https://www.gravatar.com/avatar/asddw" alt=""/>
             </v-avatar>
           </v-btn>
         </template>
@@ -32,9 +32,9 @@
         </v-list>
       </v-menu>
     </v-toolbar-items>
-    <v-toolbar tag="div" slot="extension" color="white" light>
+    <v-toolbar elevation="0" dense slot="extension" color="white" light>
       <v-icon>mdi-home</v-icon>
-      <v-breadcrumbs :items="breadcrumbs" class="pa-3"/>
+      <v-breadcrumbs :items="breadcrumbs"/>
       <v-spacer></v-spacer>
     </v-toolbar>
   </v-app-bar>
