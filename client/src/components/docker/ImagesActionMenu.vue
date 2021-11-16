@@ -3,11 +3,11 @@
     <div class="btn-group" v-if="remove" role="group" aria-label="...">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn :disabled="selected.length === 0" large depressed tile color="error" @click="onRemove(false)">
+          <v-btn :loading="loading.remove" :disabled="selected.length === 0" large depressed tile color="error" @click="onRemove(false)">
             <v-icon class="mr-2">mdi-delete</v-icon>
             Remove
           </v-btn>
-          <v-btn :disabled="selected.length === 0" large depressed tile v-on="on" v-bind="attrs" color="error">
+          <v-btn :disabled="loading.remove || selected.length === 0" large depressed tile v-on="on" v-bind="attrs" color="error">
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
@@ -39,6 +39,11 @@
 import {exportImages, removeImage} from "../../api/endpoints/images";
 
 export default {
+  data: () => ({
+    loading: {
+      remove: false
+    }
+  }),
   props: {
     selected: {
       default: []
@@ -62,6 +67,7 @@ export default {
     },
     // eslint-disable-next-line no-unused-vars
     onRemove(force = false) {
+      this.loading.remove = true
       this.selected.map(async (item, i) => {
         if (this.selected.length === i + 1) {
           removeImage(this.$route.params.id, item.Id)
@@ -76,6 +82,7 @@ export default {
                 });
               })
               .finally(() => {
+                this.loading.remove = false
                 this.$emit('update')
               })
         } else {
