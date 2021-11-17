@@ -7,10 +7,22 @@
   "devDependencies": {
     "@types/express": "^4.17.13",
     "dotenv": "^10.0.0",
+    "grunt": "^1.4.1",
+    "grunt-cli": "^1.4.3",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-env": "^1.0.1",
+    "grunt-filerev": "^2.3.1",
+    "grunt-postcss": "^0.9.0",
+    "grunt-replace": "^2.0.2",
+    "grunt-shell-spawn": "^0.4.0",
+    "grunt-usemin": "^3.1.1",
+    "load-grunt-tasks": "^5.1.0",
     "nodemon": "^2.0.14",
     "ts-node": "^10.4.0"
   },
   "scripts": {
+    "start": "grunt start",
     "backend:dev": "nodemon ./api/server.ts --env=dev",
     "backend:prod": "nodemon ./api/server.ts --env=prod",
     "frontend:dev": "cd client && npm run serve",

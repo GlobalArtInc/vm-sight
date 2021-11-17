@@ -33,7 +33,7 @@ class DockerController extends App implements Controller {
                 }, function handler(err, stream) {
                     stream.on('data', (chunk) => {
                         if (ws.readyState === 1) {
-                            ws.send(chunk.toString())
+                            ws.send(chunk.toString().slice(8) + '\t')
                         }
                     })
                 })

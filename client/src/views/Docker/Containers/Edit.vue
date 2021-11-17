@@ -116,7 +116,7 @@
                 </td>
                 <td>{{ container.Image }}</td>
               </tr>
-              <tr>
+              <tr v-if="container.NetworkSettings.Ports !== {}">
                 <td style="width: 25%">
                   Port Configuration
                 </td>

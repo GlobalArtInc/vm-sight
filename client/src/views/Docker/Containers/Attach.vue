@@ -49,19 +49,15 @@ export default {
     onAttach() {
       this.status = ''
       this.ws = new WebSocket(`ws://${location.host}/api/endpoints/${this.id}/docker/${this.hash}/attach?token=${getToken()}`)
-      //this.ws = new WebSocket(`ws://${location.host}/api/ws/attach?endpointId=${this.id}&id=${this.hash}`)
 
       const fitAddon = new FitAddon();
       this.terminal.loadAddon(fitAddon);
       this.ws.onopen = () => {
         this.terminal.onData((data) => {
+          fitAddon.fit()
           this.ws.send(data)
         });
-        // this.terminal.on('data', function (data) {
-        //   this.ws.send(data);
-        // });
-        var termWidth = 150;
-        var termHeight = 30;
+        const termWidth = 150, termHeight = 30;
         this.terminal.resize(termWidth, termHeight);
         this.terminal.focus();
         this.terminal.setOption('cursorBlink', true);
@@ -83,7 +79,6 @@ export default {
         });
         this.status = 'detached'
       }
-
     },
     onDetach() {
       this.ws.close()
