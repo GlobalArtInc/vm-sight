@@ -1,4 +1,4 @@
-image: docker
+image: node:latest
 
 stages:
   - build
