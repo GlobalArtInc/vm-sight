@@ -7,7 +7,7 @@ services:
   - docker:dind
 
 build:
-  stage: build
+  stage: deploy
   script:
     - npm -g i @vue/cli-service
     - cd ./client && npm run build
