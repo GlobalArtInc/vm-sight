@@ -9,9 +9,4 @@ services:
 build:
   stage: deploy
   script:
-    - npm -g i @vue/cli-service
-    - cd ./client && npm run build
-    - cd ./api
-    - rm -r -f ./api/dist
-    - mv ./client/dist ./api
-    - docker build -t vm-sight .
+    - sh ./docker.sh
