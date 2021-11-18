@@ -1,11 +1,17 @@
 image: node:latest
 
 stages:
+  - install_deps
   - build
   - deploy
 
 services:
   - docker:dind
+
+install_deps:
+  stage: install_deps
+  script:
+    - npm -g i @vue/cli-service
 
 build:
   stage: build
