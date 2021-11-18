@@ -10,8 +10,8 @@ services:
 build:
   stage: build
   script:
-    - cd ./client && npm run build && cd ..
+    - cd ./client && npm run build
     - cd ./api
-    - rm -r -f dist
-    - mv ../client/dist .
+    - rm -r -f ./api/dist
+    - mv ./client/dist ./api
     - docker build -t vm-sight .
