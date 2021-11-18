@@ -1,0 +1,17 @@
+image: docker
+
+stages:
+  - build
+  - deploy
+
+services:
+  - docker:dind
+
+build:
+  stage: build
+  script:
+    - cd ./client && npm run build && cd ..
+    - cd ./api
+    - rm -r -f dist
+    - mv ../client/dist .
+    - docker build -t vm-sight .
