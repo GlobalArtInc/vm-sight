@@ -69,7 +69,7 @@ class EndpointsController extends App implements Controller {
             if (user.role === 1) {
                 const {name, url, type, tls} = req.body.data
                 const tempId = req.body.tempId
-                const d = req.body.type
+                const d = req.body.tempO
 
                 if (!name) {
                     return next(new HttpException(405, "Endpoint name is not specified"))
@@ -83,7 +83,7 @@ class EndpointsController extends App implements Controller {
                 const id = getGUID()
 
                 if (type === 1) {
-                    if (d === 'socket') {
+                    if (tempId === 'socket') {
                         dbQuery("SELECT * FROM endpoints WHERE url LIKE '%/var/run/docker.sock%'").then((e: any[]) => {
                             if (e.length > 0) {
                                 return res.status(403).send({message: "endpoint_already_exists"})
