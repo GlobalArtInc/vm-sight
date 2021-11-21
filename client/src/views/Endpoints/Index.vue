@@ -276,12 +276,16 @@ export default {
     async handleDeleteItems(ids) {
       for (let i = 0; i < ids.length; i++) {
         if (ids.length - 1 === i) {
-          deleteEndpoint(ids[i].Id).then(() => {
+          await deleteEndpoint(ids[i].Id).then(() => {
             this.selected = []
             //this.getEndpoints()
+          }).finally(async () => {
+            await this.fetchRecords(this.filter)
           })
         } else {
-          await deleteEndpoint(ids[i].Id)
+          await deleteEndpoint(ids[i].Id).finally(async () => {
+            await this.fetchRecords(this.filter)
+          })
         }
       }
     },
