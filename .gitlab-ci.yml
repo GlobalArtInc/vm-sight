@@ -1,5 +1,3 @@
-image: ...
-
 stages:
   - build
 
