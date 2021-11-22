@@ -48,7 +48,8 @@ export default {
   methods: {
     onAttach() {
       this.status = ''
-      this.ws = new WebSocket(`ws://${location.host}/api/endpoints/${this.id}/docker/${this.hash}/attach?token=${getToken()}`)
+      this.ws = new WebSocket(`ws://${location.host}/api/websocket/attach?token=${getToken()}&endpointId=${this.id}&id=${this.hash}`)
+      //this.ws = new WebSocket(`ws://${location.host}/api/endpoints/${this.id}/docker/${this.hash}/attach?token=${getToken()}`)
 
       const fitAddon = new FitAddon();
       this.terminal.loadAddon(fitAddon);
