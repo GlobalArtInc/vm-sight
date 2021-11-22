@@ -61,6 +61,33 @@ class dockerService {
         })
     }
 
+
+    public async interactiveShell(containerName: string) {
+        const exec = this.service.exec()
+        console.log(exec)
+
+    }
+
+    public async exec(ws) {
+        const container = this.service.getContainer(
+            "287697b60fc9a34c17f3027212c46cc2275f52cd2c26c68a082ccaa72db8174c"
+        );
+
+        const exec = await container.exec({
+            Cmd: ['sh'],
+            AttachStderr: true,
+            AttachStdout: true,
+            AttachStdin: true,
+            Tty: true,
+        });
+
+
+        const http = await exec.start({stdin: true});
+        const stream = http.output;
+        console.log(stream)
+
+    }
+
     public checkConnect(host, data: any = {ca: false, ert: false, key: false}) {
         let settings: any = (host.match('/var/run/docker.sock')) ?
             {socketPath: '/var/run/docker.sock'} : {
