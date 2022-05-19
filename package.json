@@ -12,10 +12,6 @@
   "scripts": {
     "deps": "lerna bootstrap --npm-client=yarn",
     "dev": "lerna run dev --no-prefix --stream --scope @vm-sight/sight-backend",
-    "start": "lerna run serve --no-prefix --stream --scope @vm-sight/sight-frontend",
-    "backend:dev": "nodemon ./api/server.ts --env=dev",
-    "backend:prod": "nodemon ./api/server.ts --env=prod",
-    "frontend:dev": "cd client && npm run serve",
-    "frontend:prod": ""
+    "start": "lerna run serve --no-prefix --stream --scope @vm-sight/sight-frontend"
   }
 }
