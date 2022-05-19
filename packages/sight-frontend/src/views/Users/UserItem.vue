@@ -1,0 +1,24 @@
+<template>
+  <div class="page-user__item">
+    <v-container class="main-container">
+      <v-row>
+        <v-col>
+          <user-form :user-id="id" />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
+</template>
+
+<script>
+import UserForm from './UserForm'
+
+export default {
+  components: {
+    UserForm
+  },
+  props: {
+    id: [String]
+  }
+}
+</script>
