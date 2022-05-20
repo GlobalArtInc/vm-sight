@@ -64,8 +64,8 @@
     "webpack-stream": "^5.2.1"
   },
   "scripts": {
-    "dev": "nodemon ./server.ts --env=dev",
-    "start": "ts-node ./server.ts --env=prod"
+    "dev": "nodemon ./src/server.ts --env=dev",
+    "start": "ts-node ./src/server.ts --env=prod"
   },
   "eslintConfig": {
     "extends": "airbnb-base",
