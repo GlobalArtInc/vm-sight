@@ -1,7 +1,6 @@
 {
   "name": "@vm-sight/sight-frontend",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 3600 --mode development",
     "test:dev": "http-server dist -p 3600 --proxy http://localhost:3600?",

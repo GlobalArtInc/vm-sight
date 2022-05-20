@@ -116,10 +116,11 @@ export default {
           if (response) {
             const {jwt} = response
             setToken(jwt)
-            this.$store.dispatch('user/getInfo').then(() => {
-              this.$router.push("/home").catch(() => {
-              });
-            })
+            await this.$store.dispatch('user/getInfo');
+            await this.$router.push("/home");
+            await this.$toast("Login successful", {
+              type: 'success'
+            });
           } else {
             window._VMA.$emit('SHOW_SNACKBAR', {
               text: "Login Error",
