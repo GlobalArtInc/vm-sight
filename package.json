@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "cypress": "^8.6.0",
-    "lerna": "^4.0.0"
+    "lerna": "3.22.1"
   },
   "scripts": {
     "deps": "lerna bootstrap --npm-client=yarn",
