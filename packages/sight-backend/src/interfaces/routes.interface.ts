@@ -1,4 +1,9 @@
-import {NextFunction, Request, Response} from "express"
+import {NextFunction, Request, Response, Router} from "express"
+
+interface Route {
+    path?: string,
+    router: Router
+}
 
 export interface IUser {
     id: string,
@@ -19,3 +24,5 @@ export interface IResponse extends Response {
 export interface INext extends NextFunction {
 
 }
+
+export default Route;

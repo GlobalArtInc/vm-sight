@@ -1,3 +1,15 @@
+export const wrapRouteHandler = fn => {
+    return async function (req, res, next) {
+        let e = null;
+        try {
+            await fn(req, res, next);
+        } catch (err) {
+            e = err;
+            next(err);
+        }
+    };
+};
+
 export function getSetting(data, name, defaultValue: any = false) {
     for (let i = 0; i < data.length; i++) {
         if (data[i].key === name) {
@@ -19,3 +31,4 @@ export function getSetting(data, name, defaultValue: any = false) {
     }
     return false
 }
+

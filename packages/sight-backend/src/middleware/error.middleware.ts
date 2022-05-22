@@ -1,15 +1,18 @@
-import {IRequest, IResponse, INext} from "../interfaces/express.interface";
+import { NextFunction, Request, Response } from 'express';
 import HttpException from '../exceptions/HttpException';
+import { logger } from '../utils/logger';
 
-function errorMiddleware(error: HttpException, request: IRequest, response: IResponse, next: INext) {
-    const status = error.status || 500;
-    const message = error.message || 'Something went wrong';
-    response
-        .status(status)
-        .send({
-            status,
-            message
-        });
-}
+const errorMiddleware = (error: HttpException, req: Request, res: Response, next: NextFunction) => {
+    try {
+        const status: number = error.status || 500;
+        const message: string = error.message || 'Something went wrong';
+
+        logger.error(`[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${message}`);
+        res.status(status).json({ status, message });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
 
 export default errorMiddleware;

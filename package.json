@@ -7,11 +7,14 @@
   },
   "devDependencies": {
     "cypress": "^8.6.0",
-    "lerna": "3.22.1"
+    "lerna": "3.22.1",
+    "sequelize-cli": "^6.4.1"
   },
   "scripts": {
     "deps": "lerna bootstrap --npm-client=yarn",
     "dev": "lerna run dev --no-prefix --stream --scope @vm-sight/sight-backend",
-    "start": "lerna run serve --no-prefix --stream --scope @vm-sight/sight-frontend"
+    "start": "lerna run serve --no-prefix --stream --scope @vm-sight/sight-frontend",
+    "db:migrate:test": "(cd packages/sight-backend && yarn run db:migrate:test)",
+    "db:migrate:test:redo": "(cd packages/sight-backend && yarn run db:migrate:test:redo)"
   }
 }
