@@ -13,7 +13,7 @@ export function fetchUser(id) {
 }
 
 export function createUser(data = {
-    Username: "", Password: "", Role: 0
+    username: "", password: "", role: 0
 }) {
     return request({
         url: '/users',
@@ -23,7 +23,7 @@ export function createUser(data = {
 }
 
 export function updateUser(id, data = {
-    Username: "", Password: "", Role: 0
+    username: "", password: "", role: 0
 }) {
     return request({
         url: '/users/' + id,

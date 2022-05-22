@@ -5,7 +5,7 @@ import UsersService from "../services/users.service";
 import UsersController from "../controllers/users.controller";
 import {wrapRouteHandler} from "../utils/util";
 import validationMiddleware from "../middleware/validation.middleware";
-import {CreateAdminDto} from "../dtos/users.dto";
+import {CreateAdminDto, CreateUserDto, UpdateUserDto} from "../dtos/users.dto";
 import authMiddleware from "../middleware/auth.middleware";
 
 class UsersRoute implements Route {
@@ -22,8 +22,10 @@ class UsersRoute implements Route {
         this.router.post("/admin/init", validationMiddleware(CreateAdminDto, 'body'), wrapRouteHandler(this.usersController.initAdministrator))
 
         this.router.get('/', authMiddleware, wrapRouteHandler(this.usersController.getUsers))
+        this.router.post('/', authMiddleware, wrapRouteHandler(this.usersController.createUser))
         this.router.get('/:id', authMiddleware, wrapRouteHandler(this.usersController.getUserById))
-
+        this.router.put('/:id', authMiddleware, validationMiddleware(UpdateUserDto, 'body'), wrapRouteHandler(this.usersController.update))
+        this.router.delete('/:id', authMiddleware, wrapRouteHandler(this.usersController.remove))
     }
 }
 
