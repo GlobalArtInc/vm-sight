@@ -7,6 +7,7 @@ const sequelize = new Sequelize({
     storage: `${dataDir}/base.db`,
     logging: false
 });
+require('sequelize-isunique-validator')(Sequelize);
 
 const DB = {
     ...dbModels,

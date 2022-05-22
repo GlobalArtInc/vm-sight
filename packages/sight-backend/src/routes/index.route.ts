@@ -16,7 +16,8 @@ class IndexRoute implements Route {
 
     private initializeRoutes() {
         this.router.get('/version', wrapRouteHandler(this.indexController.getVersion));
-        this.router.get('/me', authMiddleware, wrapRouteHandler(this.indexController.me))
+        this.router.get('/me', authMiddleware, wrapRouteHandler(this.indexController.me));
+        this.router.get('/motd', wrapRouteHandler(this.indexController.motd))
     }
 
 }

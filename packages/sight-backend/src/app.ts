@@ -18,9 +18,9 @@ import morgan from 'morgan';
 import {generateKeyPairSync} from "crypto";
 
 class App {
-    public app: express.Application;
-    public port: string | number;
-    public env: string;
+    public app : express.Application;
+    public port : string | number;
+    public env : string;
     public logger = logger;
 
     constructor() {
@@ -106,18 +106,17 @@ class App {
     // }
 
     private initializeMiddlewares() {
-      // if (this.env === "production") {
-      //     this.app.use(morgan('combined', { stream }));
-      // } else {
-      //     this.app.use(morgan('dev', { stream }));
-      // }
-
+        // if (this.env === "production") {
+        //     this.app.use(morgan('combined', {stream}));
+        // } else {
+        //     this.app.use(morgan('dev', {stream}));
+        // }
         this.app.use(hpp());
         this.app.use(helmet());
         this.app.use(compression());
 
-        this.app.use(express.json({ limit: '50mb' }));
-        this.app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+        this.app.use(express.json({limit: '50mb'}));
+        this.app.use(express.urlencoded({extended: true, limit: '50mb'}));
         this.app.use(bodyParser.json());
         this.app.use(cookieParser());
     }
@@ -134,12 +133,12 @@ class App {
             apis: ['swagger.yaml', './src/controllers/**/*.ts'],
         }
         const specs = swaggerJSDoc(options);
-        this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
+        this.app.use(['/docs', '/api/docs'], swaggerUi.serve, swaggerUi.setup(specs));
     }
 
     private initializeErrorHandling() {
         this.app.use(errorMiddleware);
-        this.app.use("*", (req: IRequest, res: IResponse) => {
+        this.app.use("*", (req : IRequest, res : IResponse) => {
             return res.status(404).send({status: 404, message: "Not Found"})
         })
     }

@@ -1,6 +1,5 @@
 import {IRequest, IResponse, INext, IUser} from "@interfaces/routes.interface";
 import {verify as jwtVerify} from "jsonwebtoken";
-import {dbQuery} from "../utils/DB";
 import NotAuthorizedException from "../exceptions/NotAuthorizedException";
 import {jwtSecret} from "../constants";
 import * as fs from "fs";

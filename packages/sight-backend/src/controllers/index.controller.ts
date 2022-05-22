@@ -12,6 +12,10 @@ class IndexController {
         return res.status(200).json(req.user)
     }
 
+    public motd(req, res) {
+        return res.status(200).json({response: true})
+    }
+
 }
 
 export default IndexController;

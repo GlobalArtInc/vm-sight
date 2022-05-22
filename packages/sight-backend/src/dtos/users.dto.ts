@@ -1,4 +1,5 @@
-import {IsEmpty, IsOptional, IsString, Length, Min} from "class-validator";
+import {IsEmpty, IsNumber, IsOptional, IsString, Length, Min} from "class-validator";
+import {Unique} from "../utils/validators";
 
 export class AuthUserDto {
     @IsString()
@@ -12,6 +13,29 @@ export class AuthUserDto {
     @IsString()
     @IsOptional()
     public Code?: string;
+}
+
+export class CreateUserDto {
+    @IsString()
+    public username: string;
+
+    @IsString()
+    public password: string;
+
+    @IsNumber()
+    public role: number;
+}
+
+export class UpdateUserDto {
+    @IsString()
+    public username: string;
+
+    @IsString()
+    @IsOptional()
+    public password: string;
+
+    @IsNumber()
+    public role: number;
 }
 
 export class CreateAdminDto {

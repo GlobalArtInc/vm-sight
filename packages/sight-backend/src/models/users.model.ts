@@ -1,33 +1,26 @@
 import {DataTypes, Model, Sequelize} from "sequelize";
+import {cryptPassword, generateID} from "../utils/security";
+import {currentTimestamp} from "../utils/util";
 
 export class UsersModel extends Model {
-    public id: string;
-    public username: string;
-    public password: string;
-    public role: number;
-    public createdAt: number;
-    public updatedAt: number;
+    public id : string;
+    public username : string;
+    public password : string;
+    public role : number;
+    public createdAt : number;
+    public updatedAt : number;
 
     public static associate() {
         return;
     }
 
-    public async getUsers(): Promise<UsersModel[]> {
-        return UsersModel.findAll();
-    }
-
-    public async getUser(id: string) {
-        return UsersModel.findOne({where: {id}})
-    }
-
-    public static initModel(sequelize: Sequelize): typeof UsersModel {
+    public static initModel(sequelize : Sequelize) : typeof UsersModel {
         UsersModel.init({
             id: {
                 primaryKey: true,
                 type: DataTypes.STRING
             },
             username: {
-                unique: true,
                 type: DataTypes.STRING
             },
             password: {
@@ -45,7 +38,19 @@ export class UsersModel extends Model {
         }, {
             tableName: "users",
             sequelize,
-            indexes: []
+            indexes: [],
+            hooks: {
+                beforeCreate: async (user) => {
+                    user.id = generateID();
+                    user.createdAt = currentTimestamp();
+                },
+                beforeUpdate: async (user) => {
+                    if (user.password) {
+                        user.password = await cryptPassword(user.password);
+                    }
+                    user.updatedAt = currentTimestamp();
+                }
+            }
         })
         return UsersModel;
     }

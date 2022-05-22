@@ -1,11 +1,9 @@
+basePath: /api
 tags:
 - name: auth
-  description: auth API
+  description: Auth API
 - name: users
-  description: users API
-- name: docker
-  description: "Docker provider"
-
+  description: "User API"
 # components:
 #   securitySchemes:
 #     bearerAuth:
@@ -18,7 +16,7 @@ tags:
 
 # definitions
 definitions:
-  auth:
+  AuthUserDto:
     type: object
     required:
       - Username
@@ -45,6 +43,30 @@ definitions:
       password:
         type: string
         description: user Password
+  createUserDto:
+    type: object
+    properties:
+      username:
+        type: string
+        description: User name
+      password:
+        type: string
+        description: User password
+      role:
+        type: integer
+        description: User role
+  updateUserDto:
+    type: object
+    properties:
+      username:
+        type: string
+        description: User name
+      password:
+        type: string
+        description: User password
+      role:
+        type: integer
+        description: User role
 
 schemes:
  - https

@@ -1,10 +1,12 @@
 import {UsersModel} from "../models";
 import BadRequestException from "../exceptions/BadRequestException";
 import HttpException from "../exceptions/HttpException";
-import {CreateAdminDto} from "@dtos/users.dto";
+import {CreateAdminDto, CreateUserDto, UpdateUserDto} from "@dtos/users.dto";
 import ConflictException from "../exceptions/ConflictException";
-import {cryptPassword, getGUID} from "../utils/Security";
+import {cryptPassword, generateID} from "../utils/security";
 import DB from "../databases";
+import {Op} from "sequelize"
+import NotFoundException from "../exceptions/NotFoundException";
 
 class UsersService {
     public async checkAdmin() {
@@ -22,9 +24,8 @@ class UsersService {
         if (user.length === 0) {
             if (createAdminDto.Username && createAdminDto.Password) {
                 const hash = await cryptPassword(createAdminDto.Password);
-                const id = getGUID();
                 await new UsersModel({
-                    id,
+                    id: generateID(),
                     username: createAdminDto.Username,
                     password: hash,
                     role: 1,
@@ -44,11 +45,48 @@ class UsersService {
         return UsersModel.findAll({attributes: ['id', 'username', 'role', 'createdAt', 'updatedAt']});
     }
 
-    public async getById(id: string) {
+    public async getById(id : string) {
         return UsersModel.findOne({
             where: {id},
             attributes: ['id', 'username', 'role', 'createdAt', 'updatedAt']
         });
+    }
+
+    public async create(userData: CreateUserDto) {
+        const user = await UsersModel.create({...userData});
+        await user.save();
+        return {userId: user.id}
+    }
+
+    public async update(id : string, userData : UpdateUserDto) {
+        const user = await this.getById(id);
+        if (user) {
+            const isUser = await UsersModel.findOne({
+                where: {
+                    username: userData.username,
+                    id: {
+                        [Op.ne]: user.id
+                    }
+                }
+            });
+            if (isUser)
+                throw new ConflictException("Username is already exists")
+
+            await user.update(userData);
+            return {status: 200}
+        } else {
+            throw new NotFoundException("User not found")
+        }
+    }
+
+    public async remove(id: string) {
+        const user = await this.getById(id);
+        if (user) {
+            await user.destroy();
+            return {status: 200};
+        } else {
+            throw new NotFoundException("User not found");
+        }
     }
 
 }

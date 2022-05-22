@@ -10,6 +10,10 @@ export const wrapRouteHandler = fn => {
     };
 };
 
+export function currentTimestamp() {
+    return Math.floor(new Date().getTime()/1000)
+}
+
 export function getSetting(data, name, defaultValue: any = false) {
     for (let i = 0; i < data.length; i++) {
         if (data[i].key === name) {
