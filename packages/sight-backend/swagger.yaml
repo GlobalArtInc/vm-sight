@@ -1,0 +1,51 @@
+tags:
+- name: auth
+  description: auth API
+- name: users
+  description: users API
+- name: docker
+  description: "Docker provider"
+
+# components:
+#   securitySchemes:
+#     bearerAuth:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: JWT
+#
+# security:
+#   - bearerAuth: []
+
+# definitions
+definitions:
+  auth:
+    type: object
+    required:
+      - Username
+      - Password
+    properties:
+      Username:
+        type: string
+        description: user login
+      Password:
+        type: string
+        description: user Password
+  users:
+    type: object
+    required:
+        - email
+        - password
+    properties:
+      id:
+        type: integer
+        description: user Id
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user Password
+
+schemes:
+ - https
+ - http

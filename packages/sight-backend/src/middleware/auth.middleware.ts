@@ -1,14 +1,17 @@
-import {IRequest, IResponse, INext, IUser} from "../interfaces/express.interface";
+import {IRequest, IResponse, INext, IUser} from "@interfaces/routes.interface";
 import {verify as jwtVerify} from "jsonwebtoken";
 import {dbQuery} from "../utils/DB";
 import NotAuthorizedException from "../exceptions/NotAuthorizedException";
 import {jwtSecret} from "../constants";
 import * as fs from "fs";
+import {UsersModel} from "../models";
 
-export default function (req: IRequest, res: IResponse, next: INext) {
-    if (req.headers.authorization || req.query.token) {
-        const token = req.headers.authorization ? req.headers.authorization.split('Bearer ') : req.query.token
+export default async function (req: IRequest, res: IResponse, next: INext) {
+    const token = req.headers.authorization ? req.headers.authorization.split('Bearer ')[1] :
+        req.cookies.token ? req.cookies.token :
+            req.query.token ?? false
 
+    if (token) {
         // token does not exist
         if (!token) {
             return next(new NotAuthorizedException)
@@ -22,15 +25,16 @@ export default function (req: IRequest, res: IResponse, next: INext) {
         // create a promise that decodes the token
         new Promise(
             (resolve, reject) => {
-                jwtVerify(req.headers.authorization ? token[1] : token, fs.readFileSync(jwtSecret), (err: any, user: any) => {
-                    if (err) reject(err)
-                    dbQuery(`SELECT * FROM users WHERE id = '${user.id}'`).then((u: any) => {
-                        if (u.length > 0) {
-                            resolve(u[0])
-                        } else {
-                            reject('Unauthorized')
-                        }
-                    })
+                jwtVerify(token, fs.readFileSync(jwtSecret), async (err: any, data) => {
+                    if (err) return reject(err)
+                    if (!data) return reject('Unauthorized')
+                    const user = await UsersModel.findOne({where: {id: data.id}});
+
+                    if (user) {
+                        resolve(user);
+                    } else {
+                        reject('Unauthorized')
+                    }
                 })
             }
         ).then((user: IUser) => {

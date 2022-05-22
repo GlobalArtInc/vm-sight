@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import {dbQuery} from "../utils/DB";
-import * as Docker from 'dockerode';
+import Docker from 'dockerode';
 import {dataDir} from "../constants";
 
 const getEndpoint = (endpoint) => {
@@ -19,11 +19,8 @@ const getEndpoint = (endpoint) => {
 
 
 class dockerService {
-    public service = new Docker();
-    public endpoint: any;
 
-    constructor() {
-
+    constructor(private service = new Docker(), private endpoint: any = {}) {
     }
 
     public async connect(endpointId) {

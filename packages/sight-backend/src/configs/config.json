@@ -1,0 +1,14 @@
+{
+  "development": {
+    "migrationStorageTableName": "migrations",
+    "database": "main",
+    "dialect": "sqlite",
+    "storage": "../../../data/base.db"
+  },
+  "docker": {
+    "migrationStorageTableName": "migrations",
+    "database": "main",
+    "dialect": "sqlite",
+    "storage": "/data/base.db"
+  }
+}

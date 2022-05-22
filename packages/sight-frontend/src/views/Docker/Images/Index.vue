@@ -9,8 +9,14 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-text>
+          <span class="text-caption">
           VM-SIGHT is connected to a node that is part of a Swarm cluster. Some resources located on other nodes in the
           cluster might not be available for management.
+          </span>
+          <v-text-field filled label="Image"/>
+          <v-btn color="primary">
+            Pull
+          </v-btn>
         </v-card-text>
       </v-card>
     </v-col>

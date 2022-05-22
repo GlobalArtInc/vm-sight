@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const {v4: uuidv4} = require('uuid');
 
-export function cryptPassword(password) {
+export async function cryptPassword(password) {
     return new Promise((resolve, reject) => {
         return bcrypt.genSalt(10, function (err, salt) {
             if (err)
@@ -14,12 +14,8 @@ export function cryptPassword(password) {
     })
 }
 
-export function comparePassword(plainPass, hash, callback) {
-    bcrypt.compare(plainPass, hash, (err, isPasswordMatch) => {
-        return err == null ?
-            callback(null, isPasswordMatch) :
-            callback(err);
-    });
+export async function comparePassword(plainPass, hash) {
+    return bcrypt.compare(plainPass, hash);
 }
 
 export function getGUID() {
