@@ -1,6 +1,5 @@
 import { UsersModel } from "../models";
 import { CreateAdminDto, CreateUserDto, UpdateUserDto } from "@dtos/users.dto";
-import ConflictException from "@exceptions/ConflictException";
 import { cryptPassword, generateID } from "@utils/security";
 import DB from "@databases";
 import { Op } from "sequelize";
@@ -8,6 +7,7 @@ import {
   HttpException,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from "../exceptions";
 
 class UsersService {
