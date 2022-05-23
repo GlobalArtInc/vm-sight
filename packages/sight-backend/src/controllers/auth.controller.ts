@@ -5,7 +5,6 @@ class AuthController {
   public authService = new AuthService();
 
   /**
-   *
    * @openapi
    *   /auth:
    *     post:

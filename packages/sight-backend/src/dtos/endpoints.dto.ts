@@ -1,6 +1,6 @@
 import {
   IsBoolean,
-  IsDecimal,
+  IsNotEmpty,
   IsNumber,
   IsObject,
   IsOptional,
@@ -41,9 +41,24 @@ export class EndpointsCreateDtoData {
 }
 
 export class CreateEndpointsDto {
+  @IsObject()
   public data: EndpointsCreateDtoData;
 
-  @IsDecimal()
-  @IsString()
+  @IsNotEmpty()
   public tempId: number | "socket";
+}
+
+export class UpdateEndpointDto {
+  @IsString()
+  public name: string;
+
+  @IsString()
+  @IsOptional()
+  public public_url: string;
+
+  @IsObject()
+  public tls: EndpointsTlsDto;
+
+  @IsString()
+  public url: string;
 }

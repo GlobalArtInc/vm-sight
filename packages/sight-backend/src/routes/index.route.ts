@@ -1,7 +1,7 @@
 import Route from "@interfaces/routes.interface";
 import { Router } from "express";
 import IndexController from "@controllers/index.controller";
-import authMiddleware from "@middlewares/auth.middleware";
+import { authMiddleware } from "@middlewares";
 import { wrapRouteHandler } from "@utils/util";
 
 class IndexRoute implements Route {

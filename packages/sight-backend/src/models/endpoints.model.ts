@@ -1,4 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
+import { generateID } from "@utils/security";
 
 export class EndpointsModel extends Model {
   id: string;
@@ -59,6 +60,14 @@ export class EndpointsModel extends Model {
         timestamps: false,
         sequelize,
         indexes: [],
+        hooks: {
+          beforeCreate: async (endpoint) => {
+            endpoint.id = generateID();
+            if (endpoint.url === "/var/run/docker.sock") {
+              endpoint.type = 2;
+            }
+          },
+        },
       }
     );
     return EndpointsModel;
