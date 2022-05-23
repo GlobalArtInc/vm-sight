@@ -24,6 +24,7 @@
     "http-proxy-middleware": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.0.0",
+    "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
@@ -74,7 +75,10 @@
     "mock-aws-s3": "^4.0.1",
     "nock": "^13.0.10",
     "nodemon": "^2.0.4",
+    "prettier": "^2.6.2",
     "sequelize-isunique-validator": "^1.1.1",
+    "tsc-alias": "^1.6.7",
+    "tsconfig-paths": "^4.0.0",
     "typescript": "^4.4.4",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
@@ -85,7 +89,22 @@
     "start": "ts-node ./src/server.ts --env=prod",
     "db:migrate:test": "cd src && npx sequelize-cli db:migrate --env development --config ./configs/config.json",
     "db:migrate:test:undo": "cd src && npx sequelize-cli db:migrate:undo:all --env development --config ./configs/config.json",
-    "db:migrate:test:redo": "yarn db:migrate:test:undo && yarn db:migrate:test"
+    "db:migrate:test:redo": "yarn db:migrate:test:undo && yarn db:migrate:test",
+    "lint": "eslint --ignore-path .gitignore --ext .ts src/",
+    "fix": "yarn run lint -- --fix"
+  },
+  "_moduleAliases": {
+    "@app": "src",
+    "@controllers": "src/controllers",
+    "@databases": "src/databases",
+    "@dtos": "src/dtos",
+    "@exceptions": "src/exceptions",
+    "@interfaces": "src/interfaces",
+    "@middlewares": "src/middlewares",
+    "@models": "src/models",
+    "@routes": "src/routes",
+    "@services": "src/services",
+    "@utils": "src/utils"
   },
   "eslintConfig": {
     "extends": "airbnb-base",

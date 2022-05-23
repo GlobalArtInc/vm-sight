@@ -4,6 +4,8 @@ tags:
   description: Auth API
 - name: users
   description: "User API"
+- name: endpoints
+  description: "Endpoint API"
 # components:
 #   securitySchemes:
 #     bearerAuth:
@@ -67,6 +69,35 @@ definitions:
       role:
         type: integer
         description: User role
+  createEndpointDto:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Endpoint name
+          tls:
+            type: object
+            properties:
+              active:
+                type: boolean
+              ca:
+                type: boolean
+              cert:
+                type: boolean
+              key:
+                type: boolean
+          type:
+            type: number
+            description: Endpoint type
+          url:
+            type: string
+            description: Endpoint url
+      tempId:
+        type: number
+        description: "Temp ID for create the folder to check connection"
 
 schemes:
  - https
