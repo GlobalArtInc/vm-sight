@@ -1,28 +1,28 @@
-import * as dbModels from '../models'
-import {Sequelize} from "sequelize";
-import {dataDir} from "../constants";
+import * as dbModels from "../models";
+import { Sequelize } from "sequelize";
+import { dataDir } from "../constants";
 
 const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: `${dataDir}/base.db`,
-    logging: false
+  dialect: "sqlite",
+  storage: `${dataDir}/base.db`,
+  logging: false,
 });
-require('sequelize-isunique-validator')(Sequelize);
+require("sequelize-isunique-validator")(Sequelize);
 
 const DB = {
-    ...dbModels,
-    sequelize,
-    Sequelize
-}
+  ...dbModels,
+  sequelize,
+  Sequelize,
+};
 
 function initAssociations() {
-    Object.keys(dbModels).forEach((key: string) => {
-        dbModels[key].initModel(sequelize);
-    });
+  Object.keys(dbModels).forEach((key: string) => {
+    dbModels[key].initModel(sequelize);
+  });
 
-    Object.keys(dbModels).forEach((key: string) => {
-        dbModels[key].associate();
-    });
+  Object.keys(dbModels).forEach((key: string) => {
+    dbModels[key].associate();
+  });
 }
 initAssociations();
 

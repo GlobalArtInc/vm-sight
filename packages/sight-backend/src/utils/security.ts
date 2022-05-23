@@ -1,14 +1,14 @@
-import bcrypt from 'bcrypt';
-const {v4: uuidv4} = require('uuid');
+import bcrypt from "bcrypt";
+const { v4: uuidv4 } = require("uuid");
 
 /**
  * Generate password hash
  * @param password
  */
 export async function cryptPassword(password) {
-    console.log(password, typeof password)
-    const salt = await bcrypt.genSalt(8);
-    return bcrypt.hash(password, salt);
+  console.log(password, typeof password);
+  const salt = await bcrypt.genSalt(8);
+  return bcrypt.hash(password, salt);
 }
 
 /**
@@ -17,12 +17,12 @@ export async function cryptPassword(password) {
  * @param hash
  */
 export async function comparePassword(plainPass, hash) {
-    return bcrypt.compare(plainPass, hash);
+  return bcrypt.compare(plainPass, hash);
 }
 
 /**
  * Generate GUID
  */
 export function generateID() {
-    return uuidv4();
+  return uuidv4();
 }

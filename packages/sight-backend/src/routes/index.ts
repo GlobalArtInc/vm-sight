@@ -4,4 +4,4 @@ import AuthRoute from "./auth.route";
 import EndpointsRoute from "./endpoints.route";
 import SettingsRoute from "./settings.route";
 
-export {IndexRoute, UsersRoute, AuthRoute, EndpointsRoute, SettingsRoute};
+export { IndexRoute, UsersRoute, AuthRoute, EndpointsRoute, SettingsRoute };

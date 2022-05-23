@@ -14,13 +14,13 @@ export function fetchEndpoint(id) {
 
 export function getEndpoint(id) {
     return request({
-        url: '/endpoints/list/' + id
+        url: '/endpoints/' + id
     })
 }
 
 export function uploadCert(id, data) {
     return request({
-        url: `/endpoints/list/${id}/cert`,
+        url: `/endpoints/${id}/cert`,
         method: 'POST',
         data
     })
@@ -28,14 +28,14 @@ export function uploadCert(id, data) {
 
 export function deleteEndpoint(id) {
     return request({
-        url: '/endpoints/list/' + id,
+        url: '/endpoints/' + id,
         method: 'delete'
     })
 }
 
 export function createEndpoint(data, tempId) {
     return request({
-        url: '/endpoints/list',
+        url: '/endpoints',
 
         method: 'POST',
         data: {data, tempId}
@@ -44,7 +44,7 @@ export function createEndpoint(data, tempId) {
 
 export function updateEndpoint(id, data) {
     return request({
-        url: '/endpoints/list/' + id,
+        url: '/endpoints/' + id,
         method: 'PUT',
         data
     })
@@ -52,6 +52,6 @@ export function updateEndpoint(id, data) {
 
 export function listEndpoints() {
     return request({
-        url: '/endpoints/list'
+        url: '/endpoints'
     })
 }

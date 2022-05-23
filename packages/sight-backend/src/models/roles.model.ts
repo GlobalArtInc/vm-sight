@@ -1,6 +1,6 @@
-import {Model} from "sequelize";
+import { Model } from "sequelize";
 
 export class RolesModel extends Model {
-    public id: number;
-    public name: string;
+  public id: number;
+  public name: string;
 }
