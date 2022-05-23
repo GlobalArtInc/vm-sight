@@ -1,0 +1,104 @@
+basePath: /api
+tags:
+- name: auth
+  description: Auth API
+- name: users
+  description: "User API"
+- name: endpoints
+  description: "Endpoint API"
+# components:
+#   securitySchemes:
+#     bearerAuth:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: JWT
+#
+# security:
+#   - bearerAuth: []
+
+# definitions
+definitions:
+  AuthUserDto:
+    type: object
+    required:
+      - Username
+      - Password
+    properties:
+      Username:
+        type: string
+        description: user login
+      Password:
+        type: string
+        description: user Password
+  users:
+    type: object
+    required:
+        - email
+        - password
+    properties:
+      id:
+        type: integer
+        description: user Id
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user Password
+  createUserDto:
+    type: object
+    properties:
+      username:
+        type: string
+        description: User name
+      password:
+        type: string
+        description: User password
+      role:
+        type: integer
+        description: User role
+  updateUserDto:
+    type: object
+    properties:
+      username:
+        type: string
+        description: User name
+      password:
+        type: string
+        description: User password
+      role:
+        type: integer
+        description: User role
+  createEndpointDto:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Endpoint name
+          tls:
+            type: object
+            properties:
+              active:
+                type: boolean
+              ca:
+                type: boolean
+              cert:
+                type: boolean
+              key:
+                type: boolean
+          type:
+            type: number
+            description: Endpoint type
+          url:
+            type: string
+            description: Endpoint url
+      tempId:
+        type: number
+        description: "Temp ID for create the folder to check connection"
+
+schemes:
+ - https
+ - http

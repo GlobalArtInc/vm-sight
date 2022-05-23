@@ -161,17 +161,17 @@ export default {
     getItemById(id) {
       this.loading = true
       getEndpoint(id).then(data => {
-        this.formModel.name = data.Name;
-        this.formModel.public_url = data.PublicURL;
-        this.formModel.url = data.URL;
-        this.formModel.tls.active = data.TLS === 1
+        this.formModel.name = data.name;
+        this.formModel.public_url = data.public_url;
+        this.formModel.url = data.url
+        this.formModel.tls.active = data.tls === 1
 
         this.form.tls = {
-          ca: data.TLS_CA === 1,
-          cert: data.TLS_CERT === 1,
-          key: data.TLS_KEY === 1
+          ca: data.tls_ca === 1,
+          cert: data.tls_cert === 1,
+          key: data.tls_ey === 1
         }
-        this.form.type = data.Type
+        this.form.type = data.type
         this.loading = false
       })
     },

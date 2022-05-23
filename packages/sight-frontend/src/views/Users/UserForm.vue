@@ -184,9 +184,9 @@ export default {
       const role = this.formModel.admin ? 1 : 0
 
       updateUser(this.userId, {
-        Username: this.formModel.username,
-        Password: this.formModel.password,
-        Role: role
+        username: this.formModel.username,
+        password: this.formModel.password,
+        role: role
       }).then(() => {
         this.loading = false
         window._VMA.$emit('SHOW_SNACKBAR', {
@@ -204,7 +204,11 @@ export default {
     },
     createUser() {
       const role = this.formModel.admin ? 1 : 0
-      createUser({Username: this.formModel.username, Password: this.formModel.password, Role: role}).then(() => {
+      createUser({
+        username: this.formModel.username,
+        password: this.formModel.password,
+        role: role
+      }).then(() => {
         this.loading = false
         window._VMA.$emit('SHOW_SNACKBAR', {
           text: this.__('user.created'),

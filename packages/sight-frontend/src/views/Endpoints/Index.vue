@@ -60,17 +60,17 @@
                 :items-per-page="50"
                 :footer-props="footerProps"
                 show-select
-                item-key="Id"
+                item-key="id"
             >
-              <template #item.Type="{item}">
-                <i :class="getType(item.Type).icon"></i>
+              <template #item.type="{item}">
+                <i :class="getType(item.type).icon"></i>
                 <span class="space-left font-weight-medium">
-                    {{ getType(item.Type).name }}
+                    {{ getType(item.type).name }}
                   </span>
               </template>
-              <template #item.TLS="{item}">
+              <template #item.tls="{item}">
                   <span class="font-weight-medium">
-                  {{ item.TLS === 1 ? __('yes') : __('no') }}
+                  {{ item.tls === 1 ? __('yes') : __('no') }}
                   </span>
               </template>
               <template v-slot:[`item.action`]="{ item }">
@@ -148,17 +148,17 @@ export default {
       headers: [
         {
           text: 'Name',
-          value: 'Name',
+          value: 'name',
           sortable: false
         },
         {
           text: 'Type',
-          value: 'Type',
+          value: 'type',
           sortable: false
         },
         {
           text: 'TLS',
-          value: 'TLS',
+          value: 'tls',
           sortable: false
         },
         {
@@ -207,10 +207,10 @@ export default {
         }
 
         if(this.filter['filter[name]'] !== null && this.filter['filter[name]'] !== undefined) {
-          data = data.filter((item) => item.Name.includes(this.filter['filter[name]']))
+          data = data.filter((item) => item.name.includes(this.filter['filter[name]']))
         }
         if(this.filter['filter[tls]'] !== null && this.filter['filter[tls]'] !== undefined) {
-          data = data.filter((item) => item.TLS === parseInt(this.filter['filter[tls]']))
+          data = data.filter((item) => item.tls === parseInt(this.filter['filter[tls]']))
         }
         this.items = data
       })
@@ -268,30 +268,30 @@ export default {
         path: '/endpoints/create'
       })
     },
-    handleEditItem({Id}) {
+    handleEditItem({id}) {
       this.$router.push({
-        path: `/endpoints/${Id}`
+        path: `/endpoints/${id}`
       })
     },
     async handleDeleteItems(ids) {
       for (let i = 0; i < ids.length; i++) {
         if (ids.length - 1 === i) {
-          await deleteEndpoint(ids[i].Id).then(() => {
+          await deleteEndpoint(ids[i].id).then(() => {
             this.selected = []
             //this.getEndpoints()
           }).finally(async () => {
             await this.fetchRecords(this.filter)
           })
         } else {
-          await deleteEndpoint(ids[i].Id).finally(async () => {
+          await deleteEndpoint(ids[i].id).finally(async () => {
             await this.fetchRecords(this.filter)
           })
         }
       }
     },
-    async handleDeleteItem({Id}) {
+    async handleDeleteItem({id}) {
       this.loadingItems = true
-      deleteEndpoint(Id).then(() => {
+      deleteEndpoint(id).then(() => {
         this.fetchRecords(this.filter)
       })
     },
