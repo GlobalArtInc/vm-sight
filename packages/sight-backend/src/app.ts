@@ -4,7 +4,7 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import * as fs from "fs";
 import { logger } from "@utils/logger";
-import errorMiddleware from "./middlewares/error.middleware";
+import { errorMiddleware } from "@middlewares";
 import { IRequest, IResponse } from "@interfaces/routes.interface";
 import { port, environment, dataDir } from "./constants";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -18,7 +18,6 @@ class App {
   public app: express.Application;
   public port: string | number;
   public env: string;
-  public logger = logger;
 
   constructor() {
     this.app = express();

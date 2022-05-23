@@ -8,10 +8,19 @@ export const wrapRouteHandler = (fn) => {
   };
 };
 
+/**
+ * Current unix timestamp
+ */
 export function currentTimestamp() {
   return Math.floor(new Date().getTime() / 1000);
 }
 
+/**
+ * Get setting from the sight settings array
+ * @param data
+ * @param name
+ * @param defaultValue
+ */
 export function getSetting(data, name, defaultValue: any = false) {
   for (let i = 0; i < data.length; i++) {
     if (data[i].key === name) {

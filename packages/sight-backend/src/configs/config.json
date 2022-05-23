@@ -5,7 +5,7 @@
     "dialect": "sqlite",
     "storage": "../../../data/base.db"
   },
-  "docker": {
+  "production": {
     "migrationStorageTableName": "migrations",
     "database": "main",
     "dialect": "sqlite",
