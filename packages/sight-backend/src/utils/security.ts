@@ -6,7 +6,6 @@ const { v4: uuidv4 } = require('uuid');
  * @param password
  */
 export async function cryptPassword(password) {
-  console.log(password, typeof password);
   const salt = await bcrypt.genSalt(8);
   return bcrypt.hash(password, salt);
 }

@@ -3,19 +3,19 @@ import { IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 
 export class EndpointsTlsDto {
   @IsBoolean()
   @IsOptional()
-  public active: boolean;
+  public active = false;
 
   @IsBoolean()
   @IsOptional()
-  public ca: boolean;
+  public ca = false;
 
   @IsBoolean()
   @IsOptional()
-  public cert: boolean;
+  public cert = false;
 
   @IsBoolean()
   @IsOptional()
-  public key: boolean;
+  public key = false;
 }
 
 export class EndpointsCreateDtoData {
@@ -50,6 +50,7 @@ export class UpdateEndpointDto {
   public public_url: string;
 
   @IsObject()
+  @IsOptional()
   public tls: EndpointsTlsDto;
 
   @IsString()

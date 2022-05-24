@@ -10,7 +10,7 @@ class EndpointsService {
     const arr = [];
     const endpoints = await EndpointsModel.findAll();
     for (const item of endpoints) {
-      if (item.type === 1) {
+      if (item.type === 1 || item.type === 2) {
         const docker = new DockerService();
         await docker.connect(item.id);
         arr.push(await docker.getEndpoint());
@@ -27,9 +27,13 @@ class EndpointsService {
 
   public async checkConnect(endpointData) {
     if (endpointData.tempId === 'socket') {
-      await this.dockerService.checkConnect('/var/run/docker.sock', endpointData?.data?.tls ?? endpointData.tls);
+      await this.dockerService.checkConnect('socket', '/var/run/docker.sock', endpointData?.data?.tls ?? endpointData.tls);
     } else {
-      await this.dockerService.checkConnect(endpointData?.data?.url ?? endpointData.url, endpointData?.data?.tls ?? endpointData.tls);
+      await this.dockerService.checkConnect(
+        endpointData.tempId,
+        endpointData?.data?.url ?? endpointData.url,
+        endpointData?.data?.tls ?? endpointData.tls,
+      );
     }
     return true;
   }
@@ -40,7 +44,11 @@ class EndpointsService {
       tls_cert = endpointData.data.tls.cert,
       tls_key = endpointData.data.tls.key;
 
-    await this.dockerService.checkConnect(endpointData.data.url, endpointData.data.tls);
+    await this.dockerService.checkConnect(endpointData.tempId, endpointData.data.url, endpointData.data.tls);
+
+    if (endpointData.tempId === 'socket') {
+      endpointData.data.url = '/var/run/docker.sock';
+    }
 
     await new EndpointsModel({
       ...endpointData.data,
@@ -52,7 +60,7 @@ class EndpointsService {
   }
 
   public async update(id: string, endpointData: UpdateEndpointDto) {
-    await this.dockerService.checkConnect(endpointData.url, endpointData.tls);
+    await this.dockerService.checkConnect(id, endpointData.url, endpointData.tls);
     const endpoint = await EndpointsModel.findOne({ where: { id } });
     await endpoint.update(endpointData);
     return true;

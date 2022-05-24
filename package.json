@@ -12,7 +12,7 @@
   },
   "scripts": {
     "deps": "lerna bootstrap --npm-client=yarn",
-    "dev": "lerna run dev --no-prefix --stream --scope @vm-sight/sight-backend",
+    "dev": "npm run db:migrate:test && lerna run dev --no-prefix --stream --scope @vm-sight/sight-backend",
     "start": "lerna run serve --no-prefix --stream --scope @vm-sight/sight-frontend",
     "build": "lerna run build --stream --parallel --scope=@vm-sight/sight-backend",
     "db:migrate:test": "(cd packages/sight-backend && yarn run db:migrate:test)",

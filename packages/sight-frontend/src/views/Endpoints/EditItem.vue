@@ -245,8 +245,13 @@ export default {
           }
         }
       } else if (this.form.type === 2) {
-        try {
-          await updateEndpoint(this.id, {name: this.formModel.name, public_url: this.formModel.public_url})
+        try { 
+          await updateEndpoint(this.id, {
+            name: this.formModel.name, 
+            url: "/var/run/docker.sock",
+             public_url: this.formModel.public_url,
+             tls: { active: false, ca: false, cert: false, key: false }
+          })
           window._VMA.$emit('SHOW_SNACKBAR', {
             text: 'The endpoint has been saved',
             color: 'success'

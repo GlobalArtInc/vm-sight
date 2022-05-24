@@ -1,9 +1,9 @@
 import Docker from 'dockerode';
 import { EndpointsModel } from '@models';
-import { BadRequestException, NotFoundException } from '@exceptions';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@exceptions';
 
 interface tls {
-  active: boolean;
+  active?: boolean;
   ca: boolean;
   cert: boolean;
   key: boolean;
@@ -17,7 +17,7 @@ export class DockerService {
    * @param host
    * @param tls
    */
-  public checkConnect(host: string, tls: tls) {
+  public checkConnect(tempId: string | number, host: string, tls: tls) {
     const settings: any = host.match('/var/run/docker.sock')
       ? { socketPath: '/var/run/docker.sock' }
       : {
@@ -50,7 +50,6 @@ export class DockerService {
 
   public async getEndpoint() {
     const endpoint = this.service.endpoint;
-
     const info = await this.service.docker.info();
 
     const snapshot = this.constructSnapshot({
@@ -106,7 +105,7 @@ export class DockerService {
       where: { id: endpointId },
     });
     if (!endpoint) throw new NotFoundException('The endpoint was not found');
-    const connect: any = await this.checkConnect(endpoint.url, {
+    const connect: any = await this.checkConnect(endpointId, endpoint.url, {
       active: endpoint.tls,
       ca: endpoint.tls_ca,
       cert: endpoint.tls_cert,
