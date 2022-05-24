@@ -56,20 +56,18 @@ class DockerController {
   };
 
   public getNetworks = async (req, res) => {
-    await this.dockerService.connect(req.params.endpointId);
-    return res.status(200).json(await this.dockerService.service.docker.listNetworks());
+    const { endpointId } = req.params;
+    return res.status(200).json(await this.dockerService.getNetworks(endpointId));
   };
 
   public getNetworkById = async (req, res) => {
-    await this.dockerService.connect(req.params.endpointId);
-    const network = await this.dockerService.service.docker.getNetwork(req.params.networkId);
-    return res.status(200).json(await network.inspect());
+    const { endpointId, networkId } = req.params;
+    return res.status(200).json(await this.dockerService.getNetworkById(endpointId, networkId));
   };
 
   public deleteNetworkById = async (req, res) => {
-    await this.dockerService.connect(req.params.endpointId);
-    const network = await this.dockerService.service.docker.getNetwork(req.params.networkId);
-    await network.remove();
+    const { endpointId, networkId } = req.params;
+    await this.dockerService.removeNetworkById(endpointId, networkId);
     return res.status(200).json({ status: 200 });
   };
 }

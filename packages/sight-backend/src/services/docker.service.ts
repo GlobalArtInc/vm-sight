@@ -158,6 +158,27 @@ export class DockerService {
         throw new BadRequestException('No action found');
     }
   }
+
+  public async getNetworks(endpointId: string) {
+    await this.connect(endpointId);
+    const networks = await this.service.docker.listNetworks();
+    networks.sort((a, b) => {
+      return new Date(b.Created).valueOf() - new Date(a.Created).valueOf();
+    });
+    return networks;
+  }
+
+  public async getNetworkById(endpointId: string, networkId: string) {
+    await this.connect(endpointId);
+    const network = await this.service.docker.getNetwork(networkId);
+    return network.inspect();
+  }
+
+  public async removeNetworkById(endpointId: string, networkId: string) {
+    await this.connect(endpointId);
+    const network = await this.service.docker.getNetwork(networkId);
+    return network.remove();
+  }
 }
 
 export default DockerService;
