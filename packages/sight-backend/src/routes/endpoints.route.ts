@@ -4,7 +4,6 @@ import { wrapRouteHandler } from '@utils/util';
 import EndpointsController from '@controllers/endpoints.controller';
 import { authMiddleware, validationMiddleware } from '@middlewares';
 import { CreateEndpointsDto, UpdateEndpointDto } from '@dtos/endpoints.dto';
-import DockerRoute from './docker.route';
 import DockerController from '@controllers/docker.controller';
 
 class EndpointsRoute implements Route {
