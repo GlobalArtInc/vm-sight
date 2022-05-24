@@ -136,6 +136,12 @@ export class DockerService {
     return contaienr.inspect();
   }
 
+  public async getContainerLogs(endpointId: string, containerId: string, query: object) {
+    await this.connect(endpointId);
+    const container = await this.service.docker.getContainer(containerId);
+    return container.logs(query);
+  }
+
   public async containerAction(action, endpointId: string, containerId: string) {
     await this.connect(endpointId);
     const container = await this.service.docker.getContainer(containerId);
@@ -178,6 +184,29 @@ export class DockerService {
     await this.connect(endpointId);
     const network = await this.service.docker.getNetwork(networkId);
     return network.remove();
+  }
+
+  public async getImages(endpointId: string) {
+    await this.connect(endpointId);
+    return this.service.docker.listImages();
+  }
+
+  public async getImageById(endpointId: string, imageId: string) {
+    await this.connect(endpointId);
+    const image = await this.service.docker.getImage(imageId);
+    return image.inspect();
+  }
+
+  public async getImageHistoryById(endpointId: string, imageId: string) {
+    await this.connect(endpointId);
+    const image = await this.service.docker.getImage(imageId);
+    return image.history();
+  }
+
+  public async removeImageById(endpointId: string, imageId: string) {
+    await this.connect(endpointId);
+    const image = await this.service.docker.getImage(imageId);
+    return image.remove();
   }
 }
 
