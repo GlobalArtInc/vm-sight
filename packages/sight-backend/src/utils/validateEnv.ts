@@ -1,4 +1,4 @@
-import { cleanEnv, port, str } from "envalid";
+import { cleanEnv, port, str } from 'envalid';
 
 export default function () {
   cleanEnv(process.env, {

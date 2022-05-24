@@ -1,18 +1,16 @@
-import fs from "fs";
-import winston from "winston";
+import fs from 'fs';
+import winston from 'winston';
 // import winstonDaily from 'winston-daily-rotate-file';
 
 // logs dir
-const logDir = __dirname + "/../logs";
+const logDir = __dirname + '/../logs';
 
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
 
 // Define log format
-const logFormat = winston.format.printf(
-  ({ timestamp, level, message }) => `${timestamp} ${level}: ${message}`
-);
+const logFormat = winston.format.printf(({ timestamp, level, message }) => `${timestamp} ${level}: ${message}`);
 
 /*
  * Log Level
@@ -21,9 +19,9 @@ const logFormat = winston.format.printf(
 const logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp({
-      format: "YYYY-MM-DD HH:mm:ss",
+      format: 'YYYY-MM-DD HH:mm:ss',
     }),
-    logFormat
+    logFormat,
   ),
   transports: [
     // debug log setting
@@ -52,16 +50,13 @@ const logger = winston.createLogger({
 
 logger.add(
   new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.splat(),
-      winston.format.colorize()
-    ),
-  })
+    format: winston.format.combine(winston.format.splat(), winston.format.colorize()),
+  }),
 );
 
 const stream = {
   write: (message: string) => {
-    logger.info(message.substring(0, message.lastIndexOf("\n")));
+    logger.info(message.substring(0, message.lastIndexOf('\n')));
   },
 };
 

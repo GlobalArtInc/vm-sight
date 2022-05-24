@@ -1,4 +1,4 @@
-import { Model } from "sequelize";
+import { Model } from 'sequelize';
 
 export class RolesModel extends Model {
   public id: number;

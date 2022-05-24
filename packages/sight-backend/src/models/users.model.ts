@@ -1,6 +1,6 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
-import { cryptPassword, generateID } from "@utils/security";
-import { currentTimestamp } from "@utils/util";
+import { DataTypes, Model, Sequelize } from 'sequelize';
+import { cryptPassword, generateID } from '@utils/security';
+import { currentTimestamp } from '@utils/util';
 
 export class UsersModel extends Model {
   public id: string;
@@ -38,22 +38,22 @@ export class UsersModel extends Model {
         },
       },
       {
-        tableName: "users",
+        tableName: 'users',
         sequelize,
         indexes: [],
         hooks: {
-          beforeCreate: async (user) => {
+          beforeCreate: async user => {
             user.id = generateID();
             user.createdAt = currentTimestamp();
           },
-          beforeUpdate: async (user) => {
+          beforeUpdate: async user => {
             if (user.password) {
               user.password = await cryptPassword(user.password);
             }
             user.updatedAt = currentTimestamp();
           },
         },
-      }
+      },
     );
     return UsersModel;
   }

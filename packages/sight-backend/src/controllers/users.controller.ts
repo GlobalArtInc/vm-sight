@@ -1,7 +1,7 @@
-import UsersService from "@services/users.service";
-import { CreateAdminDto, CreateUserDto, UpdateUserDto } from "@dtos/users.dto";
-import ForbiddenException from "@exceptions/ForbiddenException";
-import NotFoundException from "@exceptions/NotFoundException";
+import UsersService from '@services/users.service';
+import { CreateAdminDto, CreateUserDto, UpdateUserDto } from '@dtos/users.dto';
+import ForbiddenException from '@exceptions/ForbiddenException';
+import NotFoundException from '@exceptions/NotFoundException';
 
 class UsersController {
   public usersService = new UsersService();
@@ -88,7 +88,7 @@ class UsersController {
     if (user) {
       res.status(200).json(user);
     } else {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException('User not found');
     }
   };
 
@@ -126,7 +126,7 @@ class UsersController {
       await this.usersService.update(req.params.id, userData);
       return res.status(200).json({ status: 200 });
     } else {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException('User not found');
     }
   };
 
@@ -152,8 +152,7 @@ class UsersController {
    *           description: 'Server Error'
    */
   public remove = async (req, res) => {
-    if (req.params.id === req.user.id)
-      throw new ForbiddenException("You can't remove yourself");
+    if (req.params.id === req.user.id) throw new ForbiddenException("You can't remove yourself");
     return res.status(200).json(await this.usersService.remove(req.params.id));
   };
 }

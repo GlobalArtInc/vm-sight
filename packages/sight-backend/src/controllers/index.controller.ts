@@ -4,7 +4,7 @@ class IndexController {
   // public usersService = new usersService();
 
   public getVersion(req, res) {
-    return res.send({ version: "1.0" });
+    return res.send({ version: '1.0' });
   }
 
   public me(req, res) {

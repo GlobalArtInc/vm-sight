@@ -1,5 +1,5 @@
-import { AuthUserDto } from "@dtos/users.dto";
-import AuthService from "@services/auth.service";
+import { AuthUserDto } from '@dtos/users.dto';
+import AuthService from '@services/auth.service';
 
 class AuthController {
   public authService = new AuthService();

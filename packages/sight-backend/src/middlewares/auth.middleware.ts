@@ -1,18 +1,13 @@
-import {
-  IRequest,
-  IResponse,
-  INext,
-  IUser,
-} from "@interfaces/routes.interface";
-import { verify as jwtVerify } from "jsonwebtoken";
-import NotAuthorizedException from "../exceptions/NotAuthorizedException";
-import { jwtSecret } from "../constants";
-import * as fs from "fs";
-import { UsersModel } from "../models";
+import { IRequest, IResponse, INext, IUser } from '@interfaces/routes.interface';
+import { verify as jwtVerify } from 'jsonwebtoken';
+import NotAuthorizedException from '../exceptions/NotAuthorizedException';
+import { jwtSecret } from '../constants';
+import * as fs from 'fs';
+import { UsersModel } from '../models';
 
 export default async function (req: IRequest, res: IResponse, next: INext) {
   const token = req.headers.authorization
-    ? req.headers.authorization.split("Bearer ")[1]
+    ? req.headers.authorization.split('Bearer ')[1]
     : req.cookies.token
     ? req.cookies.token
     : req.query.token ?? false;
@@ -32,13 +27,13 @@ export default async function (req: IRequest, res: IResponse, next: INext) {
     new Promise((resolve, reject) => {
       jwtVerify(token, fs.readFileSync(jwtSecret), async (err: any, data) => {
         if (err) return reject(err);
-        if (!data) return reject("Unauthorized");
+        if (!data) return reject('Unauthorized');
         const user = await UsersModel.findOne({ where: { id: data.id } });
 
         if (user) {
           resolve(user);
         } else {
-          reject("Unauthorized");
+          reject('Unauthorized');
         }
       });
     })

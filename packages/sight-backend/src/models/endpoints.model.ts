@@ -1,5 +1,5 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
-import { generateID } from "@utils/security";
+import { DataTypes, Model, Sequelize } from 'sequelize';
+import { generateID } from '@utils/security';
 
 export class EndpointsModel extends Model {
   id: string;
@@ -8,10 +8,10 @@ export class EndpointsModel extends Model {
   public_url: string;
   url: string;
   groupId: string;
-  tls: string;
-  tls_ca: string;
-  tls_cert: string;
-  tls_key: string;
+  tls: boolean;
+  tls_ca: boolean;
+  tls_cert: boolean;
+  tls_key: boolean;
 
   public static associate() {
     return;
@@ -56,19 +56,19 @@ export class EndpointsModel extends Model {
         },
       },
       {
-        tableName: "endpoints",
+        tableName: 'endpoints',
         timestamps: false,
         sequelize,
         indexes: [],
         hooks: {
-          beforeCreate: async (endpoint) => {
+          beforeCreate: async endpoint => {
             endpoint.id = generateID();
-            if (endpoint.url === "/var/run/docker.sock") {
+            if (endpoint.url === '/var/run/docker.sock') {
               endpoint.type = 2;
             }
           },
         },
-      }
+      },
     );
     return EndpointsModel;
   }

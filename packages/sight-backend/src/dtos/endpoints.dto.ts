@@ -1,11 +1,4 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsObject,
-  IsOptional,
-  IsString,
-} from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class EndpointsTlsDto {
   @IsBoolean()
@@ -45,7 +38,7 @@ export class CreateEndpointsDto {
   public data: EndpointsCreateDtoData;
 
   @IsNotEmpty()
-  public tempId: number | "socket";
+  public tempId: number | 'socket';
 }
 
 export class UpdateEndpointDto {

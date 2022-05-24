@@ -1,10 +1,10 @@
-import Route from "@interfaces/routes.interface";
-import { Router } from "express";
-import SettingsController from "../controllers/settings.controller";
-import { wrapRouteHandler } from "@utils/util";
+import Route from '@interfaces/routes.interface';
+import { Router } from 'express';
+import SettingsController from '../controllers/settings.controller';
+import { wrapRouteHandler } from '@utils/util';
 
 class SettingsRoute implements Route {
-  public path = "/settings";
+  public path = '/settings';
   public router = Router();
   public settingsController = new SettingsController();
 
@@ -13,10 +13,7 @@ class SettingsRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.get(
-      "/public",
-      wrapRouteHandler(this.settingsController.public)
-    );
+    this.router.get('/public', wrapRouteHandler(this.settingsController.public));
   }
 }
 

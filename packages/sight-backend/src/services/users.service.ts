@@ -1,14 +1,9 @@
-import { UsersModel } from "../models";
-import { CreateAdminDto, CreateUserDto, UpdateUserDto } from "@dtos/users.dto";
-import { cryptPassword, generateID } from "@utils/security";
-import DB from "@databases";
-import { Op } from "sequelize";
-import {
-  HttpException,
-  NotFoundException,
-  BadRequestException,
-  ConflictException,
-} from "../exceptions";
+import { UsersModel } from '../models';
+import { CreateAdminDto, CreateUserDto, UpdateUserDto } from '@dtos/users.dto';
+import { cryptPassword, generateID } from '@utils/security';
+import DB from '@databases';
+import { Op } from 'sequelize';
+import { HttpException, NotFoundException, BadRequestException, ConflictException } from '../exceptions';
 
 class UsersService {
   public async checkAdmin() {
@@ -17,10 +12,7 @@ class UsersService {
     if (user.length > 0) {
       return { response: true };
     } else {
-      throw new HttpException(
-        400,
-        "No administrator account found in the database"
-      );
+      throw new HttpException(400, 'No administrator account found in the database');
     }
   }
 
@@ -34,28 +26,28 @@ class UsersService {
           username: createAdminDto.Username,
           password: hash,
           role: 1,
-          createdAt: DB.Sequelize.fn("strftime", "%s", "now"),
-          updatedAt: DB.Sequelize.fn("strftime", "%s", "now"),
+          createdAt: DB.Sequelize.fn('strftime', '%s', 'now'),
+          updatedAt: DB.Sequelize.fn('strftime', '%s', 'now'),
         }).save();
         return { status: 201 };
       } else {
-        throw new BadRequestException("No username or password");
+        throw new BadRequestException('No username or password');
       }
     } else {
-      throw new ConflictException("Admin is already exists");
+      throw new ConflictException('Admin is already exists');
     }
   }
 
   public async getAll() {
     return UsersModel.findAll({
-      attributes: ["id", "username", "role", "createdAt", "updatedAt"],
+      attributes: ['id', 'username', 'role', 'createdAt', 'updatedAt'],
     });
   }
 
   public async getById(id: string) {
     return UsersModel.findOne({
       where: { id },
-      attributes: ["id", "username", "role", "createdAt", "updatedAt"],
+      attributes: ['id', 'username', 'role', 'createdAt', 'updatedAt'],
     });
   }
 
@@ -76,12 +68,12 @@ class UsersService {
           },
         },
       });
-      if (isUser) throw new ConflictException("Username is already exists");
+      if (isUser) throw new ConflictException('Username is already exists');
 
       await user.update(userData);
       return { status: 200 };
     } else {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException('User not found');
     }
   }
 
@@ -91,7 +83,7 @@ class UsersService {
       await user.destroy();
       return { status: 200 };
     } else {
-      throw new NotFoundException("User not found");
+      throw new NotFoundException('User not found');
     }
   }
 }

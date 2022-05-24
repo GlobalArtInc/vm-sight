@@ -1,4 +1,4 @@
-import SettingsService from "@services/settings.service";
+import SettingsService from '@services/settings.service';
 
 class SettingsController {
   public settingsService = new SettingsService();

@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize } from 'sequelize';
 
 export class SettingsModel extends Model {
   public key: string;
@@ -14,7 +14,7 @@ export class SettingsModel extends Model {
 
   static async getSetting(key: string) {
     const setting = await SettingsModel.findOne({ where: { key } });
-    return setting ? setting.value : "";
+    return setting ? setting.value : '';
   }
 
   public static initModel(sequelize: Sequelize): typeof SettingsModel {
@@ -30,11 +30,11 @@ export class SettingsModel extends Model {
         },
       },
       {
-        tableName: "settings",
+        tableName: 'settings',
         timestamps: false,
         sequelize,
         indexes: [],
-      }
+      },
     );
     return SettingsModel;
   }

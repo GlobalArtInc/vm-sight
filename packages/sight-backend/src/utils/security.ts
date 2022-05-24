@@ -1,5 +1,5 @@
-import bcrypt from "bcrypt";
-const { v4: uuidv4 } = require("uuid");
+import bcrypt from 'bcrypt';
+const { v4: uuidv4 } = require('uuid');
 
 /**
  * Generate password hash

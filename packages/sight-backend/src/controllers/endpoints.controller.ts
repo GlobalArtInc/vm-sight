@@ -1,8 +1,8 @@
-import EndpointsService from "@services/endpoints.service";
-import ForbiddenException from "@exceptions/ForbiddenException";
-import NotFoundException from "@exceptions/NotFoundException";
-import { CreateEndpointsDto, UpdateEndpointDto } from "@dtos/endpoints.dto";
-import DockerService from "@services/docker.service";
+import EndpointsService from '@services/endpoints.service';
+import ForbiddenException from '@exceptions/ForbiddenException';
+import NotFoundException from '@exceptions/NotFoundException';
+import { CreateEndpointsDto, UpdateEndpointDto } from '@dtos/endpoints.dto';
+import DockerService from '@services/docker.service';
 
 class EndpointsController {
   public endpointsService = new EndpointsService();
@@ -22,37 +22,8 @@ class EndpointsController {
    *           description: 'Server Error'
    */
   public getAll = async (req, res) => {
-    if (req.user.role === 1)
-      return res.status(200).json(await this.endpointsService.getAll());
+    if (req.user.role === 1) return res.status(200).json(await this.endpointsService.getAll());
     else return res.status(200).json([]);
-  };
-
-  /**
-   * @openapi
-   *   /endpoints:
-   *     post:
-   *       tags:
-   *       - endpoints
-   *       summary: Create an endpoint
-   *       parameters:
-   *       - name: body
-   *         in: body
-   *         description: CreateEndpointDto
-   *         required: true
-   *         schema:
-   *           $ref: '#/definitions/createEndpointDto'
-   *       responses:
-   *         200:
-   *           description: 'Ok'
-   *         400:
-   *           description: 'Bad Request'
-   *         500:
-   *           description: 'Server Error'
-   */
-  public createEndpoint = async (req, res) => {
-    const endpointData: CreateEndpointsDto = req.body;
-    await this.endpointsService.create({ ...endpointData });
-    return res.status(201).json({ status: 201 });
   };
 
   /**
@@ -81,8 +52,36 @@ class EndpointsController {
     if (endpoint) {
       return res.status(200).json(endpoint);
     } else {
-      throw new NotFoundException("Endpoint not found");
+      throw new NotFoundException('Endpoint not found');
     }
+  };
+
+  /**
+   * @openapi
+   *   /endpoints:
+   *     post:
+   *       tags:
+   *       - endpoints
+   *       summary: Create an endpoint
+   *       parameters:
+   *       - name: body
+   *         in: body
+   *         description: CreateEndpointDto
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/createEndpointDto'
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         400:
+   *           description: 'Bad Request'
+   *         500:
+   *           description: 'Server Error'
+   */
+  public createEndpoint = async (req, res) => {
+    const endpointData: CreateEndpointsDto = req.body;
+    await this.endpointsService.create({ ...endpointData });
+    return res.status(201).json({ status: 201 });
   };
 
   /**
@@ -119,7 +118,7 @@ class EndpointsController {
       await this.endpointsService.update(req.params.id, endpointData);
       return res.status(200).json({ status: 200 });
     } else {
-      throw new NotFoundException("Endpoint not found");
+      throw new NotFoundException('Endpoint not found');
     }
   };
 

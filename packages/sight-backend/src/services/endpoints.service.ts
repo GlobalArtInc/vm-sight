@@ -1,40 +1,35 @@
-import { EndpointsModel } from "@models/index";
-import { NotFoundException } from "@exceptions/index";
-import { CreateEndpointsDto, UpdateEndpointDto } from "@dtos/endpoints.dto";
-import { DockerService } from "@services/docker.service";
+import { EndpointsModel } from '@models/index';
+import { NotFoundException } from '@exceptions/index';
+import { CreateEndpointsDto, UpdateEndpointDto } from '@dtos/endpoints.dto';
+import { DockerService } from '@services/docker.service';
 
 class EndpointsService {
-  private dockerService = new DockerService();
+  public dockerService = new DockerService();
 
   public async getAll() {
     const arr = [];
     const endpoints = await EndpointsModel.findAll();
     for (const item of endpoints) {
-      arr.push({
-        id: item.id,
-        name: item.name,
-        type: item.type,
-        tls: item.tls,
-      });
+      if (item.type === 1) {
+        const docker = new DockerService();
+        await docker.connect(item.id);
+        arr.push(await docker.getEndpoint());
+      }
     }
     return arr;
   }
 
   public async getOne(id: string) {
-    return EndpointsModel.findOne({ where: { id } });
+    const docker = new DockerService();
+    await docker.connect((await EndpointsModel.findOne({ where: { id } })).id);
+    return docker.getEndpoint();
   }
 
   public async checkConnect(endpointData) {
-    if (endpointData.tempId === "socket") {
-      await this.dockerService.checkConnect(
-        "/var/run/docker.sock",
-        endpointData?.data?.tls ?? endpointData.tls
-      );
+    if (endpointData.tempId === 'socket') {
+      await this.dockerService.checkConnect('/var/run/docker.sock', endpointData?.data?.tls ?? endpointData.tls);
     } else {
-      await this.dockerService.checkConnect(
-        endpointData?.data?.url ?? endpointData.url,
-        endpointData?.data?.tls ?? endpointData.tls
-      );
+      await this.dockerService.checkConnect(endpointData?.data?.url ?? endpointData.url, endpointData?.data?.tls ?? endpointData.tls);
     }
     return true;
   }
@@ -45,10 +40,7 @@ class EndpointsService {
       tls_cert = endpointData.data.tls.cert,
       tls_key = endpointData.data.tls.key;
 
-    await this.dockerService.checkConnect(
-      endpointData.data.url,
-      endpointData.data.tls
-    );
+    await this.dockerService.checkConnect(endpointData.data.url, endpointData.data.tls);
 
     await new EndpointsModel({
       ...endpointData.data,
@@ -61,18 +53,18 @@ class EndpointsService {
 
   public async update(id: string, endpointData: UpdateEndpointDto) {
     await this.dockerService.checkConnect(endpointData.url, endpointData.tls);
-    const endpoint = await this.getOne(id);
+    const endpoint = await EndpointsModel.findOne({ where: { id } });
     await endpoint.update(endpointData);
     return true;
   }
 
   public async remove(id: string) {
-    const endpoint = await this.getOne(id);
+    const endpoint = await EndpointsModel.findOne({ where: { id } });
     if (endpoint) {
       await endpoint.destroy();
       return true;
     } else {
-      throw new NotFoundException("Endpoint not found");
+      throw new NotFoundException('Endpoint not found');
     }
   }
 }
