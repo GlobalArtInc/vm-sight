@@ -206,7 +206,7 @@ export default {
     },
     async onRecreate() {
       let container = this.container
-      container.Config.name = this.container.Name.substr(1)
+      container.Config.name = this.container.name.substr(1)
       await stopContainer(this.endpointId, this.container.Id)
       await renameContainer(this.endpointId, this.container.Id, this.container.Name.substr(1) + '_old')
       const newContainer = await createContainer(this.endpointId, container.Config)

@@ -1,7 +1,7 @@
 <template>
   <v-progress-linear indeterminate absolute top v-if="!isLoading"/>
   <v-row v-else>
-    <v-col :cols="12" v-if="endpoint && endpoint.Snapshot.Swarm">
+    <v-col :cols="12" v-if="endpoint && endpoint.snapshot.Swarm">
       <v-card>
         <v-card-subtitle class="font-weight-medium" style="color: #333;background: #f6f6f6">
           {{ __('information') }}
@@ -28,10 +28,10 @@
               <td>
                 {{ endpoint.Name }}
                 <i class="fa fa-microchip space-left"></i>
-                {{ endpoint.Snapshot.TotalCPU }}
+                {{ endpoint.snapshot.TotalCPU }}
                 <i class="fa fa-memory space-left"></i>
-                {{ convert(endpoint.Snapshot.TotalMemory) }}
-                - {{ endpoint.Snapshot.Swarm ? "Swarm" : "Standalone" }} {{ endpoint.Snapshot.DockerVersion }}
+                {{ convert(endpoint.snapshot.TotalMemory) }}
+                - {{ endpoint.snapshot.Swarm ? "Swarm" : "Standalone" }} {{ endpoint.snapshot.DockerVersion }}
               </td>
             </tr>
             <tr>
@@ -44,22 +44,22 @@
       </v-card>
     </v-col>
     <v-col :cols="12" :md="6" :xs="12" v-if="endpoint">
-      <Widget icon="fa fa-th-list" :count="endpoint.Snapshot.StackCount" name="Stacks" :href="`/${id}/docker/stacks`"/>
+      <Widget icon="fa fa-th-list" :count="endpoint.snapshot.StackCount" name="Stacks" :href="`/${id}/docker/stacks`"/>
     </v-col>
-    <v-col :cols="12" :md="6" :xs="12" v-if="endpoint && endpoint.Snapshot.Swarm">
-      <Widget v-if="endpoint.Snapshot.Swarm" icon="fa fa-list-alt"
-              :count="endpoint.Snapshot.ServiceCount ? endpoint.Snapshot.ServiceCount : 0" name="Services"
+    <v-col :cols="12" :md="6" :xs="12" v-if="endpoint && endpoint.snapshot.Swarm">
+      <Widget v-if="endpoint.snapshot.Swarm" icon="fa fa-list-alt"
+              :count="endpoint.snapshot.ServiceCount ? endpoint.snapshot.ServiceCount : 0" name="Services"
               :href="`/${id}/docker/services`"/>
     </v-col>
     <v-col :cols="12" :md="6" :xs="12" v-if="endpoint">
-      <Widget icon="fa fa-cubes" :count="endpoint.Snapshot.Containers" name="Containers"
+      <Widget icon="fa fa-cubes" :count="endpoint.snapshot.Containers" name="Containers"
               :href="`/${id}/docker/containers`"/>
     </v-col>
     <v-col :cols="12" :md="6" :xs="12" v-if="endpoint">
-      <Widget icon="fa fa-clone" :count="endpoint.Snapshot.ImageCount" name="Images" :href="`/${id}/docker/images`"/>
+      <Widget icon="fa fa-clone" :count="endpoint.snapshot.ImageCount" name="Images" :href="`/${id}/docker/images`"/>
     </v-col>
     <v-col :cols="12" :md="6" :xs="12" v-if="endpoint">
-      <Widget icon="fa fa-hdd" :count="endpoint.Snapshot.VolumeCount" name="Volumes" :href="`/${id}/docker/volumes`"/>
+      <Widget icon="fa fa-hdd" :count="endpoint.snapshot.VolumeCount" name="Volumes" :href="`/${id}/docker/volumes`"/>
     </v-col>
     <v-col :cols="12" :md="6" :xs="12" v-if="endpoint">
       <Widget icon="fa fa-sitemap" :count="Networks.length" name="Networks" :href="`/${id}/docker/networks`"/>

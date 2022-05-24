@@ -40,7 +40,7 @@
                   Name
                 </td>
                 <td>
-                  {{ container.Name.substr(1) }}
+                  {{ container.name.substr(1) }}
                   <v-btn style="margin-left: 0.3em" icon @click="openRenameDialog">
                     <v-icon color="primary" small>
                       fa-edit

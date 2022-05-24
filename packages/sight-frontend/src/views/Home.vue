@@ -21,12 +21,12 @@
                     <v-list-item-content>
                       <v-list-item-title>
                           <span style="float:left">
-                          {{ item.Name }}
+                          {{ item.name }}
 
                           <v-chip label class="font-weight-black" small color="success"
-                                  v-if="item.Status === 1">on</v-chip>
+                                  v-if="item.status === 1">on</v-chip>
                           <v-chip label class="font-weight-black" small color="error" v-else>off</v-chip>
-                            {{ convertDate(item.Snapshot.Time) }}
+                            {{ convertDate(item.snapshot.Time) }}
                           </span>
                         <span style="float:right;padding-right: 1em">
                             sw
@@ -34,18 +34,18 @@
                       </v-list-item-title>
 
                       <v-list-item-subtitle class="text--primary">
-                        <span v-if="item.Snapshot">
+                        <span v-if="item.snapshot">
                           <span style="padding: 0 7px 0 0;">
                             <i class="fa fa-list-alt"/>
-                            {{ item.Snapshot.ServiceCount }} services
+                            {{ item.snapshot.ServiceCount }} services
                           </span>
                           <span>
                             <i class="fa fa-cubes"/>
-                            {{ item.Snapshot.Containers }} containers
+                            {{ item.snapshot.Containers }} containers
                           </span>
                         </span>
-                        <span style="float:right;padding-right: 1em" v-if="item.Snapshot">
-                          {{ item.Snapshot.Swarm ? "Swarm" : "Standalone" }} {{ item.Snapshot.DockerVersion }}
+                        <span style="float:right;padding-right: 1em" v-if="item.snapshot">
+                          {{ item.snapshot.Swarm ? "Swarm" : "Standalone" }} {{ item.snapshot.DockerVersion }}
                         </span>
                       </v-list-item-subtitle>
 
@@ -53,13 +53,13 @@
                         <span>
                           <span class="small text-muted ng-binding">
                             <i class="fa fa-microchip"></i>
-                            {{ item.Snapshot.TotalCPU }}
+                            {{ item.snapshot.TotalCPU }}
                             <i class="fa fa-memory space-left"></i>
-                            {{convert(item.Snapshot.TotalMemory)}}
+                            {{convert(item.snapshot.TotalMemory)}}
                           </span>
                         </span>
                         <span style="float:right;padding-right: 1em">
-                          {{ item.URL }}
+                          {{ item.url }}
                         </span>
                       </v-list-item-subtitle>
                     </v-list-item-content>
@@ -109,8 +109,8 @@ export default {
       return moment.unix(time).format('DD-MM-YYYY, hh:mm:ss a')
     },
     goCluster(endpoint) {
-      if (endpoint.Type === 1 || endpoint.Type === 2) {
-        this.$router.push({name: 'endpointDocker', params: {id: endpoint.Id}})
+      if (endpoint.type === 1 || endpoint.type === 2) {
+        this.$router.push({name: 'endpointDocker', params: {id: endpoint.id}})
       }
     }
   },

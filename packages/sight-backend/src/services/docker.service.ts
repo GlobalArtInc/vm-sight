@@ -1,5 +1,6 @@
 import Docker from 'dockerode';
 import { EndpointsModel } from '@models';
+import { BadRequestException, NotFoundException } from '@exceptions';
 
 interface tls {
   active: boolean;
@@ -9,7 +10,7 @@ interface tls {
 }
 
 export class DockerService {
-  public service;
+  public service: { endpoint: any; docker: Docker };
 
   /**
    * Connect to the docker server or via docker socket
@@ -104,6 +105,7 @@ export class DockerService {
     const endpoint = await EndpointsModel.findOne({
       where: { id: endpointId },
     });
+    if (!endpoint) throw new NotFoundException('The endpoint was not found');
     const connect: any = await this.checkConnect(endpoint.url, {
       active: endpoint.tls,
       ca: endpoint.tls_ca,
@@ -112,6 +114,49 @@ export class DockerService {
     });
     this.service = { endpoint, docker: connect.docker };
     return true;
+  }
+
+  public async getContainers(endpointId: string) {
+    await this.connect(endpointId);
+    const containers = await this.service.docker.listContainers({ all: 1 });
+    containers.reduce((acc, current) => {
+      current.Name = current.Names[0].slice(1);
+      delete current.Names;
+      return acc;
+    }, undefined);
+    containers.sort((a, b) => {
+      return a.Created - b.Created;
+    });
+    return containers;
+  }
+
+  public async getContainer(endpointId: string, containerId: string) {
+    await this.connect(endpointId);
+    const contaienr = await this.service.docker.getContainer(containerId);
+    return contaienr.inspect();
+  }
+
+  public async containerAction(action, endpointId: string, containerId: string) {
+    await this.connect(endpointId);
+    const container = await this.service.docker.getContainer(containerId);
+    switch (action) {
+      case 'start':
+        return container.start();
+      case 'stop':
+        return container.stop();
+      case 'kill':
+        return container.kill();
+      case 'restart':
+        return container.restart();
+      case 'pause':
+        return container.pause();
+      case 'resume':
+        return container.unpause();
+      case 'remove':
+        return container.remove();
+      default:
+        throw new BadRequestException('No action found');
+    }
   }
 }
 

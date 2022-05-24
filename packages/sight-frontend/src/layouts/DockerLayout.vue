@@ -3,10 +3,10 @@
     <v-progress-linear v-if="!isLoading" indeterminate/>
     <template v-else>
       <template v-if="isLoading">
-        <v-container class="main-container" v-if="endpoint.Status === 1">
+        <v-container class="main-container" v-if="endpoint.status === 1">
           <router-view/>
         </v-container>
-        <v-container class="error--text text-center" v-else-if="endpoint.Status === 0">
+        <v-container class="error--text text-center" v-else-if="endpoint.status === 0">
           Сервер не доступен
         </v-container>
       </template>

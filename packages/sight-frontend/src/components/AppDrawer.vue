@@ -29,8 +29,8 @@
         </v-list-item>
 
         <template v-if="currentEndpoint">
-          <v-subheader v-text="currentEndpoint.Name"/>
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/dashboard`">
+          <v-subheader v-text="currentEndpoint.name"/>
+          <v-list-item :to="`/${currentEndpoint.id}/docker/dashboard`">
             <v-list-item-icon>
               <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-icon>
@@ -38,7 +38,7 @@
               <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/containers`">
+          <v-list-item :to="`/${currentEndpoint.id}/docker/containers`">
             <v-list-item-icon>
               <v-icon>fa-cubes</v-icon>
             </v-list-item-icon>
@@ -46,7 +46,7 @@
               <v-list-item-title>Containers</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/images`">
+          <v-list-item :to="`/${currentEndpoint.id}/docker/images`">
             <v-list-item-icon>
               <v-icon>mdi-content-copy</v-icon>
             </v-list-item-icon>
@@ -54,7 +54,7 @@
               <v-list-item-title>Images</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item :to="`/${currentEndpoint.Id}/docker/networks`">
+          <v-list-item :to="`/${currentEndpoint.id}/docker/networks`">
             <v-list-item-icon>
               <v-icon>mdi-sitemap</v-icon>
             </v-list-item-icon>
