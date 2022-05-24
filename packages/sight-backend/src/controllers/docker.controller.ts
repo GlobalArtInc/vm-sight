@@ -13,6 +13,14 @@ class DockerController {
     return res.status(200).json(await this.dockerService.getContainer(endpointId, containerId));
   };
 
+  public getContainerLogs = async (req, res) => {
+    const { endpointId, containerId } = req.params;
+    res.set('Content-Type', 'text/plain');
+    const pattern = /\x1B\[([ABCD])/gm;
+    const logs = await this.dockerService.getContainerLogs(endpointId, containerId, req.query);
+    return res.send(logs.toString().replace(pattern, ''));
+  };
+
   public startContainer = async (req, res) => {
     const { endpointId, containerId } = req.params;
     await this.dockerService.containerAction('start', endpointId, containerId);
@@ -68,6 +76,27 @@ class DockerController {
   public deleteNetworkById = async (req, res) => {
     const { endpointId, networkId } = req.params;
     await this.dockerService.removeNetworkById(endpointId, networkId);
+    return res.status(200).json({ status: 200 });
+  };
+
+  public getImages = async (req, res) => {
+    const { endpointId } = req.params;
+    return res.status(200).json(await this.dockerService.getImages(endpointId));
+  };
+
+  public getImageById = async (req, res) => {
+    const { endpointId, imageId } = req.params;
+    return res.status(200).json(await this.dockerService.getImageById(endpointId, imageId));
+  };
+
+  public getImageHistoryById = async (req, res) => {
+    const { endpointId, imageId } = req.params;
+    return res.status(200).json(await this.dockerService.getImageHistoryById(endpointId, imageId));
+  };
+
+  public removeImageById = async (req, res) => {
+    const { endpointId, imageId } = req.params;
+    await this.dockerService.removeImageById(endpointId, imageId);
     return res.status(200).json({ status: 200 });
   };
 }
