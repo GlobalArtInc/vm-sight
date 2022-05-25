@@ -21,6 +21,12 @@ class DockerController {
     return res.send(logs.toString().replace(pattern, ''));
   };
 
+  public updateContainer = async (req, res) => {
+    const { endpointId, containerId } = req.params;
+    await this.dockerService.updateContainer(endpointId, containerId, req.body);
+    return res.status(200).json({ status: 200 });
+  };
+
   public startContainer = async (req, res) => {
     const { endpointId, containerId } = req.params;
     await this.dockerService.containerAction('start', endpointId, containerId);
@@ -77,6 +83,20 @@ class DockerController {
     const { endpointId, networkId } = req.params;
     await this.dockerService.removeNetworkById(endpointId, networkId);
     return res.status(200).json({ status: 200 });
+  };
+
+  public connectNetwork = async (req, res) => {
+    const { endpointId, networkId } = req.params;
+    const { Container } = req.body;
+    await this.dockerService.connectNetwork(endpointId, networkId, Container);
+    return res.status(200).send({ status: 200 });
+  };
+
+  public disconnectNetwork = async (req, res) => {
+    const { endpointId, networkId } = req.params;
+    const { Container } = req.body;
+    await this.dockerService.disconnectNetwork(endpointId, networkId, Container);
+    return res.status(200).send({ status: 200 });
   };
 
   public getImages = async (req, res) => {

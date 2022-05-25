@@ -20,7 +20,7 @@ export default {
     types: {
         agent: "Agent",
         docker: "Docker",
-        docker_socket: "Docket via Socket",
+        docker_socket: "Docker via Socket",
         kubernetos: "Kubernetos"
     },
     containers: {

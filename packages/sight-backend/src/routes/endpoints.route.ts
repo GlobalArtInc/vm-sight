@@ -32,6 +32,7 @@ class EndpointsRoute implements Route {
     this.router.get('/:endpointId/docker/containers', authMiddleware, wrapRouteHandler(this.dockerController.getContainers));
     this.router.get('/:endpointId/docker/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.getContainerById));
     this.router.get('/:endpointId/docker/containers/:containerId/logs', authMiddleware, wrapRouteHandler(this.dockerController.getContainerLogs));
+    this.router.post('/:endpointId/docker/containers/:containerId/update', authMiddleware, wrapRouteHandler(this.dockerController.updateContainer));
 
     this.router.post('/:endpointId/docker/containers/:containerId/start', authMiddleware, wrapRouteHandler(this.dockerController.startContainer));
     this.router.post('/:endpointId/docker/containers/:containerId/stop', authMiddleware, wrapRouteHandler(this.dockerController.stopContainer));
@@ -44,6 +45,8 @@ class EndpointsRoute implements Route {
     this.router.get('/:endpointId/docker/networks', authMiddleware, wrapRouteHandler(this.dockerController.getNetworks));
     this.router.get('/:endpointId/docker/networks/:networkId', authMiddleware, wrapRouteHandler(this.dockerController.getNetworkById));
     this.router.delete('/:endpointId/docker/networks/:networkId', authMiddleware, wrapRouteHandler(this.dockerController.deleteNetworkById));
+    this.router.post('/:endpointId/docker/networks/:networkId/connect', authMiddleware, wrapRouteHandler(this.dockerController.connectNetwork));
+    this.router.post('/:endpointId/docker/networks/:networkId/disconnect', authMiddleware, wrapRouteHandler(this.dockerController.disconnectNetwork));
 
     this.router.get('/:endpointId/docker/images', authMiddleware, wrapRouteHandler(this.dockerController.getImages));
     this.router.get('/:endpointId/docker/images/:imageId', authMiddleware, wrapRouteHandler(this.dockerController.getImageById));

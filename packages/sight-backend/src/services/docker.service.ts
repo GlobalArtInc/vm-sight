@@ -119,8 +119,14 @@ export class DockerService {
 
   public async getContainer(endpointId: string, containerId: string) {
     await this.connect(endpointId);
-    const contaienr = await this.service.docker.getContainer(containerId);
-    return contaienr.inspect();
+    const container = await this.service.docker.getContainer(containerId);
+    return container.inspect();
+  }
+
+  public async updateContainer(endpointId: string, containerId: string, body: object) {
+    await this.connect(endpointId);
+    const container = await this.service.docker.getContainer(containerId);
+    return container.update(body);
   }
 
   public async getContainerLogs(endpointId: string, containerId: string, query: object) {
@@ -171,6 +177,18 @@ export class DockerService {
     await this.connect(endpointId);
     const network = await this.service.docker.getNetwork(networkId);
     return network.remove();
+  }
+
+  public async connectNetwork(endpointId: string, networkId: string, Container: string) {
+    await this.connect(endpointId);
+    const network = await this.service.docker.getNetwork(networkId);
+    return network.connect({ Container, Force: true });
+  }
+
+  public async disconnectNetwork(endpointId: string, networkId: string, Container: string) {
+    await this.connect(endpointId);
+    const network = await this.service.docker.getNetwork(networkId);
+    return network.disconnect({ Container, Force: true });
   }
 
   public async getImages(endpointId: string) {

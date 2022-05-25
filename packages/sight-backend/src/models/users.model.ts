@@ -48,6 +48,9 @@ export class UsersModel extends Model {
             record.updatedAt = new Date();
           },
           beforeUpdate: async record => {
+            if (record.password) {
+              record.password = await cryptPassword(record.password);
+            }
             record.updatedAt = new Date();
           },
         },
