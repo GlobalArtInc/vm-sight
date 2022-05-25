@@ -1,9 +1,9 @@
 import { UsersModel } from '../models';
 import { CreateAdminDto, CreateUserDto, UpdateUserDto } from '@dtos/users.dto';
 import { cryptPassword, generateID } from '@utils/security';
-import DB from '@databases';
 import { Op } from 'sequelize';
 import { HttpException, NotFoundException, BadRequestException, ConflictException } from '../exceptions';
+import { currentTimestamp } from '@utils/util';
 
 class UsersService {
   public async checkAdmin() {
@@ -26,8 +26,8 @@ class UsersService {
           username: createAdminDto.Username,
           password: hash,
           role: 1,
-          createdAt: DB.Sequelize.fn('strftime', '%s', 'now'),
-          updatedAt: DB.Sequelize.fn('strftime', '%s', 'now'),
+          createdAt: currentTimestamp,
+          updatedAt: currentTimestamp,
         }).save();
         return { status: 201 };
       } else {

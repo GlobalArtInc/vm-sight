@@ -1,6 +1,6 @@
 import Docker from 'dockerode';
 import { EndpointsModel } from '@models';
-import { BadRequestException, ForbiddenException, NotFoundException } from '@exceptions';
+import { BadRequestException, NotFoundException } from '@exceptions';
 
 interface tls {
   active?: boolean;
@@ -10,14 +10,14 @@ interface tls {
 }
 
 export class DockerService {
-  public service: { endpoint: any; docker: Docker };
+  public service: { endpoint: any; docker: Docker | string };
 
   /**
    * Connect to the docker server or via docker socket
    * @param host
    * @param tls
    */
-  public checkConnect(tempId: string | number, host: string, tls: tls) {
+  public checkConnect(tempId: string | number, host: string, tls: tls, test = false) {
     const settings: any = host.match('/var/run/docker.sock')
       ? { socketPath: '/var/run/docker.sock' }
       : {
@@ -43,38 +43,46 @@ export class DockerService {
           resolve({ response, docker });
         })
         .catch(err => {
-          reject(err);
+          if (test === false) {
+            reject(err);
+          } else {
+            resolve('no');
+          }
+          //  reject(err);
         });
     });
   }
 
   public async getEndpoint() {
     const endpoint = this.service.endpoint;
-    const info = await this.service.docker.info();
 
-    const snapshot = this.constructSnapshot({
-      DockerVersion: info.ServerVersion,
-      Containers: info.Containers,
-      RunningContainerCount: info.ContainersRunning,
-      StoppedContainerCount: info.ContainersStopped,
-      HealthyContainerCount: 0,
-      UnhealthyContainerCount: 0,
-      ImageCount: 0,
-      ServiceCount: 0,
-      StackCount: 0,
-      Swarm: 'active',
-      Time: Math.floor(new Date(info.SystemTime).getTime() / 1000),
-      TotalCPU: info.NCPU,
-      TotalMemory: info.MemTotal,
-      VolumeCount: 0,
-    });
+    let snapshot = {};
+    if (this.service.docker !== 'no') {
+      const info = await this.service.docker.info();
 
+      snapshot = this.constructSnapshot({
+        DockerVersion: info.ServerVersion,
+        Containers: info.Containers,
+        RunningContainerCount: info.ContainersRunning,
+        StoppedContainerCount: info.ContainersStopped,
+        HealthyContainerCount: 0,
+        UnhealthyContainerCount: 0,
+        ImageCount: 0,
+        ServiceCount: 0,
+        StackCount: 0,
+        Swarm: 'active',
+        Time: Math.floor(new Date(info.SystemTime).getTime() / 1000),
+        TotalCPU: info.NCPU,
+        TotalMemory: info.MemTotal,
+        VolumeCount: 0,
+      });
+    }
     return {
       id: endpoint.id,
       name: endpoint.name,
       type: endpoint.type,
       groupId: endpoint.groupId,
-      status: 1,
+      status: this.service.docker === 'no' ? 0 : 1,
       public_url: endpoint.public_url,
       url: endpoint.url,
       snapshot,
@@ -105,14 +113,24 @@ export class DockerService {
       where: { id: endpointId },
     });
     if (!endpoint) throw new NotFoundException('The endpoint was not found');
-    const connect: any = await this.checkConnect(endpointId, endpoint.url, {
-      active: endpoint.tls,
-      ca: endpoint.tls_ca,
-      cert: endpoint.tls_cert,
-      key: endpoint.tls_key,
-    });
-    this.service = { endpoint, docker: connect.docker };
-    return true;
+    const connect: any = await this.checkConnect(
+      endpointId,
+      endpoint.url,
+      {
+        active: endpoint.tls,
+        ca: endpoint.tls_ca,
+        cert: endpoint.tls_cert,
+        key: endpoint.tls_key,
+      },
+      true,
+    );
+    if (connect === 'no') {
+      this.service = { endpoint, docker: 'no' };
+      return false;
+    } else {
+      this.service = { endpoint, docker: connect.docker };
+      return true;
+    }
   }
 
   public async getContainers(endpointId: string) {

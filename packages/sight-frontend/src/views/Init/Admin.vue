@@ -81,18 +81,20 @@ export default {
     passwordRepeat: ""
   }),
   methods: {
-    createUser() {
-      init(this.username, this.password).then(() => {
-        auth(this.username, this.password).then((response) => {
-          const jwt = response.jwt;
-          setToken(jwt)
-          this.$store.dispatch('user/getInfo')
-          this.$router.push('/init/endpoint')
-        })
-      })
+    async createUser() {
+      this.loading = true;
+      try {
+        await init(this.username, this.password);
+        const response = await auth(this.username, this.password);
+        setToken(response.jwt);
+        await this.$store.dispatch('user/getInfo');
+        await this.$router.push('/init/endpoint');
+      } catch(err) {
+        this.loading = false;
+      }
     }
   },
-  created() {
+  async created() {
     check().then(() => {
       this.$router.push('/')
     }).catch(() => {

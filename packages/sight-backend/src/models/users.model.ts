@@ -31,10 +31,10 @@ export class UsersModel extends Model {
           type: DataTypes.INTEGER,
         },
         createdAt: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.NUMBER,
         },
         updatedAt: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.NUMBER,
         },
       },
       {

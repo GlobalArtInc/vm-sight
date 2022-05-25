@@ -13,6 +13,7 @@ class EndpointsService {
       if (item.type === 1 || item.type === 2) {
         const docker = new DockerService();
         await docker.connect(item.id);
+        console.log(await docker.getEndpoint());
         arr.push(await docker.getEndpoint());
       }
     }
