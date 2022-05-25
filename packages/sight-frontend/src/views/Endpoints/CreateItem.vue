@@ -166,9 +166,9 @@ export default {
       const tempId = Math.random()
       if (this.$refs.form.validate()) {
         this.loading = true
-        if (this.formModel.type === 1 && this.form.docker.type === 'socket') {
+        if (this.formModel.type === 2) {
          try {
-           await createEndpoint(this.formModel, this.form.docker.type)
+           await createEndpoint({...this.formModel, host: "socket"}, "socket")
            await this.$router.push('/endpoints')
            this.$toast("The endpoint has been created", {
              type: 'success'

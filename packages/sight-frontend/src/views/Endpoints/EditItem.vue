@@ -41,22 +41,22 @@
                         :append-icon="'mdi-name'"
                     />
                     <template v-if="form.type === 1">
-                      <v-switch label="TLS" v-model="formModel.tls.active"/>
-                      <template v-if="formModel.tls.active">
+                      <v-switch label="TLS" v-model="formModel.tls"/>
+                      <template v-if="formModel.tls">
                         <v-file-input
                             dense
-                            :prepend-icon="form.tls.ca === true ? 'fa-check':'fa-times'"
-                            v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%" outlined
+                            :prepend-icon="form.tls_ca === true ? 'fa-check':'fa-times'"
+                            v-model="formModel.tls_ca" label="TLS CA certificate" style="width: 25%" outlined
                             chips class="col-3"/>
                         <v-file-input
                             dense
-                            :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
-                            v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
+                            :prepend-icon="form.tls_cert === true ? 'fa-check':'fa-times'"
+                            v-model="formModel.tls_cert" label="TLS certificate" style="width: 25%" outlined
                             chips class="col-3"/>
                         <v-file-input
                             dense
-                            :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
-                            v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
+                            :prepend-icon="form.tls_key === true ? 'fa-check':'fa-times'"
+                            v-model="formModel.tls_key" label="TLS Key" style="width: 25%" outlined chips
                             class="col-3"/>
                       </template>
                     </template>
@@ -132,11 +132,10 @@ export default {
         placeholder: ""
       },
       type: 0,
-      tls: {
-        ca: false,
-        cert: false,
-        key: false
-      }
+      tls: false,
+      tls_ca: false,
+      tls_cert: false,
+      tls_key: false,
     },
     formHasErrors: false
   }),
@@ -176,21 +175,21 @@ export default {
     async handleSubmitForm() {
       if (this.$refs.form.validate()) {
         this.loading = true
-        if (this.formModel.tls.active === true) {
+        if (this.formModel.tls === true) {
           try {
-            if (this.formModel.tls.ca) {
+            if (this.formModel.tls_ca) {
               let formData = new FormData();
-              formData.append('file', this.formModel.tls.ca);
+              formData.append('file', this.formModel.tls_ca);
               await uploadCA(this.id, formData)
             }
-            if (this.formModel.tls.cert) {
+            if (this.formModel.tls_cert) {
               let formData = new FormData();
-              formData.append('file', this.formModel.tls.cert);
+              formData.append('file', this.formModel.tls_cert);
               await uploadCert(this.id, formData)
             }
-            if (this.formModel.tls.key) {
+            if (this.formModel.tls_key) {
               let formData = new FormData();
-              formData.append('file', this.formModel.tls.key);
+              formData.append('file', this.formModel.tls_key);
               await uploadKey(this.id, formData)
             }
           } catch (err) {
@@ -208,7 +207,7 @@ export default {
     },
     async onSubmit() {
       if (this.form.type === 1) {
-        if (this.formModel.tls.active === true) {
+        if (this.formModel.tls === true) {
           try {
             await updateEndpoint(this.id, this.formModel)
             window._VMA.$emit('SHOW_SNACKBAR', {
@@ -247,8 +246,11 @@ export default {
           await updateEndpoint(this.id, {
             name: this.formModel.name,
             host: "socket",
-             public_url: this.formModel.public_url,
-             tls: { active: false, ca: false, cert: false, key: false }
+            public_url: this.formModel.public_url,
+            tls: false,
+            tls_ca: false,
+            tls_cert: false,
+            tls_key: false,
           })
           window._VMA.$emit('SHOW_SNACKBAR', {
             text: 'The endpoint has been saved',
