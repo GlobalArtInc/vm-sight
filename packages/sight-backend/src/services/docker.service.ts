@@ -1,6 +1,6 @@
 import Docker from 'dockerode';
 import { EndpointsModel } from '@models';
-import { BadRequestException, NotFoundException } from '@exceptions';
+import { BadRequestException, HttpException, NotFoundException } from '@exceptions';
 
 interface tls {
   active?: boolean;
@@ -14,11 +14,34 @@ export class DockerService {
 
   /**
    * Connect to the docker server or via docker socket
-   * @param host
-   * @param tls
+   * @param data
    */
-  public checkConnect(tempId: string | number, host: string, tls: tls, test = false) {
-    const settings: any = host.match('/var/run/docker.sock')
+  public checkConnect(data, onCreate = false) {
+    const settings: Docker.Settings =
+      data.type === 2
+        ? { socketPath: '/var/run/docker.sock' }
+        : {
+            host: data.host.split(':')[0],
+            port: data.host.split(':')[1],
+          };
+    settings.ca = data.ca ?? '';
+    settings.cert = data.cert ?? '';
+    settings.key = data.key ?? '';
+    return new Promise((resolve, reject) => {
+      if (data.type === 1 && settings.host && !settings.port) reject();
+      const docker = new Docker(settings);
+      docker
+        .version()
+        .then(response => {
+          resolve({ response, docker });
+        })
+        .catch(err => {
+          if (onCreate === true) reject(err);
+          resolve('no_connection');
+        });
+    });
+    throw new HttpException(400, 'under development');
+    /*  const settings: any = host.match('/var/run/docker.sock')
       ? { socketPath: '/var/run/docker.sock' }
       : {
           host: host.split(':')[0],
@@ -35,6 +58,7 @@ export class DockerService {
     }
 
     return new Promise((resolve, reject) => {
+      throw new HttpException(400, 'under development');
       if (settings.host && !settings.port) reject();
       const docker = new Docker(settings);
       docker
@@ -50,7 +74,7 @@ export class DockerService {
           }
           //  reject(err);
         });
-    });
+    }); */
   }
 
   public async getEndpoint() {
@@ -113,7 +137,7 @@ export class DockerService {
       where: { id: endpointId },
     });
     if (!endpoint) throw new NotFoundException('The endpoint was not found');
-    const connect: any = await this.checkConnect(
+    /* const connect: any = await this.checkConnect(
       endpointId,
       endpoint.url,
       {
@@ -130,7 +154,7 @@ export class DockerService {
     } else {
       this.service = { endpoint, docker: connect.docker };
       return true;
-    }
+    } */
   }
 
   public async getContainers(endpointId: string) {

@@ -7,8 +7,8 @@ export class UsersModel extends Model {
   public username: string;
   public password: string;
   public role: number;
-  public createdAt: number;
-  public updatedAt: number;
+  public createdAt: Date;
+  public updatedAt: Date;
 
   public static associate() {
     return;
@@ -31,10 +31,10 @@ export class UsersModel extends Model {
           type: DataTypes.INTEGER,
         },
         createdAt: {
-          type: DataTypes.NUMBER,
+          type: DataTypes.DATE,
         },
         updatedAt: {
-          type: DataTypes.NUMBER,
+          type: DataTypes.DATE,
         },
       },
       {
@@ -42,15 +42,13 @@ export class UsersModel extends Model {
         sequelize,
         indexes: [],
         hooks: {
-          beforeCreate: async user => {
-            user.id = generateID();
-            user.createdAt = currentTimestamp();
+          beforeCreate: async record => {
+            record.id = generateID();
+            record.createdAt = new Date();
+            record.updatedAt = new Date();
           },
-          beforeUpdate: async user => {
-            if (user.password) {
-              user.password = await cryptPassword(user.password);
-            }
-            user.updatedAt = currentTimestamp();
+          beforeUpdate: async record => {
+            record.updatedAt = new Date();
           },
         },
       },

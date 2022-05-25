@@ -40,24 +40,13 @@ class EndpointsService {
   }
 
   public async create(endpointData: CreateEndpointsDto) {
-    const tls = endpointData.data.tls.active,
-      tls_ca = endpointData.data.tls.ca,
-      tls_cert = endpointData.data.tls.cert,
-      tls_key = endpointData.data.tls.key;
+    await this.dockerService.checkConnect(endpointData, true);
 
-    await this.dockerService.checkConnect(endpointData.tempId, endpointData.data.url, endpointData.data.tls);
-
-    if (endpointData.tempId === 'socket') {
-      endpointData.data.url = '/var/run/docker.sock';
+    if (endpointData.type === 2) {
+      endpointData.host = '/var/run/docker.sock';
     }
 
-    await new EndpointsModel({
-      ...endpointData.data,
-      tls,
-      tls_ca,
-      tls_cert,
-      tls_key,
-    }).save();
+    //await new EndpointsModel(endpointData).save();
   }
 
   public async update(id: string, endpointData: UpdateEndpointDto) {

@@ -1,50 +1,50 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = {
-  async up(queryInterface) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('users', {
       id: {
         primaryKey: true,
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       username: {
         unique: true,
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       password: {
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       role: {
         type: DataTypes.INTEGER,
-        notNull: true
+        notNull: true,
       },
       createdAt: {
-        type: DataTypes.INTEGER,
-        notNull: true
+        type: Sequelize.DATE,
+        notNull: true,
       },
       updatedAt: {
-        type: DataTypes.INTEGER,
-        notNull: true
-      }
+        type: Sequelize.DATE,
+        notNull: true,
+      },
     });
     await queryInterface.createTable('users_external', {
       user_id: {
         primaryKey: true,
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       identity: {
         type: DataTypes.STRING,
-        notNull: true
-      }
+        notNull: true,
+      },
     });
   },
 
   async down(queryInterface) {
     await queryInterface.dropTable('users');
     await queryInterface.dropTable('users_external');
-  }
+  },
 };

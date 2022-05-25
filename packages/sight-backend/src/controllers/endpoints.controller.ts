@@ -80,8 +80,10 @@ class EndpointsController {
    */
   public createEndpoint = async (req, res) => {
     const endpointData: CreateEndpointsDto = req.body;
-    await this.endpointsService.create({ ...endpointData });
-    return res.status(201).json({ status: 201 });
+    await this.endpointsService.create(endpointData);
+    res.send(endpointData);
+    // // await this.endpointsService.create({ ...endpointData });
+    // return res.status(201).json({ status: 201 });
   };
 
   /**

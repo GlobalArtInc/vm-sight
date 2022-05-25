@@ -26,8 +26,6 @@ class UsersService {
           username: createAdminDto.Username,
           password: hash,
           role: 1,
-          createdAt: currentTimestamp,
-          updatedAt: currentTimestamp,
         }).save();
         return { status: 201 };
       } else {

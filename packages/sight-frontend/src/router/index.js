@@ -373,7 +373,7 @@ export const protectedRoute = [
 const routes = publicRoute.concat(protectedRoute)
 
 const router = new Router({
-    mode: 'hash',
+    mode: 'history',
     linkActiveClass: 'active',
     routes: routes
 })

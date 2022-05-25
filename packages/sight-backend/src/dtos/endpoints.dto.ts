@@ -1,4 +1,10 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+
+export enum EndpointTypes {
+  SUCCESS = 0,
+  ERROR = 1,
+  RUNNING = 2,
+}
 
 export class EndpointsTlsDto {
   @IsBoolean()
@@ -18,7 +24,10 @@ export class EndpointsTlsDto {
   public key = false;
 }
 
-export class EndpointsCreateDtoData {
+export class CreateEndpointsDto {
+  @IsNotEmpty()
+  public tempId: number | 'socket';
+
   @IsString()
   public name: string;
 
@@ -26,19 +35,12 @@ export class EndpointsCreateDtoData {
   @IsOptional()
   tls: EndpointsTlsDto;
 
-  @IsNumber()
-  public type: number;
+  @IsEnum(EndpointTypes)
+  public type: 1 | 2 | 3 | 4;
 
   @IsString()
-  public url: string;
-}
-
-export class CreateEndpointsDto {
-  @IsObject()
-  public data: EndpointsCreateDtoData;
-
   @IsNotEmpty()
-  public tempId: number | 'socket';
+  public host: string;
 }
 
 export class UpdateEndpointDto {
