@@ -36,41 +36,6 @@ export class DockerService {
       if (onCreate === true) return Promise.reject(err);
       else return Promise.resolve('no_connection');
     }
-    throw new HttpException(400, 'under development');
-    /*  const settings: any = host.match('/var/run/docker.sock')
-      ? { socketPath: '/var/run/docker.sock' }
-      : {
-          host: host.split(':')[0],
-          port: host.split(':')[1],
-        };
-    if (tls.ca) {
-      settings.ca = tls.ca;
-    }
-    if (tls.cert) {
-      settings.cert = tls.cert;
-    }
-    if (tls.key) {
-      settings.key = tls.key;
-    }
-
-    return new Promise((resolve, reject) => {
-      throw new HttpException(400, 'under development');
-      if (settings.host && !settings.port) reject();
-      const docker = new Docker(settings);
-      docker
-        .version()
-        .then(response => {
-          resolve({ response, docker });
-        })
-        .catch(err => {
-          if (test === false) {
-            reject(err);
-          } else {
-            resolve('no');
-          }
-          //  reject(err);
-        });
-    }); */
   }
 
   public async getEndpoint() {
