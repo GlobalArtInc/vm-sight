@@ -23,13 +23,13 @@
                     <v-text-field
                         dense
                         outlined
-                        :label="__('endpoints.url')"
-                        :placeholder="form.url.placeholder"
-                        v-model="formModel.url"
+                        :label="__('endpoints.host')"
+                        :placeholder="form.host.placeholder"
+                        v-model="formModel.host"
                         required
                         :disabled="form.type === 2"
                         :append-icon="'mdi-name'"
-                        :rules="urlRules"
+                        :rules="hostRules"
                     />
                     <v-text-field
                         dense
@@ -105,7 +105,7 @@ export default {
       v => !!v || 'Field is required',
       v => (v && v.length > 4) || 'Name must be less than 4 characters',
     ],
-    urlRules: [
+    hostRules: [
       v => !!v || "Field is required",
     ],
     // publicUrlRules: [
@@ -113,22 +113,20 @@ export default {
     // ],
     formModel: {
       name: "",
-      url: "",
+      host: "",
       public_url: "",
-      tls: {
-        active: false,
-        ca: null,
-        cert: null,
-        key: null
-      }
+      tls: false,
+      tls_ca: false,
+      tls_cert: false,
+      tls_key: false,
     },
     form: {
       name: {
         label: "Name",
         placeholder: ''
       },
-      url: {
-        label: "URL"
+      host: {
+        label: "Host"
       },
       public_url: {
         placeholder: ""
@@ -163,8 +161,8 @@ export default {
       getEndpoint(id).then(data => {
         this.formModel.name = data.name;
         this.formModel.public_url = data.public_url;
-        this.formModel.url = data.url
-        this.formModel.tls.active = data.tls === 1
+        this.formModel.host = data.host
+        this.formModel.tls = data.tls === 1
 
         this.form.tls = {
           ca: data.tls_ca === 1,
@@ -245,10 +243,10 @@ export default {
           }
         }
       } else if (this.form.type === 2) {
-        try { 
+        try {
           await updateEndpoint(this.id, {
-            name: this.formModel.name, 
-            url: "/var/run/docker.sock",
+            name: this.formModel.name,
+            host: "/var/run/docker.sock",
              public_url: this.formModel.public_url,
              tls: { active: false, ca: false, cert: false, key: false }
           })

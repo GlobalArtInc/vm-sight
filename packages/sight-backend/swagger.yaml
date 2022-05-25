@@ -1,11 +1,11 @@
 basePath: /api
 tags:
-- name: auth
-  description: Auth API
-- name: users
-  description: "User API"
-- name: endpoints
-  description: "Endpoint API"
+  - name: auth
+    description: Auth API
+  - name: users
+    description: "User API"
+  - name: endpoints
+    description: "Endpoint API"
 # components:
 #   securitySchemes:
 #     bearerAuth:
@@ -33,8 +33,8 @@ definitions:
   users:
     type: object
     required:
-        - email
-        - password
+      - email
+      - password
     properties:
       id:
         type: integer
@@ -80,17 +80,17 @@ definitions:
         default: Name
         description: Endpoint name
       tls:
-        type: object
-        properties:
-          ca:
-            type: boolean
-            default: false
-          cert:
-            type: boolean
-            default: false
-          key:
-            type: boolean
-            default: false
+        type: boolean
+        default: false
+      tls_ca:
+        type: boolean
+        default: false
+      tls_cert:
+        type: boolean
+        default: false
+      tls_key:
+        type: boolean
+        default: false
       type:
         type: number
         default: 1
@@ -100,5 +100,5 @@ definitions:
         default: Host
         description: Endpoint host
 schemes:
- - https
- - http
+  - https
+  - http

@@ -13,7 +13,6 @@ class EndpointsService {
       if (item.type === 1 || item.type === 2) {
         const docker = new DockerService();
         await docker.connect(item.id);
-        console.log(await docker.getEndpoint());
         arr.push(await docker.getEndpoint());
       }
     }
@@ -22,35 +21,23 @@ class EndpointsService {
 
   public async getOne(id: string) {
     const docker = new DockerService();
-    await docker.connect((await EndpointsModel.findOne({ where: { id } })).id);
+    const endpoint = await EndpointsModel.findOne({ where: { id } });
+    if (!endpoint) throw new NotFoundException('The endpoint was not found');
+    await docker.connect(endpoint.id);
     return docker.getEndpoint();
   }
 
-  public async checkConnect(endpointData) {
-    if (endpointData.tempId === 'socket') {
-      await this.dockerService.checkConnect('socket', '/var/run/docker.sock', endpointData?.data?.tls ?? endpointData.tls);
-    } else {
-      await this.dockerService.checkConnect(
-        endpointData.tempId,
-        endpointData?.data?.url ?? endpointData.url,
-        endpointData?.data?.tls ?? endpointData.tls,
-      );
+  public async create(endpointData: CreateEndpointsDto) {
+    if (endpointData.type === 1 || endpointData.type === 2) {
+      await this.dockerService.checkConnect(endpointData, true);
+      await new EndpointsModel({ ...endpointData }).save();
     }
     return true;
-  }
-
-  public async create(endpointData: CreateEndpointsDto) {
-    await this.dockerService.checkConnect(endpointData, true);
-
-    if (endpointData.type === 2) {
-      endpointData.host = '/var/run/docker.sock';
-    }
-
     //await new EndpointsModel(endpointData).save();
   }
 
   public async update(id: string, endpointData: UpdateEndpointDto) {
-    await this.dockerService.checkConnect(id, endpointData.url, endpointData.tls);
+    await this.dockerService.checkConnect(endpointData);
     const endpoint = await EndpointsModel.findOne({ where: { id } });
     await endpoint.update(endpointData);
     return true;

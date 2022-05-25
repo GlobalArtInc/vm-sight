@@ -38,7 +38,7 @@ export function createEndpoint(data, tempId) {
         url: '/endpoints',
 
         method: 'POST',
-        data: {data, tempId}
+        data: {tempId, ...data}
     })
 }
 

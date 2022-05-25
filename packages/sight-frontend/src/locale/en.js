@@ -20,6 +20,7 @@ export default {
     types: {
         agent: "Agent",
         docker: "Docker",
+        docker_socket: "Docket via Socket",
         kubernetos: "Kubernetos"
     },
     containers: {
@@ -38,7 +39,7 @@ export default {
     name: "Name",
     endpoints: {
         edit: "Edit Endpoint",
-        url: "Endpoint URL",
+        host: "Endpoint Host",
         public_url: "Public URL",
         logs: "Logs",
         inspect: "Inspect",

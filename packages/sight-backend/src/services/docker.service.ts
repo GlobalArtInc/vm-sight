@@ -15,31 +15,27 @@ export class DockerService {
   /**
    * Connect to the docker server or via docker socket
    * @param data
+   * @param onCreate
    */
-  public checkConnect(data, onCreate = false) {
-    const settings: Docker.Settings =
-      data.type === 2
-        ? { socketPath: '/var/run/docker.sock' }
-        : {
-            host: data.host.split(':')[0],
-            port: data.host.split(':')[1],
-          };
-    settings.ca = data.ca ?? '';
-    settings.cert = data.cert ?? '';
-    settings.key = data.key ?? '';
-    return new Promise((resolve, reject) => {
-      if (data.type === 1 && settings.host && !settings.port) reject();
-      const docker = new Docker(settings);
-      docker
-        .version()
-        .then(response => {
-          resolve({ response, docker });
-        })
-        .catch(err => {
-          if (onCreate === true) reject(err);
-          resolve('no_connection');
-        });
-    });
+  public async checkConnect(data, onCreate = false) {
+    try {
+      const settings: Docker.Settings =
+        data.type === 2
+          ? { socketPath: '/var/run/docker.sock' }
+          : {
+              host: data?.host?.split(':')[0] ?? '',
+              port: data?.host?.split(':')[1] ?? '',
+            };
+      settings.ca = data.ca ?? '';
+      settings.cert = data.cert ?? '';
+      settings.key = data.key ?? '';
+      const docker = new Docker(settings),
+        version = await docker.version();
+      return Promise.resolve({ version, docker });
+    } catch (err) {
+      if (onCreate === true) return Promise.reject(err);
+      else return Promise.resolve('no_connection');
+    }
     throw new HttpException(400, 'under development');
     /*  const settings: any = host.match('/var/run/docker.sock')
       ? { socketPath: '/var/run/docker.sock' }
@@ -81,7 +77,7 @@ export class DockerService {
     const endpoint = this.service.endpoint;
 
     let snapshot = {};
-    if (this.service.docker !== 'no') {
+    if (this.service.docker) {
       const info = await this.service.docker.info();
 
       snapshot = this.constructSnapshot({
@@ -106,9 +102,13 @@ export class DockerService {
       name: endpoint.name,
       type: endpoint.type,
       groupId: endpoint.groupId,
-      status: this.service.docker === 'no' ? 0 : 1,
+      status: this.service.docker ? 1 : 0,
       public_url: endpoint.public_url,
-      url: endpoint.url,
+      host: endpoint.host,
+      tls: endpoint.tls,
+      tls_ca: endpoint.tls_ca,
+      tls_cert: endpoint.tls_cert,
+      tls_key: endpoint.tls_key,
       snapshot,
     };
   }
@@ -136,25 +136,12 @@ export class DockerService {
     const endpoint = await EndpointsModel.findOne({
       where: { id: endpointId },
     });
-    if (!endpoint) throw new NotFoundException('The endpoint was not found');
-    /* const connect: any = await this.checkConnect(
-      endpointId,
-      endpoint.url,
-      {
-        active: endpoint.tls,
-        ca: endpoint.tls_ca,
-        cert: endpoint.tls_cert,
-        key: endpoint.tls_key,
-      },
-      true,
-    );
-    if (connect === 'no') {
-      this.service = { endpoint, docker: 'no' };
-      return false;
-    } else {
+    try {
+      const connect: any = await this.checkConnect(endpoint);
       this.service = { endpoint, docker: connect.docker };
-      return true;
-    } */
+    } catch (err) {
+      this.service = { endpoint, docker: false };
+    }
   }
 
   public async getContainers(endpointId: string) {

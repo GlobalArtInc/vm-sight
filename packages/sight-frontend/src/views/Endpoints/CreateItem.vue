@@ -11,9 +11,11 @@
                 Environment Type
                 <v-divider/>
               </p>
+              {{ formModel }}
               <v-radio-group v-model="formModel.type">
                 <v-radio disabled :ripple="false" :value="10" :label="this.__('types.agent')"></v-radio>
-                <v-radio :ripple="false" :value="1" :label="this.__('types.docker')"></v-radio>
+                <v-radio :ripple="false" :value="1" v-if="formModel.type === 1" :label="this.__('types.docker')"></v-radio>
+                <v-radio :ripple="false" :value="2" v-else-if="formModel.type === 2" :label="this.__('types.docker_socket')"></v-radio>
                 <v-radio disabled :ripple="false" :value="4" :label="this.__('types.kubernetos')"></v-radio>
               </v-radio-group>
               <div>
@@ -51,7 +53,7 @@
                         :rules="nameRules"
                         required
                     />
-                    <v-switch style="margin: 0" v-model="form.docker.type" value="socket"
+                    <v-switch style="margin: 0" v-model="formModel.type" :true-value="2" :false-value="1"
                               label="Connect via socket "></v-switch>
                     <template v-if="formModel.type === 1 || formModel.type === 2">
                       <template v-if="formModel.type === 1">
@@ -59,28 +61,28 @@
                             dense
                             outlined
                             v-if="!form.docker.type"
-                            :label="__('endpoints.url')"
-                            :placeholder="form.url.placeholder"
-                            v-model="formModel.url"
-                            :rules="urlRules"
+                            :label="__('endpoints.host')"
+                            :placeholder="form.host.placeholder"
+                            v-model="formModel.host"
+                            :rules="hostRules"
                             required
                         />
-                        <v-switch label="TLS" v-model="formModel.tls.active"/>
-                        <template v-if="formModel.tls.active">
+                        <v-switch label="TLS" v-model="formModel.tls"/>
+                        <template v-if="formModel.tls">
                           <v-file-input
                               dense
-                              :prepend-icon="form.tls.ca === true ? 'fa-check':'fa-times'"
-                              v-model="formModel.tls.ca" label="TLS CA certificate" style="width: 25%" outlined
+                              :prepend-icon="form.tls_ca === true ? 'fa-check':'fa-times'"
+                              v-model="formModel.tls_ca" label="TLS CA certificate" style="width: 25%" outlined
                               chips class="col-3"/>
                           <v-file-input
                               dense
-                              :prepend-icon="form.tls.cert === true ? 'fa-check':'fa-times'"
-                              v-model="formModel.tls.cert" label="TLS certificate" style="width: 25%" outlined
+                              :prepend-icon="form.tls_cert === true ? 'fa-check':'fa-times'"
+                              v-model="formModel.tls_cert" label="TLS certificate" style="width: 25%" outlined
                               chips class="col-3"/>
                           <v-file-input
                               dense
-                              :prepend-icon="form.tls.key === true ? 'fa-check':'fa-times'"
-                              v-model="formModel.tls.key" label="TLS Key" style="width: 25%" outlined chips
+                              :prepend-icon="form.tls_key === true ? 'fa-check':'fa-times'"
+                              v-model="formModel.tls_key" label="TLS Key" style="width: 25%" outlined chips
                               class="col-3"/>
                         </template>
 
@@ -125,36 +127,33 @@ export default {
       v => !!v || "Field is required",
       v => (v && v.length > 4) || 'Name must be less than 4 characters',
     ],
-    urlRules: [
+    hostRules: [
       v => !!v || "Field is required",
     ],
     formModel: {
       type: 1,
       name: "",
-      url: "",
-      tls: {
-        active: false,
-        ca: null,
-        cert: null,
-        key: null
-      }
+      host: "",
+      tls: false,
+      tls_ca: false,
+      tls_cert: false,
+      tls_key: false,
     },
     form: {
       docker: {
         type: ''
       },
-      tls: {
-        ca: false,
-        cert: false,
-        key: false
-      },
+      tls: false,
+      tls_ca: false,
+      tls_cert: false,
+      tls_key: false,
       type: {
         placeholder: ""
       },
       name: {
         placeholder: ""
       },
-      url: {
+      host: {
         placeholder: ""
       }
     }
@@ -184,21 +183,21 @@ export default {
            }, 500)
          }
         } else if (this.formModel.type === 1) {
-          if (this.formModel.tls.active === true) {
+          if (this.formModel.tls === true) {
             try {
-              if (this.formModel.tls.ca) {
+              if (this.formModel.tls_ca) {
                 let formData = new FormData();
-                formData.append('file', this.formModel.tls.ca);
+                formData.append('file', this.formModel.tls_ca);
                 await uploadCA(tempId, formData)
               }
-              if (this.formModel.tls.cert) {
+              if (this.formModel.tls_cert) {
                 let formData = new FormData();
-                formData.append('file', this.formModel.tls.cert);
+                formData.append('file', this.formModel.tls_cert);
                 await uploadCert(tempId, formData)
               }
-              if (this.formModel.tls.key) {
+              if (this.formModel.tls_key) {
                 let formData = new FormData();
-                formData.append('file', this.formModel.tls.key);
+                formData.append('file', this.formModel.tls_key);
                 await uploadKey(tempId, formData)
               }
             } catch (err) {
@@ -208,7 +207,6 @@ export default {
               });
             }
           }
-
           try {
             await createEndpoint(this.formModel, tempId)
             await this.$router.push('/endpoints')

@@ -1,9 +1,8 @@
-import { IsBoolean, IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
 
 export enum EndpointTypes {
-  SUCCESS = 0,
-  ERROR = 1,
-  RUNNING = 2,
+  DOCKER = 1,
+  DOCKER_SOCKET = 2,
 }
 
 export class EndpointsTlsDto {
@@ -31,15 +30,24 @@ export class CreateEndpointsDto {
   @IsString()
   public name: string;
 
-  @IsObject()
+  @IsBoolean()
   @IsOptional()
-  tls: EndpointsTlsDto;
+  public tls: number;
+  @IsBoolean()
+  @IsOptional()
+  public tls_ca: number;
+  @IsBoolean()
+  @IsOptional()
+  public tls_cert: number;
+  @IsBoolean()
+  @IsOptional()
+  public tls_key: number;
 
   @IsEnum(EndpointTypes)
   public type: 1 | 2 | 3 | 4;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   public host: string;
 }
 
@@ -51,10 +59,19 @@ export class UpdateEndpointDto {
   @IsOptional()
   public public_url: string;
 
-  @IsObject()
+  @IsBoolean()
   @IsOptional()
-  public tls: EndpointsTlsDto;
+  public tls: number;
+  @IsBoolean()
+  @IsOptional()
+  public tls_ca: number;
+  @IsBoolean()
+  @IsOptional()
+  public tls_cert: number;
+  @IsBoolean()
+  @IsOptional()
+  public tls_key: number;
 
   @IsString()
-  public url: string;
+  public host: string;
 }

@@ -69,10 +69,13 @@ export default {
   methods: {
     onCreateDocker() {
       createEndpoint({
-        type: 1,
+        type: 2,
         name: "Docker (local)",
-        url: "",
-        tls: { active: false }
+        host: "socket",
+        tls: false,
+        tls_ca: false,
+        tls_cert: false,
+        tls_key: false
       }, 'socket').then(() => {
         return this.$router.push('/home')
       }).catch((err) => {

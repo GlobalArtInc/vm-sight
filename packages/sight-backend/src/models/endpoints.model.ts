@@ -6,12 +6,12 @@ export class EndpointsModel extends Model {
   name: string;
   type: number;
   public_url: string;
-  url: string;
+  host: string;
   groupId: string;
-  tls: boolean;
-  tls_ca: boolean;
-  tls_cert: boolean;
-  tls_key: boolean;
+  tls: number;
+  tls_ca: number;
+  tls_cert: number;
+  tls_key: number;
 
   public static associate() {
     return;
@@ -33,7 +33,7 @@ export class EndpointsModel extends Model {
         public_url: {
           type: DataTypes.STRING,
         },
-        url: {
+        host: {
           type: DataTypes.STRING,
         },
         groupId: {
@@ -61,11 +61,12 @@ export class EndpointsModel extends Model {
         sequelize,
         indexes: [],
         hooks: {
-          beforeCreate: async endpoint => {
-            endpoint.id = generateID();
-            if (endpoint.url === '/var/run/docker.sock') {
-              endpoint.type = 2;
-            }
+          beforeCreate: async record => {
+            record.id = generateID();
+            if (record.tls_ca || record.tls_cert || record.tls_key) record.tls = 1;
+            record.tls_ca = record.tls_ca ? 1 : 0;
+            record.tls_cert = record.tls_cert ? 1 : 0;
+            record.tls_key = record.tls_key ? 1 : 0;
           },
         },
       },
