@@ -2,7 +2,7 @@
   "name": "@vm-sight/sight-backend",
   "version": "1.0.0",
   "type": "commonjs",
-  "description": "example project react with nodejs",
+  "description": "VM-Sight backend",
   "main": "server.js",
   "author": "GlobalArt, Inc",
   "license": "ISC",
@@ -58,7 +58,7 @@
     "tslog": "^3.2.2",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
-    "ws": "^7.4.4"
+    "ws": "^8.6.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -73,6 +73,7 @@
     "@types/sequelize": "^4.28.13",
     "@types/swagger-jsdoc": "^6.0.0",
     "@types/swagger-ui-express": "^4.1.2",
+    "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.22.0",
     "cross-env": "^7.0.3",

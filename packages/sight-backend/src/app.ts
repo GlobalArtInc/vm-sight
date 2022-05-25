@@ -96,9 +96,9 @@ class App {
     });
   }
 
-  // public getServer() {
-  //     return this.app
-  // }
+  public getServer() {
+    return this.app;
+  }
 
   private initializeMiddlewares() {
     // if (this.env === "production") {
