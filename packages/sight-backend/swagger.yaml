@@ -6,6 +6,8 @@ tags:
     description: "User API"
   - name: endpoints
     description: "Endpoint API"
+  - name: docker
+    description: "Docker API"
 # components:
 #   securitySchemes:
 #     bearerAuth:

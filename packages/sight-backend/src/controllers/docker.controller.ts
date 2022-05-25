@@ -3,16 +3,89 @@ import DockerService from '@services/docker.service';
 class DockerController {
   public dockerService = new DockerService();
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/containers:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Get a docker containers by endpointId
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getContainers = async (req, res) => {
     const { endpointId } = req.params;
     return res.status(200).json(await this.dockerService.getContainers(endpointId));
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/containers/{containerId}:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Get a docker container by ID
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: containerId
+   *          in: path
+   *          description: Container ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getContainerById = async (req, res) => {
     const { endpointId, containerId } = req.params;
     return res.status(200).json(await this.dockerService.getContainer(endpointId, containerId));
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/containers/{containerId}/logs:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Get a docker container logs by ID
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: containerId
+   *          in: path
+   *          description: Container ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getContainerLogs = async (req, res) => {
     const { endpointId, containerId } = req.params;
     res.set('Content-Type', 'text/plain');
