@@ -7,7 +7,7 @@ npm install lerna nodemon nvm ts-node --global
 lerna bootstrap --npm-client=yarn
 ```
 
-Run tests:
+Run tests: (Not implement yet)
 
 ```
 yarn run test
