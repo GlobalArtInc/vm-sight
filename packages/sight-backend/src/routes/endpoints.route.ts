@@ -4,13 +4,13 @@ import { wrapRouteHandler } from '@utils/util';
 import EndpointsController from '@controllers/endpoints.controller';
 import { authMiddleware, validationMiddleware } from '@middlewares';
 import { CreateEndpointsDto, UpdateEndpointDto } from '@dtos/endpoints.dto';
-import DockerController from '@controllers/docker.controller';
+import DockerRoute from '@routes/docker.route';
 
 class EndpointsRoute implements Route {
   public path = '/endpoints';
   public router = Router();
   public endpointsController = new EndpointsController();
-  public dockerController = new DockerController();
+  public dockerRoute = new DockerRoute();
 
   constructor() {
     this.initializeRoutes();
@@ -29,29 +29,7 @@ class EndpointsRoute implements Route {
     this.router.delete('/:id', authMiddleware, wrapRouteHandler(this.endpointsController.remove));
 
     // DOCKER
-    this.router.get('/:endpointId/docker/containers', authMiddleware, wrapRouteHandler(this.dockerController.getContainers));
-    this.router.get('/:endpointId/docker/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.getContainerById));
-    this.router.get('/:endpointId/docker/containers/:containerId/logs', authMiddleware, wrapRouteHandler(this.dockerController.getContainerLogs));
-    this.router.post('/:endpointId/docker/containers/:containerId/update', authMiddleware, wrapRouteHandler(this.dockerController.updateContainer));
-
-    this.router.post('/:endpointId/docker/containers/:containerId/start', authMiddleware, wrapRouteHandler(this.dockerController.startContainer));
-    this.router.post('/:endpointId/docker/containers/:containerId/stop', authMiddleware, wrapRouteHandler(this.dockerController.stopContainer));
-    this.router.post('/:endpointId/docker/containers/:containerId/kill', authMiddleware, wrapRouteHandler(this.dockerController.killContainer));
-    this.router.post('/:endpointId/docker/containers/:containerId/restart', authMiddleware, wrapRouteHandler(this.dockerController.restartContainer));
-    this.router.post('/:endpointId/docker/containers/:containerId/pause', authMiddleware, wrapRouteHandler(this.dockerController.pauseContainer));
-    this.router.post('/:endpointId/docker/containers/:containerId/resume', authMiddleware, wrapRouteHandler(this.dockerController.resumeContainer));
-    this.router.delete('/:endpointId/docker/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.removeContainer));
-
-    this.router.get('/:endpointId/docker/networks', authMiddleware, wrapRouteHandler(this.dockerController.getNetworks));
-    this.router.get('/:endpointId/docker/networks/:networkId', authMiddleware, wrapRouteHandler(this.dockerController.getNetworkById));
-    this.router.delete('/:endpointId/docker/networks/:networkId', authMiddleware, wrapRouteHandler(this.dockerController.deleteNetworkById));
-    this.router.post('/:endpointId/docker/networks/:networkId/connect', authMiddleware, wrapRouteHandler(this.dockerController.connectNetwork));
-    this.router.post('/:endpointId/docker/networks/:networkId/disconnect', authMiddleware, wrapRouteHandler(this.dockerController.disconnectNetwork));
-
-    this.router.get('/:endpointId/docker/images', authMiddleware, wrapRouteHandler(this.dockerController.getImages));
-    this.router.get('/:endpointId/docker/images/:imageId', authMiddleware, wrapRouteHandler(this.dockerController.getImageById));
-    this.router.get('/:endpointId/docker/images/:imageId/history', authMiddleware, wrapRouteHandler(this.dockerController.getImageHistoryById));
-    this.router.delete('/:endpointId/docker/images/:imageId', authMiddleware, wrapRouteHandler(this.dockerController.removeImageById));
+    this.router.use('/:endpointId/docker', this.dockerRoute.router);
     // DOCKER
   }
 }
