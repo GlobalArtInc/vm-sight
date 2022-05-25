@@ -42,3 +42,7 @@ export function getSetting(data, name, defaultValue: any = false) {
   }
   return false;
 }
+
+export function isWindows() {
+  return process.platform === 'win32';
+}

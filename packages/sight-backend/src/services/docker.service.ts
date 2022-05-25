@@ -1,13 +1,7 @@
 import Docker from 'dockerode';
 import { EndpointsModel } from '@models';
-import { BadRequestException, HttpException, NotFoundException } from '@exceptions';
-
-interface tls {
-  active?: boolean;
-  ca: boolean;
-  cert: boolean;
-  key: boolean;
-}
+import { BadRequestException } from '@exceptions';
+import { isWindows } from '@utils/util';
 
 export class DockerService {
   public service: { endpoint: any; docker: Docker | string };
@@ -21,7 +15,7 @@ export class DockerService {
     try {
       const settings: Docker.Settings =
         data.type === 2
-          ? { socketPath: '/var/run/docker.sock' }
+          ? { socketPath: isWindows() ? '//./pipe/docker_engine' : '/var/run/docker.sock' }
           : {
               host: data?.host?.split(':')[0] ?? '',
               port: data?.host?.split(':')[1] ?? '',
@@ -69,7 +63,7 @@ export class DockerService {
       groupId: endpoint.groupId,
       status: this.service.docker ? 1 : 0,
       public_url: endpoint.public_url,
-      host: endpoint.host,
+      host: endpoint.type === 2 ? (isWindows() ? '//./pipe/docker_engine' : '/var/run/docker.sock') : endpoint.host,
       tls: endpoint.tls,
       tls_ca: endpoint.tls_ca,
       tls_cert: endpoint.tls_cert,

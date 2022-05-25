@@ -246,7 +246,7 @@ export default {
         try {
           await updateEndpoint(this.id, {
             name: this.formModel.name,
-            host: "/var/run/docker.sock",
+            host: "socket",
              public_url: this.formModel.public_url,
              tls: { active: false, ca: false, cert: false, key: false }
           })
