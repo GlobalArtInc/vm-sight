@@ -26,6 +26,7 @@ export default {
         docker_socket: 'Docker (через сокет)',
         kubernetos: 'Kubernetos'
     },
+    docker: { swarm_warn: 'VM-SIGHT is connected to a node that is part of a Swarm cluster. Some resources located on other nodes in the cluster might not be available for management.' },
     containers: {
         started: 'Контейнер запущен',
         stopped: 'Контейнер остановлен',
@@ -76,6 +77,7 @@ export default {
     menu: {
         home: 'Главная',
         dashboard: 'Панель',
+        endpoint: 'Endpoint',
         endpoints: 'Сервера',
         settings: 'Настройки',
         settings_auth: 'Аутентификация',
