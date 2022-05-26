@@ -8,7 +8,7 @@ export default {
     password: 'Пароль',
     login_account: 'Вход в учетную запись',
     // labels
-    labels: { language: 'Language' },
+    labels: { language: 'Язык' },
     //
     create: 'Создать',
     update: 'Обновить',
@@ -46,7 +46,7 @@ export default {
         inspect: 'Изучить',
         stats: 'Статистика',
         console: 'Консоль',
-        attach: 'Attach'
+        attach: 'Подключиться к контейнеру'
     },
     user: {
         username: 'Имя пользователя',
@@ -86,7 +86,7 @@ export default {
         endpointsEdit: 'Редактировать сервер',
         endpointsCreate: 'Новый сервер',
         list: 'Список',
-        registries: 'Registries',
+        registries: 'Репозитории',
         logs: 'Логи',
         exec: 'Консоль',
         attach: 'Подключиться',
