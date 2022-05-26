@@ -76,7 +76,7 @@ export default {
     menu: {
         home: 'Главная',
         dashboard: 'Панель',
-        endpoints: 'Серверы',
+        endpoints: 'Сервера',
         settings: 'Настройки',
         settings_auth: 'Аутентификация',
         docker: 'Docker',
