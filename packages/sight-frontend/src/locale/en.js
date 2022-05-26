@@ -1,4 +1,4 @@
-import en from 'vuetify/es5/locale/en'
+// import en from 'vuetify/es5/locale/en'
 
 export default {
     label: 'English',
@@ -109,5 +109,5 @@ export default {
 
     //error
 
-    ...en
+    //...en
 }

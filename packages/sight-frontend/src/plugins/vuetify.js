@@ -2,13 +2,14 @@ import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
 import colors from 'vuetify/lib/util/colors'
 import en from '@/locale/en.js'
+import ru from '@/locale/en.js'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
     lang: {
-        locales: { en },
+        locales: { en, ru },
         current: 'en'
     },
     icons: {
