@@ -3,6 +3,7 @@ export default {
     label: 'English',
     //page login
     login: 'Login',
+    logout: 'Logout',
     register: 'Register',
     username: 'Username',
     password: 'Password',
@@ -18,6 +19,7 @@ export default {
     //app drawer
     sponsor: 'Sponsor',
     information: 'Information',
+    info: 'Info',
     types: {
         agent: 'Agent',
         docker: 'Docker',
@@ -76,7 +78,7 @@ export default {
         dashboard: 'Dashboard',
         endpoints: 'Endpoints',
         settings: 'Settings',
-        settings_auth: 'Authentication settings',
+        settings_auth: 'Authentication',
         docker: 'Docker',
         containers: 'Containers',
         edit: 'Edit',
