@@ -20,11 +20,11 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">mdi-view-dashboard</v-icon>
               </template>
-              <span>Home</span>
+              <span>{{ __("menu.home") }}</span>
             </v-tooltip>
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
-            <v-list-item-title>Home</v-list-item-title>
+            <v-list-item-title>{{ __("menu.home") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -35,7 +35,7 @@
               <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-icon>
             <v-list-item-content v-if="drawerWidth !== 64">
-              <v-list-item-title>Dashboard</v-list-item-title>
+              <v-list-item-title>{{ __("menu.dashboard") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item :to="`/${currentEndpoint.id}/docker/containers`">
@@ -43,7 +43,7 @@
               <v-icon>fa-cubes</v-icon>
             </v-list-item-icon>
             <v-list-item-content v-if="drawerWidth !== 64">
-              <v-list-item-title>Containers</v-list-item-title>
+              <v-list-item-title>{{ __("menu.containers") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item :to="`/${currentEndpoint.id}/docker/images`">
@@ -51,7 +51,7 @@
               <v-icon>mdi-content-copy</v-icon>
             </v-list-item-icon>
             <v-list-item-content v-if="drawerWidth !== 64">
-              <v-list-item-title>Images</v-list-item-title>
+              <v-list-item-title>{{ __("menu.images") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item :to="`/${currentEndpoint.id}/docker/networks`">
@@ -59,7 +59,7 @@
               <v-icon>mdi-sitemap</v-icon>
             </v-list-item-icon>
             <v-list-item-content v-if="drawerWidth !== 64">
-              <v-list-item-title>Networks</v-list-item-title>
+              <v-list-item-title>{{ __("menu.networks") }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -71,11 +71,11 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">mdi-account-group</v-icon>
               </template>
-              <span>Users</span>
+              <span>{{ __("menu.users") }}</span>
             </v-tooltip>
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
-            <v-list-item-title>Users</v-list-item-title>
+            <v-list-item-title>{{ __("menu.users") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item to="/endpoints" v-if="user.role === 1">
@@ -84,11 +84,11 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">fa-server</v-icon>
               </template>
-              <span>Endpoints</span>
+              <span>{{ __("menu.endpoints") }}</span>
             </v-tooltip>
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
-            <v-list-item-title>Endpoints</v-list-item-title>
+            <v-list-item-title>{{ __("menu.endpoints") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -98,11 +98,11 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">fa-database</v-icon>
               </template>
-              <span>Registries</span>
+              <span>{{ __("menu.registries") }}</span>
             </v-tooltip>
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
-            <v-list-item-title>Registries</v-list-item-title>
+            <v-list-item-title>{{ __("menu.registries") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -112,11 +112,11 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">mdi-cog</v-icon>
               </template>
-              <span>Settings</span>
+              <span>{{ __("menu.settings") }}</span>
             </v-tooltip>
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
-            <v-list-item-title>Settings</v-list-item-title>
+            <v-list-item-title>{{ __("menu.settings") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -126,11 +126,11 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on">mdi-login</v-icon>
               </template>
-              <span>Authentication</span>
+              <span>{{ __("menu.settings_auth") }}</span>
             </v-tooltip>
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
-            <v-list-item-title>Authentication</v-list-item-title>
+            <v-list-item-title>{{ __("menu.settings_auth") }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

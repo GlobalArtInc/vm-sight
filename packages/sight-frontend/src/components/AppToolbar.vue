@@ -9,51 +9,6 @@
           <img src="https://www.gravatar.com/avatar/asddw" alt="" />
         </v-avatar>
       </v-btn>
-      <!--
-      <v-menu offset-y origin="center center" transition="scale-transition">
-        <template v-slot:activator="{ on }">
-          <v-btn icon large text slot="activator" v-on="on">
-            <v-avatar size="30px">
-              <img :src="`/flags/${user.locale}.png`" alt=""/>
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-list class="pa-0">
-          <v-list-item
-            rel="noopener">
-            <v-list-item-content>
-              <v-list-item-title>English</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <v-menu offset-y origin="center center" transition="scale-transition">
-        <template v-slot:activator="{ on }">
-          <v-btn icon large text slot="activator" v-on="on">
-            <v-avatar size="30px">
-              <img src="https://www.gravatar.com/avatar/asddw" alt=""/>
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-list class="pa-0">
-          <v-list-item
-              v-for="(item, index) in profileMenus"
-              :to="!item.href ? { name: item.name } : null"
-              :href="item.href"
-              @click="item.click"
-              :disabled="item.disabled"
-              :target="item.target"
-              rel="noopener"
-              :key="index">
-            <v-list-item-action v-if="item.icon">
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>-->
     </v-toolbar-items>
     <v-toolbar elevation="0" dense slot="extension" color="white" light>
       <v-icon>mdi-home</v-icon>
@@ -70,15 +25,7 @@ export default {
   name: "AppToolbar",
   data() {
     return {
-      drawer: false,
-      profileMenus: [
-        {
-          icon: "mdi-power",
-          href: "#",
-          title: "Logout",
-          click: this.handleLogut
-        }
-      ]
+      drawer: false
     };
   },
   computed: {

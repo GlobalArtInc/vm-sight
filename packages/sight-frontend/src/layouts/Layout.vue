@@ -95,7 +95,7 @@ export default {
 
   data() {
     return {
-      drawer: true,
+      drawer: false,
       showDrawer: true,
       language: {
         title: this.__("labels.language"),
@@ -110,7 +110,7 @@ export default {
         {
           icon: "mdi-power",
           href: "#",
-          title: "Logout",
+          title: this.__("logout"),
           click: this.handleLogout
         }
       ]

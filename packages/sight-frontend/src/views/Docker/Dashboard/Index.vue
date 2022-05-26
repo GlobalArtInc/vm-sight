@@ -17,7 +17,7 @@
       <v-card>
         <v-card-subtitle style="background: #f6f6f6">
           <i class="fa fa-tachometer-alt"></i>
-          <span class="font-weight-medium pl-1" style="color: #333">Info</span>
+          <span class="font-weight-medium pl-1" style="color: #333">{{ __("info") }}</span>
         </v-card-subtitle>
         <v-divider/>
         <v-card-text style="padding: 0">
