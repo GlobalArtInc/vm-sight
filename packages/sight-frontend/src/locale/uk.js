@@ -7,6 +7,8 @@ export default {
     username: 'Username',
     password: 'Password',
     login_account: 'Login account',
+    // labels
+    labels: { language: 'Language' },
     //
     create: 'Create',
     update: 'Update',
