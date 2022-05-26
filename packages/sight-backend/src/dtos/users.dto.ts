@@ -21,8 +21,8 @@ export class AuthUserDto {
 }
 
 export class ChangeUserLanguageDto {
-  @IsEnum(UserLanguages)
-  @IsNotEmpty()
+  @IsEnum(UserLanguages, { message: 'Wrong language' })
+  @IsNotEmpty({ message: 'Language is not specified' })
   public language: string;
 }
 

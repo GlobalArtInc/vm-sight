@@ -2,15 +2,6 @@
   <v-app dark>
     <router-view></router-view>
     <!-- setting drawer -->
-    <v-navigation-drawer
-        class="setting-drawer"
-        temporary
-        right
-        v-model="rightDrawer"
-        hide-overlay
-        fixed
-    >
-    </v-navigation-drawer>
     <!-- global snackbar -->
     <v-snackbar
         :timeout="3000"
@@ -42,6 +33,7 @@ export default {
   },
   name: 'App',
   data: () => ({
+    drawer: false,
     rightDrawer: false,
     snackbar: {
       show: false,
@@ -52,10 +44,15 @@ export default {
   computed: {
     ...mapGetters(['loaded'])
   },
-  created() {
-    this.$store.dispatch('app/getPublicSettings')
+  async created() {
+    await this.$store.dispatch('app/getPublicSettings')
     if (getToken()) {
-      this.$store.dispatch('user/getInfo')
+      try {
+        const user = await this.$store.dispatch('user/getInfo');
+        this.$vuetify.lang.current = user.locale ?? "en";
+      } catch (err) {
+        this.$vuetify.lang.current = "en";
+      }
     }
     this.$on('SHOW_SNACKBAR', (e) => {
       this.snackbar = {

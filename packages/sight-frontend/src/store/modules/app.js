@@ -4,10 +4,14 @@ import {fetchPublicSettings} from "../../api/settings";
 const state = {
     loaded: false,
     endpoint: false,
+    sidebar: false,
     settings: {}
 }
 
 const mutations = {
+    SET_SIDEBAR: (state, data) => {
+      state.sidebar = data;
+    },
     SET_LOADED: (state, data) => {
         state.loaded = data
     },
@@ -20,6 +24,11 @@ const mutations = {
 }
 
 const actions = {
+    sidebar({commit}) {
+        console.log(1)
+        commit('SET_SIDEBAR', false)
+        commit('SET_SIDEBAR', true)
+    },
     setLoaded({commit}) {
         commit('SET_LOADED', true)
     },

@@ -1,4 +1,4 @@
-import router from "./router"
+import router from "./router";
 
 // eslint-disable-next-line no-unused-vars
 const {getToken} = require('@/utils/auth')

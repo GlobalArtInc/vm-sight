@@ -12,6 +12,12 @@ export function motd() {
     })
 }
 
+export function changeLanguage(language) {
+    return request.put('/language', {
+        language
+    })
+}
+
 export function dockerHubUpdate(data){
     return request({
         url: '/dockerhub',
