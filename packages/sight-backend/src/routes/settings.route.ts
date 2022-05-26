@@ -13,6 +13,7 @@ class SettingsRoute implements Route {
   }
 
   private initializeRoutes() {
+    this.router.get('/', wrapRouteHandler(this.settingsController.main));
     this.router.get('/public', wrapRouteHandler(this.settingsController.public));
   }
 }

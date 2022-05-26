@@ -10,8 +10,8 @@ export interface IUser {
   id: string;
   username: string;
   role: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IRequest extends Request {

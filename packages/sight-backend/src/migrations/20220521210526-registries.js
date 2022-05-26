@@ -6,33 +6,33 @@ module.exports = {
       id: {
         primaryKey: true,
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       user_id: {
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       type: {
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       name: {
         type: DataTypes.STRING,
-        notNull: true
+        notNull: true,
       },
       url: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       login: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       createdAt: {
-        type: DataTypes.INTEGER,
-        notNull: true
-      }
+        type: Sequelize.DATE,
+        notNull: true,
+      },
     });
     await queryInterface.bulkInsert('registries', [
       {
@@ -40,12 +40,12 @@ module.exports = {
         user_id: 0,
         type: 'dockerhub',
         name: 'DockerHub',
-        createdAt: Sequelize.fn('strftime', '%s', 'now')
-      }
+        createdAt: new Date(),
+      },
     ]);
   },
 
   async down(queryInterface) {
     await queryInterface.dropTable('registries');
-  }
+  },
 };

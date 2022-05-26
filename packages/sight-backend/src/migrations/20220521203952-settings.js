@@ -5,12 +5,12 @@ module.exports = {
     await queryInterface.createTable('settings', {
       key: {
         primaryKey: true,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       value: {
         type: DataTypes.STRING,
-        notNull: true
-      }
+        notNull: true,
+      },
     });
     await queryInterface.bulkInsert('settings', [
       { key: 'LogoURL', value: '' },
@@ -23,11 +23,11 @@ module.exports = {
       { key: 'OAuthUserIdentifier', value: '' },
       { key: 'OAuthScopes', value: '' },
       { key: 'SnapshotInterval', value: '5m' },
-      { key: 'UserSessionTimeout', value: '8h' }
+      { key: 'UserSessionTimeout', value: '8h' },
     ]);
   },
 
   async down(queryInterface) {
     queryInterface.dropTable('settings');
-  }
+  },
 };
