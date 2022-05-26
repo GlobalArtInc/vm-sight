@@ -138,42 +138,6 @@ class DockerController {
     return res.status(200).json({ status: 200 });
   };
 
-  public startContainer = async (req, res) => {
-    const { endpointId, containerId } = req.params;
-    await this.dockerService.containerAction('start', endpointId, containerId);
-    return res.status(200).json({ status: 200 });
-  };
-
-  public stopContainer = async (req, res) => {
-    const { endpointId, containerId } = req.params;
-    await this.dockerService.containerAction('stop', endpointId, containerId);
-    return res.status(200).json({ status: 200 });
-  };
-
-  public killContainer = async (req, res) => {
-    const { endpointId, containerId } = req.params;
-    await this.dockerService.containerAction('kill', endpointId, containerId);
-    return res.status(200).json({ status: 200 });
-  };
-
-  public restartContainer = async (req, res) => {
-    const { endpointId, containerId } = req.params;
-    await this.dockerService.containerAction('restart', endpointId, containerId);
-    return res.status(200).json({ status: 200 });
-  };
-
-  public pauseContainer = async (req, res) => {
-    const { endpointId, containerId } = req.params;
-    await this.dockerService.containerAction('pause', endpointId, containerId);
-    return res.status(200).json({ status: 200 });
-  };
-
-  public resumeContainer = async (req, res) => {
-    const { endpointId, containerId } = req.params;
-    await this.dockerService.containerAction('resume', endpointId, containerId);
-    return res.status(200).json({ status: 200 });
-  };
-
   public removeContainer = async (req, res) => {
     const { endpointId, containerId } = req.params;
     await this.dockerService.containerAction('remove', endpointId, containerId);

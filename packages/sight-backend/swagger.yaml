@@ -20,18 +20,6 @@ tags:
 
 # definitions
 definitions:
-  AuthUserDto:
-    type: object
-    required:
-      - Username
-      - Password
-    properties:
-      Username:
-        type: string
-        description: user login
-      Password:
-        type: string
-        description: user Password
   users:
     type: object
     required:
@@ -47,81 +35,6 @@ definitions:
       password:
         type: string
         description: user Password
-  createUserDto:
-    type: object
-    properties:
-      username:
-        type: string
-        description: User name
-      password:
-        type: string
-        description: User password
-      role:
-        type: integer
-        description: User role
-  updateUserDto:
-    type: object
-    properties:
-      username:
-        type: string
-        description: User name
-      password:
-        type: string
-        description: User password
-      role:
-        type: integer
-        description: User role
-  createEndpointDto:
-    type: object
-    properties:
-      tempId:
-        type: number
-        description: Temp ID for create the folder to check connection
-      name:
-        type: string
-        default: Name
-        description: Endpoint name
-      tls:
-        type: boolean
-        default: false
-      tls_ca:
-        type: boolean
-        default: false
-      tls_cert:
-        type: boolean
-        default: false
-      tls_key:
-        type: boolean
-        default: false
-      type:
-        type: number
-        default: 1
-        description: Endpoint type
-      host:
-        type: string
-        default: Host
-        description: Endpoint host
-  dockerActionsDto:
-    type: object
-    properties:
-      action:
-        type: string
-        enum:
-          - start
-          - stop
-          - kill
-          - restart
-          - pause
-          - resume
-          - recreate
-        required: true
-  changeUserLanguageDto:
-    type: object
-    properties:
-      language:
-        type: string
-        required: true
-        default: en
 schemes:
   - https
   - http

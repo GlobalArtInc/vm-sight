@@ -6,6 +6,22 @@ export enum UserLanguages {
   uk = 'uk',
 }
 
+/**
+ * @openapi
+ * definitions:
+ *   AuthUserDto:
+ *     type: object
+ *     required:
+ *       - Username
+ *       - Password
+ *     properties:
+ *       Username:
+ *         type: string
+ *         description: user login
+ *       Password:
+ *         type: string
+ *         description: user Password
+ */
 export class AuthUserDto {
   @IsString()
   @IsOptional()
@@ -20,12 +36,39 @@ export class AuthUserDto {
   public Code?: string;
 }
 
+/**
+ * @openapi
+ * definitions:
+ *   changeUserLanguageDto:
+ *     type: object
+ *     properties:
+ *       language:
+ *         type: string
+ *         required: true
+ *         default: en
+ */
 export class ChangeUserLanguageDto {
   @IsEnum(UserLanguages, { message: 'Wrong language' })
   @IsNotEmpty({ message: 'Language is not specified' })
   public language: string;
 }
 
+/**
+ * @openapi
+ * definitions:
+ *   createUserDto:
+ *     type: object
+ *     properties:
+ *       username:
+ *         type: string
+ *         description: User name
+ *       password:
+ *         type: string
+ *         description: User password
+ *       role:
+ *         type: integer
+ *         description: User role
+ */
 export class CreateUserDto {
   @IsString()
   public username: string;
@@ -37,6 +80,22 @@ export class CreateUserDto {
   public role: number;
 }
 
+/**
+ * @openapi
+ * definitions:
+ *   updateUserDto:
+ *     type: object
+ *     properties:
+ *       username:
+ *         type: string
+ *         description: User name
+ *       password:
+ *         type: string
+ *         description: User password
+ *       role:
+ *         type: integer
+ *         description: User role
+ */
 export class UpdateUserDto {
   @IsString()
   public username: string;

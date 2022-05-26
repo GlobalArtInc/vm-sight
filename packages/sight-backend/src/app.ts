@@ -125,7 +125,7 @@ class App {
           description: 'VmSightAPI',
         },
       },
-      apis: ['swagger.yaml', './src/controllers/**/*.ts'],
+      apis: ['swagger.yaml', './src/dtos/**/*.ts', './src/controllers/**/*.ts'],
     };
     const specs = swaggerJSDoc(options);
     this.app.use(['/docs', '/api/docs'], swaggerUi.serve, swaggerUi.setup(specs));

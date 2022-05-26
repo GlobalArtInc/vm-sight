@@ -23,6 +23,40 @@ export class EndpointsTlsDto {
   public key = false;
 }
 
+/**
+ * @openapi
+ * definitions:
+ *   createEndpointDto:
+ *     type: object
+ *     properties:
+ *       tempId:
+ *         type: number
+ *         description: Temp ID for create the folder to check connection
+ *       name:
+ *         type: string
+ *         default: Name
+ *         description: Endpoint name
+ *       tls:
+ *         type: boolean
+ *         default: false
+ *       tls_ca:
+ *         type: boolean
+ *         default: false
+ *       tls_cert:
+ *         type: boolean
+ *         default: false
+ *       tls_key:
+ *         type: boolean
+ *         default: false
+ *       type:
+ *         type: number
+ *         default: 1
+ *         description: Endpoint type
+ *       host:
+ *         type: string
+ *         default: Host
+ *         description: Endpoint host
+ */
 export class CreateEndpointsDto {
   @IsNotEmpty()
   public tempId: number | 'socket';

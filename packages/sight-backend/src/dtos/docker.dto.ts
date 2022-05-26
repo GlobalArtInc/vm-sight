@@ -10,6 +10,24 @@ export enum DockerActions {
   recreate = 'recreate',
 }
 
+/**
+ * @openapi
+ * definitions:
+ *   dockerActionsDto:
+ *     type: object
+ *     properties:
+ *       action:
+ *         type: string
+ *         enum:
+ *           - start
+ *           - stop
+ *           - kill
+ *           - restart
+ *           - pause
+ *           - resume
+ *           - recreate
+ *         required: true
+ */
 export class DockerActionsDto {
   @IsEnum(DockerActions, {
     message: `Wrong action`,
