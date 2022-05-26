@@ -7,10 +7,7 @@
           {{ __('information') }}
         </v-card-subtitle>
         <v-divider/>
-        <v-card-text>
-          VM-SIGHT is connected to a node that is part of a Swarm cluster. Some resources located on other nodes in the
-          cluster might not be available for management.
-        </v-card-text>
+        <v-card-text v-text="__('docker.swarm_warn')" />
       </v-card>
     </v-col>
     <v-col :cols="12">
@@ -24,7 +21,7 @@
           <v-simple-table dense class="font-weight-medium" v-if="endpoint">
             <tbody>
             <tr>
-              <td style="width: 30%">Endpoint</td>
+              <td style="width: 30%">{{ __("menu.endpoint") }}</td>
               <td>
                 {{ endpoint.Name }}
                 <i class="fa fa-microchip space-left"></i>
@@ -35,8 +32,8 @@
               </td>
             </tr>
             <tr>
-              <td style="width: 30%">URL</td>
-              <td>{{ endpoint.URL }}</td>
+              <td style="width: 30%">{{ __("endpoints.host") }}</td>
+              <td>{{ endpoint.host }}</td>
             </tr>
             </tbody>
           </v-simple-table>

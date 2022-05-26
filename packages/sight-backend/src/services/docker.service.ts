@@ -152,7 +152,7 @@ export class DockerService {
       case 'resume':
         return container.unpause();
       case 'remove':
-        return container.remove();
+        return container.remove({ force: true });
       default:
         throw new BadRequestException('No action found');
     }

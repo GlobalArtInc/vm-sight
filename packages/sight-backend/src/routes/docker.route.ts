@@ -1,8 +1,9 @@
 import Route from '@interfaces/routes.interface';
 import { Router } from 'express';
-import { authMiddleware } from '@middlewares';
+import { authMiddleware, validationMiddleware } from '@middlewares';
 import { wrapRouteHandler } from '@utils/util';
 import DockerController from '@controllers/docker.controller';
+import { DockerActionsDto } from '@dtos/docker.dto';
 
 class DockerRoute implements Route {
   public path = '/docker';
@@ -16,15 +17,14 @@ class DockerRoute implements Route {
   private initializeRouter() {
     this.router.get('/containers', authMiddleware, wrapRouteHandler(this.dockerController.getContainers));
     this.router.get('/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.getContainerById));
+    this.router.patch(
+      '/containers/:containerId',
+      authMiddleware,
+      validationMiddleware(DockerActionsDto, 'body'),
+      wrapRouteHandler(this.dockerController.containerAction),
+    );
     this.router.get('/containers/:containerId/logs', authMiddleware, wrapRouteHandler(this.dockerController.getContainerLogs));
     this.router.post('/containers/:containerId/update', authMiddleware, wrapRouteHandler(this.dockerController.updateContainer));
-
-    this.router.post('/containers/:containerId/start', authMiddleware, wrapRouteHandler(this.dockerController.startContainer));
-    this.router.post('/containers/:containerId/stop', authMiddleware, wrapRouteHandler(this.dockerController.stopContainer));
-    this.router.post('/containers/:containerId/kill', authMiddleware, wrapRouteHandler(this.dockerController.killContainer));
-    this.router.post('/containers/:containerId/restart', authMiddleware, wrapRouteHandler(this.dockerController.restartContainer));
-    this.router.post('/containers/:containerId/pause', authMiddleware, wrapRouteHandler(this.dockerController.pauseContainer));
-    this.router.post('/containers/:containerId/resume', authMiddleware, wrapRouteHandler(this.dockerController.resumeContainer));
     this.router.delete('/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.removeContainer));
 
     this.router.get('/networks', authMiddleware, wrapRouteHandler(this.dockerController.getNetworks));

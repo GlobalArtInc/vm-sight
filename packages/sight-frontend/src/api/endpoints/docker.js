@@ -15,45 +15,63 @@ export function updateContainer(endpoint_id, container, data) {
     })
 }
 
-export function startContainer(endpoint_id, container) {
+export function startContainer(endpoint_id, containerId) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/start`,
-        method: 'post'
+        url: `/endpoints/${endpoint_id}/docker/containers/${containerId}`,
+        method: 'patch',
+        data: {
+            action: "start"
+        }
     })
 }
 
-export function stopContainer(endpoint_id, container) {
+export function stopContainer(endpoint_id, containerId) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/stop`,
-        method: 'post'
+        url: `/endpoints/${endpoint_id}/docker/containers/${containerId}`,
+        method: 'patch',
+        data: {
+            action: "stop"
+        }
     })
 }
 
-export function killContainer(endpoint_id, container) {
+export function killContainer(endpoint_id, containerId) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/kill`,
-        method: 'post'
+        url: `/endpoints/${endpoint_id}/docker/containers/${containerId}`,
+        method: 'patch',
+        data: {
+            action: "kill"
+        }
     })
 }
 
 export function restartContainer(endpoint_id, container) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/restart`,
-        method: 'post'
+        url: `/endpoints/${endpoint_id}/docker/containers/${container}`,
+        method: 'patch',
+        data: {
+            action: "restart"
+        }
     })
 }
 
 export function pauseContainer(endpoint_id, container) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/pause`,
-        method: 'post'
+        url: `/endpoints/${endpoint_id}/docker/containers/${container}`,
+        method: 'patch',
+        data: {
+            action: "pause"
+        }
     })
 }
 
 export function resumeContainer(endpoint_id, container) {
     return request({
-        url: `/endpoints/${endpoint_id}/docker/containers/${container}/resume`,
-        method: 'post'
+        url: `/endpoints/${endpoint_id}/docker/containers/${container}`,
+        method: 'patch',
+        data: {
+            action: "resume"
+        }
     })
 }
 

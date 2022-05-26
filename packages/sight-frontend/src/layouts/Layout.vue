@@ -132,14 +132,14 @@ export default {
         this.drawer = false;
       }
     },
-    handleLogout() {
+    async handleLogout() {
       if (window.confirm("Are you sure to logout?")) {
-        this.$store.dispatch("user/logout");
+        await this.$store.dispatch("user/logout");
         window._VMA.$emit("SHOW_SNACKBAR", {
           text: "Logout successful",
           color: "success"
         });
-        this.$router.push("/auth");
+        await this.$router.replace("/auth");
       }
     },
     handleDrawerVisiable() {

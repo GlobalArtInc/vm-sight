@@ -94,6 +94,44 @@ class DockerController {
     return res.send(logs.toString().replace(pattern, ''));
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/containers/{containerId}:
+   *     patch:
+   *       tags:
+   *       - docker
+   *       summary: Execute a docker action
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: containerId
+   *          in: path
+   *          description: Container ID
+   *          required: true
+   *          type: string
+   *        - name: body
+   *          in: body
+   *          description: Docker actions DTO
+   *          required: true
+   *          schema:
+   *            $ref: '#/definitions/dockerActionsDto'
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
+  public containerAction = async (req, res) => {
+    const { endpointId, containerId } = req.params;
+    await this.dockerService.containerAction(req.body.action, endpointId, containerId);
+    return res.status(200).json({ status: 200 });
+  };
+
   public updateContainer = async (req, res) => {
     const { endpointId, containerId } = req.params;
     await this.dockerService.updateContainer(endpointId, containerId, req.body);

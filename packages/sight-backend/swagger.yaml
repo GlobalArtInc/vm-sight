@@ -101,6 +101,20 @@ definitions:
         type: string
         default: Host
         description: Endpoint host
+  dockerActionsDto:
+    type: object
+    properties:
+      action:
+        type: string
+        enum:
+          - start
+          - stop
+          - kill
+          - restart
+          - pause
+          - resume
+          - recreate
+        required: true
   changeUserLanguageDto:
     type: object
     properties:
