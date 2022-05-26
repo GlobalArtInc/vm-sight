@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
 import colors from 'vuetify/lib/util/colors'
-import en from '@/locale/en'
+import en from '@/locale/en.json'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 Vue.use(Vuetify);
