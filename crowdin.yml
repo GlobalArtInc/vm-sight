@@ -1,6 +1,6 @@
-base_path: ./packages
+base_path: .
 base_url: 'https://api.crowdin.com'
 preserve_hierarchy: true
 files:
-  - source: /sight-frontend/src/locale/en.js
-    translation: /sight-frontend/src/locale/%two_letters_code%.js
+  - source: /packages/sight-frontend/src/locale/en.js
+    translation: /packages/sight-frontend/src/locale/%two_letters_code%.js
