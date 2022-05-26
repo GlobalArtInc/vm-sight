@@ -6,28 +6,33 @@ module.exports = {
       id: {
         primaryKey: true,
         type: DataTypes.STRING,
-        notNull: true,
+        allowNull: false,
       },
       username: {
         unique: true,
         type: DataTypes.STRING,
-        notNull: true,
+        allowNull: false,
       },
       password: {
         type: DataTypes.STRING,
-        notNull: true,
+        allowNull: false,
+      },
+      locale: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'en',
       },
       role: {
         type: DataTypes.INTEGER,
-        notNull: true,
+        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
-        notNull: true,
+        allowNull: false,
       },
       updatedAt: {
         type: Sequelize.DATE,
-        notNull: true,
+        allowNull: false,
       },
     });
     await queryInterface.createTable('users_external', {

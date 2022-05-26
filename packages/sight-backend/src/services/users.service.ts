@@ -1,5 +1,5 @@
 import { UsersModel } from '../models';
-import { CreateAdminDto, CreateUserDto, UpdateUserDto } from '@dtos/users.dto';
+import { CreateAdminDto, CreateUserDto, UpdateUserDto, UserLanguages } from '@dtos/users.dto';
 import { cryptPassword, generateID } from '@utils/security';
 import { Op } from 'sequelize';
 import { HttpException, NotFoundException, BadRequestException, ConflictException } from '../exceptions';
@@ -36,16 +36,26 @@ class UsersService {
     }
   }
 
+  public async changeLanguage(userId: string, language: UserLanguages) {
+    const user = await UsersModel.findOne({ where: { id: userId } });
+    if (user) {
+      await user.update({ locale: language });
+      return true;
+    } else {
+      throw new NotFoundException('User not found');
+    }
+  }
+
   public async getAll() {
     return UsersModel.findAll({
-      attributes: ['id', 'username', 'role', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'username', 'role', 'locale', 'createdAt', 'updatedAt'],
     });
   }
 
   public async getById(id: string) {
     return UsersModel.findOne({
       where: { id },
-      attributes: ['id', 'username', 'role', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'username', 'role', 'locale', 'createdAt', 'updatedAt'],
     });
   }
 

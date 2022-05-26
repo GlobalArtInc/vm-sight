@@ -1,6 +1,7 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import seq, { DataTypes, Model, Sequelize } from 'sequelize';
 import { cryptPassword, generateID } from '@utils/security';
 import { currentTimestamp } from '@utils/util';
+import { UserLanguages } from '@dtos/users.dto';
 
 export class UsersModel extends Model {
   public id: string;
@@ -29,6 +30,9 @@ export class UsersModel extends Model {
         },
         role: {
           type: DataTypes.INTEGER,
+        },
+        locale: {
+          type: seq.ENUM(typeof UserLanguages),
         },
         createdAt: {
           type: DataTypes.DATE,

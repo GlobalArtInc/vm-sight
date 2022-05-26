@@ -101,6 +101,13 @@ definitions:
         type: string
         default: Host
         description: Endpoint host
+  changeUserLanguageDto:
+    type: object
+    properties:
+      language:
+        type: string
+        required: true
+        default: en
 schemes:
   - https
   - http

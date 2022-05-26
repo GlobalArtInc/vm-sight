@@ -1,4 +1,10 @@
-import { IsNumber, IsOptional, IsString, Length } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Length } from 'class-validator';
+
+export enum UserLanguages {
+  ru = 'ru',
+  en = 'en',
+  uk = 'uk',
+}
 
 export class AuthUserDto {
   @IsString()
@@ -12,6 +18,12 @@ export class AuthUserDto {
   @IsString()
   @IsOptional()
   public Code?: string;
+}
+
+export class ChangeUserLanguageDto {
+  @IsEnum(UserLanguages)
+  @IsNotEmpty()
+  public language: string;
 }
 
 export class CreateUserDto {
