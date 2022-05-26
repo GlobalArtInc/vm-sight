@@ -1,4 +1,4 @@
-base_path: /packages
+base_path: ./packages
 base_url: 'https://api.crowdin.com'
 preserve_hierarchy: true
 files:
