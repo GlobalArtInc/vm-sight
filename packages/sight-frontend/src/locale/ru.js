@@ -3,6 +3,7 @@ export default {
     label: 'Русский',
     //page login
     login: 'Вход',
+    logout: 'Выйти',
     register: 'Регистрация',
     username: 'Имя пользователя',
     password: 'Пароль',
@@ -18,6 +19,7 @@ export default {
     //app drawer
     sponsor: 'Спонсор',
     information: 'Информация',
+    info: 'Инфо',
     types: {
         agent: 'Agent',
         docker: 'Docker',
@@ -76,7 +78,7 @@ export default {
         dashboard: 'Панель',
         endpoints: 'Серверы',
         settings: 'Настройки',
-        settings_auth: 'Настройки аутентификации',
+        settings_auth: 'Аутентификация',
         docker: 'Docker',
         containers: 'Контейнеры',
         edit: 'Редактировать',
