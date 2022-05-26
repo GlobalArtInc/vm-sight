@@ -7,6 +7,8 @@ export default {
     username: 'Имя пользователя',
     password: 'Пароль',
     login_account: 'Вход в учетную запись',
+    // labels
+    labels: { language: 'Language' },
     //
     create: 'Создать',
     update: 'Обновить',
