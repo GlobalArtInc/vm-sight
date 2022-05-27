@@ -108,6 +108,19 @@ export class UpdateUserDto {
   public role: number;
 }
 
+/**
+ * @openapi
+ * definitions:
+ *   CreateAdminDto:
+ *     type: object
+ *     properties:
+ *       Username:
+ *         type: string
+ *         description: User name
+ *       Password:
+ *         type: string
+ *         description: User password
+ */
 export class CreateAdminDto {
   @IsString()
   @Length(4, 25)

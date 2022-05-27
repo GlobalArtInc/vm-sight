@@ -41,6 +41,7 @@ export default {
             this.$toast(this.__('networks.removed'), {
               type: 'success'
             });
+            this.$emit("delete", item.Id)
           } catch (err) {
             this.$toast(err.response.data.message, {
               type: 'error'

@@ -144,16 +144,118 @@ class DockerController {
     return res.status(200).json({ status: 200 });
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/networks:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Fetch all networks on endpoint
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getNetworks = async (req, res) => {
     const { endpointId } = req.params;
     return res.status(200).json(await this.dockerService.getNetworks(endpointId));
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/networks/{networkId}:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Fetch network
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: networkId
+   *          in: path
+   *          description: Network ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getNetworkById = async (req, res) => {
     const { endpointId, networkId } = req.params;
     return res.status(200).json(await this.dockerService.getNetworkById(endpointId, networkId));
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/networks:
+   *     post:
+   *       tags:
+   *       - docker
+   *       summary: Create a network
+   *       parameters:
+   *       - name: endpointId
+   *         in: path
+   *         description: Endpoint ID
+   *         required: true
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         description: CreateNetworkDto
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/CreateNetworkDto'
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         400:
+   *           description: 'Bad Request'
+   *         500:
+   *           description: 'Server Error'
+   */
+  public createNetwork = async (req, res) => {
+    const { endpointId } = req.params;
+    await this.dockerService.createNetwork(endpointId, req.body);
+    return res.status(200).json({ status: 201 });
+  };
+
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/networks/{networkId}:
+   *     delete:
+   *       tags:
+   *       - docker
+   *       summary: Delete a network
+   *       parameters:
+   *       - name: endpointId
+   *         in: path
+   *         description: Endpoint ID
+   *         required: true
+   *         type: string
+   *       - name: networkId
+   *         in: path
+   *         description: Network ID
+   *         required: true
+   *         type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'Endpoint not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public deleteNetworkById = async (req, res) => {
     const { endpointId, networkId } = req.params;
     await this.dockerService.removeNetworkById(endpointId, networkId);

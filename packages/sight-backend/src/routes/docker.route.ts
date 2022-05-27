@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { authMiddleware, validationMiddleware } from '@middlewares';
 import { wrapRouteHandler } from '@utils/util';
 import DockerController from '@controllers/docker.controller';
-import { DockerActionsDto } from '@dtos/docker.dto';
+import { CreateNetworkDto, DockerActionsDto } from '@dtos/docker.dto';
 
 class DockerRoute implements Route {
   public path = '/docker';
@@ -28,6 +28,12 @@ class DockerRoute implements Route {
     this.router.delete('/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.removeContainer));
 
     this.router.get('/networks', authMiddleware, wrapRouteHandler(this.dockerController.getNetworks));
+    this.router.post(
+      '/networks',
+      authMiddleware,
+      validationMiddleware(CreateNetworkDto, 'body'),
+      wrapRouteHandler(this.dockerController.createNetwork),
+    );
     this.router.get('/networks/:networkId', authMiddleware, wrapRouteHandler(this.dockerController.getNetworkById));
     this.router.delete('/networks/:networkId', authMiddleware, wrapRouteHandler(this.dockerController.deleteNetworkById));
     this.router.post('/networks/:networkId/connect', authMiddleware, wrapRouteHandler(this.dockerController.connectNetwork));

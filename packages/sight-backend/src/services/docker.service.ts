@@ -1,7 +1,8 @@
 import Docker from 'dockerode';
 import { EndpointsModel } from '@models';
-import { BadRequestException } from '@exceptions';
+import { BadRequestException, NotFoundException } from '@exceptions';
 import { isWindows } from '@utils/util';
+import { CreateNetworkDto } from '@dtos/docker.dto';
 
 export class DockerService {
   public service: { endpoint: any; docker: Docker | string };
@@ -95,6 +96,7 @@ export class DockerService {
     const endpoint = await EndpointsModel.findOne({
       where: { id: endpointId },
     });
+    if (!endpoint) throw new NotFoundException('Endpoint not found');
     try {
       const connect: any = await this.checkConnect(endpoint);
       this.service = { endpoint, docker: connect.docker };
@@ -171,6 +173,12 @@ export class DockerService {
     await this.connect(endpointId);
     const network = await this.service.docker.getNetwork(networkId);
     return network.inspect();
+  }
+
+  public async createNetwork(endpointId: string, networkData: CreateNetworkDto) {
+    await this.connect(endpointId);
+    await this.service.docker.createNetwork(networkData);
+    return true;
   }
 
   public async removeNetworkById(endpointId: string, networkId: string) {

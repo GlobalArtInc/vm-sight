@@ -9,7 +9,7 @@
         </v-card-subtitle>
         <v-divider/>
         <v-card-subtitle>
-          <NetworksActionMenu remove newImage importExport :selected="selected"/>
+          <NetworksActionMenu @delete="deleteItem" remove newImage importExport :selected="selected"/>
         </v-card-subtitle>
         <v-divider/>
         <v-card-text style="padding: 0">
@@ -119,6 +119,11 @@ export default {
     networks: []
   }),
   methods: {
+    deleteItem(Id) {
+      this.networks = this.networks.filter(function(item) {
+        return item.Id !== Id
+      })
+    },
     fetchNetworks() {
       fetchNetworks(this.id).then(data => {
         this.isLoading = true
