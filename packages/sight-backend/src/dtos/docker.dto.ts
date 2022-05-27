@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export enum DockerActions {
   start = 'start',
@@ -134,6 +134,7 @@ export class CreateNetworkDto {
   public EnableIPv6: boolean;
 
   @IsObject()
+  @ValidateNested({ each: true })
   public IPAM: IPAM;
 
   @IsBoolean()
