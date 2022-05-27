@@ -71,7 +71,8 @@ export default {
         options: 'Настройки сети',
         containers: 'Контейнеры в сети',
         disconnected: 'Сеть отключена',
-        connected: 'Сеть подключена'
+        connected: 'Сеть подключена',
+        removed: 'Network was removed'
     },
     // menu
     menu: {
