@@ -10,8 +10,8 @@ export enum DockerActions {
   recreate = 'recreate',
 }
 export class IPAM {
-  @IsNumber()
-  public Driver: number;
+  @IsString()
+  public Driver: string;
 
   @IsArray()
   public Config: IPAMConfig[];
@@ -134,7 +134,6 @@ export class CreateNetworkDto {
   public EnableIPv6: boolean;
 
   @IsObject()
-  @ValidateNested({ each: true })
   public IPAM: IPAM;
 
   @IsBoolean()

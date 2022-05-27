@@ -120,6 +120,7 @@ export default {
   }),
   methods: {
     deleteItem(Id) {
+      this.selected = [];
       this.networks = this.networks.filter(function(item) {
         return item.Id !== Id
       })
