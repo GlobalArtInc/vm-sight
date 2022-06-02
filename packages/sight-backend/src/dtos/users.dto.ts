@@ -12,24 +12,24 @@ export enum UserLanguages {
  *   AuthUserDto:
  *     type: object
  *     required:
- *       - Username
- *       - Password
+ *       - username
+ *       - password
  *     properties:
- *       Username:
+ *       username:
  *         type: string
  *         description: user login
- *       Password:
+ *       password:
  *         type: string
- *         description: user Password
+ *         description: user password
  */
 export class AuthUserDto {
   @IsString()
   @IsOptional()
-  public Username?: string;
+  public username?: string;
 
   @IsString()
   @IsOptional()
-  public Password?: string;
+  public password?: string;
 
   @IsString()
   @IsOptional()
@@ -114,19 +114,19 @@ export class UpdateUserDto {
  *   CreateAdminDto:
  *     type: object
  *     properties:
- *       Username:
+ *       username:
  *         type: string
  *         description: User name
- *       Password:
+ *       password:
  *         type: string
  *         description: User password
  */
 export class CreateAdminDto {
   @IsString()
   @Length(4, 25)
-  public Username: string;
+  public username: string;
 
   @IsString()
   @Length(8)
-  public Password: string;
+  public password: string;
 }

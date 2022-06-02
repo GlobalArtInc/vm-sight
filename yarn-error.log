@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js build
+  C:\Program Files\nodejs\node.exe C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add vue-cli-plugin-sight-frontend -D --tilde
 
 PATH: 
-  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Users\roman\AppData\Local\Microsoft\WindowsApps;C:\Users\roman\AppData\Roaming\npm
+  D:\Projects\globalart\vm-sight\packages\node_modules\.bin;D:\Projects\globalart\vm-sight\node_modules\.bin;D:\Projects\globalart\node_modules\.bin;D:\Projects\node_modules\.bin;D:\node_modules\.bin;C:\Program Files\nodejs;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\PuTTY\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\dotnet\;C:\Users\roman\AppData\Local\Microsoft\WindowsApps;C:\Users\roman\AppData\Roaming\npm;C:\Users\roman\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\roman\.dotnet\tools
 
 Yarn version: 
   1.22.18
@@ -14,12 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: D:\Projects\globalart\vm-sight\package.json: Unexpected token } in JSON at position 741
-      at JSON.parse (<anonymous>)
-      at C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
-      at C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+  Error: https://registry.yarnpkg.com/vue-cli-plugin-sight-frontend: Not found
+      at Request.params.callback [as _callback] (C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66138:18)
+      at Request.self.callback (C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140883:22)
+      at Request.emit (node:events:527:28)
+      at Request.<anonymous> (C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141855:10)
+      at Request.emit (node:events:527:28)
+      at IncomingMessage.<anonymous> (C:\Users\roman\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141777:12)
+      at Object.onceWrapper (node:events:641:28)
+      at IncomingMessage.emit (node:events:539:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
@@ -36,11 +41,11 @@ npm manifest:
     },
     "scripts": {
       "deps": "lerna bootstrap --npm-client=yarn",
-      "dev": "lerna run dev --no-prefix --stream --scope @vm-sight/sight-backend",
+      "dev": "npm run db:migrate:test && lerna run dev --no-prefix --stream --scope @vm-sight/sight-backend",
       "start": "lerna run serve --no-prefix --stream --scope @vm-sight/sight-frontend",
-      "build": "lerna run build --stream --parallel --scope=@vm-sight/{sight-backend}",
+      "build": "lerna run build --stream --parallel --scope=@vm-sight/sight-backend",
       "db:migrate:test": "(cd packages/sight-backend && yarn run db:migrate:test)",
-      "db:migrate:test:redo": "(cd packages/sight-backend && yarn run db:migrate:test:redo)",
+      "db:migrate:test:redo": "(cd packages/sight-backend && yarn run db:migrate:test:redo)"
     }
   }
 

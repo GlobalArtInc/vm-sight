@@ -10,7 +10,7 @@
 export default {
   data: () => ({}),
   methods: {}
-}
+};
 </script>
 <style lang="sass" scoped>
 .layout

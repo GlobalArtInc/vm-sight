@@ -10,42 +10,37 @@
           </v-card-title>
           <v-card-text>
             <v-form
-                ref="form"
-                class="my-10"
-                lazy-validation
-                v-model="formValid">
+              ref="form"
+              class="my-10"
+              lazy-validation
+              v-model="formValid">
               <v-text-field
-                  append-icon="mdi-email"
-                  autocomplete="off"
-                  name="login"
-                  type="text"
-                  label="Username"
-                  required
-                  outlined
-                  :rules="formRule.username"
-                  v-model="formModel.username"
+                append-icon="mdi-email"
+                autocomplete="off"
+                name="login"
+                type="text"
+                label="Username"
+                required
+                outlined
+                :rules="formRule.username"
+                v-model="formModel.username"
               />
               <v-text-field
-                  append-icon="mdi-lock"
-                  autocomplete="off"
-                  name="password"
-                  type="password"
-                  :rules="formRule.password"
-                  label="Password"
-                  required
-                  outlined
-                  v-model="formModel.password"
-                  v-on:keyup.enter="login"
+                append-icon="mdi-lock"
+                autocomplete="off"
+                name="password"
+                type="password"
+                :rules="formRule.password"
+                label="Password"
+                required
+                outlined
+                v-model="formModel.password"
+                v-on:keyup.enter="login"
               />
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer/>
-            <template v-if="$store.getters.settings.AuthenticationMethod === 3">
-              <v-btn large tile :href="$store.getters.settings.OAuthLoginURI" color="primary" style="margin: 0 auto">
-                Login via OAuth
-              </v-btn>
-            </template>
             <v-btn large tile color="primary" @click="login" :loading="loading">
               Login
             </v-btn>
@@ -57,96 +52,40 @@
 </template>
 
 <script>
-import {check} from "@/api/users/admin";
-import {auth, oauth} from "@/api/auth";
-import {setToken} from "@/utils/auth";
-import {mapGetters} from "vuex";
-import {getGets} from "../../utils/global";
+import { Component, Vue } from 'vue-property-decorator';
+import authService from '@/services/auth.service';
+import { setToken } from '@/utils/auth';
 
-export default {
-  name: 'PageLogin',
-  data() {
-    return {
-      loading: false,
-      formValid: false,
-      formModel: {
-        username: null,
-        password: null
-      },
-      formRule: {
-        username: [(v) => !!v || "Username not specified"],
-        password: [(v) => !!v || "Password not specified"]
-      }
-    }
-  },
-  computed: {
-    ...mapGetters(['settings']),
-    prefix() {
-      return ''
-    }
-  },
-  async created() {
-    try {
-      await check()
-      const {code} = getGets()
-      if (code) {
-        oauth(code).then((response) => {
-          const {jwt} = response
-          setToken(jwt)
-          this.$store.dispatch('user/getInfo').then(() => {
-            window.location.href = '/'
-          })
-        }).catch(() => {
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: "Login Error",
-            color: 'error'
-          })
-        })
-      }
-    } catch (err) {
-      await this.$router.push('/init/admin')
-    }
-  },
-  methods: {
-    async login() {
-      if (this.$refs.form.validate()) {
-        this.loading = true
-        try {
-          const response = await auth(this.formModel.username, this.formModel.password)
-          if (response) {
-            const {jwt} = response
-            setToken(jwt)
-            await this.$store.dispatch('user/getInfo');
-            await this.$router.push("/home");
-            await this.$toast("Login successful", {
-              type: 'success'
-            });
-          } else {
-            window._VMA.$emit('SHOW_SNACKBAR', {
-              text: "Login Error",
-              color: 'error'
-            })
-          }
-        } catch (err) {
-          window._VMA.$emit('SHOW_SNACKBAR', {
-            text: "Login Error",
-            color: 'error'
-          })
-        } finally {
-          setTimeout(() => {
-            this.loading = false
-          }, 750)
-        }
-      }
+@Component({
+  data: () => ({
+    loading: false,
+    formValid: false,
+    formModel: {
+      username: null,
+      password: null
     },
-    handleSocialLogin() {
+    formRule: {
+      username: [(v) => !!v || 'Username not specified'],
+      password: [(v) => !!v || 'Password not specified']
+    }
+  })
+})
+export default class AuthIndexView extends Vue {
+  async login () {
+    this.loading = true;
+    try {
+      const { jwt } = await authService.login(this.formModel.username, this.formModel.password);
+      this.$toast('Login successful', {
+        type: 'success',
+        position: 'top-center'
+      });
+      setToken(jwt);
+      return this.$router.push('/dashboard');
+    } catch (err) {
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
     }
   }
 }
 </script>
-
-<style lang="sass" scoped>
-.page-login__card
-  max-width: 600px
-  margin: 0 auto
-</style>

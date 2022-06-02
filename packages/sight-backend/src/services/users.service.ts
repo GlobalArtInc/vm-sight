@@ -19,11 +19,11 @@ class UsersService {
   public async initAdmin(createAdminDto: CreateAdminDto) {
     const user = await UsersModel.findAll({ where: { role: 1 } });
     if (user.length === 0) {
-      if (createAdminDto.Username && createAdminDto.Password) {
-        const hash = await cryptPassword(createAdminDto.Password);
+      if (createAdminDto.username && createAdminDto.password) {
+        const hash = await cryptPassword(createAdminDto.password);
         await new UsersModel({
           id: generateID(),
-          username: createAdminDto.Username,
+          username: createAdminDto.username,
           password: hash,
           role: 1,
         }).save();
@@ -76,7 +76,7 @@ class UsersService {
           },
         },
       });
-      if (isUser) throw new ConflictException('Username is already exists');
+      if (isUser) throw new ConflictException('username is already exists');
       if (userData.password) {
         userData.password = await cryptPassword(userData.password);
       }

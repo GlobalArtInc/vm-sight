@@ -34,7 +34,7 @@ definitions:
         description: user Email
       password:
         type: string
-        description: user Password
+        description: user password
 schemes:
   - https
   - http
