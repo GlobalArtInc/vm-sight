@@ -1,24 +1,13 @@
-const cookie = require('vue-cookie')
-
 const TokenKey = 'token'
-const RefreshKey = 'refresh_token'
 
 export function getToken() {
-    return cookie.get(TokenKey)
-}
-
-export function getRefreshToken() {
-    return cookie.get(RefreshKey)
+    return localStorage.getItem(TokenKey);
 }
 
 export function setToken(token) {
-    return cookie.set(TokenKey, token, {expires: "1Y"})
-}
-
-export function setRefreshToken(token) {
-    return cookie.set(RefreshKey, token, {expires: "1Y"})
+    return localStorage.setItem(TokenKey, token);
 }
 
 export function removeToken() {
-    return cookie.delete(TokenKey)
+    return localStorage.removeItem(TokenKey);
 }
