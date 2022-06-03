@@ -49,6 +49,10 @@ import { removeToken } from '@/utils/auth';
   }
 })
 export default class AppToolbarComponent extends Vue {
+  handleDrawerToggle () {
+    this.$emit('side-icon-click');
+  }
+
   handleLogout () {
     if (window.confirm('Are you sure to logout?')) {
       this.$toast('Logout successful', {

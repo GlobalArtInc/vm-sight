@@ -2,12 +2,12 @@ import axios from 'axios';
 import { getToken } from '@/utils/auth';
 import router from '@/router';
 
-const httpService = axios.create({
+const request = axios.create({
   baseURL: '/api',
   withCredentials: true
 });
 
-httpService.interceptors.request.use(
+request.interceptors.request.use(
   config => {
     if (config.headers) {
       config.headers.Authorization = 'Bearer ' + getToken();
@@ -19,7 +19,7 @@ httpService.interceptors.request.use(
   }
 );
 
-httpService.interceptors.response.use(
+request.interceptors.response.use(
   response => {
     const res = response.data;
     if (res.response === false) {
@@ -36,4 +36,4 @@ httpService.interceptors.response.use(
   }
 );
 
-export default httpService;
+export default request;

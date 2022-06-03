@@ -1,7 +1,8 @@
 <template>
   <v-app class="app">
+    <app-drawer class="app--drawer" ref="drawer" />
+    <app-toolbar class="app--toolbar" @side-icon-click="handleDrawerVisible" />
     <v-main style="background: #f3f3f3">
-      <app-toolbar class="app--toolbar" />
       <div class="page-wrapper">
         <router-view/>
       </div>
@@ -14,10 +15,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AppFab from '../components/AppFab';
 import AppToolbar from '../components/AppToolbar';
+import AppDrawer from '@/components/AppDrawer';
 
 @Component({
   name: 'MainLayout',
   components: {
+    AppDrawer,
     AppFab,
     AppToolbar
   },

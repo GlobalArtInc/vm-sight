@@ -1,4 +1,4 @@
-import request from '@/services/http.service';
+import request from '@/utils/request';
 
 class AuthService {
   async login (username: string, password: string) {

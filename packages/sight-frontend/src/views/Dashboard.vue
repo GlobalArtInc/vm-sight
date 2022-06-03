@@ -35,11 +35,11 @@
                     <v-list-item-subtitle class="text--primary">
                         <span v-if="item.snapshot">
                           <span style="padding: 0 7px 0 0;">
-                            <i class="fa fa-list-alt"/>
+                            <font-awesome-icon :icon="icon.faListAlt"/>
                             {{ item.snapshot.ServiceCount }} services
                           </span>
                           <span>
-                            <i class="fa fa-cubes"/>
+                            <font-awesome-icon :icon="icon.faCubes"/>
                             {{ item.snapshot.Containers }} containers
                           </span>
                         </span>
@@ -51,14 +51,14 @@
                     <v-list-item-subtitle>
                         <span>
                           <span class="small text-muted ng-binding">
-                            <i class="fa fa-microchip"></i>
+                            <font-awesome-icon :icon="icon.faMicrochip"/>
                             {{ item.snapshot.TotalCPU }}
-                            <i class="fa fa-memory space-left"></i>
+                            <font-awesome-icon class="space-left" :icon="icon.faMemory"/>
                             {{convert(item.snapshot.TotalMemory)}}
                           </span>
                         </span>
                       <span style="float:right;padding-right: 1em">
-                          {{ item.URL }}
+                          {{ item.host }}
                         </span>
                     </v-list-item-subtitle>
                   </v-list-item-content>
@@ -84,10 +84,17 @@
 import { Component, Vue } from 'vue-property-decorator';
 import moment from 'moment';
 import { ByteToSize } from '@/utils/math';
+import { faListAlt, faCubes, faMicrochip, faMemory } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   data: () => ({
     endpoints: [],
+    icon: {
+      faListAlt,
+      faCubes,
+      faMicrochip,
+      faMemory
+    },
     headers: [
       {
         text: 'endpoint'

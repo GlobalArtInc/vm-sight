@@ -1,6 +1,7 @@
 import MainLayout from '../layouts/MainLayout.vue';
 import { RouteConfig } from 'vue-router';
 import { endpointsResolver } from '@/resolvers/endpoints.resolver';
+import usersRouter from '@/router/users.router';
 
 const routes: Array<RouteConfig> = [
   {
@@ -13,6 +14,14 @@ const routes: Array<RouteConfig> = [
         component: () => import('../views/Dashboard.vue'),
         beforeEnter: endpointsResolver
       }
+    ]
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: MainLayout,
+    children: [
+      ...usersRouter
     ]
   },
   {
