@@ -10,9 +10,17 @@ import '@mdi/font/css/materialdesignicons.css';
 
 Vue.config.productionTip = false;
 
-new Vue({
+const app = new Vue({
   router,
   store,
   vuetify,
   render: h => h(App)
-}).$mount('#app');
+});
+
+Vue.prototype.t = (key: string, ...params: any) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  return app.$vuetify.lang.translator(key, ...params);
+};
+
+app.$mount('#app');

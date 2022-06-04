@@ -7,4 +7,8 @@ export const endpointsResolver = async (to: Route, from: Route, next: Navigation
   next();
 };
 
-// export const endpointResolver = async (to)
+export const endpointResolver = async (to: Route, from: Route, next: NavigationGuardNext) => {
+  const meta = to.meta as RouteMeta;
+  meta.endpoint = await endpointsService.getEndpoint(to.params.endpointId);
+  next();
+};

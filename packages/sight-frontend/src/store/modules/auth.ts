@@ -1,8 +1,7 @@
 import { AuthState, User } from '@/interfaces/auth.interface';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 import { RootState } from '@/types';
-import { getToken, removeToken } from '@/utils/auth';
-import authService from '@/services/auth.service';
+import { getToken } from '@/utils/auth';
 
 const state: AuthState = {
   token: getToken(),

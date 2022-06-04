@@ -25,7 +25,11 @@
         </v-list>
       </v-menu>
     </v-toolbar-items>
-
+    <v-toolbar elevation="0" dense slot="extension" color="white" light>
+      <v-icon>mdi-home</v-icon>
+      <v-breadcrumbs :items="breadcrumbs"/>
+      <v-spacer></v-spacer>
+    </v-toolbar>
   </v-app-bar>
 </template>
 
@@ -45,7 +49,33 @@ import { removeToken } from '@/utils/auth';
     ]
   }),
   computed: {
-    ...mapGetters(['auth/user'])
+    ...mapGetters(['auth/user']),
+    breadcrumbs () {
+      const { matched } = this.$route;
+      return matched.filter(route => !route.meta.hiddenInMenu).map((route, index) => {
+        const text = this.t('menu.' + route.meta.title) ? this.t('menu.' + route.meta.title) : '';
+        let to;
+        console.log(route.meta.type);
+        if (route.meta.type === 'endpointDocker') {
+          const url = this.$route.fullPath.split('/');
+          to =
+            index === matched.length - 1
+              ? this.$route.path.replace(':id', url[1]).replace(':hash', url[4])
+              : route.path.replace(':id', url[1]).replace(':hash', url[4]) || route.redirect;
+        } else {
+          to =
+            index === matched.length - 1
+              ? this.$route.path
+              : route.path || route.redirect;
+        }
+        return {
+          text: text,
+          to: to,
+          exact: true,
+          disabled: false
+        };
+      });
+    }
   }
 })
 export default class AppToolbarComponent extends Vue {

@@ -4,54 +4,14 @@
       <v-row>
         <v-col cols="12">
           <v-card tile>
-            <v-toolbar flat>
-              <v-text-field
-                text
-                solo
-                flat
-                :prepend-icon="showFilter ? 'mdi-filter-variant-plus' : 'mdi-filter-variant'"
-                append-icon="mdi-magnify"
-                placeholder="Type username"
-                v-model="filter['filter[username]']"
-                hide-details
-                clearable
-                @keyup.enter="handleApplyFilter"
-                @click:append="handleApplyFilter"
-                @click:prepend="showFilter = !showFilter"
-                @click:clear="handleClear"
-              />
-              <v-btn @click="handleRefreshItem" icon>
-                <v-icon>mdi-refresh</v-icon>
-              </v-btn>
-              <v-btn @click="handleCreateItem" icon>
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-divider/>
-            <v-card v-show="showFilter" flat class="grey lighten-4">
-              <v-card-text>
-                <v-btn-toggle
-                  v-model="filter['filter[role]']"
-                  tile
-                  color="deep-purple accent-3"
-                >
-                  <v-btn value="0">
-                    Users
-                  </v-btn>
-                  <v-btn value="1">
-                    Admins
-                  </v-btn>
-                </v-btn-toggle>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn @click="handleResetFilter" text>Reset</v-btn>
-                <v-btn tile @click="handleApplyFilter" color="primary"
-                >Apply
-                </v-btn
-                >
-              </v-card-actions>
-            </v-card>
+            <UsersToolbar :filter="filter" :show-filter="showFilter"
+                          @handleApplyFilter="handleApplyFilter"
+                          @showFilter="showFilter = !showFilter"
+                          @handleClear="handleClear"
+                          @handleRefreshItems="handleRefreshItem"
+                          @handleCreateItem="handleCreateItem"
+                          @handleResetFilter="handleResetFilter"
+            />
             <v-card-text class="pa-0">
               <v-data-table
                 :loading="loadingItems"
@@ -113,8 +73,10 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import TooltipMixin from '@/mixins/Tooltip';
 import usersService from '@/services/users.service';
+import UsersToolbar from '@/views/users/UsersToolbar';
 
 @Component({
+  components: { UsersToolbar },
   mixins: [TooltipMixin],
   data () {
     return {
@@ -173,12 +135,51 @@ import usersService from '@/services/users.service';
     };
   },
   created () {
-    this.items = this.$route.meta.users;
+    this.fetchRecords();
+  },
+  watch: {
+    '$route.query': {
+      handler (query) {
+        this.updateFilterQuery(query);
+        this.fetchRecords();
+      },
+      immediate: true
+    }
   }
 
 })
 export default class UsersIndexView extends Vue {
   @Getter('user', { namespace: 'auth' }) user;
+
+  async fetchRecords (pull = false) {
+    let users = pull ? await usersService.getUsers() : this.$route.meta.users;
+    if (this.filter['filter[role]'] !== null && this.filter['filter[role]'] !== undefined) {
+      users = users.filter((i) => i.role === parseInt(this.filter['filter[role]']));
+    }
+    if (this.filter['filter[username]'] !== null && this.filter['filter[username]'] !== undefined) {
+      users = users.filter((i) => i.username.includes(this.filter['filter[username]']));
+    }
+
+    this.items = users;
+
+    this.serverItemsLength = 0;
+    this.loadingItems = false;
+  }
+
+  resetFilter () {
+    this.filter = {
+      page: 1,
+      'filter[username]': null,
+      'filter[role]': null
+    };
+  }
+
+  updateFilterQuery (query) {
+    const filter = Object.assign(this.filter, query);
+    filter.page = parseInt(filter.page);
+    return filter;
+  }
+
   handleEditItem ({ id }) {
     return this.$router.push('/users/' + id);
   }
@@ -186,7 +187,7 @@ export default class UsersIndexView extends Vue {
   handleDeleteItem ({ id }) {
     this.loadingItems = true;
     usersService.deleteUser(id).then(async () => {
-      this.items = await usersService.getUsers();
+      await this.fetchRecords(true);
       this.$toast.success('User has been deleted');
     }).catch((err) => {
       this.$toast.error(err.response.data.message);
@@ -195,28 +196,68 @@ export default class UsersIndexView extends Vue {
     });
   }
 
-  handleApplyFilter () {
-    return true;
+  async handleApplyFilter () {
+    try {
+      await this.$router.replace({
+        path: this.$route.path,
+        query: this.filter
+      });
+    } catch (err) {
+      //
+    } finally {
+      this.showFilter = false;
+    }
   }
 
-  handlePageChanged () {
-    return true;
+  async handlePageChanged () {
+    this.resetFilter();
+    try {
+      await this.$router.replace({
+        path: this.$route.path,
+        query: this.filter
+      });
+    } catch (err) {
+      //
+    } finally {
+      this.showFilter = false;
+    }
   }
 
-  handleResetFilter () {
-    return true;
+  async handleResetFilter () {
+    this.filter = {
+      page: 1,
+      'filter[username]': null,
+      'filter[role]': null
+    };
+    try {
+      await this.$router.replace({
+        path: this.$route.path
+      });
+    } catch (err) {
+      //
+    } finally {
+      this.showFilter = false;
+    }
   }
 
-  handleClear () {
-    return true;
+  async handleClear () {
+    this.resetFilter();
+    try {
+      await this.$router.replace({
+        path: this.$route.path,
+        query: this.filter
+      });
+    } catch (err) {
+      //
+    } finally {
+      this.showFilter = false;
+    }
   }
 
   handleRefreshItem () {
     this.loadingItems = true;
-    usersService.getUsers().then((users) => {
-      this.items = users;
-    }).catch(() => {
-      this.$toast.error('An error occurred');
+    this.fetchRecords(true).catch(() => {
+      this.$toast.error('An error occursd');
     }).finally(() => {
       this.loadingItems = false;
     });

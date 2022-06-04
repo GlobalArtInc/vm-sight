@@ -29,17 +29,18 @@
         </v-list-item>
 
         <v-subheader>SETTINGS</v-subheader>
-        <v-list-item to="/users">
+        <v-list-item :to="item.to" :key="key" v-for="(item, key) of items">
           <v-list-item-icon>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">mdi-account-group</v-icon>
+                <v-icon v-bind="attrs" v-on="on" v-if="item.iconType === 'mdi'">{{ item.icon }}</v-icon>
+                <font-awesome-icon class="v-icon notranslate" v-else-if="item.iconType === 'fa'" :icon="item.icon"></font-awesome-icon>
               </template>
-              <span>Users</span>
+              <span>{{ item.title }}</span>
             </v-tooltip>
           </v-list-item-icon>
           <v-list-item-content v-if="drawerWidth !== 64">
-            <v-list-item-title>Users</v-list-item-title>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -53,7 +54,8 @@
 </template>
 
 <script>
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
+import { faServer, faDatabase } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   data: () => ({
@@ -63,6 +65,26 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
     scrollSettings: {
       maxScrollbarLength: 160
     },
+    items: [
+      {
+        title: 'Users',
+        iconType: 'mdi',
+        icon: 'mdi-account-group',
+        to: '/users'
+      },
+      {
+        title: 'Endpoints',
+        iconType: 'fa',
+        icon: faServer,
+        to: '/endpoints'
+      },
+      {
+        title: 'Registries',
+        iconType: 'fa',
+        icon: faDatabase,
+        to: '/registries'
+      }
+    ],
     sponsor: {
       href: 'https://www.kamefiber.com/',
       src: '/sponsor/logo.png',

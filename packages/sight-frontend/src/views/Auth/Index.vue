@@ -82,6 +82,9 @@ export default class AuthIndexView extends Vue {
       setToken(jwt);
       return this.$router.push('/dashboard');
     } catch (err) {
+      this.$toast.error('Login error', {
+        position: 'top-center'
+      });
       setTimeout(() => {
         this.loading = false;
       }, 500);

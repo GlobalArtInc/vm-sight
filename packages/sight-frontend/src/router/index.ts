@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import Router, { NavigationGuardNext, Route } from 'vue-router';
 import { getToken } from '@/utils/auth';
-import protectedRoutes from '@/router/protected.routes';
+import protectedRoutes from '@/router/protected.router';
 import publicRouter from '@/router/public.router';
 import Blank from '../layouts/Blank.vue';
 import { checkAuth } from '@/router/router.utils';
@@ -28,6 +28,12 @@ const router = new Router({
 });
 
 const whiteList = ['/init/admin', '/init/endpoint'];
+
+router.beforeResolve((to: Route, from: Route, next: NavigationGuardNext) => {
+  // preload resolve
+  // console.log('test');
+  next();
+});
 
 router.beforeEach(async (to, from, next) => {
   await checkAuth();

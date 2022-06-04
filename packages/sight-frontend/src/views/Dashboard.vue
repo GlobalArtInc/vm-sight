@@ -27,9 +27,6 @@
                           <v-chip label class="font-weight-black" small color="error" v-else>off</v-chip>
                             {{ convertDate(item.snapshot.Time) }}
                           </span>
-                      <span style="float:right;padding-right: 1em">
-                            sw
-                        </span>
                     </v-list-item-title>
 
                     <v-list-item-subtitle class="text--primary">
@@ -115,8 +112,8 @@ export default class DashboardView extends Vue {
   }
 
   goCluster (endpoint) {
-    if (endpoint.Type === 1 || endpoint.Type === 2) {
-      this.$router.push({ name: 'endpointDocker', params: { id: endpoint.Id } });
+    if (endpoint.type === 1 || endpoint.type === 2) {
+      this.$router.push(`/${endpoint.id}/docker/dashboard`);
     }
   }
 }

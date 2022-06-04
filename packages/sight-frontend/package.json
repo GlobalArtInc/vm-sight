@@ -2,7 +2,7 @@
   "name": "@vm-sight/sight-frontend",
   "version": "0.2.0",
   "scripts": {
-    "serve": "vue-cli-service serve --port 3600",
+    "serve": "vue-cli-service serve --port 3600 --host 0.0.0.0",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -10,6 +10,7 @@
     "@femessage/log-viewer": "^1.5.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^2.0.6",
     "@mdi/font": "^6.7.96",
