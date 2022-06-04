@@ -4,7 +4,7 @@ import { getToken } from '@/utils/auth';
 import protectedRoutes from '@/router/protected.router';
 import publicRouter from '@/router/public.router';
 import Blank from '../layouts/Blank.vue';
-import { checkAuth } from '@/router/router.utils';
+import { checkAuth, RouteMeta } from '@/router/router.utils';
 
 Vue.use(Router);
 
@@ -13,8 +13,10 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '',
+      path: '/',
+      redirect: '/dashboard',
       component: Blank,
+      meta: new RouteMeta({ title: 'home' }),
       // beforeEnter (to, from, next) {
       //  checkAuth();
       //  next();

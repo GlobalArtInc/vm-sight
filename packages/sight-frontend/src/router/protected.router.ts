@@ -5,15 +5,18 @@ import { endpointsResolver } from '@/resolvers/endpoints.resolver';
 import usersRouter from '@/router/users.router';
 import endpointsRouter from '@/router/endpoints.router';
 import dockerRouter from '@/router/docker.router';
+import { RouteMeta } from '@/router/router.utils';
 
 const routes: Array<RouteConfig> = [
   {
     path: '/dashboard',
     name: 'Dashboard',
     component: MainLayout,
+    meta: new RouteMeta({ hideInMenu: true }),
     children: [
       {
         path: '',
+        meta: new RouteMeta({ hideInMenu: true }),
         component: () => import('../views/Dashboard.vue'),
         beforeEnter: endpointsResolver
       }
@@ -22,6 +25,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/users',
     name: 'Users',
+    meta: new RouteMeta({ title: 'users' }),
     component: MainLayout,
     children: [
       ...usersRouter
@@ -30,6 +34,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/endpoints',
     name: 'Endpoints',
+    meta: new RouteMeta({ title: 'endpoints' }),
     component: MainLayout,
     children: [
       ...endpointsRouter

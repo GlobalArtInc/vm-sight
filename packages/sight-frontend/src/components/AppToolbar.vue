@@ -52,16 +52,15 @@ import { removeToken } from '@/utils/auth';
     ...mapGetters(['auth/user']),
     breadcrumbs () {
       const { matched } = this.$route;
-      return matched.filter(route => !route.meta.hiddenInMenu).map((route, index) => {
+      return matched.filter(route => !route.meta.hideInMenu).map((route, index) => {
         const text = this.t('menu.' + route.meta.title) ? this.t('menu.' + route.meta.title) : '';
         let to;
-        console.log(route.meta.type);
         if (route.meta.type === 'endpointDocker') {
           const url = this.$route.fullPath.split('/');
           to =
             index === matched.length - 1
-              ? this.$route.path.replace(':id', url[1]).replace(':hash', url[4])
-              : route.path.replace(':id', url[1]).replace(':hash', url[4]) || route.redirect;
+              ? this.$route.path.replace(':endpointId', url[1]).replace(':hash', url[4])
+              : route.path.replace(':endpointId', url[1]).replace(':hash', url[4]) || route.redirect;
         } else {
           to =
             index === matched.length - 1

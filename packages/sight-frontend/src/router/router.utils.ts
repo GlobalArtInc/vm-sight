@@ -2,11 +2,18 @@ import { getToken } from '@/utils/auth';
 import authService from '@/services/auth.service';
 import store from '@/store';
 
-export class RouteMeta {
-  title: string;
+interface RouteMetaI {
+  title?: string;
+  hideInMenu?: boolean;
+}
 
-  constructor ({ title }: { title: string }) {
-    this.title = title;
+export class RouteMeta implements RouteMetaI {
+  title: string | undefined = '';
+  hideInMenu: boolean | undefined = true;
+
+  constructor (data: RouteMetaI) {
+    this.title = data.title;
+    this.hideInMenu = data.hideInMenu;
   }
 }
 
