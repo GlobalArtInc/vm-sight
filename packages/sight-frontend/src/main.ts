@@ -10,6 +10,26 @@ import '@/theme/style.sass';
 import '@mdi/font/css/materialdesignicons.css';
 import moment from 'vue-moment';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import VueProgressBar from 'vue-progressbar';
+
+const options = {
+  color: '#e5e5e5',
+  failedColor: '#874b4b',
+  thickness: '5px',
+  transition: {
+    speed: '1.2s',
+    opacity: '0.6s',
+    termination: 800
+  },
+  autoRevert: true,
+  location: 'top',
+  inverse: false
+};
+
+Vue.use(VueProgressBar, options);
+
 Vue.config.productionTip = false;
 
 Vue.use(moment);

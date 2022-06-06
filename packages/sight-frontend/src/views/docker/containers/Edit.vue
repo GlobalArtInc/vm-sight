@@ -252,22 +252,20 @@
   </v-row>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ContainerActionMenu from '@/components/docker/action-menu/ContainerActionMenu';
+import ContainerActionMenu from '@/components/docker/action-menu/ContainerActionMenu.vue';
 import dockerService from '@/services/docker.service';
-import State from '@/components/docker/State';
+import State from '@/components/docker/State.vue';
+import { AxiosError } from 'axios';
 
 @Component({
-  components: { State, ContainerActionMenu },
-  created () {
-    this.endpoint = this.$route.meta?.endpoint;
-    this.container = this.$route.meta?.container;
-    this.networks = this.$route.meta?.networks;
-  }
+  components: { State, ContainerActionMenu }
 })
 export default class DockerContainersEditView extends Vue {
-  container = {};
+  endpoint = this.$route.meta?.endpoint;
+  container = this.$route.meta?.container;
+  networks = this.$route.meta?.networks;
   idle = false;
   restartPolicyItems = [
     {
@@ -295,6 +293,8 @@ export default class DockerContainersEditView extends Vue {
     }
   }
 
+  currentNetwork = ''
+
   networkHeaders = [
     {
       text: 'Network',
@@ -307,10 +307,32 @@ export default class DockerContainersEditView extends Vue {
     {}
   ];
 
-  networks = [];
-
   async refreshContainer () {
     this.container = await dockerService.getContainerById(this.$route.params.endpointId, this.$route.params.id);
+  }
+
+  async connectNetwork (networkId: string) {
+    try {
+      await dockerService.connectNetwork(this.$route.params.endpointId, networkId, this.$route.params.id);
+      this.container = await dockerService.getContainerById(this.$route.params.endpointId, this.$route.params.id);
+      return this.$toast.success(this.t('networks.connected'));
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        await this.$toast.error(err.response?.data.message ?? 'An error occurred');
+      }
+    }
+  }
+
+  async disconnectNetwork (networkId: string) {
+    try {
+      await dockerService.disconnectNetwork(this.$route.params.endpointId, networkId, this.$route.params.id);
+      this.container = await dockerService.getContainerById(this.$route.params.endpointId, this.$route.params.id);
+      return this.$toast.success(this.t('networks.disconnected'));
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        await this.$toast.error(err.response?.data.message ?? 'An error occurred');
+      }
+    }
   }
 }
 </script>

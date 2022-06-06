@@ -24,6 +24,18 @@ class DockerService {
   getNetworkById (endpointId: string, networkId: string) {
     return request.get(`/endpoints/${endpointId}/docker/networks/${networkId}`);
   }
+
+  connectNetwork (endpointId: string, networkId: string, containerId: string) {
+    return request.post(`/endpoints/${endpointId}/docker/networks/${networkId}/connect`, {
+      Container: containerId
+    });
+  }
+
+  disconnectNetwork (endpointId: string, networkId: string, containerId: string) {
+    return request.post(`/endpoints/${endpointId}/docker/networks/${networkId}/disconnect`, {
+      Container: containerId
+    });
+  }
 }
 
 export default new DockerService();

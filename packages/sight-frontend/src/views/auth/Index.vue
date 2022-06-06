@@ -55,6 +55,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import authService from '@/services/auth.service';
 import { setToken } from '@/utils/auth';
+import store from '@/store';
 
 @Component({
   data: () => ({
@@ -80,6 +81,9 @@ export default class AuthIndexView extends Vue {
         position: 'top-center'
       });
       setToken(jwt);
+      authService.me().then((user) => {
+        return store.dispatch('auth/getInfo', user);
+      });
       return this.$router.push('/dashboard');
     } catch (err) {
       this.$toast.error('Login error', {

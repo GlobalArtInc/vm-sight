@@ -1,4 +1,4 @@
-import axios, { AxiosStatic, AxiosResponse } from 'axios';
+import axios, { AxiosStatic } from 'axios';
 import { getToken } from '@/utils/auth';
 import router from '@/router';
 

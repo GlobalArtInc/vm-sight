@@ -41,11 +41,6 @@ router.beforeResolve((to: Route, from: Route, next: NavigationGuardNext) => {
   next();
 });
 
-router.beforeEach(async (to, from, next) => {
-  // await checkAuth();
-  return next();
-});
-
 // This callback runs before every route change, including on initial load
 router.beforeEach((to, from, next) => {
   if (whiteList.indexOf(to.path) !== -1) {
