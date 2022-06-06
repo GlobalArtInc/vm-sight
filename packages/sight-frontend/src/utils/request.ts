@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosStatic, AxiosResponse } from 'axios';
 import { getToken } from '@/utils/auth';
 import router from '@/router';
 
@@ -36,4 +36,4 @@ request.interceptors.response.use(
   }
 );
 
-export default request;
+export default request as AxiosStatic;

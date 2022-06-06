@@ -119,8 +119,8 @@ import UsersToolbar from '@/views/users/UsersToolbar';
           text: 'Edit Item',
           icon: 'mdi-pencil',
           click: this.handleEditItem,
-          condition: () => {
-            return true;
+          condition: (id) => {
+            return id;
           }
         },
         {

@@ -66,7 +66,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { ByteToSize } from '@/utils/math';
 import { faMicrochip, faMemory, faThList, faCubes, faCopy, faHdd, faSitemap } from '@fortawesome/free-solid-svg-icons';
 import Widget from '@/components/docker/Widget.vue';
-import { Endpoint } from '@sight-types';
+// import { Endpoint } from '@sight-types';
 
 @Component({
   components: {
@@ -74,7 +74,7 @@ import { Endpoint } from '@sight-types';
   }
 })
 export default class DockerDashboardView extends Vue {
-  endpoint: Endpoint = this.$route.meta?.endpoint;
+  endpoint = this.$route.meta?.endpoint;
   networks = this.$route.meta?.networks;
 
   icon = { faMicrochip, faMemory, faThList, faCubes, faCopy, faHdd, faSitemap };

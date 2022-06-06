@@ -13,6 +13,7 @@ import DB from './databases';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import { generateKeyPairSync } from 'crypto';
+import * as path from 'path';
 
 class App {
   public app: express.Application;
@@ -21,11 +22,12 @@ class App {
 
   constructor() {
     this.app = express();
-    this.port = port ?? 3700;
+    this.port = environment === 'dev' ? 3700 : 3600;
     this.env = environment ?? 'dev';
   }
 
   public async init(routes) {
+    this.app.use('/', express.static(path.join(__dirname, '../dist/client')));
     logger.info(`=================================`);
     logger.info(`checkingKeys...`);
     this.generateKeys();
@@ -39,6 +41,8 @@ class App {
     await this.initializeSwagger();
     logger.info(`initializeErrorHandling...`);
     await this.initializeErrorHandling();
+    //if (this.env !== 'dev') {
+    // }
   }
 
   public generateKeys() {

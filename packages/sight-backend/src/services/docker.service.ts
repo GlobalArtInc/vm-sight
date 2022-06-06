@@ -4,8 +4,10 @@ import { BadRequestException, NotFoundException } from '@exceptions';
 import { isWindows } from '@utils/util';
 import { CreateNetworkDto } from '@dtos/docker.dto';
 
+// tslint:disable:no-var-requires
+
 export class DockerService {
-  public service: { endpoint: any; docker: Docker | string };
+  public service: { endpoint: any; docker: any };
 
   /**
    * Connect to the docker server or via docker socket
@@ -14,6 +16,8 @@ export class DockerService {
    */
   public async checkConnect(data, onCreate = false) {
     try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const settings: Docker.Settings =
         data.type === 2
           ? { socketPath: isWindows() ? '//./pipe/docker_engine' : '/var/run/docker.sock' }

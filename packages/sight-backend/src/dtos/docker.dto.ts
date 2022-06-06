@@ -8,6 +8,7 @@ export enum DockerActions {
   pause = 'pause',
   resume = 'resume',
   recreate = 'recreate',
+  remove = 'remove',
 }
 export class IPAM {
   @IsString()

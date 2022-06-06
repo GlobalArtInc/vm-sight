@@ -9,13 +9,17 @@ import { checkAuth, RouteMeta } from '@/router/router.utils';
 Vue.use(Router);
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       redirect: '/dashboard',
       component: Blank,
+      beforeEnter: (to, from, next) => {
+        checkAuth();
+        next();
+      },
       meta: new RouteMeta({ title: 'home' }),
       // beforeEnter (to, from, next) {
       //  checkAuth();
@@ -38,7 +42,7 @@ router.beforeResolve((to: Route, from: Route, next: NavigationGuardNext) => {
 });
 
 router.beforeEach(async (to, from, next) => {
-  await checkAuth();
+  // await checkAuth();
   return next();
 });
 
@@ -49,9 +53,7 @@ router.beforeEach((to, from, next) => {
   } else {
     if (getToken()) {
       if (to.path === '/') return next('/dashboard');
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      if (whiteList.includes(to.path) !== -1) {
+      if (whiteList.indexOf(to.path) < 0) {
         return next();
       } else {
         return next('/dashboard');
