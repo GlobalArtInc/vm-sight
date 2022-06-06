@@ -12,6 +12,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { faPlay, faStop, faBomb, faSync, faPause, faTrash } from '@fortawesome/free-solid-svg-icons';
 import dockerService from '@/services/docker.service';
+import { ContainerInspectInfo } from 'dockerode';
 
 @Component({
   data () {
@@ -65,7 +66,7 @@ import dockerService from '@/services/docker.service';
 })
 export default class ContainerActionMenu extends Vue {
   disableAll = false;
-  @Prop() selected!: any[]
+  @Prop() selected!: ContainerInspectInfo[]
 
   async execAction (action: string, containerId: string) {
     return new Promise<void>((resolve) => {
@@ -93,7 +94,7 @@ export default class ContainerActionMenu extends Vue {
   checkDisabled (action: string) {
     if (this.disableAll) return true;
     if (this.selected.length > 1) return false;
-    const item: any = this.selected[0];
+    const item: ContainerInspectInfo = this.selected[0];
     if (!item) return true;
     const state: string = item.State.Status ?? item.State ?? false;
     if (!state) return true;
