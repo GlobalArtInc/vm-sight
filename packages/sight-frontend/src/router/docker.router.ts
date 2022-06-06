@@ -7,7 +7,8 @@ const containersRouter: Array<RouteConfig> = [
   {
     path: ':id',
     meta: new RouteMeta({ title: 'container', type: 'endpointDocker' }),
-    component: () => import('@/views/docker/containers/Edit.vue')
+    component: () => import('@/views/docker/containers/Edit.vue'),
+    beforeEnter: (to, from, next) => dockerResolver(['endpoint', 'container', 'networks'], to, from, next)
   },
   {
     path: '',
@@ -29,7 +30,6 @@ const routes: Array<RouteConfig> = [
     path: 'containers',
     props: true,
     meta: new RouteMeta({ title: 'containers', type: 'endpointDocker' }),
-    beforeEnter: (to, from, next) => dockerResolver(['endpoint', 'containers'], to, from, next),
     component: Blank,
     children: [
       ...containersRouter

@@ -18,7 +18,7 @@ export const dockerResolver = async (actions: dockerResolverActionsTypes[], to: 
           data = await dockerService.getContainers(to.params.endpointId);
           break;
         case 'container':
-          data = await dockerService.getContainerById(to.params.endpointId, to.params.containerId);
+          data = await dockerService.getContainerById(to.params.endpointId, to.params.id);
           break;
         case 'networks':
           data = await dockerService.getNetworks(to.params.endpointId);

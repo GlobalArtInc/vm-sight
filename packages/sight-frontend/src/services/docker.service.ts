@@ -10,7 +10,11 @@ class DockerService {
   }
 
   execContainerAction (action: string, endpointId: string, containerId: string) {
-    return request.patch(`/endpoints/${endpointId}/docker/containers/${containerId}`, { action });
+    if (action === 'remove') {
+      return request.delete(`/endpoints/${endpointId}/docker/containers/${containerId}`);
+    } else {
+      return request.patch(`/endpoints/${endpointId}/docker/containers/${containerId}`, { action });
+    }
   }
 
   getNetworks (endpointId: string) {

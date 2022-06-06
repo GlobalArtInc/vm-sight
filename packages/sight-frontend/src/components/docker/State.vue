@@ -31,7 +31,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class DockerStateComponent extends Vue {
-  @Prop({ default: false }) text!: string;
+  @Prop({ default: false }) text!: boolean;
   @Prop() state!: string;
   @Prop() status!: string;
 }

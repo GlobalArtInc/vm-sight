@@ -1,5 +1,6 @@
 <template>
   <div class="btn-group" role="group" aria-label="...">
+    <v-progress-circular absolute top indeterminate color="primary" class="space-right" v-if="disableAll" />
     <v-btn :key="item.id" v-for="item of buttons" depressed :disabled="checkDisabled(item.id)" :color="item.color" tile @click="exec(item.id)">
       <font-awesome-icon :icon="item.icon" class="v-icon v-icon--left" />
       {{ item.label }}
@@ -94,17 +95,19 @@ export default class ContainerActionMenu extends Vue {
     if (this.selected.length > 1) return false;
     const item: any = this.selected[0];
     if (!item) return true;
+    const state: string = item.State.Status ?? item.State ?? false;
+    if (!state) return true;
     switch (action) {
       case 'start':
-        return item.State === 'running';
+        return state === 'running';
       case 'stop':
-        return item.State !== 'running';
+        return state !== 'running';
       case 'kill':
-        return item.State !== 'running';
+        return state !== 'running';
       case 'pause':
-        return item.State === 'paused' || item.State !== 'running';
+        return state === 'paused' || state !== 'running';
       case 'resume':
-        return item.State !== 'paused';
+        return state !== 'paused';
       case 'remove':
         return false;
     }
