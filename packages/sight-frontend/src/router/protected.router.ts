@@ -9,7 +9,7 @@ import { RouteMeta } from '@/router/router.utils';
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/dashboard',
+    path: 'dashboard',
     name: 'Dashboard',
     component: MainLayout,
     meta: new RouteMeta({ hideInMenu: true }),
@@ -23,7 +23,7 @@ const routes: Array<RouteConfig> = [
     ]
   },
   {
-    path: '/users',
+    path: 'users',
     name: 'Users',
     meta: new RouteMeta({ title: 'users' }),
     component: MainLayout,
@@ -32,7 +32,7 @@ const routes: Array<RouteConfig> = [
     ]
   },
   {
-    path: '/endpoints',
+    path: 'endpoints',
     name: 'Endpoints',
     meta: new RouteMeta({ title: 'endpoints' }),
     component: MainLayout,
@@ -41,17 +41,17 @@ const routes: Array<RouteConfig> = [
     ]
   },
   {
-    path: '/:endpointId',
+    path: ':endpointId',
     props: true,
+    meta: new RouteMeta({ hideInMenu: true }),
     component: MainLayout,
     children: [
       {
         path: 'docker',
         component: DockerLayout,
         props: true,
-        meta: {
-          type: 'endpointDocker'
-        },
+        meta: new RouteMeta({ title: 'docker', type: 'endpointDocker' }),
+        redirect: 'docker/dashboard',
         children: [
           ...dockerRouter
         ]

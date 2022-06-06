@@ -35,14 +35,14 @@ export default {
     swarm_warn: 'VM-SIGHT is connected to a node that is part of a Swarm cluster. Some resources located on other nodes in the cluster might not be available for management.'
   },
   containers: {
-    started: 'The container has been started',
-    stopped: 'The container has been stopped',
-    killed: 'The container has been killed',
-    restarted: 'The container has been restarted',
-    paused: 'The container has been paused',
-    resumes: 'The container has been resumed',
-    removed: 'The container has been removed',
-    renamed: 'The container has been renamed'
+    start: 'The container has been started',
+    stop: 'The container has been stopped',
+    kill: 'The container has been killed',
+    restart: 'The container has been restarted',
+    pause: 'The container has been paused',
+    resume: 'The container has been resumed',
+    remove: 'The container has been removed',
+    rename: 'The container has been renamed'
   },
   // user page
   yes: 'Yes',

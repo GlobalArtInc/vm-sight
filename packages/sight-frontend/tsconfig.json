@@ -11,14 +11,25 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "typeRoots": [
+      "./node_modules/@types",
+      "../sight-types"
+    ],
     "types": [
       "webpack-env",
       "jest"
     ],
     "paths": {
       "@/*": [
-        "src/*"
-      ]
+        "./*",
+        "./src/*"
+      ],
+      "@sight-types": [
+        "../sight-types"
+      ],
+      "@sight-types/*": [
+        "../sight-types/*"
+      ],
     },
     "lib": [
       "esnext",

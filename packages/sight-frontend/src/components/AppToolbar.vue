@@ -59,8 +59,10 @@ import { removeToken } from '@/utils/auth';
           const url = this.$route.fullPath.split('/');
           to =
             index === matched.length - 1
-              ? this.$route.path.replace(':endpointId', url[1]).replace(':hash', url[4])
-              : route.path.replace(':endpointId', url[1]).replace(':hash', url[4]) || route.redirect;
+              ? this.$route.path.replace(':endpointId', url[1]).replace(':id', url[4])
+              : route.path.replace(':endpointId', url[1]).replace(':id', url[4]) || route.redirect;
+        } else if (route.redirect) {
+          to = route.redirect;
         } else {
           to =
             index === matched.length - 1

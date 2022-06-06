@@ -47,8 +47,7 @@
                     <v-list-item
                       v-for="action in actions"
                       :key="action.text"
-                      @click="action.click(item)"
-                    >
+                      @click="action.click(item)">
                       <v-list-item-icon class="mr-2">
                         <v-icon small>{{ action.icon }}</v-icon>
                       </v-list-item-icon>
@@ -58,7 +57,7 @@
                 </v-menu>
               </template>
 
-              <template v-slot:[`item.action`]="{ item }">
+              <template #item.action="{ item }">
                 <v-menu>
                   <template v-slot:activator="{ on: menu }">
                     <v-btn icon v-on="onTooltip({ ...menu })">
@@ -102,7 +101,6 @@ import EndpointsToolbar from '@/views/endpoints/EndpointsToolbar';
     return {
       showFilter: false,
       loadingItems: false,
-      items: [],
       selected: [],
       search: '',
       footerProps: { 'items-per-page-options': [50, 100] },
@@ -147,12 +145,10 @@ import EndpointsToolbar from '@/views/endpoints/EndpointsToolbar';
         }
       ]
     };
-  },
-  created () {
-    this.items = this.$route.meta.endpoints;
   }
 })
 export default class EndpointsIndexView extends Vue {
+  items = this?.$route?.meta?.endpoints;
   handleDeleteItem ({ id }) {
     endpointsService.deleteEndpoint(id).then(async () => {
       this.items = await endpointsService.getEndpoints();

@@ -1,7 +1,16 @@
+// const path = require('path');
+
 module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
+  // configureWebpack: {
+  //   resolve: {
+  //     alias: {
+  //       '@sight-types': path.resolve(__dirname, '../sight-types')
+  //     }
+  //   }
+  // },
   devServer: {
     proxy: {
       '^/api': {
