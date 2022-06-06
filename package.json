@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "cypress": "^8.6.0",
-    "lerna": "3.22.1",
+    "lerna": "^3.22.1",
     "sequelize-cli": "^6.4.1"
   },
   "scripts": {

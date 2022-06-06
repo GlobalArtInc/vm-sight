@@ -29,9 +29,11 @@ class EndpointsService {
   }
 
   public async create(endpointData: CreateEndpointsDto) {
+    if (endpointData.type === 2 && (await EndpointsModel.findOne({ where: { type: 2 } }))) {
+      throw new ConflictException('Socket is already exists');
+    }
+
     if (endpointData.type === 1 || endpointData.type === 2) {
-      const endpoint = await EndpointsModel.findOne({ where: { type: 2 } });
-      if (endpoint) throw new ConflictException('Socket is already exists');
       await this.dockerService.checkConnect(endpointData, true);
       await new EndpointsModel({ ...endpointData }).save();
     }

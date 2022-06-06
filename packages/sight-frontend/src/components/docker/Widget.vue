@@ -7,7 +7,9 @@
           <div class="double-bounce2"></div>
         </div>
         <div class="widget-icon blue pull-left ng-scope">
-          <i :class="icon"></i>
+          <i>
+            <font-awesome-icon :icon="icon"/>
+          </i>
         </div>
         <div class="title ng-binding ng-scope">{{ count }}</div>
         <div class="comment ng-binding ng-scope">{{ name }}</div>
@@ -16,26 +18,16 @@
   </router-link>
 </template>
 
-<script>
-export default {
-  props: {
-    href: {
-      type: String,
-      required: true
-    },
-    count: {
-      type: [String, Number],
-      required: true
-    },
-    icon: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    }
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
+@Component
+export default class App extends Vue {
+  @Prop({ required: true }) href!: string
+  @Prop({ required: true }) count!: unknown
+  @Prop({ required: true }) icon!: IconDefinition
+  @Prop({ required: true }) name!: string
 }
 </script>
 
@@ -44,9 +36,8 @@ export default {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
   box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
   background: #fff;
-  border: 1px solid transparent;
+  border: 1px solid #e9e9e9;
   border-radius: 2px;
-  border-color: #e9e9e9;
 }
 
 .widget .widget-body {

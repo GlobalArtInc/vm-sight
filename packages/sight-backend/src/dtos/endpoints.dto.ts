@@ -1,4 +1,4 @@
-import { IsBoolean, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString, Min, MinLength } from 'class-validator';
 
 export enum EndpointTypes {
   DOCKER = 1,
@@ -62,6 +62,8 @@ export class CreateEndpointsDto {
   public tempId: number | 'socket';
 
   @IsString()
+  @IsNotEmpty()
+  @MinLength(4)
   public name: string;
 
   @IsBoolean()
@@ -87,6 +89,8 @@ export class CreateEndpointsDto {
 
 export class UpdateEndpointDto {
   @IsString()
+  @IsNotEmpty()
+  @MinLength(4)
   public name: string;
 
   @IsString()

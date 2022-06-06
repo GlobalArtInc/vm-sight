@@ -12,10 +12,10 @@ class AuthService {
     } else {
       const user = await UsersModel.findOne({
         where: {
-          username: userData.Username,
+          username: userData.username,
         },
       });
-      if (user && (await comparePassword(userData.Password, user.password))) {
+      if (user && (await comparePassword(userData.password, user.password))) {
         return new Promise((resolve, reject) => {
           jwt.sign(
             {

@@ -26,19 +26,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    text: {
-      type: Boolean,
-      default: false
-    },
-    state: {
-      type: String
-    },
-    status: {
-      type: String
-    }
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+@Component
+export default class DockerStateComponent extends Vue {
+  @Prop({ default: false }) text!: string;
+  @Prop() state!: string;
+  @Prop() status!: string;
 }
 </script>
