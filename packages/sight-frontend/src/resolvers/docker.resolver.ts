@@ -4,7 +4,7 @@ import dockerService from '@/services/docker.service';
 import { Vue } from 'vue-property-decorator';
 import { AxiosError } from 'axios';
 
-export type dockerResolverActionsTypes = 'endpoint' | 'containers' | 'container' | 'networks'
+export type dockerResolverActionsTypes = 'endpoint' | 'containers' | 'container' | 'networks' | 'logs'
 
 export const dockerResolver = async (actions: dockerResolverActionsTypes[], to: Route, from: Route, next: NavigationGuardNext) => {
   try {
@@ -23,6 +23,9 @@ export const dockerResolver = async (actions: dockerResolverActionsTypes[], to: 
         case 'networks':
           data = await dockerService.getNetworks(to.params.endpointId);
           break;
+          //  case 'logs':
+          //    data = await dockerService.getLogs(to.params.endpointId, to.params.id);
+          //    break;
         default:
           console.log(`${action} don't implemented`);
           break;

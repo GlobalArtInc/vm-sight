@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request, { createUrl } from '@/utils/request';
 
 class DockerService {
   getContainers (endpointId: string) {
@@ -25,6 +25,10 @@ class DockerService {
     return request.get(`/endpoints/${endpointId}/docker/networks/${networkId}`);
   }
 
+  removeNetwork (endpointId: string, networkId: string) {
+    return request.delete(`/endpoints/${endpointId}/docker/networks/${networkId}`);
+  }
+
   connectNetwork (endpointId: string, networkId: string, containerId: string) {
     return request.post(`/endpoints/${endpointId}/docker/networks/${networkId}/connect`, {
       Container: containerId
@@ -35,6 +39,10 @@ class DockerService {
     return request.post(`/endpoints/${endpointId}/docker/networks/${networkId}/disconnect`, {
       Container: containerId
     });
+  }
+
+  getLogs (endpointId: string, containerId: string, options: object) {
+    return request.get(`/endpoints/${endpointId}/docker/containers/${containerId}/logs?${createUrl(options)}`);
   }
 }
 

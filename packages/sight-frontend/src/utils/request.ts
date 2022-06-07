@@ -2,6 +2,17 @@ import axios, { AxiosStatic } from 'axios';
 import { getToken } from '@/utils/auth';
 import router from '@/router';
 
+export const createUrl = (obj: any) => {
+  let str = '';
+  for (const key in obj) {
+    if (str !== '') {
+      str += '&';
+    }
+    str += key + '=' + encodeURIComponent(obj[key]);
+  }
+  return str;
+};
+
 const request = axios.create({
   baseURL: '/api',
   withCredentials: true

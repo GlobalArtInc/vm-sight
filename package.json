@@ -14,6 +14,7 @@
     "deps": "lerna bootstrap --npm-client=yarn",
     "dev": "npm run db:migrate:test && lerna run dev --no-prefix --stream --scope @vm-sight/sight-backend",
     "start": "lerna run serve --no-prefix --stream --scope @vm-sight/sight-frontend",
+    "start:dev": "lerna run start:dev --no-prefix --stream --scope=@vm-sight/{sight-backend,sight-frontend}",
     "build": "lerna run build --scope=@vm-sight/{sight-backend,sight-frontend}",
     "db:migrate:test": "(cd packages/sight-backend && yarn run db:migrate:test)",
     "db:migrate:test:redo": "(cd packages/sight-backend && yarn run db:migrate:test:redo)"

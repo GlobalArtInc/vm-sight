@@ -7,6 +7,7 @@
   "author": "GlobalArt, Inc",
   "license": "ISC",
   "scripts": {
+    "start:dev": "cross-env NODE_ENV=development nodemon",
     "dev": "cross-env NODE_ENV=development nodemon",
     "start": "ts-node ./src/server.ts --env=prod",
     "db:migrate:test": "cd src && npx sequelize-cli db:migrate --env development --config ./configs/config.json",
@@ -79,7 +80,7 @@
     "@typescript-eslint/parser": "^4.22.0",
     "cross-env": "^7.0.3",
     "del": "^5.1.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.1",
     "eslint": "^7.25.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
