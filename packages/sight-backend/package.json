@@ -7,8 +7,8 @@
   "author": "GlobalArt, Inc",
   "license": "ISC",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=development nodemon",
-    "dev": "cross-env NODE_ENV=development nodemon",
+    "start:dev": "yarn run db:migrate:test && cross-env NODE_ENV=development nodemon",
+    "dev": "yarn run db:migrate:test && cross-env NODE_ENV=development nodemon",
     "start": "ts-node ./src/server.ts --env=prod",
     "db:migrate:test": "cd src && npx sequelize-cli db:migrate --env development --config ./configs/config.json",
     "db:migrate:test:undo": "cd src && npx sequelize-cli db:migrate:undo:all --env development --config ./configs/config.json",

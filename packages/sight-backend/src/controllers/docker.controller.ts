@@ -144,6 +144,11 @@ class DockerController {
     return res.status(200).json({ status: 200 });
   };
 
+  public getVolumes = async (req, res) => {
+    const { endpointId } = req.params;
+    return res.status(200).json(await this.dockerService.getVolumes(endpointId));
+  };
+
   /**
    * @openapi
    *   /endpoints/{endpointId}/docker/networks:

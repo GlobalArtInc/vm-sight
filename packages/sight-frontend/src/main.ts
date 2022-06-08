@@ -9,10 +9,14 @@ import '@/theme/default.sass';
 import '@/theme/style.sass';
 import '@mdi/font/css/materialdesignicons.css';
 import moment from 'vue-moment';
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import VueSplash from 'vue-splash';
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import VueProgressBar from 'vue-progressbar';
+
+Vue.use(VueSplash);
 
 const options = {
   color: '#e5e5e5',

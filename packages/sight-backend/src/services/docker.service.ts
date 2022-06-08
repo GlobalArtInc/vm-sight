@@ -164,6 +164,12 @@ export class DockerService {
     }
   }
 
+  public async getVolumes(endpointId: string) {
+    await this.connect(endpointId);
+    const { Volumes } = await this.service.docker.listVolumes();
+    return Volumes;
+  }
+
   public async getNetworks(endpointId: string) {
     await this.connect(endpointId);
     const networks = await this.service.docker.listNetworks();

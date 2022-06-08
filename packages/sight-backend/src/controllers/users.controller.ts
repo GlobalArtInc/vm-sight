@@ -123,6 +123,8 @@ class UsersController {
     const user = await this.usersService.getById(req.params.id);
     if (user) {
       const userData: UpdateUserDto = req.body;
+      if (req.user.id === req.params.id && userData.role === 0) throw new ForbiddenException("You can't remove the administrator role from yourself");
+
       await this.usersService.update(req.params.id, userData);
       return res.status(200).json({ status: 200 });
     } else {

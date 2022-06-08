@@ -24,8 +24,10 @@ class DockerRoute implements Route {
       wrapRouteHandler(this.dockerController.containerAction),
     );
     this.router.get('/containers/:containerId/logs', authMiddleware, wrapRouteHandler(this.dockerController.getContainerLogs));
-    this.router.post('/containers/:containerId/update', authMiddleware, wrapRouteHandler(this.dockerController.updateContainer));
+    this.router.put('/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.updateContainer));
     this.router.delete('/containers/:containerId', authMiddleware, wrapRouteHandler(this.dockerController.removeContainer));
+
+    this.router.get('/volumes', authMiddleware, wrapRouteHandler(this.dockerController.getVolumes));
 
     this.router.get('/networks', authMiddleware, wrapRouteHandler(this.dockerController.getNetworks));
     this.router.post(

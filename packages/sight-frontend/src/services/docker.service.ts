@@ -9,12 +9,20 @@ class DockerService {
     return request.get(`/endpoints/${endpointId}/docker/containers/${containerId}`);
   }
 
+  updateContainer (endpointId: string, containerId: string, data: object) {
+    return request.put(`/endpoints/${endpointId}/docker/containers/${containerId}`, data);
+  }
+
   execContainerAction (action: string, endpointId: string, containerId: string) {
     if (action === 'remove') {
       return request.delete(`/endpoints/${endpointId}/docker/containers/${containerId}`);
     } else {
       return request.patch(`/endpoints/${endpointId}/docker/containers/${containerId}`, { action });
     }
+  }
+
+  getVolumes (endpointId: string) {
+    return request.get(`/endpoints/${endpointId}/docker/volumes`);
   }
 
   getNetworks (endpointId: string) {
@@ -39,6 +47,10 @@ class DockerService {
     return request.post(`/endpoints/${endpointId}/docker/networks/${networkId}/disconnect`, {
       Container: containerId
     });
+  }
+
+  getImages (endpointId: string) {
+    return request.get(`/endpoints/${endpointId}/docker/images`);
   }
 
   getLogs (endpointId: string, containerId: string, options: object) {

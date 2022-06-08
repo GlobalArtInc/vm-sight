@@ -77,6 +77,7 @@ class UsersService {
         },
       });
       if (isUser) throw new ConflictException('username is already exists');
+
       if (userData.password) {
         userData.password = await cryptPassword(userData.password);
       }

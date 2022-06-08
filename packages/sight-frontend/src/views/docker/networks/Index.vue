@@ -6,13 +6,12 @@
           <i class="fa fa-sitemap"></i>
           <span class="font-weight-medium pl-1" style="color: #333" v-text="this.t('menu.networks')"/>
         </v-card-subtitle>
-        <v-divider />
+        <v-divider/>
         <v-card-subtitle>
           <NetworksActionMenu :selected="selected"
-                              @onUpdate="fetchNetworks"
-          />
+                              @onUpdate="fetchNetworks"/>
         </v-card-subtitle>
-        <v-divider />
+        <v-divider/>
         <v-card-text style="padding: 0">
           <v-data-table
             v-model="selected"
@@ -24,7 +23,7 @@
             item-key="Id"
             show-select>
             <template #item.Name="{item}">
-              <router-link :to="`networks/`+item.Id">
+              <router-link :to="{name: 'networksView', params: { id: item.Id }}">
                 {{ item.Name }}
                 <v-chip color="primary" ripple
                         v-if="item.Name === 'host' || item.Name === 'none' || item.Name === 'bridge'"
@@ -74,6 +73,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Dockerode from 'dockerode';
 import NetworksActionMenu from '@/components/docker/action-menu/NetworksActionMenu.vue';
 import dockerService from '@/services/docker.service';
+
 @Component({
   components: { NetworksActionMenu }
 })

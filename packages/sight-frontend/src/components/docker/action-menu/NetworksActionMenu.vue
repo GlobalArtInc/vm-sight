@@ -6,6 +6,10 @@
         <font-awesome-icon :icon="icon.faTrash" class="v-icon v-icon--left"/>
         Remove
       </v-btn>
+      <v-btn class="space-left" :to="{name: 'networksCreate'}" depressed color="primary">
+        <font-awesome-icon :icon="icon.faAdd" class="v-icon v-icon--left"/>
+        Add network
+      </v-btn>
     </div>
   </div>
 </template>
@@ -13,14 +17,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Dockerode from 'dockerode';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faAdd } from '@fortawesome/free-solid-svg-icons';
 import dockerService from '@/services/docker.service';
 
 @Component
 export default class DockerNetworksActionMenu extends Vue {
   @Prop() selected!: Dockerode.NetworkInspectInfo[];
 
-  icon = { faTrash };
+  icon = { faTrash, faAdd };
 
   disableAll = false;
 

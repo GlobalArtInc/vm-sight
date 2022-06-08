@@ -155,7 +155,7 @@
                         item-text="text"
                         item-value="Name"/>
                     </div>
-                    <v-btn @click="onUpdate({
+                    <v-btn @click="update({
                           RestartPolicy: {
                             Name: container.HostConfig.RestartPolicy.Name,
                             MaximumRetryCount: container.HostConfig.RestartPolicy.MaximumRetryCount
@@ -258,14 +258,15 @@ import ContainerActionMenu from '@/components/docker/action-menu/ContainerAction
 import dockerService from '@/services/docker.service';
 import State from '@/components/docker/State.vue';
 import { AxiosError } from 'axios';
+import Dockerode from 'dockerode';
 
 @Component({
   components: { State, ContainerActionMenu }
 })
 export default class DockerContainersEditView extends Vue {
   endpoint = this.$route.meta?.endpoint;
-  container = this.$route.meta?.container;
-  networks = this.$route.meta?.networks;
+  container: Dockerode.ContainerInspectInfo = this.$route.meta?.container;
+  networks: Dockerode.NetworkInspectInfo = this.$route.meta?.networks;
   idle = false;
   restartPolicyItems = [
     {
@@ -309,6 +310,17 @@ export default class DockerContainersEditView extends Vue {
 
   async refreshContainer () {
     this.container = await dockerService.getContainerById(this.$route.params.endpointId, this.$route.params.id);
+  }
+
+  async update (data: object, type: 'restartPolicy' | null = null) {
+    try {
+      await dockerService.updateContainer(this.$route.params.endpointId, this.$route.params.id, data);
+      if (type === 'restartPolicy') {
+        this.$toast.success('The restart policy has been updated');
+      }
+    } catch (err) {
+      this.$toast.error('An error occurred');
+    }
   }
 
   async connectNetwork (networkId: string) {

@@ -1,6 +1,7 @@
 <template>
   <v-app-bar color="primary" dark app>
     <v-app-bar-nav-icon @click="handleDrawerToggle"/>
+    {{ getTitle }}
     <v-spacer/>
     <v-toolbar-items>
       <v-menu offset-y origin="center center" transition="scale-transition">
@@ -35,7 +36,6 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import { mapGetters } from 'vuex';
 import { removeToken } from '@/utils/auth';
 
 @Component({
@@ -49,7 +49,9 @@ import { removeToken } from '@/utils/auth';
     ]
   }),
   computed: {
-    ...mapGetters(['auth/user']),
+    getTitle () {
+      return this.$route.meta.title ? this.t('menu.' + this.$route.meta.title) : this.$route.path;
+    },
     breadcrumbs () {
       const { matched } = this.$route;
       return matched.filter(route => !route.meta.hideInMenu).map((route, index) => {
