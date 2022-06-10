@@ -25,6 +25,10 @@ class DockerService {
     return request.get(`/endpoints/${endpointId}/docker/volumes`);
   }
 
+  removeVolumeById (endpointId: string, volumeId: string) {
+    return request.delete(`/endpoints/${endpointId}/docker/volumes/${volumeId}`);
+  }
+
   getNetworks (endpointId: string) {
     return request.get(`/endpoints/${endpointId}/docker/networks`);
   }

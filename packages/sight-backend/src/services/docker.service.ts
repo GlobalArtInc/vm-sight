@@ -170,6 +170,18 @@ export class DockerService {
     return Volumes;
   }
 
+  public async getVolumeById(endpointId: string, volumeId: string) {
+    await this.connect(endpointId);
+    const volume = await this.service.docker.getVolume(volumeId);
+    return volume.inspect();
+  }
+
+  public async deleteVolumeById(endpointId: string, volumeId: string) {
+    await this.connect(endpointId);
+    const volume = await this.service.docker.getVolume(volumeId);
+    return volume.remove();
+  }
+
   public async getNetworks(endpointId: string) {
     await this.connect(endpointId);
     const networks = await this.service.docker.listNetworks();
