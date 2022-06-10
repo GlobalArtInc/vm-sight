@@ -144,9 +144,93 @@ class DockerController {
     return res.status(200).json({ status: 200 });
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/containers/volumes:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Get a docker volumes by endpointId
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getVolumes = async (req, res) => {
     const { endpointId } = req.params;
     return res.status(200).json(await this.dockerService.getVolumes(endpointId));
+  };
+
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/volumes/{volumeUd}:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Get a docker volume by endpointId
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: volumeId
+   *          in: path
+   *          description: Volume ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
+  public getVolumeById = async (req, res) => {
+    const { endpointId, volumeId } = req.params;
+    return res.status(200).json(await this.dockerService.getVolumeById(endpointId, volumeId));
+  };
+
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/volumes/{volumeUd}:
+   *     delete:
+   *       tags:
+   *       - docker
+   *       summary: Delete a docker volume by volumeId
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: volumeId
+   *          in: path
+   *          description: Volume ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
+  public deleteVolumeById = async (req, res) => {
+    const { endpointId, volumeId } = req.params;
+    await this.dockerService.deleteVolumeById(endpointId, volumeId);
+    return res.status(200).json({ status: 200 });
   };
 
   /**

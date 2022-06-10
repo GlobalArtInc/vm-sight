@@ -15,7 +15,13 @@ module.exports = {
     "camelcase": [2, {"properties": "never", allow: ['public_url']}],
     'no-console': process.env.NODE_ENV === 'production' ? ['warn', { allow: ['info', 'warn', 'error'] }] : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    semi: ['error', 'always']
+    semi: ['error', 'always'],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      { ignores: ["modules"] },
+    ],
   },
   overrides: [
     {
