@@ -4,7 +4,7 @@ import { RootState } from '@/types';
 import { getToken } from '@/utils/auth';
 
 const state: AuthState = {
-  token: getToken(),
+  token: null,
   isLogged: false,
   user: null
 };

@@ -8,8 +8,8 @@ import { UsersModel } from '../models';
 export default async function (req: IRequest, res: IResponse, next: INext) {
   const token = req.headers.authorization
     ? req.headers.authorization.split('Bearer ')[1]
-    : req.cookies.token
-    ? req.cookies.token
+    : req.cookies.accessToken
+    ? req.cookies.accessToken
     : req.query.token ?? false;
 
   if (token) {

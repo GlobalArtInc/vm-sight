@@ -17,9 +17,11 @@ export enum UserLanguages {
  *     properties:
  *       username:
  *         type: string
+ *         example: admin
  *         description: user login
  *       password:
  *         type: string
+ *         example: admin
  *         description: user password
  */
 export class AuthUserDto {

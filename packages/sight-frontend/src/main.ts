@@ -15,8 +15,10 @@ import VueSplash from 'vue-splash';
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import VueProgressBar from 'vue-progressbar';
+import VueCookies from 'vue-cookies';
 
 Vue.use(VueSplash);
+Vue.use(VueCookies);
 
 const options = {
   color: '#e5e5e5',
