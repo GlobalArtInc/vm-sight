@@ -25,6 +25,7 @@
     "ts-node-dev": "2.0.0-0",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.6",
+    "vue-cookies": "https://github.com/cmp-cc/vue-cookies",
     "vue-moment": "^4.1.0",
     "vue-nprogress": "^0.2.0",
     "vue-progressbar": "^0.7.5",
