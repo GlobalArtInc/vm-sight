@@ -38,7 +38,7 @@
           show-select>
 
           <template #item.Name="{item}">
-            <router-link :to="`containers/${item.Id}`">{{ item.Name }}</router-link>
+            <router-link :to="`containers/${item.Id}`">{{ item.Names[0] }}</router-link>
           </template>
 
           <template #item.Actions="{item}">

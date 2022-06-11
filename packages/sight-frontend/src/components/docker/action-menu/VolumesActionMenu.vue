@@ -5,7 +5,7 @@
       <font-awesome-icon :icon="icon.faTrash" class="v-icon v-icon--left"/>
       Remove
     </v-btn>
-    <v-btn depressed color="primary" class="space-left">
+    <v-btn :to="{name: 'dockerVolumesCreate'}" depressed color="primary" class="space-left">
       <font-awesome-icon :icon="icon.faAdd" class="v-icon v-icon--left"/>
       Create
     </v-btn>

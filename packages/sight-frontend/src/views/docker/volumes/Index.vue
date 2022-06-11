@@ -25,7 +25,7 @@
             show-select>
             <template #item.Name="{item}">
               <div>
-                {{ item.Name }}
+                <router-link :to="{name: 'volumesView', params: {id: item.Name}}" v-text="item.Name" />
                 <template v-if="item.Labels !== null">
                   <v-chip color="red" label outlined class="space-left">
                     Unused
@@ -49,6 +49,7 @@ import Dockerode from 'dockerode';
 import { faHdd } from '@fortawesome/free-regular-svg-icons';
 import VolumesActionMenu from '@/components/docker/action-menu/VolumesActionMenu.vue';
 import dockerService from '@/services/docker.service';
+
 @Component({
   components: { VolumesActionMenu }
 })

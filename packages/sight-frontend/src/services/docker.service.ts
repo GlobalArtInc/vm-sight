@@ -1,4 +1,5 @@
 import request, { createUrl } from '@/utils/request';
+import { VolumesFormCreate } from '@/interfaces/docker.interface';
 
 class DockerService {
   getContainers (endpointId: string) {
@@ -23,6 +24,14 @@ class DockerService {
 
   getVolumes (endpointId: string) {
     return request.get(`/endpoints/${endpointId}/docker/volumes`);
+  }
+
+  getVolumeById (endpointId: string, volumeId: string) {
+    return request.get(`/endpoints/${endpointId}/docker/volumes/${volumeId}`);
+  }
+
+  createVolume (endpointId: string, formModel: VolumesFormCreate) {
+    return request.post(`/endpoints/${endpointId}/docker/volumes`, formModel);
   }
 
   removeVolumeById (endpointId: string, volumeId: string) {

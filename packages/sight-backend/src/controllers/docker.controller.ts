@@ -203,6 +203,35 @@ class DockerController {
 
   /**
    * @openapi
+   *   /endpoints/{endpointId}/docker/volumes:
+   *     delete:
+   *       tags:
+   *       - docker
+   *       summary: Create a docker volume
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
+  public createVolume = async (req, res) => {
+    const { endpointId } = req.params;
+    await this.dockerService.createVolume(endpointId, req.body);
+    return res.status(200).json({
+      status: 200,
+    });
+  };
+
+  /**
+   * @openapi
    *   /endpoints/{endpointId}/docker/volumes/{volumeUd}:
    *     delete:
    *       tags:
