@@ -3,18 +3,30 @@ import { RouteMeta } from '@/router/router.utils';
 import Blank from '@/layouts/Blank.vue';
 import { dockerResolver } from '@/resolvers/docker.resolver';
 
+const containerRoutes: Array<RouteConfig> = [
+  {
+    path: 'logs',
+    meta: new RouteMeta({ title: 'containerLogs', type: 'endpointDocker' }),
+    component: () => import('@/views/docker/containers/Logs.vue'),
+    beforeEnter: (to, from, next) => dockerResolver(['container'], to, from, next)
+  },
+  {
+    path: '',
+    meta: new RouteMeta({ hideInMenu: true }),
+    component: () => import('@/views/docker/containers/Edit.vue'),
+    beforeEnter: (to, from, next) => dockerResolver(['container', 'networks'], to, from, next)
+  }
+];
+
 const containersRouter: Array<RouteConfig> = [
   {
     path: ':id',
     meta: new RouteMeta({ title: 'container', type: 'endpointDocker' }),
-    component: () => import('@/views/docker/containers/Edit.vue'),
-    beforeEnter: (to, from, next) => dockerResolver(['endpoint', 'container', 'networks'], to, from, next)
-  },
-  {
-    path: ':id/logs',
-    meta: new RouteMeta({ title: 'containerLogs', type: 'endpointDocker' }),
-    component: () => import('@/views/docker/containers/Logs.vue'),
-    beforeEnter: (to, from, next) => dockerResolver(['endpoint', 'container'], to, from, next)
+    component: Blank,
+    // beforeEnter: (to, from, next) => dockerResolver(['endpoint', 'container', 'networks'], to, from, next),
+    children: [
+      ...containerRoutes
+    ]
   },
   {
     path: '',
@@ -34,6 +46,19 @@ const imagesRouter: Array<RouteConfig> = [
 ];
 
 const volumesRouter: Array<RouteConfig> = [
+  {
+    path: 'create',
+    name: 'dockerVolumesCreate',
+    meta: new RouteMeta({ title: 'volumesCreate', type: 'endpointDocker' }),
+    component: () => import('@/views/docker/volumes/Create.vue')
+  },
+  {
+    path: ':id',
+    name: 'volumesView',
+    meta: new RouteMeta({ title: 'volumesCreate', type: 'endpointDocker' }),
+    beforeEnter: (to, from, next) => dockerResolver(['volume'], to, from, next),
+    component: () => import('@/views/docker/volumes/Edit.vue')
+  },
   {
     path: '',
     name: 'dockerVolumes',

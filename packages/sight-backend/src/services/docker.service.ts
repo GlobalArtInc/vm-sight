@@ -1,13 +1,10 @@
-import Docker from 'dockerode';
+import Docker, { NetworkCreateOptions } from 'dockerode';
 import { EndpointsModel } from '@models';
 import { BadRequestException, NotFoundException } from '@exceptions';
 import { isWindows } from '@utils/util';
-import { CreateNetworkDto } from '@dtos/docker.dto';
-
-// tslint:disable:no-var-requires
 
 export class DockerService {
-  public service: { endpoint: any; docker: any };
+  public service: { endpoint: any; docker: Docker | undefined };
 
   /**
    * Connect to the docker server or via docker socket
@@ -105,7 +102,7 @@ export class DockerService {
       const connect: any = await this.checkConnect(endpoint);
       this.service = { endpoint, docker: connect.docker };
     } catch (err) {
-      this.service = { endpoint, docker: false };
+      this.service = { endpoint, docker: undefined };
     }
   }
 
@@ -113,8 +110,9 @@ export class DockerService {
     await this.connect(endpointId);
     const containers = await this.service.docker.listContainers({ all: 1 });
     containers.reduce((acc, current) => {
-      current.Name = current.Names[0].slice(1);
+      const Name = current.Names[0].slice(1);
       delete current.Names;
+      current.Names = [Name];
       return acc;
     }, undefined);
     containers.sort((a, b) => {
@@ -176,6 +174,11 @@ export class DockerService {
     return volume.inspect();
   }
 
+  public async createVolume(endpointId: string, formModel: object) {
+    await this.connect(endpointId);
+    return this.service.docker.createVolume(formModel);
+  }
+
   public async deleteVolumeById(endpointId: string, volumeId: string) {
     await this.connect(endpointId);
     const volume = await this.service.docker.getVolume(volumeId);
@@ -197,7 +200,7 @@ export class DockerService {
     return network.inspect();
   }
 
-  public async createNetwork(endpointId: string, networkData: CreateNetworkDto) {
+  public async createNetwork(endpointId: string, networkData: NetworkCreateOptions) {
     await this.connect(endpointId);
     await this.service.docker.createNetwork(networkData);
     return true;
