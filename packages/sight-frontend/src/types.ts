@@ -1,19 +1,4 @@
-import { AuthState } from '@/interfaces/auth.interface';
-
-export interface NewsArticle {
-  id: number;
-  title: string;
-  content: string;
-  dateString: string;
-  baseImageName: string;
-  articleType: ArticleType;
-  isFavourite: boolean;
-}
-
-export enum ArticleType {
-  TopStory = 'TOP_STORY',
-  CodeExample = 'CODE_EXAMPLE'
-}
+import { AuthState } from '@sight-types/interfaces/auth';
 
 // Store root state
 export interface RootState {
