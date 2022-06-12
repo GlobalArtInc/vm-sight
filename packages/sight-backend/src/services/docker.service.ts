@@ -40,22 +40,27 @@ export class DockerService {
     let snapshot = {};
     if (this.service.docker) {
       const info = await this.service.docker.info();
+      const { Volumes } = await this.service.docker.listVolumes();
+      const Images = await this.service.docker.listImages();
+      const Containers = await this.service.docker.listContainers();
+
+      // const Services = await this.service.docker.listServices();
 
       snapshot = this.constructSnapshot({
         DockerVersion: info.ServerVersion,
         Containers: info.Containers,
         RunningContainerCount: info.ContainersRunning,
         StoppedContainerCount: info.ContainersStopped,
-        HealthyContainerCount: 0,
-        UnhealthyContainerCount: 0,
-        ImageCount: 0,
+        HealthyContainerCount: Containers.filter(item => item.Status === 'healthy').length,
+        UnhealthyContainerCount: Containers.filter(item => item.Status === 'unhealthy').length,
+        ImageCount: Images.length,
         ServiceCount: 0,
         StackCount: 0,
         Swarm: 'active',
         Time: Math.floor(new Date(info.SystemTime).getTime() / 1000),
         TotalCPU: info.NCPU,
         TotalMemory: info.MemTotal,
-        VolumeCount: 0,
+        VolumeCount: Volumes.length,
       });
     }
     return {
