@@ -52,7 +52,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { faHdd, faAdd } from '@fortawesome/free-solid-svg-icons';
-import { VolumeDriverOpts, VolumesFormCreate } from '@/interfaces/docker.interface';
+import { VolumeDriverOpts, VolumesFormCreate } from '@sight-types/docker';
 import dockerService from '@/services/docker.service';
 // import Dockerode from 'dockerode';
 
