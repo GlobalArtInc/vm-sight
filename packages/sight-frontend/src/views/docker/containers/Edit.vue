@@ -214,7 +214,9 @@
           <div style="display: flex">
             <v-select style="max-width: 20%" v-model="currentNetwork" :items="networks" outlined item-text="Name"
                       item-value="Id" dense/>
-            <v-btn color="primary" class="space-left" @click="connectNetwork(currentNetwork)">
+            <v-btn color="primary" class="space-left"
+                   @click="connectNetwork(currentNetwork)"
+                   :disabled="currentNetwork === ''">
               Join
             </v-btn>
           </div>
