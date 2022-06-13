@@ -81,7 +81,7 @@ class EndpointsController {
   public createEndpoint = async (req, res) => {
     const endpointData: CreateEndpointsDto = req.body;
     await this.endpointsService.create(endpointData);
-    return res.status(201).json({ status: 201 });
+    return res.status(201).json();
   };
 
   /**
@@ -116,7 +116,7 @@ class EndpointsController {
     if (endpoint) {
       const endpointData: UpdateEndpointDto = req.body;
       await this.endpointsService.update(req.params.id, endpointData);
-      return res.status(200).json({ status: 200 });
+      return res.status(200).json();
     } else {
       throw new NotFoundException('Endpoint not found');
     }
@@ -146,7 +146,7 @@ class EndpointsController {
   public remove = async (req, res) => {
     if (req.user.role === 1) {
       await this.endpointsService.remove(req.params.id);
-      return res.status(200).json({ status: 200 });
+      return res.status(200).json();
     } else {
       throw new ForbiddenException();
     }

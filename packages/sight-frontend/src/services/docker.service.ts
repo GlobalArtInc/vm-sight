@@ -1,5 +1,5 @@
 import request, { createUrl } from '@/utils/request';
-import { VolumesFormCreate } from '@/interfaces/docker.interface';
+import { VolumesFormCreate } from '@sight-types/docker';
 
 class DockerService {
   getContainers (endpointId: string) {

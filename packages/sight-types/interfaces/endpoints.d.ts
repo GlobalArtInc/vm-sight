@@ -2,6 +2,7 @@ export {EndpointI}
 
 interface EndpointI {
     id: string;
+    endpointId?: string,
     name: string;
     type: number;
     groupId: number;

@@ -1,4 +1,4 @@
-import { AuthState, User } from '@/interfaces/auth.interface';
+import { AuthState, User } from '@sight-types/interfaces/auth';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 import { RootState } from '@/types';
 import { getToken } from '@/utils/auth';
