@@ -1,4 +1,9 @@
 basePath: /api
+
+schemes:
+  - https
+  - http
+
 tags:
   - name: auth
     description: Auth API
@@ -8,15 +13,12 @@ tags:
     description: "Endpoint API"
   - name: docker
     description: "Docker API"
-# components:
-#   securitySchemes:
-#     bearerAuth:
-#       type: http
-#       scheme: bearer
-#       bearerFormat: JWT
-#
-# security:
-#   - bearerAuth: []
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 
 # definitions
 definitions:
@@ -35,6 +37,3 @@ definitions:
       password:
         type: string
         description: user password
-schemes:
-  - https
-  - http

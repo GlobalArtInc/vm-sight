@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
 
 export enum DockerActions {
   start = 'start',
@@ -148,4 +148,21 @@ export class CreateNetworkDto {
 
   @IsObject()
   public Options: object;
+}
+
+/**
+ * @openapi
+ * definitions:
+ *   DockerNetworkActionsDto:
+ *     type: object
+ *     properties:
+ *       Container:
+ *         type: string
+ *         default: null
+ *         required: true
+ */
+export class NetworkActionsDto {
+  @IsString()
+  @IsNotEmpty()
+  public Container: string;
 }

@@ -32,12 +32,8 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   response => {
-    const res = response.data;
-    if (res.response === false) {
-      return Promise.reject(res);
-    } else {
-      return Promise.resolve(res);
-    }
+    const { data } = response.data;
+    return Promise.resolve(data);
   }, async (error) => {
     if (error.response.status === 401) {
       await router.push('/auth');

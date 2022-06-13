@@ -59,7 +59,7 @@ class UsersController {
   public createUser = async (req, res) => {
     const userData: CreateUserDto = req.body;
     await this.usersService.create(userData);
-    return res.status(201).json({ status: 201 });
+    return res.status(201).json();
   };
 
   /**
@@ -126,7 +126,7 @@ class UsersController {
       if (req.user.id === req.params.id && userData.role === 0) throw new ForbiddenException("You can't remove the administrator role from yourself");
 
       await this.usersService.update(req.params.id, userData);
-      return res.status(200).json({ status: 200 });
+      return res.status(200).json();
     } else {
       throw new NotFoundException('User not found');
     }

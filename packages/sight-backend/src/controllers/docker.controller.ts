@@ -129,19 +129,19 @@ class DockerController {
   public containerAction = async (req, res) => {
     const { endpointId, containerId } = req.params;
     await this.dockerService.containerAction(req.body.action, endpointId, containerId);
-    return res.status(200).json({ status: 200 });
+    return res.status(200).json();
   };
 
   public updateContainer = async (req, res) => {
     const { endpointId, containerId } = req.params;
     await this.dockerService.updateContainer(endpointId, containerId, req.body);
-    return res.status(200).json({ status: 200 });
+    return res.status(200).json();
   };
 
   public removeContainer = async (req, res) => {
     const { endpointId, containerId } = req.params;
     await this.dockerService.containerAction('remove', endpointId, containerId);
-    return res.status(200).json({ status: 200 });
+    return res.status(200).json();
   };
 
   /**
@@ -259,7 +259,7 @@ class DockerController {
   public deleteVolumeById = async (req, res) => {
     const { endpointId, volumeId } = req.params;
     await this.dockerService.deleteVolumeById(endpointId, volumeId);
-    return res.status(200).json({ status: 200 });
+    return res.status(200).json();
   };
 
   /**
@@ -345,7 +345,7 @@ class DockerController {
   public createNetwork = async (req, res) => {
     const { endpointId } = req.params;
     await this.dockerService.createNetwork(endpointId, req.body);
-    return res.status(200).json({ status: 201 });
+    return res.status(200).json();
   };
 
   /**
@@ -377,9 +377,41 @@ class DockerController {
   public deleteNetworkById = async (req, res) => {
     const { endpointId, networkId } = req.params;
     await this.dockerService.removeNetworkById(endpointId, networkId);
-    return res.status(200).json({ status: 200 });
+    return res.status(200).json();
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/networks/{networkId}/connect:
+   *     post:
+   *       tags:
+   *       - docker
+   *       summary: Connect a network
+   *       parameters:
+   *       - name: endpointId
+   *         in: path
+   *         description: Endpoint ID
+   *         required: true
+   *         type: string
+   *       - name: networkId
+   *         in: path
+   *         description: networkId
+   *         required: true
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         description: Docker actions DTO
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/DockerNetworkActionsDto'
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'Endpoint not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public connectNetwork = async (req, res) => {
     const { endpointId, networkId } = req.params;
     const { Container } = req.body;
@@ -387,6 +419,38 @@ class DockerController {
     return res.status(200).send({ status: 200 });
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/networks/{networkId}/disconnect:
+   *     post:
+   *       tags:
+   *       - docker
+   *       summary: Disconnect a network
+   *       parameters:
+   *       - name: endpointId
+   *         in: path
+   *         description: Endpoint ID
+   *         required: true
+   *         type: string
+   *       - name: networkId
+   *         in: path
+   *         description: networkId
+   *         required: true
+   *         type: string
+   *       - name: body
+   *         in: body
+   *         description: Docker actions DTO
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/DockerNetworkActionsDto'
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'Endpoint not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public disconnectNetwork = async (req, res) => {
     const { endpointId, networkId } = req.params;
     const { Container } = req.body;
@@ -394,11 +458,58 @@ class DockerController {
     return res.status(200).send({ status: 200 });
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/images:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Get a docker images
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getImages = async (req, res) => {
     const { endpointId } = req.params;
     return res.status(200).json(await this.dockerService.getImages(endpointId));
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/images/{imageId}:
+   *     get:
+   *       tags:
+   *       - docker
+   *       summary: Get a docker image
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: imageId
+   *          in: path
+   *          description: imageId
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public getImageById = async (req, res) => {
     const { endpointId, imageId } = req.params;
     return res.status(200).json(await this.dockerService.getImageById(endpointId, imageId));
@@ -409,10 +520,36 @@ class DockerController {
     return res.status(200).json(await this.dockerService.getImageHistoryById(endpointId, imageId));
   };
 
+  /**
+   * @openapi
+   *   /endpoints/{endpointId}/docker/images/{imageId}:
+   *     delete:
+   *       tags:
+   *       - docker
+   *       summary: Delete a docker image
+   *       parameters:
+   *        - name: endpointId
+   *          in: path
+   *          description: Endpoint ID
+   *          required: true
+   *          type: string
+   *        - name: imageId
+   *          in: path
+   *          description: ImageId
+   *          required: true
+   *          type: string
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   *         404:
+   *           description: 'The endpoint was not found'
+   *         500:
+   *           description: 'Server Error'
+   */
   public removeImageById = async (req, res) => {
     const { endpointId, imageId } = req.params;
     await this.dockerService.removeImageById(endpointId, imageId);
-    return res.status(200).json({ status: 200 });
+    return res.status(200).json();
   };
 }
 

@@ -3,12 +3,35 @@ import UsersService from '@services/users.service';
 class IndexController {
   public usersService = new UsersService();
 
+  /**
+   * @openapi
+   *   /version:
+   *     get:
+   *       tags:
+   *       - auth
+   *       summary: Fetch the SIGHT version
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   */
   public getVersion(req, res) {
     return res.send({ version: '1.0' });
   }
 
+  /**
+   * @openapi
+   *   /me:
+   *     get:
+   *       tags:
+   *       - auth
+   *       summary: Fetch the current user info
+   *       responses:
+   *         200:
+   *           description: 'Ok'
+   */
   public me(req, res) {
-    return res.status(200).json(req.user);
+    const { id, username, role, locale, createdAt } = req.user;
+    return res.status(200).json({ id, username, role, locale, createdAt });
   }
 
   /**
@@ -35,7 +58,7 @@ class IndexController {
    */
   public setLanguage = async (req, res) => {
     await this.usersService.changeLanguage(req.user.id, req.body.language);
-    return res.status(200).json({ status: 200 });
+    return res.status(200).json();
   };
 
   public motd(req, res) {
