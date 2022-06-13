@@ -13,5 +13,10 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component
 export default class DockerLayout extends Vue {
   endpoint = this?.$route?.meta?.endpoint;
+
+  created () {
+    this.endpoint.endpointId = this.$route.params.endpointId;
+    this.$store.dispatch('app/setCurrentEndpoint', this.endpoint);
+  }
 }
 </script>

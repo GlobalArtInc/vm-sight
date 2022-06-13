@@ -18,7 +18,7 @@
           <v-list-item-icon>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">mdi-view-dashboard</v-icon>
+                <v-icon v-bind="attrs" v-on="on">mdi-home</v-icon>
               </template>
               <span>Home</span>
             </v-tooltip>
@@ -27,6 +27,8 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <CurrentEndpoint :endpoint="currentEndpoint" />
 
         <v-subheader>SETTINGS</v-subheader>
         <v-list-item :to="item.to" :key="key" v-for="(item, key) of items">
@@ -53,56 +55,47 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { faServer, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { faServer, faDatabase, faCubes } from '@fortawesome/free-solid-svg-icons';
+import { Getter } from 'vuex-class';
+import CurrentEndpoint from '@/components/currentEndpoint.vue';
+import { Endpoint } from '@sight-types';
 
 @Component({
-  data: () => ({
-    mini: false,
-    drawerWidth: 256,
-    drawer: true,
-    scrollSettings: {
-      maxScrollbarLength: 160
-    },
-    items: [
-      {
-        title: 'Users',
-        iconType: 'mdi',
-        icon: 'mdi-account-group',
-        to: '/users'
-      },
-      {
-        title: 'Endpoints',
-        iconType: 'fa',
-        icon: faServer,
-        to: '/endpoints'
-      },
-      {
-        title: 'Registries',
-        iconType: 'fa',
-        icon: faDatabase,
-        to: '/registries'
-      }
-    ],
-    sponsor: {
-      href: 'https://www.kamefiber.com/',
-      src: '/sponsor/logo.png',
-      srcMini: '/sponsor/logo_mini.png'
-    }
-  })
+  components: { CurrentEndpoint }
 })
 export default class AppDrawer extends Vue {
-  handleDrawerCollapse () {
-    this.drawerWidth = this.drawerWidth === 256 ? 64 : 256;
-  }
+  @Getter('currentEndpoint', { namespace: 'app' }) currentEndpoint: Endpoint | undefined;
+  mini = false;
+  drawerWidth = 256;
+  drawer = true;
+
+  icon = { faCubes };
+
+  items = [
+    {
+      title: 'Users',
+      iconType: 'mdi',
+      icon: 'mdi-account-group',
+      to: '/users'
+    },
+    {
+      title: 'Endpoints',
+      iconType: 'fa',
+      icon: faServer,
+      to: '/endpoints'
+    },
+    {
+      title: 'Registries',
+      iconType: 'fa',
+      icon: faDatabase,
+      to: '/registries'
+    }
+  ];
 
   toggleDrawer () {
     this.drawer = !this.drawer;
-  }
-
-  computeGroupExpanded (item, $route) {
-    return $route.matched.map((item) => item.path).includes(item.path);
   }
 }
 </script>

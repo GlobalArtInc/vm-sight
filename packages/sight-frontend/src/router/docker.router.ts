@@ -30,9 +30,10 @@ const containersRouter: Array<RouteConfig> = [
   },
   {
     path: '',
+    props: true,
     meta: new RouteMeta({ hideInMenu: true }),
     component: () => import('@/views/docker/containers/Index.vue'),
-    beforeEnter: (to, from, next) => dockerResolver(['endpoint', 'containers'], to, from, next)
+    beforeEnter: (to, from, next) => dockerResolver(['containers'], to, from, next)
   }
 ];
 
@@ -94,12 +95,14 @@ const networksRouter: Array<RouteConfig> = [
 const routes: Array<RouteConfig> = [
   {
     path: 'dashboard',
+    name: 'DockerDashboard',
     meta: new RouteMeta({ hideInMenu: true, type: 'endpointDocker' }),
     props: true,
     beforeEnter: (to, from, next) => dockerResolver(['endpoint', 'networks'], to, from, next),
     component: () => import('@/views/docker/Dashboard.vue')
   },
   {
+    name: 'DockerContainers',
     path: 'containers',
     props: true,
     meta: new RouteMeta({ title: 'containers', type: 'endpointDocker' }),

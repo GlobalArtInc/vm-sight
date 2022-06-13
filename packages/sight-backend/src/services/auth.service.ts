@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 class AuthService {
   public async login(userData: AuthUserDto) {
     if (userData.Code) {
+      return 'not implemented yet (oauth2)';
     } else {
       const user = await UsersModel.findOne({
         where: {
@@ -39,7 +40,7 @@ class AuthService {
             throw new NotAuthorizedException(err);
           });
       } else {
-        throw new NotAuthorizedException();
+        throw new NotAuthorizedException('Incorrect login or password');
       }
     }
   }
