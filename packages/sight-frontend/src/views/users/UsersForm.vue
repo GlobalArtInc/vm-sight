@@ -69,6 +69,7 @@
             </v-card-text>
             <v-divider class="mt-5"></v-divider>
             <v-card-actions>
+              <v-spacer />
               <v-btn :loading="loading" tile color="primary" @click="handleSubmitForm">
                 {{ this.userId ? "Update" : "Create" }}
               </v-btn>

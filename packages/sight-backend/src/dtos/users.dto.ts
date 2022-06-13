@@ -47,7 +47,7 @@ export class AuthUserDto {
  *       language:
  *         type: string
  *         required: true
- *         default: en
+ *         example: ru
  */
 export class ChangeUserLanguageDto {
   @IsEnum(UserLanguages, { message: 'Wrong language' })

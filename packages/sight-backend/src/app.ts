@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import { logger } from '@utils/logger';
 import { errorMiddleware } from '@middlewares';
 import { IRequest, IResponse } from '@interfaces/routes.interface';
-import { port, environment, dataDir } from './constants';
+import { environment, dataDir } from '@constants';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import DB from './databases';
@@ -14,6 +14,7 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import { generateKeyPairSync } from 'crypto';
 import * as path from 'path';
+import mung from 'express-mung';
 
 class App {
   public app: express.Application;
@@ -110,6 +111,17 @@ class App {
     // } else {
     //     this.app.use(morgan('dev', {stream}));
     // }
+
+    this.app.use(
+      mung.json((data, req, res) => {
+        const status = res.statusCode ?? 200;
+        if (typeof data === 'boolean') {
+          return { status };
+        }
+        return { status, data };
+      }),
+    );
+
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());
@@ -126,7 +138,7 @@ class App {
         info: {
           title: 'REST API',
           version: '1.0.0',
-          description: 'VmSightAPI',
+          description: 'SightAPI',
         },
       },
       apis: ['swagger.yaml', './src/dtos/**/*.ts', './src/controllers/**/*.ts'],
