@@ -29,7 +29,6 @@ class App {
 
   public async init(routes) {
     this.app.use('/', express.static(path.join(__dirname, '../dist/client')));
-    logger.info(`=================================`);
     logger.info(`checkingKeys...`);
     this.generateKeys();
     logger.info(`connectToDatabase...`);
@@ -94,10 +93,9 @@ class App {
     });
 
     this.app.listen(this.port, () => {
-      logger.info(`=================================`);
-      logger.info(`======= ENV: ${this.env} =======`);
-      logger.info(`🚀 App listening on the port ${this.port}`);
-      logger.info(`=================================`);
+      logger.info(`ENV: ${this.env === 'dev' ? 'Development' : 'Production'}`);
+      logger.info(`App listening on the port ${this.port}`);
+      logger.info(`Swagger is available on: http://localhost:${this.port}/docs`);
     });
   }
 
