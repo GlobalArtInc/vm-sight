@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: ./packages/sight-backend
+      dockerfile: Dockerfile
+    image: api
+    container_name: sight-api
+    restart: unless-stopped
+    ports:
+      - "8000:3000"
+    volumes:
+      - .:/data
+    networks:
+      - default

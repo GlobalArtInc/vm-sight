@@ -2,13 +2,13 @@ import { registerAs } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 const databaseCredentials = {
-  database: 'sight.db',
+  database: './data/sight.db',
 };
 
 export const defaultDatabaseConfig = {
   type: 'sqlite',
   logging: false,
-  synchronize: false,
+  synchronize: true,
   entities: ['dist/**/*.entity.js'],
   migrations: ['src/migrations/**/*.{ts,js}'],
   migrationsTableName: 'migration',
