@@ -33,6 +33,7 @@ module.exports = {
     // Layout & Formatting
     semi: 'warn',
     curly: 2,
+    'array-element-newline': 'off',
     indent: [
       'error',
       2,
@@ -50,14 +51,6 @@ module.exports = {
     'no-multiple-empty-lines': 'warn',
     'space-in-parens': 'warn',
     'no-trailing-spaces': 'warn',
-    'newline-per-chained-call': 'warn',
-    'array-element-newline': [
-      'warn',
-      {
-        ArrayExpression: 'consistent',
-        ArrayPattern: { minItems: 3 },
-      },
-    ],
     'arrow-spacing': 'warn',
     'key-spacing': [
       'warn',

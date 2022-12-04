@@ -11,6 +11,7 @@ import { UserService } from './user/user.service';
 import { User } from './user/user.entity';
 import { InstancesModule } from './instances/instances.module';
 import { Session } from './auth/auth.entity';
+import { DockerModule } from './docker/docker.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { Session } from './auth/auth.entity';
     CommonModule,
     UserModule,
     InstancesModule,
+    DockerModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserService],

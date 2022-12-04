@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { User } from 'src/user/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Instances {
@@ -8,8 +9,8 @@ export class Instances {
   @Column('int', { default: '1' })
   type: number;
 
-  @Column('int')
-  userId: number;
+  @ManyToOne(() => User, (user) => user.instances)
+  user: User[];
 
   @Column('int', { nullable: true })
   teamId: number;

@@ -1,4 +1,5 @@
 import { Session } from 'src/auth/auth.entity';
+import { Instances } from 'src/instances/instances.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
@@ -14,6 +15,9 @@ export class User {
 
   @Column('integer', { default: 10 })
   role: number;
+
+  @OneToMany(() => Instances, (instances) => instances.user)
+  instances: Instances[];
 
   @OneToMany(() => Session, (session) => session.user)
   sessions: Session[];
