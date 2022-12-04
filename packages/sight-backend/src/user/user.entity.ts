@@ -12,6 +12,9 @@ export class User {
   @Column('varchar', { nullable: true })
   password: string;
 
+  @Column('integer', { default: 10 })
+  role: number;
+
   @OneToMany(() => Session, (session) => session.user)
   sessions: Session[];
 

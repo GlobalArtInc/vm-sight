@@ -10,6 +10,7 @@ import configs from './config';
 import { UserService } from './user/user.service';
 import { User } from './user/user.entity';
 import { InstancesModule } from './instances/instances.module';
+import { Session } from './auth/auth.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { InstancesModule } from './instances/instances.module';
       isGlobal: true,
       load: [...configs],
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Session]),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
