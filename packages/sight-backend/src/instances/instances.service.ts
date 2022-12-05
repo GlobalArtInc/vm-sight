@@ -12,13 +12,26 @@ export class InstancesService {
     private readonly dockerService: DockerService,
   ) {}
 
+  async getById(id: number): Promise<Instances> {
+    return this.instancesRepo.findOneBy({ id });
+  }
+
+  async getConfigById(id: number) {
+    const model = await this.instancesConfigRepo.findOneBy({ instance: { id } });
+    if (model) {
+      return model.config;
+    }
+
+    return null;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getEndpoint(endpoint: Instances): Promise<any> {
     const { id, type } = endpoint;
     const instanceConfig = await this.instancesConfigRepo.findOneBy({ instance: { id } });
 
     if (type === 1 || type === 2) {
-      // return this.dockerService.getDockerEndpoint(endpoint, instanceConfig?.config);
+      return this.dockerService.getDockerEndpoint(endpoint, instanceConfig?.config);
     }
 
     return null;

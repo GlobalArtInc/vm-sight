@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, NotFoundException } from '@nestjs/common';
 import { Instances } from 'src/instances/instances.entity';
 import * as Docker from 'dockerode';
 import { InstancesService } from 'src/instances/instances.service';
 
 @Injectable()
 export class DockerService {
-  constructor(private readonly instancesService: InstancesService) {}
+  constructor(@Inject(forwardRef(() => InstancesService)) private readonly instancesService: InstancesService) {}
 
   protected socket: Docker;
   protected endpoint: Instances;
@@ -17,11 +17,13 @@ export class DockerService {
       if (type === 2) {
         this.socket = new Docker({
           socketPath: '/var/run/docker.sock',
+          timeout: 500,
         });
       } else {
         this.socket = new Docker({
           host: conf?.host,
           port: conf?.port,
+          timeout: 500,
         });
       }
 
@@ -74,8 +76,94 @@ export class DockerService {
     };
   }
 
+  async getEndpointById(endpointId: number) {
+    const [endpoint, config] = await Promise.all([
+      this.instancesService.getById(endpointId),
+      this.instancesService.getConfigById(endpointId),
+    ]);
+    if (!endpoint || !config) {
+      throw new NotFoundException('endpoint_not_found');
+    }
+    await this.checkConnect(endpoint, config);
+
+    return endpoint;
+  }
+
   async getInfo(endpointId: number) {
-    //
+    await this.getEndpointById(endpointId);
+
+    return this.socket.info();
+  }
+
+  async getVersion(endpointId: number) {
+    await this.getEndpointById(endpointId);
+
+    return this.socket.version();
+  }
+
+  async getContainers(endpointId: number) {
+    await this.getEndpointById(endpointId);
+
+    return this.socket.listContainers();
+  }
+
+  async getContainerStats(endpointId: number, containerId: string) {
+    const container = await this.getContainerById(endpointId, containerId);
+
+    return container.inspect();
+  }
+
+  async getContainerLogs(endpointId: number, containerId: string) {
+    const container = await this.getContainerById(endpointId, containerId);
+    const logs = await container.logs({
+      stderr: true,
+      stdout: true,
+    });
+
+    return logs.toString();
+  }
+
+  async getContainerById(endpointId: number, containerId: string) {
+    await this.getEndpointById(endpointId);
+
+    return this.socket.getContainer(containerId);
+  }
+
+  async getNetworks(endpointId: number) {
+    await this.getEndpointById(endpointId);
+
+    return this.socket.listNetworks();
+  }
+
+  async getNetworkById(endpointId: number, networkId: string) {
+    await this.getEndpointById(endpointId);
+
+    return this.socket.getNetwork(networkId);
+  }
+
+  async inspectNetwork(endpointId: number, networkId: string) {
+    const network = await this.getNetworkById(endpointId, networkId);
+
+    return network.inspect();
+  }
+
+  async getVolumes(endpointId: number) {
+    await this.getEndpointById(endpointId);
+    const { Volumes } = await this.socket.listVolumes();
+
+    return Volumes.length > 0 ? Volumes : [];
+  }
+
+  async getVolumeById(endpointId: number, volumeId: string) {
+    await this.getEndpointById(endpointId);
+
+    return this.socket.getVolume(volumeId);
+  }
+
+  async inspectVolume(endpointId: number, volumeId: string) {
+    const volume = await this.getVolumeById(endpointId, volumeId);
+
+    return volume.inspect();
   }
 
   async getDockerEndpoint(endpoint: Instances, config: string) {

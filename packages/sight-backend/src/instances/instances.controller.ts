@@ -10,7 +10,7 @@ import { InstancesService } from './instances.service';
 export class InstancesController {
   constructor(private service: InstancesService) {}
 
-  @Get('networks')
+  @Get()
   getEndpoints(@GetUser() user: User) {
     return this.service.getEndpoints(user.id);
   }
