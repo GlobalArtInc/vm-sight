@@ -12,12 +12,12 @@
                   <v-col :cols="12">
                     <v-text-field
                       outlined
-                      label="Username"
-                      :placeholder="form.username.placeholder"
-                      v-model="formModel.username"
+                      label="Email"
+                      :placeholder="form.email.placeholder"
+                      v-model="formModel.email"
                       required
                       :append-icon="'mdi-account-check'"
-                      :rules="form.username.rules"
+                      :rules="form.email.rules"
                     />
                   </v-col>
                   <v-col :cols="12">
@@ -90,15 +90,15 @@ import usersService from '@/services/users.service';
     loading: false,
     valid: true,
     formModel: {
-      username: '',
+      email: '',
       password: '',
       repeatPassword: '',
       oauth2: '',
       admin: false
     },
     form: {
-      username: {
-        label: 'Username',
+      email: {
+        label: 'Email',
         placeholder: '',
         rules: [(v) => !!v || 'This field is required']
       },
@@ -119,7 +119,7 @@ import usersService from '@/services/users.service';
   created () {
     if (this.userId) {
       const user = this.$route.meta.user;
-      this.formModel = { username: user.username, admin: user.role === 1 };
+      this.formModel = { email: user.email, admin: user.role === 100 };
     }
   }
 })
@@ -133,8 +133,8 @@ export default class UsersFormView extends Vue {
     if (this.$refs.form.validate()) {
       this.loading = true;
       try {
-        const role = this.formModel.admin ? 1 : 0;
-        const userData = { username: this.formModel.username, password: this.formModel.password, role };
+        const role = this.formModel.admin ? 100 : 10;
+        const userData = { email: this.formModel.email, password: this.formModel.password, role };
         if (this.userId) {
           await usersService.updateUser(this.userId, userData);
           this.$toast.success('User has been updated');

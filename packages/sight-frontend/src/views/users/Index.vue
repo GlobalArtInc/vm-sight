@@ -20,7 +20,7 @@
                 :footer-props="footerProps"
                 :items-per-page-options="[5]"
                 :items-per-page="itemsPerPage"
-                :username.sync="filter['username']"
+                :email.sync="filter['email']"
                 :page.sync="filter['page']"
                 @update:page="handlePageChanged"
                 item-key="id"
@@ -29,7 +29,7 @@
                   {{ index + 1 }}
                 </template>
                 <template #item.role="{ item }">
-                  <span v-if="item.role === 1">
+                  <span v-if="item.role === 100">
                     Admin
                   </span>
                   <span v-else>
@@ -68,7 +68,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import TooltipMixin from '@/mixins/Tooltip';
@@ -88,7 +88,7 @@ import UsersToolbar from '@/views/users/UsersToolbar';
       footerProps: { 'items-per-page-options': [50, 100] },
       filter: {
         page: 1,
-        'filter[username]': null,
+        'filter[email]': null,
         'filter[role]': null
       },
       headers: [
@@ -99,7 +99,7 @@ import UsersToolbar from '@/views/users/UsersToolbar';
         },
         {
           text: 'Name',
-          value: 'username',
+          value: 'email',
           sortable: false
         },
         {
@@ -156,8 +156,8 @@ export default class UsersIndexView extends Vue {
     if (this.filter['filter[role]'] !== null && this.filter['filter[role]'] !== undefined) {
       users = users.filter((i) => i.role === parseInt(this.filter['filter[role]']));
     }
-    if (this.filter['filter[username]'] !== null && this.filter['filter[username]'] !== undefined) {
-      users = users.filter((i) => i.username.includes(this.filter['filter[username]']));
+    if (this.filter['filter[email]'] !== null && this.filter['filter[email]'] !== undefined) {
+      users = users.filter((i) => i.email.includes(this.filter['filter[email]']));
     }
 
     this.items = users;
@@ -169,7 +169,7 @@ export default class UsersIndexView extends Vue {
   resetFilter () {
     this.filter = {
       page: 1,
-      'filter[username]': null,
+      'filter[email]': null,
       'filter[role]': null
     };
   }
@@ -190,7 +190,7 @@ export default class UsersIndexView extends Vue {
       await this.fetchRecords(true);
       this.$toast.success('User has been deleted');
     }).catch((err) => {
-      this.$toast.error(err.response.data.message);
+      this.$toast.error(err);
     }).finally(() => {
       this.loadingItems = false;
     });
@@ -226,7 +226,7 @@ export default class UsersIndexView extends Vue {
   async handleResetFilter () {
     this.filter = {
       page: 1,
-      'filter[username]': null,
+      'filter[email]': null,
       'filter[role]': null
     };
     try {

@@ -75,12 +75,11 @@ export default class AuthIndexView extends Vue {
   async login () {
     this.loading = true;
     try {
-      const { jwt } = await authService.login(this.formModel.username, this.formModel.password);
+      await authService.login(this.formModel.username, this.formModel.password);
       this.$toast('Login successful', {
         type: 'success',
         position: 'top-center'
       });
-      setToken(jwt);
       authService.me().then((user) => {
         return store.dispatch('auth/getInfo', user);
       });

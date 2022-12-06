@@ -37,6 +37,7 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator';
 import { removeToken } from '@/utils/auth';
+import authService from '../services/auth.service';
 
 @Component({
   data: () => ({
@@ -86,14 +87,14 @@ export default class AppToolbarComponent extends Vue {
     this.$emit('side-icon-click');
   }
 
-  handleLogout () {
+  async handleLogout () {
     if (window.confirm('Are you sure to logout?')) {
       this.$toast('Logout successful', {
         type: 'success',
         position: 'top-center'
       });
+      await authService.logout();
       this.$store.dispatch('auth/logout');
-      removeToken();
       this.$router.push('/auth');
     }
   }

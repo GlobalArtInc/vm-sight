@@ -10,4 +10,10 @@ export const GetUser = createParamDecorator((_data: unknown, ctx: ExecutionConte
   return formattedUser;
 });
 
+export const Cookies = createParamDecorator((data: string, ctx: ExecutionContext) => {
+  const request = ctx.switchToHttp().getRequest();
+
+  return data ? request.cookies?.[data] : request.cookies;
+});
+
 export const AttachUser = () => UseGuards(GetUserGuard);

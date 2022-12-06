@@ -2,6 +2,8 @@ import { Injectable, Inject, forwardRef, NotFoundException } from '@nestjs/commo
 import { Instances } from 'src/instances/instances.entity';
 import * as Docker from 'dockerode';
 import { InstancesService } from 'src/instances/instances.service';
+import { DockerContainerActions } from './common/docker.enum';
+import { executeContainerActionDto } from './common/docker.dto';
 
 @Injectable()
 export class DockerService {
@@ -17,13 +19,11 @@ export class DockerService {
       if (type === 2) {
         this.socket = new Docker({
           socketPath: '/var/run/docker.sock',
-          timeout: 500,
         });
       } else {
         this.socket = new Docker({
           host: conf?.host,
           port: conf?.port,
-          timeout: 500,
         });
       }
 
@@ -113,6 +113,34 @@ export class DockerService {
     return container.inspect();
   }
 
+  async executeContainerAction(endpointId: number, containerId: string, dto: executeContainerActionDto) {
+    const container = await this.getContainerById(endpointId, containerId);
+    const { action } = dto;
+    switch (action) {
+      case DockerContainerActions.Start:
+        await container.start();
+        break;
+      case DockerContainerActions.Stop:
+        await container.kill();
+        break;
+      case DockerContainerActions.Kill:
+        await container.kill();
+        break;
+      case DockerContainerActions.Restart:
+        await container.restart();
+        break;
+      case DockerContainerActions.Pause:
+        await container.pause();
+        break;
+      case DockerContainerActions.Unpause:
+        await container.unpause();
+        break;
+      case DockerContainerActions.Remove:
+        await container.remove();
+        break;
+    }
+  }
+
   async getContainerLogs(endpointId: number, containerId: string) {
     const container = await this.getContainerById(endpointId, containerId);
     const logs = await container.logs({
@@ -179,11 +207,11 @@ export class DockerService {
     }
 
     return {
-      Id: id,
-      Name: name,
-      Type: type,
-      Snapshot: connection ? this.constructSnapshot(clusterInfo) : {},
-      Status: connection ? 1 : 0,
+      id,
+      name,
+      type,
+      snapshot: connection ? this.constructSnapshot(clusterInfo) : {},
+      status: connection ? 1 : 0,
       URL,
     };
   }

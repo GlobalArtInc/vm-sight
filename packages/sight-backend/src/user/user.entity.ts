@@ -1,6 +1,7 @@
 import { Session } from 'src/auth/auth.entity';
 import { Instances } from 'src/instances/instances.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User {
@@ -11,13 +12,13 @@ export class User {
   email: string;
 
   @Column('varchar', { nullable: true })
-  password: string;
+  password?: string;
 
   @Column('integer', { default: 10 })
   role: number;
 
   @OneToMany(() => Instances, (instances) => instances.user)
-  instances: Instances[];
+  instances?: Instances[];
 
   @OneToMany(() => Session, (session) => session.user)
   sessions: Session[];
@@ -27,4 +28,11 @@ export class User {
 
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @BeforeInsert()
+  beforeInsertAction() {
+    this.password = bcrypt.hashSync(this.password, 8);
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
 }

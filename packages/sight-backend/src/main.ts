@@ -16,6 +16,14 @@ async function bootstrap() {
 
   const swagger = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/swagger', app, swagger);
+  process.setMaxListeners(0);
+
+  process.on('warning', (e) => {
+    return;
+  });
+  process.on('uncaughtException', () => {
+    return;
+  });
 
   await app.listen(3000);
 }

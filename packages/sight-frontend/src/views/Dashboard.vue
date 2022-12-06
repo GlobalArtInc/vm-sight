@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import moment from 'moment';
 import { ByteToSize } from '@/utils/math';
@@ -103,15 +103,15 @@ import { faListAlt, faCubes, faMicrochip, faMemory } from '@fortawesome/free-sol
   }
 })
 export default class DashboardView extends Vue {
-  convert (number) {
+  convert (number: number) {
     return ByteToSize(number);
   }
 
-  convertDate (time) {
+  convertDate (time: number) {
     return moment.unix(time).format('DD-MM-YYYY, hh:mm:ss a');
   }
 
-  goCluster (endpoint) {
+  goCluster (endpoint: any) {
     if (endpoint.type === 1 || endpoint.type === 2) {
       this.$router.push(`/${endpoint.id}/docker/dashboard`);
     }

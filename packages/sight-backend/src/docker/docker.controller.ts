@@ -1,10 +1,10 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Patch, Param, Res, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AttachUser, GetUser } from 'src/common/decorators/auth.decorators';
-import { User } from 'src/user/user.entity';
+import { AttachUser } from 'src/common/decorators/auth.decorators';
 import { InstancesService } from '../instances/instances.service';
 import { DockerService } from './docker.service';
 import { Response } from 'express';
+import { executeContainerActionDto } from './common/docker.dto';
 
 @AttachUser()
 @ApiTags('endpoints_docker')
@@ -31,6 +31,15 @@ export class DockerController {
   @Get('containers/:containerId')
   getContainerById(@Param('endpointId') endpointId: number, @Param('containerId') containerId: string) {
     return this.service.getContainerStats(endpointId, containerId);
+  }
+
+  @Patch('containers/:containerId')
+  executeContainerAction(
+    @Body() dto: executeContainerActionDto,
+    @Param('endpointId') endpointId: number,
+    @Param('containerId') containerId: string,
+  ) {
+    return this.service.executeContainerAction(endpointId, containerId, dto);
   }
 
   @Get('containers/:containerId/logs')

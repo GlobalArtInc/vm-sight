@@ -5,6 +5,8 @@ import protectedRoutes from '@/router/protected.router';
 import publicRouter from '@/router/public.router';
 import Blank from '../layouts/Blank.vue';
 import { checkAuth, RouteMeta } from '@/router/router.utils';
+import authService from '../services/auth.service';
+import store from '../store';
 
 Vue.use(Router);
 
@@ -42,18 +44,28 @@ router.beforeResolve((to: Route, from: Route, next: NavigationGuardNext) => {
 });
 
 // This callback runs before every route change, including on initial load
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (whiteList.indexOf(to.path) !== -1) {
     return next();
   } else {
-    if (getToken()) {
-      if (to.path === '/') return next('/dashboard');
-      if (whiteList.indexOf(to.path) < 0) {
-        return next();
+    try {
+      const user = await authService.me();
+      store.dispatch('auth/getInfo', user);
+      if (user) {
+        if (to.path === '/') return next('/dashboard');
+        if (whiteList.indexOf(to.path) < 0) {
+          return next();
+        } else {
+          return next('/dashboard');
+        }
       } else {
-        return next('/dashboard');
+        if (to.path !== '/auth') {
+          return next('/auth');
+        } else {
+          return next();
+        }
       }
-    } else {
+    } catch (err) {
       if (to.path !== '/auth') {
         return next('/auth');
       } else {

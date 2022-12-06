@@ -1,10 +1,8 @@
 import { AuthState, User } from '@sight-types/interfaces/auth';
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 import { RootState } from '@/types';
-import { getToken } from '@/utils/auth';
 
 const state: AuthState = {
-  token: null,
   isLogged: false,
   user: null
 };
@@ -16,9 +14,6 @@ export const getters: GetterTree<AuthState, RootState> = {
 };
 
 const mutations: MutationTree<AuthState> = {
-  setToken (state: AuthState, token: string | null) {
-    state.token = token;
-  },
   setUser (state: AuthState, user: User) {
     state.user = user;
   }
@@ -26,11 +21,9 @@ const mutations: MutationTree<AuthState> = {
 
 export const actions: ActionTree<AuthState, RootState> = {
   getInfo ({ commit }, user: User) {
-    commit('setToken', getToken());
     commit('setUser', user);
   },
   logout ({ commit }) {
-    commit('setToken', null);
     commit('setUser', null);
   }
 };

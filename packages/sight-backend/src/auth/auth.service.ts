@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { LoginUserDto } from './common/auth.dto';
 import { Response } from 'express';
@@ -29,10 +29,16 @@ export class AuthService {
     return newUser.uid;
   }
 
-  async authServiceByCreds(dto: LoginUserDto, res: Response) {
-    const { email, password } = dto;
-    const user = await this.validateUser(email, password);
+  logout(uid: string, res: Response) {
+    if (!uid) {
+      throw new NotFoundException('session_not_found');
+    }
+    res.clearCookie('uid');
+  }
 
+  async authServiceByCreds(dto: LoginUserDto, res: Response) {
+    const { username, password } = dto;
+    const user = await this.validateUser(username, password);
     if (user) {
       const uid = await this.createSession(user.id);
       res.cookie('uid', uid);

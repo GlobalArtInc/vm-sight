@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DockerService } from 'src/docker/docker.service';
 import { Repository } from 'typeorm';
@@ -35,6 +35,15 @@ export class InstancesService {
     }
 
     return null;
+  }
+
+  async getEndpointById(id: number) {
+    const endpoint = await this.instancesRepo.findOneBy({ id });
+    if (!endpoint) {
+      throw new NotFoundException('endpoint_not_found');
+    }
+
+    return this.getEndpoint(endpoint);
   }
 
   async getEndpoints(userId: number) {
