@@ -12,11 +12,11 @@ export class InstancesService {
     private readonly dockerService: DockerService,
   ) {}
 
-  async getById(id: number): Promise<Instances> {
+  async getById(id: string): Promise<Instances> {
     return this.instancesRepo.findOneBy({ id });
   }
 
-  async getConfigById(id: number) {
+  async getConfigById(id: string) {
     const model = await this.instancesConfigRepo.findOneBy({ instance: { id } });
     if (model) {
       return model.config;
@@ -37,7 +37,7 @@ export class InstancesService {
     return null;
   }
 
-  async getEndpointById(id: number) {
+  async getEndpointById(id: string) {
     const endpoint = await this.instancesRepo.findOneBy({ id });
     if (!endpoint) {
       throw new NotFoundException('endpoint_not_found');

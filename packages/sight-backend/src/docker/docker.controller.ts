@@ -13,30 +13,30 @@ export class DockerController {
   constructor(private readonly service: DockerService, private instancesService: InstancesService) {}
 
   @Get('info')
-  getInfo(@Param('endpointId') endpointId: number) {
+  getInfo(@Param('endpointId') endpointId: string) {
     return this.service.getInfo(endpointId);
   }
 
   @Get('version')
-  getVersion(@Param('endpointId') endpointId: number) {
+  getVersion(@Param('endpointId') endpointId: string) {
     return this.service.getVersion(endpointId);
   }
 
   // Work with containers
   @Get('containers')
-  getContainers(@Param('endpointId') endpointId: number) {
+  getContainers(@Param('endpointId') endpointId: string) {
     return this.service.getContainers(endpointId);
   }
 
   @Get('containers/:containerId')
-  getContainerById(@Param('endpointId') endpointId: number, @Param('containerId') containerId: string) {
+  getContainerById(@Param('endpointId') endpointId: string, @Param('containerId') containerId: string) {
     return this.service.getContainerStats(endpointId, containerId);
   }
 
   @Patch('containers/:containerId')
   executeContainerAction(
     @Body() dto: executeContainerActionDto,
-    @Param('endpointId') endpointId: number,
+    @Param('endpointId') endpointId: string,
     @Param('containerId') containerId: string,
   ) {
     return this.service.executeContainerAction(endpointId, containerId, dto);
@@ -44,7 +44,7 @@ export class DockerController {
 
   @Get('containers/:containerId/logs')
   getContainerLogs(
-    @Param('endpointId') endpointId: number,
+    @Param('endpointId') endpointId: string,
     @Param('containerId') containerId: string,
     @Res({ passthrough: true }) res: Response,
   ) {
@@ -55,23 +55,23 @@ export class DockerController {
 
   // Work with networks
   @Get('networks')
-  getNetworks(@Param('endpointId') endpointId: number) {
+  getNetworks(@Param('endpointId') endpointId: string) {
     return this.service.getNetworks(endpointId);
   }
 
   @Get('networks/:networkId')
-  inspectNetwork(@Param('endpointId') endpointId: number, @Param('networkId') networkId: string) {
+  inspectNetwork(@Param('endpointId') endpointId: string, @Param('networkId') networkId: string) {
     return this.service.inspectNetwork(endpointId, networkId);
   }
 
   // Work with volumes
   @Get('volumes')
-  getVolumes(@Param('endpointId') endpointId: number) {
+  getVolumes(@Param('endpointId') endpointId: string) {
     return this.service.getVolumes(endpointId);
   }
 
   @Get('volumes/:volumeId')
-  inspectVolume(@Param('endpointId') endpointId: number, @Param('volumeId') volumeId: string) {
+  inspectVolume(@Param('endpointId') endpointId: string, @Param('volumeId') volumeId: string) {
     return this.service.inspectVolume(endpointId, volumeId);
   }
 

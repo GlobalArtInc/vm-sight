@@ -1,10 +1,20 @@
 import { User } from 'src/user/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  BeforeInsert,
+} from 'typeorm';
+import { v4 } from 'uuid';
 
 @Entity()
 export class Instances {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column('int', { default: '1' })
   type: number;
@@ -23,6 +33,11 @@ export class Instances {
 
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @BeforeInsert()
+  beforeInsertAction() {
+    this.id = v4();
+  }
 }
 
 @Entity()

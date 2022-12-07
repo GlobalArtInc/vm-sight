@@ -76,7 +76,7 @@ export class DockerService {
     };
   }
 
-  async getEndpointById(endpointId: number) {
+  async getEndpointById(endpointId: string) {
     const [endpoint, config] = await Promise.all([
       this.instancesService.getById(endpointId),
       this.instancesService.getConfigById(endpointId),
@@ -89,31 +89,31 @@ export class DockerService {
     return endpoint;
   }
 
-  async getInfo(endpointId: number) {
+  async getInfo(endpointId: string) {
     await this.getEndpointById(endpointId);
 
     return this.socket.info();
   }
 
-  async getVersion(endpointId: number) {
+  async getVersion(endpointId: string) {
     await this.getEndpointById(endpointId);
 
     return this.socket.version();
   }
 
-  async getContainers(endpointId: number) {
+  async getContainers(endpointId: string) {
     await this.getEndpointById(endpointId);
 
     return this.socket.listContainers();
   }
 
-  async getContainerStats(endpointId: number, containerId: string) {
+  async getContainerStats(endpointId: string, containerId: string) {
     const container = await this.getContainerById(endpointId, containerId);
 
     return container.inspect();
   }
 
-  async executeContainerAction(endpointId: number, containerId: string, dto: executeContainerActionDto) {
+  async executeContainerAction(endpointId: string, containerId: string, dto: executeContainerActionDto) {
     const container = await this.getContainerById(endpointId, containerId);
     const { action } = dto;
     switch (action) {
@@ -141,7 +141,7 @@ export class DockerService {
     }
   }
 
-  async getContainerLogs(endpointId: number, containerId: string) {
+  async getContainerLogs(endpointId: string, containerId: string) {
     const container = await this.getContainerById(endpointId, containerId);
     const logs = await container.logs({
       stderr: true,
@@ -151,44 +151,44 @@ export class DockerService {
     return logs.toString();
   }
 
-  async getContainerById(endpointId: number, containerId: string) {
+  async getContainerById(endpointId: string, containerId: string) {
     await this.getEndpointById(endpointId);
 
     return this.socket.getContainer(containerId);
   }
 
-  async getNetworks(endpointId: number) {
+  async getNetworks(endpointId: string) {
     await this.getEndpointById(endpointId);
 
     return this.socket.listNetworks();
   }
 
-  async getNetworkById(endpointId: number, networkId: string) {
+  async getNetworkById(endpointId: string, networkId: string) {
     await this.getEndpointById(endpointId);
 
     return this.socket.getNetwork(networkId);
   }
 
-  async inspectNetwork(endpointId: number, networkId: string) {
+  async inspectNetwork(endpointId: string, networkId: string) {
     const network = await this.getNetworkById(endpointId, networkId);
 
     return network.inspect();
   }
 
-  async getVolumes(endpointId: number) {
+  async getVolumes(endpointId: string) {
     await this.getEndpointById(endpointId);
     const { Volumes } = await this.socket.listVolumes();
 
     return Volumes.length > 0 ? Volumes : [];
   }
 
-  async getVolumeById(endpointId: number, volumeId: string) {
+  async getVolumeById(endpointId: string, volumeId: string) {
     await this.getEndpointById(endpointId);
 
     return this.socket.getVolume(volumeId);
   }
 
-  async inspectVolume(endpointId: number, volumeId: string) {
+  async inspectVolume(endpointId: string, volumeId: string) {
     const volume = await this.getVolumeById(endpointId, volumeId);
 
     return volume.inspect();
@@ -201,9 +201,9 @@ export class DockerService {
     let URL: string;
     const conf = JSON.parse(config);
     if (type === 1) {
-      URL = `${conf.host}:${conf.port}`;
-    } else {
       URL = conf.socketPath;
+    } else {
+      URL = `${conf.host}:${conf.port}`;
     }
 
     return {

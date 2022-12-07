@@ -82,8 +82,7 @@ export default class InitAdminView extends Vue {
   async createUser () {
     try {
       await authService.initAdmin(this.username, this.password);
-      authService.login(this.username, this.password).then((response) => {
-        setToken(response.jwt);
+      authService.login(this.username, this.password).then(() => {
         return this.$router.push('/init/endpoint');
       });
     } catch (err) {

@@ -22,7 +22,7 @@ export class InstancesController {
     summary: 'Get instance by id',
   })
   @Get(':endpointId')
-  getEndpoint(@Param('endpointId') endpointId: number) {
+  getEndpoint(@Param('endpointId') endpointId: string) {
     return this.service.getEndpointById(endpointId);
   }
 }

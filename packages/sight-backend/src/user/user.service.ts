@@ -38,7 +38,7 @@ export class UserService {
   }
 
   async createAdminUser(email: string, password: string, role: number) {
-    const newUser = this.userRepo.create({ email, password: bcrypt.hashSync(password, 8), role });
+    const newUser = this.userRepo.create({ email, password, role });
     await this.userRepo.save(newUser);
 
     return newUser.id;
@@ -70,16 +70,11 @@ export class UserService {
   }
 
   async updateUserById(id: number, dto: UpdateUserDto) {
-    const { email, role, password } = dto;
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('user_not_found');
     }
 
-    if (password) {
-      await this.userRepo.update({ id }, { password: bcrypt.hashSync(password, 8) });
-    }
-
-    await this.userRepo.update({ id }, { email, role });
+    await this.userRepo.update({ id }, dto);
   }
 }
