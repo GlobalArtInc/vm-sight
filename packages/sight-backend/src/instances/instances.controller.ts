@@ -1,7 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AttachUser, GetUser } from 'src/common/decorators/auth.decorators';
 import { User } from 'src/user/user.entity';
+import { CreateDockerEndpointDto } from './common/instances.dto';
 import { InstancesService } from './instances.service';
 
 @AttachUser()
@@ -19,8 +20,13 @@ export class InstancesController {
   }
 
   @ApiOperation({
-    summary: 'Get instance by id',
+    summary: 'Create a new endpoint',
   })
+  @Post()
+  createEndpoint(@GetUser() callerUser: User, @Body() dto: CreateDockerEndpointDto) {
+    return this.service.createEndpoint(callerUser, dto);
+  }
+
   @Get(':endpointId')
   getEndpoint(@Param('endpointId') endpointId: string) {
     return this.service.getEndpointById(endpointId);

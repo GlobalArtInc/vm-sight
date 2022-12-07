@@ -4,6 +4,8 @@ import * as Docker from 'dockerode';
 import { InstancesService } from 'src/instances/instances.service';
 import { DockerContainerActions } from './common/docker.enum';
 import { executeContainerActionDto } from './common/docker.dto';
+import { EndpointType } from 'src/instances/common/instances.enums';
+import { throws } from 'assert';
 
 @Injectable()
 export class DockerService {
@@ -12,31 +14,21 @@ export class DockerService {
   protected socket: Docker;
   protected endpoint: Instances;
 
-  async checkConnect(instance: Instances, config: string) {
-    try {
-      const { type } = instance;
-      const conf = JSON.parse(config);
-      if (type === 2) {
-        this.socket = new Docker({
-          socketPath: '/var/run/docker.sock',
-        });
-      } else {
-        this.socket = new Docker({
-          host: conf?.host,
-          port: conf?.port,
-        });
-      }
+  async checkConnection(type: EndpointType, config: string) {
+    if (type === EndpointType.DockerSocket) {
+      this.socket = new Docker({
+        socketPath: '/var/run/docker.sock',
+      });
 
-      return this.socket
-        .version()
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          return false;
-        });
-    } catch (err) {
-      return false;
+      return this.socket.version();
+    } else {
+      const { host, port } = JSON.parse(config);
+      this.socket = new Docker({
+        host: host as string,
+        port: port as number,
+      });
+
+      return this.socket.version();
     }
   }
 
@@ -84,7 +76,7 @@ export class DockerService {
     if (!endpoint || !config) {
       throw new NotFoundException('endpoint_not_found');
     }
-    await this.checkConnect(endpoint, config);
+    await this.checkConnection(endpoint.type, config);
 
     return endpoint;
   }
@@ -196,14 +188,14 @@ export class DockerService {
 
   async getDockerEndpoint(endpoint: Instances, config: string) {
     const { id, type, name } = endpoint;
-    const connection = await this.checkConnect(endpoint, config);
+    const connection = await this.checkConnection(type, config);
     const clusterInfo = await this.getClusterInfo();
     let URL: string;
     const conf = JSON.parse(config);
     if (type === 1) {
-      URL = conf.socketPath;
-    } else {
       URL = `${conf.host}:${conf.port}`;
+    } else {
+      URL = conf.socketPath;
     }
 
     return {

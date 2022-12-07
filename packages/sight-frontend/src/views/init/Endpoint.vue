@@ -76,7 +76,7 @@ export default class InitEndpointView extends Vue {
     }).then(() => {
       this.$router.push('/dashboard');
     }).catch((err) => {
-      this.$toast(err.response.data.message, {
+      this.$toast(err, {
         type: 'error'
       });
     });

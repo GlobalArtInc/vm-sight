@@ -20,7 +20,7 @@ export class Instances {
   type: number;
 
   @ManyToOne(() => User, (user) => user.instances)
-  user: User[];
+  user: User;
 
   @Column('int', { nullable: true })
   teamId: number;

@@ -1,7 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DockerService } from 'src/docker/docker.service';
+import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
+import { CreateDockerEndpointDto } from './common/instances.dto';
+import { EndpointType } from './common/instances.enums';
 import { Instances, InstancesConfig } from './instances.entity';
 
 @Injectable()
@@ -23,6 +26,43 @@ export class InstancesService {
     }
 
     return null;
+  }
+
+  async checkConnection(type: EndpointType, config: string, _tempId = 0) {
+    switch (type) {
+      case EndpointType.DockerHttp:
+        await this.dockerService.checkConnection(type, config);
+        break;
+      case EndpointType.DockerSocket:
+        await this.dockerService.checkConnection(type, config);
+        break;
+      case EndpointType.Kubernetes:
+        break;
+      case EndpointType.Agent:
+        break;
+    }
+  }
+
+  async createEndpoint(callerUser: Partial<User>, dto: CreateDockerEndpointDto) {
+    const { name, type, tempId, config } = dto;
+
+    // If dockerSocket
+    if (type === EndpointType.DockerSocket) {
+      const instances = await this.instancesRepo.find();
+      if (instances.length >= 1) {
+        throw new ConflictException('more_then_one_instance');
+      }
+    }
+    await this.checkConnection(type, config);
+
+    const newInstance = this.instancesRepo.create({ name, type, user: { id: callerUser.id } });
+    await this.instancesRepo.save(newInstance);
+
+    const newConfig = this.instancesConfigRepo.create({
+      config: JSON.stringify(config),
+      instance: { id: newInstance.id },
+    });
+    await this.instancesConfigRepo.save(newConfig);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
