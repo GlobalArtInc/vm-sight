@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Chart.Name }}-common-config
 data:
-  {{- range $key, $val := index .Values }}
+  {{ range $key, $val := index .Values }}
   {{ $key | snakecase | upper }}: {{ quote $val }} 
-  {{- end }}
+  {{ end }}

@@ -16,4 +16,7 @@ type: Opaque
 EOF
 fi
 
-cd .. && werf converge --env dev --dev --repo registry.ingress.local/vms
+cd .. && 
+  werf converge --env dev --dev \
+  --values=.helm/values-dev.yaml \
+  --repo registry.ingress.local/vm-sight
