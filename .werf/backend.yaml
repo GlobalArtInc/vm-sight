@@ -1,0 +1,10 @@
+{{ if (eq .env "dev") }}
+---
+image: {{ .project }}-backend
+fromImage: base-node-image
+ansible:
+ install:
+ - name: "Install NestJS"
+   shell: npm -g i @nestjs/cli
+---
+{{ end }}

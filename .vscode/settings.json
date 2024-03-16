@@ -1,8 +1,0 @@
-{
-    "eslint.alwaysShowStatus": true,
-    "eslint.nodeEnv": "",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
-    "eslint.validate": ["typescript", "javascript"]
-}

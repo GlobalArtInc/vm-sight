@@ -1,0 +1,9 @@
+{{ $_ := set . "project" "vm-sight" }}
+{{ $_ := env "ENVNAME" | set . "env" }}
+
+project: {{ .project }}
+configVersion: 1
+
+{{ range $path, $content := .Files.Glob ".werf/*.yaml" }}
+{{ tpl $content $ }}
+{{ end }}

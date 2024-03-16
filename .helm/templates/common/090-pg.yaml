@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Chart.Name }}-pgdb
+  labels:
+    app: {{ .Chart.Name }}-pgdb
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-pgdb
+  replicas: 1
+  serviceName: {{ .Chart.Name }}-pgdb
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-pgdb
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}-pgdb
+        image: postgres
+        env:
+        - name: POSTGRES_USER
+          value: user
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: trust
+        ports:
+        - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-pgdb
+  labels:
+    service: {{ .Chart.Name }}-pgdb
+spec:
+  ports:
+  - name: "5432"
+    port: 5432
+  selector:
+    app: {{ .Chart.Name }}-pgdb
