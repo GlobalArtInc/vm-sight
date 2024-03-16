@@ -12,6 +12,8 @@ ansible:
   - name: Setting up ssh
     shell: |
       printf "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null\n" >> /etc/ssh/ssh_config
+  - name: "Install PNPM"
+    shell: npm -g i pnpm
   - name: "Install additional packages"
     apt:
       state: present
