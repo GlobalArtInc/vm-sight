@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2022",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": true,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/dal": [
+        "libs/core/src"
+      ],
+      "@app/dal/*": [
+        "libs/dal/src/*"
+      ],
+      "@app/shared": [
+        "libs/shared/src"
+      ],
+      "@app/shared/*": [
+        "libs/shared/src/*"
+      ],
+    }
+  }
+}
