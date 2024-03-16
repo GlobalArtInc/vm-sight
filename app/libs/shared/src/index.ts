@@ -1,3 +1,1 @@
-export const testSharedComponent = () => {
-  console.log("It's works")
-}
+export * from './shared.module';
