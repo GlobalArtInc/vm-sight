@@ -1,4 +1,14 @@
-export type DockerFunctions = 'info' | 'configs' | 'checkConnection' | 'containers' | 'images' | 'volumes' | 'nodes' | 'services' | 'tasks' | 'secrets';
+export type DockerFunctions =
+  | 'info'
+  | 'configs'
+  | 'checkConnection'
+  | 'containers'
+  | 'images'
+  | 'volumes'
+  | 'nodes'
+  | 'services'
+  | 'tasks'
+  | 'secrets';
 
 export type DockerContainersActions =
   | 'list'
@@ -34,11 +44,20 @@ export type DockerVolumesActions = 'list' | 'create' | 'inspect' | 'remove' | 'p
 
 export type DockerNodesActions = 'list' | 'inspect' | 'delete' | 'update';
 
-export type DockerServicesActions = 'list' | 'create' | 'inspect' | 'delete' | 'update' | 'logs'
+export type DockerServicesActions = 'list' | 'create' | 'inspect' | 'delete' | 'update' | 'logs';
 
-export type DockerTasksActions = 'list' | 'inspect'
+export type DockerTasksActions = 'list' | 'inspect';
 
 export type DockerSecretsActions = 'list' | 'create' | 'inspect' | 'delete' | 'update';
+
+export type DockerAllActions =
+  | DockerContainersActions
+  | DockerImagesActions
+  | DockerVolumesActions
+  | DockerNodesActions
+  | DockerServicesActions
+  | DockerTasksActions
+  | DockerSecretsActions;
 
 export type DockerConnectionParamsLocal = {
   socketPath: string;

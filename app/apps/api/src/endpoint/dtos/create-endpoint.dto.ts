@@ -1,6 +1,6 @@
 import { EndpointTypeEnum } from '@app/shared/enums/endpoint.enums';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsObject, IsString } from 'class-validator';
+import { IsEnum, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateEndpointDto {
   @ApiProperty()
@@ -10,6 +10,11 @@ export class CreateEndpointDto {
   @ApiProperty({ enum: EndpointTypeEnum, example: EndpointTypeEnum.REMOTE_DOCKER })
   @IsEnum(EndpointTypeEnum)
   connectionType: EndpointTypeEnum;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  publicUrl?: string;
 
   @ApiProperty()
   @IsObject()

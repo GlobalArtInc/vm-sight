@@ -13,6 +13,9 @@ export class EndpointEntity extends BaseEntity {
   @Column('character varying')
   connectionType: EndpointTypeEnum;
 
+  @Column('character varying')
+  publicUrl: string;
+
   @Column('jsonb', { default: {} })
   connectionInfo: DockerConnectionParamsLocal | DockerConnectionParamsRemote;
 

@@ -41,12 +41,17 @@ export class DockerService {
     };
     await this.connect(endpoint);
     const executionFunction = executionFunctionsMap[func as DockerFunctions];
-    
+
     if (executionFunction) {
       return executionFunction();
     } else {
       throw new NotFoundException(ErrorEnum.UNKNOWN_ACTION);
     }
+  }
+
+  public async connectAndGetInfo(endpoint: EndpointEntity) {
+    await this.connect(endpoint);
+    return this.info();
   }
 
   private async info() {
@@ -153,7 +158,7 @@ export class DockerService {
       inspect: () => this.socket.getService(params.id as string).inspect(),
       logs: () => this.socket.getService(params.id as string).logs({ stderr: true, stdout: true, ...params }),
       update: () => this.socket.getService(params.id as string).update({ ...params }),
-      delete: () => this.socket.getService(params.id as string).remove()
+      delete: () => this.socket.getService(params.id as string).remove(),
     };
     const actionFunction = actionsMap[action];
 
@@ -184,7 +189,7 @@ export class DockerService {
       inspect: () => this.socket.getSecret(params.id as string).inspect(),
       delete: () => this.socket.getSecret(params.id as string).remove(),
       create: () => this.socket.createSecret({ ...params }),
-      update: () => this.socket.getSecret(params.id as string).update({ ...params })
+      update: () => this.socket.getSecret(params.id as string).update({ ...params }),
     };
     const actionFunction = actionsMap[action];
 

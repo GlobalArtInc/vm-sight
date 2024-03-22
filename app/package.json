@@ -80,7 +80,7 @@
     "reflect-metadata": "^0.1.13",
     "request-ip": "^3.3.0",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0",
+    "rxjs": "^7.8.1",
     "sharp": "^0.32.1",
     "typeorm": "^0.3.10",
     "typeorm-naming-strategies": "^4.1.0",
