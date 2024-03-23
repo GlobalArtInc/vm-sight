@@ -1,3 +1,4 @@
+{{ if (eq .Values.werf.env "dev") }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -31,7 +32,9 @@ spec:
         - mountPath: /var/lib/postgresql/data
           name: pg-data
       volumes:
-      - name: pg-data
+        - name: pg-data
+          persistentVolumeClaim:
+            claimName:  {{ .Chart.Name }}-postgres
       restartPolicy: Always
 
 ---
@@ -47,3 +50,4 @@ spec:
     port: 5432
   selector:
     app: {{ .Chart.Name }}-pgdb
+{{ end }}
