@@ -5,16 +5,23 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
-    nginx.org/websocket-svcs: {{ .Chart.Name }}-backend
+    nginx.org/websocket-svcs: {{ .Chart.Name }}-api
 spec:
   rules:
   - host: vm-sight.local
     http:
       paths:
       - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: {{ .Chart.Name }}-web
+            port:
+              number: 80
+      - pathType: Prefix
         path: /api
         backend:
           service:
-            name: {{ .Chart.Name }}-backend
+            name: {{ .Chart.Name }}-api
             port:
               number: 80
