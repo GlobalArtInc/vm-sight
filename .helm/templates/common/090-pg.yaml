@@ -27,6 +27,13 @@ spec:
           value: {{ .Values.postgresDatabase }}
         ports:
         - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: pg-data
+      volumes:
+      - name: pg-data
+      restartPolicy: Always
+
 ---
 apiVersion: v1
 kind: Service

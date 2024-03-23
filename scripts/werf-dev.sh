@@ -3,6 +3,8 @@ export NAMESPACE=vm-sight
 
 kubectl create ns $NAMESPACE-$ENVNAME
 
+source $("$HOME/bin/trdl" use werf "1.2" "stable")
+
 if [ "$ENVNAME" = "dev" ] || [ "$ENVNAME" = "kvm" ]; then
     kubectl create ns $NAMESPACE-$ENVNAME
     cat <<EOF | kubectl -n $NAMESPACE-$ENVNAME apply -f -
