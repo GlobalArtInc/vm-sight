@@ -2,6 +2,9 @@
 ---
 image: base-node-image
 from: node:20
+git:
+- add: /install
+  to: /install
 docker:
   WORKDIR: /workspace/
   USER: root

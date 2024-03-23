@@ -12,3 +12,17 @@ spec:
   - name: {{ .Chart.Name }}-api
     port: 80
     protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-web
+  labels:
+    app: {{ .Chart.Name }}-web
+spec:
+  selector:
+    app: {{ .Chart.Name }}-web
+  ports:
+  - name: {{ .Chart.Name }}-web
+    port: 80
+    protocol: TCP
