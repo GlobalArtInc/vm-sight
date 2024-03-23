@@ -1,23 +1,19 @@
-import { defineStore } from "pinia"
-import type { User } from "~/types/user.types"
+import { defineStore } from 'pinia';
+import type { User } from '~/types/user.types';
 
-export const useAuthStore = defineStore('authStore', {
-  state: () => ({
-    isAuthenticated: false,
-    user: null,
-  }),
-  actions: {
-    getUser(user: User) {
-      this.isAuthenticated = true;
-      this.user = user;
-    },
-    logout() {
-      this.isAuthenticated = false;
-      this.user = null;
-    }
-  },
-  getters: {
-    isAuthenticated: state => state.isAuthenticated,  
-    user: state => state.user
-  }
-})
+export const useAuthStore = defineStore('authStore', () => {
+  const isAuthenticated = ref<boolean>(false);
+  const user = ref<User | null>(null);
+
+  const setUser = (savedUser: User) => {
+    isAuthenticated.value = true;
+    user.value = savedUser;
+  };
+
+  const logout = () => {
+    isAuthenticated.value = false;
+    user.value = null;
+  };
+
+  return { isAuthenticated, user, setUser, logout };
+});

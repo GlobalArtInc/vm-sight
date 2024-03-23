@@ -1,4 +1,4 @@
-export type Role = {
+export interface Role {
   id: number;
   createdAt: string;
   updatedAt: string;

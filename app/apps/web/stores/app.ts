@@ -1,5 +1,5 @@
-import { defineStore } from "pinia"
-import type { Endpoint } from "~/types/endpoint.types";
+import { defineStore } from 'pinia';
+import type { Endpoint } from '~/types/endpoint.types';
 
 export const useAppStore = defineStore('appStore', {
   state: () => ({
@@ -11,6 +11,6 @@ export const useAppStore = defineStore('appStore', {
     },
   },
   getters: {
-    selectedEndpoint: state => state.selectedEndpoint,  
-  }
-})
+    selectedEndpoint: (state) => state.selectedEndpoint,
+  },
+});

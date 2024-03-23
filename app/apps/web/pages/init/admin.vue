@@ -1,5 +1,3 @@
 <template>
-  <div>
-    Admin Init
-  </div>
+  <div>Admin Init</div>
 </template>
