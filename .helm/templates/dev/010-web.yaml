@@ -4,23 +4,23 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Chart.Name }}-backend
+  name: {{ .Chart.Name }}-web
   labels:
-    app: {{ .Chart.Name }}-backend
+    app: {{ .Chart.Name }}-web
 spec:
   replicas: 1
-  serviceName: {{ .Chart.Name }}-backend
+  serviceName: {{ .Chart.Name }}-web
   selector:
       matchLabels:
-        app: {{ .Chart.Name }}-backend
+        app: {{ .Chart.Name }}-web
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}-backend
+        app: {{ .Chart.Name }}-web
     spec:
       containers:
-      - name: {{ .Chart.Name }}-backend
-        image: '{{ index .Values.werf.image (printf "%s-backend" .Chart.Name) }}'
+      - name: {{ .Chart.Name }}-web
+        image: '{{ index .Values.werf.image (printf "%s-web" .Chart.Name) }}'
         env:
         - name: PROJECT
           value: {{ .Chart.Name }}
@@ -36,7 +36,7 @@ spec:
       volumes:
         - name: workspace
           persistentVolumeClaim:
-            claimName:  {{ .Chart.Name }}-workspace-pv-claim
+            claimName:  {{ .Chart.Name }}-web-pv-claim
         - name: id-rsa-vcs
           secret:
             secretName: id-rsa-vcs

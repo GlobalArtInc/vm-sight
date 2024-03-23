@@ -27,4 +27,14 @@ ansible:
         - neovim
         - git
 ---
+image: {{ .project }}-api
+fromImage: base-node-image
+ansible:
+ install:
+ - name: "Install NestJS"
+   shell: npm -g i @nestjs/cli
+---
+image: {{ .project }}-web
+fromImage: base-node-image
+---
 {{ end }}
