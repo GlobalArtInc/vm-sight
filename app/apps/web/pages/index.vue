@@ -1,5 +1,3 @@
 <template>
-  <div>
-    de1v
-  </div>
+  <div>de1v</div>
 </template>

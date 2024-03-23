@@ -1,7 +1,7 @@
-import type { Role } from "./role.types";
+import type { Role } from './role.types';
 
-export type User = {
-  id: number
+export interface User {
+  id: number;
   createdAt: string;
   updatedAt: string;
   username: string;

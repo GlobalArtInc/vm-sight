@@ -1,4 +1,4 @@
-export type Endpoint = {
+export interface Endpoint {
   id: number;
   createdAt: string;
   updatedAt: string;

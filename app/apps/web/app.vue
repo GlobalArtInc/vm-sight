@@ -1,9 +1,9 @@
 <script setup lang="ts">
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - VM-SIGHT` : 'VM-SIGHT'
+    return titleChunk ? `${titleChunk} - VM-SIGHT` : 'VM-SIGHT';
   },
-})
+});
 </script>
 
 <template>
