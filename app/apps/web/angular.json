@@ -26,7 +26,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/assets/styles/theme.scss",
-              "src/assets/styles/app.scss"
+              "src/assets/styles/app.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -81,7 +82,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/assets/styles/theme.scss",
-              "src/assets/styles/app.scss"
+              "src/assets/styles/app.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           }
