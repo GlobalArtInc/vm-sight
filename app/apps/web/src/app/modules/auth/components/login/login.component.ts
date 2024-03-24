@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -22,11 +23,12 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private toastr: ToastrService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       username: [null, [Validators.required]],
-      password: [null, Validators.required],
+      password: [null, [Validators.required]],
     });
   }
 
@@ -35,9 +37,13 @@ export class LoginComponent {
       return;
     }
     this.httpClient.post('public/auth/login', this.loginForm.value).subscribe({
-      next: () => {
+      next: async () => {
         this.toastr.success('User has been authorized', 'Success');
-        this.router.navigateByUrl('/');
+        this.authService.authUser().subscribe({
+          next: () => {
+            this.router.navigate(['/']);
+          }
+        });
       },
       error: () => {
         this.toastr.error('Incorrect login or password!', 'Error');

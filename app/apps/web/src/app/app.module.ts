@@ -14,7 +14,8 @@ import { AuthService } from './modules/auth/services/auth.service';
 const appInitializer = (authService: AuthService) => {
   return () => {
     return new Promise((resolve) => {
-      authService.authUser().subscribe().add(resolve(true));
+      // @ts-ignore
+      authService.authUser().subscribe().add(resolve);
     });
   };
 }
