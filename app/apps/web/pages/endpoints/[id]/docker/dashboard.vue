@@ -6,7 +6,6 @@ definePageMeta({
   layout: 'docker',
 });
 const store = useAppStore();
-
 </script>
 
 <template>
@@ -15,7 +14,9 @@ const store = useAppStore();
       <docker-dashboard-info :endpoint="store.selectedEndpoint" />
     </v-col>
   </v-row>
-  <v-row v-if="store.selectedEndpoint">
-    <docker-dashboard-widgets :endpoint="store.selectedEndpoint" />
-  </v-row>
+  <div>
+    <v-row v-if="store.selectedEndpoint">
+      <docker-dashboard-widgets :endpoint="store.selectedEndpoint" />
+    </v-row>
+  </div>
 </template>
