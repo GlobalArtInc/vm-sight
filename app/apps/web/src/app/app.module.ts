@@ -1,17 +1,14 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
-  imports: [BrowserModule, HttpClientModule, AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, SharedModule],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  providers: [
-    provideAnimationsAsync()
-  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

@@ -1,12 +1,10 @@
 .auth {
   background: #2196f3;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-
+  
   &__container {
-    padding-top: 10px;
+    padding-top: 60px;
     max-width: 50%;
+    margin: 0 auto;
   }
 
 }
