@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'body[root]',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'web';
-}
+export class AppComponent {}
