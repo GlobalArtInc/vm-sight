@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import AppDrawer from '~/components/AppDrawer/app-drawer.vue';
 import AppToolbar from '~/components/AppTopbar/app-toolbar.vue';
+import { useAppStore } from '~/stores/app.store';
+
+const route = useRoute();
+const store = useAppStore();
+onMounted(async () => {
+  await store.fetchEndpoint(route.params.id as string);
+});
 </script>
 
 <template>
@@ -14,7 +21,6 @@ import AppToolbar from '~/components/AppTopbar/app-toolbar.vue';
         </v-container>
       </div>
     </v-main>
-    <!-- <app-fab /> -->
   </v-app>
 </template>
 

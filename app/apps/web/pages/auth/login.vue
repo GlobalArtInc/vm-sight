@@ -10,8 +10,10 @@ const { setUser } = useAuthStore();
 const router = useRouter();
 const toast = useToast();
 
-const username = defineModel<string>('username', { required: true });
-const password = defineModel<string>('password', { required: true });
+const formState = reactive({
+  username: '',
+  password: '',
+});
 const buttonLoading = useState();
 
 async function handleLogin() {
@@ -20,8 +22,8 @@ async function handleLogin() {
     await $fetch('/api/public/auth/login', {
       method: 'POST',
       body: {
-        username: username.value || '',
-        password: password.value || '',
+        username: formState.username,
+        password: formState.password,
       },
     });
 
@@ -30,6 +32,7 @@ async function handleLogin() {
     toast.success('Successfully logged in', {
       timeout: 2000,
     });
+
     setTimeout(() => {
       router.push('/');
     }, 500);
@@ -37,6 +40,7 @@ async function handleLogin() {
     toast.error(err.data?.error || '', {
       timeout: 2000,
     });
+  } finally {
     setTimeout(() => {
       buttonLoading.value = false;
     }, 500);
@@ -55,7 +59,7 @@ async function handleLogin() {
           <v-form class="my-10" lazy-validation @submit.prevent>
             <v-card-text>
               <v-text-field
-                v-model="username"
+                v-model="formState.username"
                 append-icon="mdi-email"
                 autocomplete="off"
                 name="login"
@@ -65,7 +69,7 @@ async function handleLogin() {
                 outlined
               />
               <v-text-field
-                v-model="password"
+                v-model="formState.password"
                 append-icon="mdi-lock"
                 autocomplete="off"
                 name="password"

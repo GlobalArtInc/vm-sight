@@ -6,11 +6,13 @@ export const useAppStore = defineStore('appStore', {
     selectedEndpoint: null,
   }),
   actions: {
+    async fetchEndpoint(endpointId: string) {
+      const response = await $fetch<Endpoint>(`/api/protected/endpoint/${endpointId}`);
+
+      this.selectedEndpoint = response;
+    },
     setEndpoint(endpoint: Endpoint) {
       this.selectedEndpoint = endpoint;
     },
-  },
-  getters: {
-    selectedEndpoint: (state) => state.selectedEndpoint,
   },
 });
