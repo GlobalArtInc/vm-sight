@@ -1,0 +1,12 @@
+.app-dashboard {
+  &__endpoints {
+    &-table {
+      thead {
+        display: none;
+      }
+    }
+    &-item {
+      gap: 20px;
+    }
+  }
+}

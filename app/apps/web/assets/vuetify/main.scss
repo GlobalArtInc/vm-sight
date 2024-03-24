@@ -1,5 +1,74 @@
-// Any variables in the sass files in this folder - https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/
+@use 'vuetify' with (
+  $utilities: false,
+  $reset: false,
+  $color-pack: true
+);
 
-// $family: 'Inter var', 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+.main-container {
+  max-width: 100%;
+}
 
-@use 'vuetify' with ($utilities: false, $reset: false, $color-pack: false,; // $body-font-family : $font-family);
+@media (max-width: 1500px) {
+  .main-container {
+    max-width: 100%;
+  }
+}
+
+.app--toolbar {
+  .v-toolbar__extension {
+    padding: 0 !important;
+  }
+}
+
+.v-input.search {
+  .v-input__slot {
+    margin-top: 8px;
+  }
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+a {
+  color: #337ab7;
+  text-decoration: none;
+}
+
+.xterm .xterm-viewport {
+  overflow-y: hidden;
+}
+.code,
+kbd {
+  padding: 2px 4px;
+  font-size: 90%;
+}
+
+.code {
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.fa.red-icon {
+  color: #ae2323;
+}
+.fa.green-icon {
+  color: #23ae89;
+}
+
+.space-left {
+  margin-left: 5px;
+}
+
+.space-right {
+  margin-right: 5px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
