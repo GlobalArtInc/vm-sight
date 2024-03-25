@@ -24,5 +24,5 @@ spec:
     app: {{ .Chart.Name }}-web
   ports:
   - name: {{ .Chart.Name }}-web
-    port: 80
+    port: 4200
     protocol: TCP
