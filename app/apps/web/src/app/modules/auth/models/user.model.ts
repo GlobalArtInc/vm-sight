@@ -1,9 +1,11 @@
 import { RoleModel } from './role.model';
 
-export type UserModel = {
+export class UserModel {
   id: number;
   createdAt: string;
   updatedAt: string;
-  username: string;
+  fullName: string;
+  email: string;
+  avatar: string;
   roles: RoleModel[];
-};
+}
