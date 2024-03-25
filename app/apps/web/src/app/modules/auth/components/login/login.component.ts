@@ -1,53 +1,85 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SharedModule } from '../../../shared/shared.module';
-import { HttpClient } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
-import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { Subscription, Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { UserModel } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [SharedModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
+  defaultAuth: any = {
+    email: '',
+    password: '',
+  };
   loginForm: FormGroup;
-  loading = false;
+  hasError: boolean;
+  returnUrl: string;
+  isLoading$: Observable<boolean>;
+
+  private unsubscribe: Subscription[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,
-    private httpClient: HttpClient,
-    private toastr: ToastrService,
+    private fb: FormBuilder,
     private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
-    this.loginForm = this.formBuilder.group({
-      username: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+    this.isLoading$ = this.authService.isLoading$;
+    if (this.authService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  ngOnInit(): void {
+    this.initForm();
+    this.returnUrl =
+      this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
+  }
+
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  initForm() {
+    this.loginForm = this.fb.group({
+      email: [
+        this.defaultAuth.email,
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(320), 
+        ]),
+      ],
+      password: [
+        this.defaultAuth.password,
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(100),
+        ]),
+      ],
     });
   }
 
-  async submit() {
-    if (!this.loginForm.valid) {
-      return;
-    }
-    this.httpClient.post('public/auth/login', this.loginForm.value).subscribe({
-      next: async () => {
-        this.toastr.success('User has been authorized', 'Success');
-        this.authService.authUser().subscribe({
-          next: () => {
-            this.router.navigate(['/']);
-          }
-        });
-      },
-      error: () => {
-        this.toastr.error('Incorrect login or password!', 'Error');
-      },
-    });
+  submit() {
+    this.hasError = false;
+    const loginSubscr = this.authService
+      .login(this.f.email.value, this.f.password.value)
+      .pipe(first())
+      .subscribe((user: UserModel | undefined) => {
+        if (user) {
+          this.router.navigate([this.returnUrl]);
+        } else {
+          this.hasError = true;
+        }
+      });
+    this.unsubscribe.push(loginSubscr);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }
