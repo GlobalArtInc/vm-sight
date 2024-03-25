@@ -23,6 +23,14 @@ export class EndpointControllerProtected {
   }
 
   @ApiOperation({
+    summary: 'Get endpoint by id',
+  })
+  @Get(':endpointId')
+  async getOne(@Param('endpointId', ParseIntPipe) endpointId: number) {
+    return this.endpointService.getOneById(endpointId);
+  }
+
+  @ApiOperation({
     summary: 'Create endpoint',
   })
   @Post()

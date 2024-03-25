@@ -28,7 +28,7 @@ export class UserService {
     const cryptedPassword = await this.userRepository.cryptPassword(data.password);
 
     await this.userRepository.create({
-      username: data.username,
+      email: data.email,
       password: cryptedPassword,
       roles: [coreAdminRole],
     });
@@ -37,6 +37,9 @@ export class UserService {
   async getById(id: number) {
     const user = await this.userRepository.getOneBy({ id }, { relations: ['roles'] });
 
-    return omit(user, ['password']);
+    return {
+      ...omit(user, ['password']),
+      avatar: user.avatar,
+    };
   }
 }

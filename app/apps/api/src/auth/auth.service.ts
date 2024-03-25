@@ -23,8 +23,8 @@ export class AuthService {
   }
 
   async login(data: AuthUserDto) {
-    const { username, password } = data;
-    const user = await this.userRepository.getOneBy({ username });
+    const { email, password } = data;
+    const user = await this.userRepository.getOneBy({ email });
     const isPasswordValidated = await this.userRepository.validatePassword(user?.password, password);
 
     if (!isPasswordValidated) {

@@ -4,7 +4,7 @@ import { IsEmail, IsString } from 'class-validator';
 export class InitAdministratorDto {
   @ApiProperty({ type: String, example: 'admin@globalart.dev' })
   @IsEmail()
-  username: string;
+  email: string;
 
   @ApiProperty({ type: String, example: 'admin' })
   @IsString()

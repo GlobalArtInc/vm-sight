@@ -22,8 +22,23 @@ export class EndpointService {
 
     return endpoints.map((endpoint) => ({
       ...endpoint,
+      isActive: serviceMap.has(endpoint.id),
       serviceInfo: serviceMap.get(endpoint.id),
     }));
+  }
+
+  async getOneById(id: number) {
+    const endpoint = await this.endpointRepository.getOneBy({ id });
+    if (!endpoint) {
+      throw new NotFoundException(ErrorEnum.ENTITY_NOT_FOUND);
+    }
+    const serviceMap = await this.createServiceMap([endpoint]);
+
+    return {
+      ...endpoint,
+      isActive: serviceMap.has(endpoint.id),
+      serviceInfo: serviceMap.get(endpoint.id),
+    };
   }
 
   @Transactional({ isolationLevel: IsolationLevel.READ_UNCOMMITTED })
