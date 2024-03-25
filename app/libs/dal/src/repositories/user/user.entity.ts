@@ -8,6 +8,9 @@ import * as crypto from 'crypto';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
+  @Column('character varying', { nullable: true })
+  fullName: string;
+
   @Column('character varying', { unique: true })
   email: string;
 

@@ -28,6 +28,7 @@ export class UserService {
     const cryptedPassword = await this.userRepository.cryptPassword(data.password);
 
     await this.userRepository.create({
+      fullName: 'Admin',
       email: data.email,
       password: cryptedPassword,
       roles: [coreAdminRole],
