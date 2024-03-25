@@ -1,0 +1,15 @@
+<ng-container *ngIf="user$ | async as _user">
+  <div class="app-navbar-item" [ngClass]="itemClass">
+    <div class="cursor-pointer symbol" [ngClass]="userAvatarClass" data-kt-menu-trigger="{default: 'click'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+      <img src="{{ _user.avatar }}" />
+    </div>
+    <app-user-inner data-kt-menu='true'></app-user-inner>
+  </div>
+  <ng-container *ngIf="appHeaderDefaulMenuDisplay">
+    <div class="app-navbar-item d-lg-none ms-2 me-n3" title="Show header menu">
+      <div class="btn btn-icon btn-active-color-primary w-35px h-35px" id="kt_app_header_menu_toggle">
+        <app-keenicon name="element-4" class="fs-1" [ngClass]="btnIconClass"></app-keenicon>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

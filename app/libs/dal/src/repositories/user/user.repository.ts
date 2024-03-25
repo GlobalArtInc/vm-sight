@@ -17,6 +17,10 @@ export class UserRepository extends BaseRepository<UserEntity> {
   }
 
   async validatePassword(passwordHash: string, password: string) {
+    if (!passwordHash) {
+      return false;
+    }
+
     return bcrypt.compareSync(password, passwordHash);
   }
 }

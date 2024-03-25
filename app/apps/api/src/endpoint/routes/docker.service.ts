@@ -15,6 +15,7 @@ import {
   DockerSecretsActions,
 } from '@app/shared/types/docker.types';
 import * as Docker from 'dockerode';
+import { omit } from 'lodash';
 
 @Injectable()
 export class DockerService {
@@ -69,21 +70,23 @@ export class DockerService {
   }
 
   async containers(action: DockerContainersActions, params: Record<string, unknown>) {
+    const containerId = params?.id;
+    const paramsWithoutId = omit(params, ['id']);
     const actionsMap: Record<DockerContainersActions, any> = {
-      list: () => this.socket.listContainers({ all: true, ...params }),
-      create: () => this.socket.createContainer({ ...params }),
-      inspect: () => this.socket.getContainer(params.id as string).inspect(),
-      logs: () => this.socket.getContainer(params.id as string).logs({ stderr: true, stdout: true, ...params }),
-      kill: () => this.socket.getContainer(params.id as string).kill({ force: true, ...params }),
-      start: () => this.socket.getContainer(params.id as string).start({ ...params }),
-      stop: () => this.socket.getContainer(params.id as string).stop({ ...params }),
-      restart: () => this.socket.getContainer(params.id as string).restart({ ...params }),
-      remove: () => this.socket.getContainer(params.id as string).remove({ ...params }),
-      update: () => this.socket.getContainer(params.id as string).update({ ...params }),
-      rename: () => this.socket.getContainer(params.id as string).rename({ ...params }),
-      pause: () => this.socket.getContainer(params.id as string).pause({ ...params }),
-      unpause: () => this.socket.getContainer(params.id as string).unpause({ ...params }),
-      attach: () => this.socket.getContainer(params.id as string).attach({ ...params }),
+      list: () => this.socket.listContainers({ all: true, ...paramsWithoutId }),
+      create: () => this.socket.createContainer({ ...paramsWithoutId }),
+      inspect: () => this.socket.getContainer(containerId as string).inspect(),
+      logs: () => this.socket.getContainer(containerId as string).logs({ stderr: true, stdout: true, ...paramsWithoutId }),
+      kill: () => this.socket.getContainer(containerId as string).kill({ force: true, ...paramsWithoutId }),
+      start: () => this.socket.getContainer(containerId as string).start({ ...paramsWithoutId }),
+      stop: () => this.socket.getContainer(containerId as string).stop({ ...paramsWithoutId }),
+      restart: () => this.socket.getContainer(containerId as string).restart({ ...paramsWithoutId }),
+      remove: () => this.socket.getContainer(containerId as string).remove({ ...paramsWithoutId }),
+      update: () => this.socket.getContainer(containerId as string).update({ ...paramsWithoutId }),
+      rename: () => this.socket.getContainer(containerId as string).rename({ ...paramsWithoutId }),
+      pause: () => this.socket.getContainer(containerId as string).pause({ ...paramsWithoutId }),
+      unpause: () => this.socket.getContainer(containerId as string).unpause({ ...paramsWithoutId }),
+      attach: () => this.socket.getContainer(containerId as string).attach({ ...paramsWithoutId }),
     };
 
     const actionFunction = actionsMap[action];
