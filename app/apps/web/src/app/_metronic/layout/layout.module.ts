@@ -37,6 +37,7 @@ import { ExtendedComponent } from './components/toolbar/extended/extended.compon
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
 import {SharedModule} from "../shared/shared.module";
+import { EndpointsService } from 'src/app/modules/endpoints/endpoints.service';
 
 const routes: Routes = [
   {

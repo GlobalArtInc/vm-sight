@@ -1,7 +1,7 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,6 +13,8 @@ import { AuthService } from './modules/auth/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { APIInterceptor } from './interceptors/http.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { EndpointsService } from './modules/endpoints/endpoints.service';
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -24,16 +26,15 @@ function appInitializer(authService: AuthService) {
 }
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot(),
     HttpClientModule,
-    ClipboardModule,
     AppRoutingModule,
     InlineSVGModule.forRoot(),
-    NgbModule,
     SweetAlert2Module.forRoot(),
   ],
   providers: [
@@ -48,6 +49,7 @@ function appInitializer(authService: AuthService) {
       useClass: APIInterceptor,
       multi: true,
     },
+    EndpointsService,
   ],
   bootstrap: [AppComponent],
 })
