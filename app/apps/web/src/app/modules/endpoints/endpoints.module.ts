@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { EndpointsRoutingModule } from './endpoints-routing.module';
 import { EndpointsComponent } from './endpoints.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
