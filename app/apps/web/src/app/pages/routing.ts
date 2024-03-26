@@ -3,7 +3,23 @@ import { Routes } from '@angular/router';
 const Routing: Routes = [
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    loadChildren: () => 
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
+    path: 'endpoints',
+    loadChildren: () => 
+      import('../modules/endpoints/endpoints.module').then((m) => m.EndpointsModule),
+  },
+  {
+    path: 'users',
+    loadChildren: () => 
+      import('../modules/users/users.module').then((m) => m.UsersModule),
+  },
+  {
+    path: 'settings',
+    loadChildren: () => 
+      import('../modules/settings/settings.module').then((m) => m.SettingsModule),
   },
   {
     path: '',

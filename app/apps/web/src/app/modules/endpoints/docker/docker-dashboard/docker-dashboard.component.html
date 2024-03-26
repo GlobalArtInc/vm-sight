@@ -1,0 +1,41 @@
+@if (isLoading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @else {
+  <div class="endpoints-docker-dashboard card mb-5 mb-xl-10" id="kt_profile_details_view">
+      <div class="card-header">
+        <h4 class="card-title align-items-start flex-column">
+          <h3 class="fw-bolder m-0">Info</h3>
+        </h4>
+      </div>
+      <div class="card-body p-9">
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-bold text-muted">Endpoint</label>
+          <div class="col-lg-8 gap-3">
+            <div class="d-flex flex-row gap-3">
+              <div>{{ endpointInfo.name }}</div>
+              <div>
+                <i class="fas fa-microchip"></i>
+                <span style="margin-left: 5px;">{{ endpointInfo.serviceInfo?.NCPU || '0' }}</span>
+              </div>
+              <div>
+                <i class="fas fa-memory"></i>
+                <span style="margin-left: 5px;">{{ helpersService.bytesToSize(endpointInfo.serviceInfo?.MemTotal || '0') }}</span>
+              </div>
+              <div>
+                -
+              </div>
+              <div>
+                {{ endpointInfo.serviceInfo?.Swarm ? "Swarm" : "Standalone" }} {{ endpointInfo.serviceInfo?.ServerVersion }}
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-bold text-muted">URL</label>
+        <div class="col-lg-8 ">
+          <div>{{ endpointInfo.connectionInfo?.host || endpointInfo.connectionInfo?.socketPath }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

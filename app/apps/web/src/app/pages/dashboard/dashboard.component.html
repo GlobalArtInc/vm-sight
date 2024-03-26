@@ -1,35 +1,79 @@
 <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-  <div class="m-5">
-    <div class="d-flex flex-stack h-80px" onclick="">
-      <div class="d-flex">
-        <img
-          src="./assets/media/svg/brand-logos/docker-native.svg"
-          class="w-80px h-84px me-6"
-          width="64"
-          height="64"
-          alt=""
-        />
-  
-        <div class="d-flex flex-column">
-          <div href="#" class="fs-6 fw-bold text-gray-500">
-            Docker (local)
-          </div>
-          <div class="fs-6 fw-bold text-gray-500">
-            0 services 0 containers
-          </div>
-          <div class="fs-6 fw-bold text-gray-500">
-            9 cpu 20 Mem GB
-          </div>
-        </div>
-      </div>
-      <div class="d-flex flex-column justify-content-end">
-        <div class="fs-6 fw-bold text-gray-500">
-          Swarm 26.0.0
-        </div>
-        <div class="fs-6 fw-bold text-gray-500">
-          /var/run/docker.sock
-        </div>
-      </div>
-    </div>
+  @if (isLoadingResults) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+  <div class="noselect">
+    <table mat-table [dataSource]="dataSource" >
+      <ng-container matColumnDef="endpoint">
+        <td mat-cell matRipple *matCellDef="let row"> 
+          <div class="d-flex flex-stack pt-5 pb-5" onclick="">
+            @if (['remote_docker', 'local_docker'].includes(row.connectionType)) {
+              <div class="d-flex">
+                <img
+                  src="./assets/media/svg/brand-logos/docker-native.svg"
+                  class="pr-5"
+                  width="64"
+                  height="64"
+                  alt=""
+                />
+          
+                <div class="d-flex flex-column" style="margin-left: 10px">
+                  <div href="#" class="fs-6">
+                    {{ row.name || 'Unknown' }}
+                  </div>
+                  <div class="d-flex flex-row gap-3">
+                    <div>
+                      <i class="fas fa-list-alt"></i>
+                      <span>
+                        {{ row.serviceInfo?.Services || '0' }} services
+                      </span>
+                    </div>
+                    <div>
+                      <i class="fas fa-cubes"></i>
+                      <span>
+                        {{ row.serviceInfo?.Containers || '0' }} containers
+                      </span>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row gap-3">
+                    <div>
+                      <i class="fas fa-microchip"></i>
+                      <span>
+                        {{ row.serviceInfo?.NCPU || '0' }}
+                      </span>
+                    </div>
+                    <div>
+                      <i class="fas fa-memory"></i>
+                      <span>
+                        {{ helpersService.bytesToSize(row.serviceInfo?.MemTotal) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-column justify-content-end">
+                <div class="fs-6">
+                  {{ row.serviceInfo?.Swarm ? "Swarm" : "Standalone" }} {{ row.serviceInfo?.ServerVersion }}
+                </div>
+                <div class="fs-6">
+                  {{ row.connectionInfo?.host || row.connectionInfo?.socketPath }}
+                </div>
+              </div>
+            }
+            </div>
+        </td>
+      </ng-container>
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/endpoints', row.id, 'docker']"></tr>
+
+      @if (!isLoadingResults) {
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter</td>
+        </tr>
+      }
+    </table>
   </div>
-</div>
+  <!-- <div class="card-footer">
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div> -->
+<div>
