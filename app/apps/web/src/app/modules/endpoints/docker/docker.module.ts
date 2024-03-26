@@ -6,11 +6,13 @@ import { EndpointsService } from '../endpoints.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { DockerComponent } from './docker.component';
 import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.component';
+import { DockerContainersComponent } from './docker-containers/docker-containers.component';
 
 @NgModule({
   declarations: [
     DockerComponent,
     DockerDashboardComponent,
+    DockerContainersComponent,
   ],
   imports: [
     CommonModule,
