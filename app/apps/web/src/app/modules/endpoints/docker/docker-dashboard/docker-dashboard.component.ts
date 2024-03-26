@@ -5,6 +5,7 @@ import { HelpersService } from 'src/app/modules/helpers/helpers.service';
 import { EndpointsService } from '../../endpoints.service';
 import { Endpoint } from 'src/app/types/endpoint.types';
 import { Subscription } from 'rxjs';
+import { DockerDataSharingService } from '../services/docker-data-sharing.service';
 
 @Component({
   selector: 'app-endpoints-docker-dashboard',
@@ -14,25 +15,27 @@ import { Subscription } from 'rxjs';
 export class DockerDashboardComponent implements OnInit, OnDestroy {
   protected endpointInfo: Endpoint;
   protected isLoading = true;
-  private subscription: Subscription[];
+  protected subscription: Subscription[];
 
   constructor(
-    private cdr: ChangeDetectorRef,
-    private endpointsService: EndpointsService,
+    private dockerDataSharingService: DockerDataSharingService,
     protected helpersService: HelpersService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
     this.subscription = [
-      this.endpointsService.event.subscribe((data) => {
-        this.isLoading = false;
-        this.endpointInfo = data;
-        this.cdr.detectChanges();
+      this.dockerDataSharingService.endpointInfo$.subscribe(endpointInfo => {
+        if (endpointInfo) {
+          this.endpointInfo = endpointInfo as Endpoint;
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
       })
     ];
   }
 
   ngOnDestroy(): void {
-    this.subscription.forEach((sub) => sub.unsubscribe());
+    this.subscription.forEach((sb) => sb.unsubscribe());
   }
 }

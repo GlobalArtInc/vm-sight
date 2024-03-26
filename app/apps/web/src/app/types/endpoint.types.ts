@@ -1,5 +1,5 @@
 export type Endpoint = {
-  id: number;
+  id: string;
   createdAt: string;
   updatedAt: string;
   name: string;
@@ -7,5 +7,13 @@ export type Endpoint = {
   isActive: boolean;
   connectionInfo?: any;
   serviceInfo?: any;
+}
 
+export type Container = {
+  Id: string;
+  Names: string[];
+  Image: string;
+  ImageID: string;
+  Command: string;
+  Created: number;
 }
