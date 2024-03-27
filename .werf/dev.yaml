@@ -39,5 +39,9 @@ ansible:
 ---
 image: {{ .project }}-web
 fromImage: base-node-image
+ansible:
+ install:
+ - name: "Install Angular CLI"
+   shell: npm -g i @angular/cli
 ---
 {{ end }}
