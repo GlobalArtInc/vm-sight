@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InlineSVGModule } from 'ng-inline-svg-2';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterLink, RouterModule, Routes } from '@angular/router';
 import {
   NgbDropdownModule,
   NgbProgressbarModule,
@@ -37,7 +37,7 @@ import { ExtendedComponent } from './components/toolbar/extended/extended.compon
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
 import {SharedModule} from "../shared/shared.module";
-import { EndpointsService } from 'src/app/modules/endpoints/endpoints.service';
+import { EndpointsService } from 'src/app/pages/endpoints/endpoints.service';
 
 const routes: Routes = [
   {
@@ -83,7 +83,8 @@ const routes: Routes = [
     NgbTooltipModule,
     TranslateModule,
     ThemeModeModule,
-    SharedModule
+    SharedModule,
+    RouterLink,
   ],
   exports: [RouterModule],
 })

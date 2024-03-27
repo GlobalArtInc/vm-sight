@@ -5,6 +5,7 @@ export type Endpoint = {
   name: string;
   publicUrl: string;
   isActive: boolean;
+  connectionType: string;
   connectionInfo?: any;
   serviceInfo?: any;
 }

@@ -9,7 +9,7 @@ const Routing: Routes = [
   {
     path: 'endpoints',
     loadChildren: () => 
-      import('../modules/endpoints/endpoints.module').then((m) => m.EndpointsModule),
+      import('./endpoints/endpoints.module').then((m) => m.EndpointsModule),
   },
   {
     path: 'users',

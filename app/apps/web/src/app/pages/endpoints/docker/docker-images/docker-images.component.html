@@ -1,0 +1,54 @@
+@if (isLoading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @else {
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="images">
+  
+      <!-- Position Column -->
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="RepoTags">
+        <th mat-header-cell *matHeaderCellDef> Tags </th>
+        <td mat-cell *matCellDef="let element"> {{element.RepoTags}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Size">
+        <th mat-header-cell *matHeaderCellDef> Size </th>
+        <td mat-cell *matCellDef="let element"> {{element.Size }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="Created">
+        <th mat-header-cell *matHeaderCellDef> Created </th>
+        <td mat-cell *matCellDef="let element"> {{element.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Ports">
+        <th mat-header-cell *matHeaderCellDef> Ports </th>
+        <td mat-cell *matCellDef="let element"> 
+          <ng-container *ngIf="element.Ports.length; else notFoundBlock">
+            <ng-container *ngFor="let port of element.Ports">
+              <ng-container *ngIf="port; else notFoundBlock">
+                <a [href]="'//' + endpointInfo.publicUrl + ':' + port.PublicPort" target="_blank">
+                  <span>{{port.PrivatePort}}:{{port.PublicPort}}</span>
+                </a>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-template #notFoundBlock>
+            <span class="fw-medium">
+              N/A
+            </span>
+          </ng-template>
+        </td>
+      </ng-container>
+      
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
+}

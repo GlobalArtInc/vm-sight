@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { EndpointsService } from 'src/app/modules/endpoints/endpoints.service';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DockerDataSharingService } from 'src/app/pages/endpoints/docker/services/docker-data-sharing.service';
+import { EndpointsService } from 'src/app/pages/endpoints/endpoints.service';
 import { Endpoint } from 'src/app/types/endpoint.types';
 
 @Component({
@@ -7,17 +9,22 @@ import { Endpoint } from 'src/app/types/endpoint.types';
   templateUrl: './sidebar-menu.component.html',
   styleUrls: ['./sidebar-menu.component.scss']
 })
-export class SidebarMenuComponent implements OnInit {
-  protected selectedInfo: Endpoint;
+export class SidebarMenuComponent implements OnInit, OnDestroy {
+  protected selectedEndpoint: Endpoint;
+  private subscribtion: Subscription[];
 
-  constructor(public endpointsService: EndpointsService) { }
+  constructor(public dockerDataSharingService: DockerDataSharingService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.endpointsService.event.subscribe({
-      next: (data) => {
-        this.selectedInfo = data;
-      },
-    })
+    this.subscribtion = [
+      this.dockerDataSharingService.endpointInfo$.subscribe((data) => {
+        this.selectedEndpoint = data as Endpoint;
+        this.cdr.detectChanges();
+      })
+    ];
   }
 
+  ngOnDestroy(): void {
+    this.subscribtion.forEach((sb) => sb.unsubscribe());
+  }
 }

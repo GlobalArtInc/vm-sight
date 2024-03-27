@@ -44,14 +44,14 @@
         <app-widget-count-with-icon 
           icon="fas fa-th-list"
           link="/endpoints/{{ endpointInfo.id }}/docker/stacks"
-          count="{{ endpointInfo.serviceInfo?.ServiceCount || '0' }}" 
+          [count]="endpointInfo.serviceInfo?.ServiceCount || '0'" 
           title="Services" />
       </div>
       <div class="col-md-6 col-12 col-xs-12">
         <app-widget-count-with-icon 
           icon="fas fa-cubes" 
           link="/endpoints/{{ endpointInfo.id }}/docker/containers"
-          count="{{ endpointInfo.serviceInfo?.Containers || '0' }}" 
+          [count]="endpointInfo.serviceInfo?.Containers || '0'" 
           title="Containers" />
       </div>
     </div>
@@ -60,14 +60,14 @@
         <app-widget-count-with-icon 
           icon="fas fa-copy" 
           link="/endpoints/{{ endpointInfo.id }}/docker/images"
-          count="{{ endpointInfo.serviceInfo?.ImageCount || '0' }}" 
+          [count]="endpointInfo.serviceInfo?.Images || '0'" 
           title="Images" />
       </div>
       <div class="col-md-6 col-12 col-xs-12">
         <app-widget-count-with-icon 
           icon="fas fa-hdd" 
           link="/endpoints/{{ endpointInfo.id }}/docker/volumes"
-          count="{{ endpointInfo.serviceInfo?.VolumeCount || '0' }}" 
+          [count]="endpointInfo.serviceInfo?.VolumeCount || '0'" 
           title="Volumes" />
       </div>
     </div>
