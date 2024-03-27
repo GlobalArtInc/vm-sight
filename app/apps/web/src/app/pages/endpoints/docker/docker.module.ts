@@ -7,12 +7,15 @@ import { SharedModule } from '../../../shared/shared.module';
 import { DockerComponent } from './docker.component';
 import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.component';
 import { DockerContainersComponent } from './docker-containers/docker-containers.component';
+import { DockerImagesComponent } from './docker-images/docker-images.component';
+import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 
 @NgModule({
   declarations: [
     DockerComponent,
     DockerDashboardComponent,
     DockerContainersComponent,
+    DockerImagesComponent,
   ],
   imports: [
     CommonModule,

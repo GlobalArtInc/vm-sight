@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { EndpointsService } from '../endpoints.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,11 +15,13 @@ export class DockerComponent implements OnInit {
     private route: ActivatedRoute,
     private endpointsService: EndpointsService,
     private dockerDataSharingService: DockerDataSharingService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.endpointsService.info(this.route.snapshot.paramMap.get('endpointId') as string).subscribe((data) => {
       this.dockerDataSharingService.updateEndpointInfo(data);
+      this.cdr.detectChanges();
     });
   }
 

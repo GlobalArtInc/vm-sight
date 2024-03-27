@@ -2,22 +2,21 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, switchMap } from 'rxjs';
 import { DockerDataSharingService } from '../services/docker-data-sharing.service';
 import { EndpointsService } from '../../endpoints.service';
-import { Container, Endpoint } from 'src/app/types/endpoint.types';
+import { Endpoint } from 'src/app/types/endpoint.types';
 
 @Component({
-  selector: 'app-docker-containers',
-  templateUrl: './docker-containers.component.html',
-  styleUrl: './docker-containers.component.scss'
+  selector: 'app-docker-images',
+  templateUrl: './docker-images.component.html',
+  styleUrl: './docker-images.component.scss'
 })
-export class DockerContainersComponent implements OnInit, OnDestroy {
+export class DockerImagesComponent  implements OnInit, OnDestroy {
   protected endpointInfo: Endpoint;
-  protected containers: Container[];
+  protected images: any[];
   protected isLoading = true;
-  displayedColumns: string[] = ['Name', 'State', 'Image'];
-
+  displayedColumns: string[] = ['Id', 'RepoTags', 'Size', 'Created'];
+  
   private subscription: Subscription[];
-  
-  
+
   constructor(
     private dockerDataSharingService: DockerDataSharingService,
     private endpointsService: EndpointsService,
@@ -29,10 +28,10 @@ export class DockerContainersComponent implements OnInit, OnDestroy {
       this.dockerDataSharingService.endpointInfo$.pipe(
         switchMap((endpointInfo) => {
           this.endpointInfo = endpointInfo as Endpoint;
-          return this.endpointsService.exec(endpointInfo?.id as string, { func: 'containers', action: 'list' });
+          return this.endpointsService.exec(endpointInfo?.id as string, { func: 'images', action: 'list' });
         })
-      ).subscribe((containers) => {
-        this.containers = containers as Container[];
+      ).subscribe((images) => {
+        this.images = images as any[];
         this.isLoading = false;
         this.cdr.detectChanges();
       })

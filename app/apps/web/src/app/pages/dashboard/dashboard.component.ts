@@ -25,9 +25,9 @@ export class DashboardComponent implements OnInit {
       
       this.endpointsDatabase!.fetch()
         .pipe(
-          map((data) => {
+          map((res) => {
             this.isLoadingResults = false;
-            this.dataSource = new MatTableDataSource(data);
+            this.dataSource = new MatTableDataSource(res.data);
             this.cdr.detectChanges();
           })
         )

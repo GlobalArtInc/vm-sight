@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { APIInterceptor } from './interceptors/http.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { EndpointsService } from './modules/endpoints/endpoints.service';
+import { EndpointsService } from './pages/endpoints/endpoints.service';
 
 function appInitializer(authService: AuthService) {
   return () => {
@@ -26,7 +26,7 @@ function appInitializer(authService: AuthService) {
 }
 
 @NgModule({
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [AppComponent],
   imports: [
     BrowserModule,
