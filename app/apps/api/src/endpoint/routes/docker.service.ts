@@ -70,23 +70,23 @@ export class DockerService {
   }
 
   async containers(action: DockerContainersActions, params: Record<string, unknown>) {
-    const id = params?.id;
+    const containerId = params?.id;
     const paramsWithoutId = omit(params, ['id']);
     const actionsMap: Record<DockerContainersActions, any> = {
       list: () => this.socket.listContainers({ all: true, ...paramsWithoutId }),
       create: () => this.socket.createContainer({ ...paramsWithoutId }),
-      inspect: () => this.socket.getContainer(id as string).inspect(),
-      logs: () => this.socket.getContainer(id as string).logs({ stderr: true, stdout: true, ...paramsWithoutId }),
-      kill: () => this.socket.getContainer(id as string).kill({ force: true, ...paramsWithoutId }),
-      start: () => this.socket.getContainer(id as string).start({ ...paramsWithoutId }),
-      stop: () => this.socket.getContainer(id as string).stop({ ...paramsWithoutId }),
-      restart: () => this.socket.getContainer(id as string).restart({ ...paramsWithoutId }),
-      remove: () => this.socket.getContainer(id as string).remove({ ...paramsWithoutId }),
-      update: () => this.socket.getContainer(id as string).update({ ...paramsWithoutId }),
-      rename: () => this.socket.getContainer(id as string).rename({ ...paramsWithoutId }),
-      pause: () => this.socket.getContainer(id as string).pause({ ...paramsWithoutId }),
-      unpause: () => this.socket.getContainer(id as string).unpause({ ...paramsWithoutId }),
-      attach: () => this.socket.getContainer(id as string).attach({ ...paramsWithoutId }),
+      inspect: () => this.socket.getContainer(containerId as string).inspect(),
+      logs: () => this.socket.getContainer(containerId as string).logs({ stderr: true, stdout: true, ...paramsWithoutId }),
+      kill: () => this.socket.getContainer(containerId as string).kill({ force: true, ...paramsWithoutId }),
+      start: () => this.socket.getContainer(containerId as string).start({ ...paramsWithoutId }),
+      stop: () => this.socket.getContainer(containerId as string).stop({ ...paramsWithoutId }),
+      restart: () => this.socket.getContainer(containerId as string).restart({ ...paramsWithoutId }),
+      remove: () => this.socket.getContainer(containerId as string).remove({ ...paramsWithoutId }),
+      update: () => this.socket.getContainer(containerId as string).update({ ...paramsWithoutId }),
+      rename: () => this.socket.getContainer(containerId as string).rename({ ...paramsWithoutId }),
+      pause: () => this.socket.getContainer(containerId as string).pause({ ...paramsWithoutId }),
+      unpause: () => this.socket.getContainer(containerId as string).unpause({ ...paramsWithoutId }),
+      attach: () => this.socket.getContainer(containerId as string).attach({ ...paramsWithoutId }),
     };
 
     const actionFunction = actionsMap[action];
