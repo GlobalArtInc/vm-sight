@@ -6,6 +6,7 @@ import { EndpointsRoute } from './routes';
 import { ErrorEnum } from '@app/shared/enums';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
+import { GetDataWithFilterDto } from '@app/shared/dtos';
 
 @Injectable()
 export class EndpointService {
@@ -14,17 +15,29 @@ export class EndpointService {
     private readonly endpointsRoute: EndpointsRoute
   ) {}
 
-  async getAllByUserId(userId: number) {
-    const endpoints = await this.endpointRepository.getManyBy({
-      endpointsUsers: { userId },
-    });
-    const serviceMap = await this.createServiceMap(endpoints);
+  async getAllByUserId(userId: number, data: GetDataWithFilterDto<EndpointEntity>) {
+    const { limit, offset, orderBy, sortBy } = data;
+    const response = await this.endpointRepository.getWithLimitAndOffset(
+      {
+        endpointsUsers: { userId },
+      },
+      limit,
+      offset,
+      sortBy,
+      orderBy,
+    )
+    const serviceMap = await this.createServiceMap(response.data);
 
-    return endpoints.map((endpoint) => ({
-      ...endpoint,
-      isActive: serviceMap.has(endpoint.id),
-      serviceInfo: serviceMap.get(endpoint.id),
-    }));
+    return {
+      data: response.data.map((endpoint) => ({
+        ...endpoint,
+        isActive: serviceMap.has(endpoint.id),
+        serviceInfo: serviceMap.get(endpoint.id),
+      })),
+      recordsTotal: response.totalCount,
+      recordsFiltered: response.data.length,
+      limit: response.limit,
+    };
   }
 
   async getOneById(id: number) {

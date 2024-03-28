@@ -4,6 +4,8 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserId } from '../../auth/decorators/user-id.decorator';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { CreateEndpointDto, EndpointExecuteDto } from '../dtos';
+import { GetDataWithFilterDto } from '@app/shared/dtos';
+import { EndpointEntity } from '@app/dal/repositories/endpoint';
 
 @Controller({
   version: 'protected',
@@ -18,8 +20,8 @@ export class EndpointControllerProtected {
     summary: 'Get all endpoints',
   })
   @Get()
-  async get(@UserId() userId: number) {
-    return this.endpointService.getAllByUserId(userId);
+  async get(@UserId() userId: number, @Query() data: GetDataWithFilterDto<EndpointEntity>) {
+    return this.endpointService.getAllByUserId(userId, data);
   }
 
   @ApiOperation({
