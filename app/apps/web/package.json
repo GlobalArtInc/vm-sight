@@ -74,6 +74,7 @@
     "@types/sass-loader": "8.0.3",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
+    "autoprefixer": "^10.4.19",
     "css-loader": "^6.7.3",
     "del": "^7.0.0",
     "eslint": "^8.39.0",
@@ -84,8 +85,10 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "mini-css-extract-plugin": "^2.7.2",
+    "postcss": "^8.4.38",
     "rtlcss-webpack-plugin": "4.0.7",
     "sass-loader": "^13.2.0",
+    "tailwindcss": "^3.4.3",
     "typescript": "~5.2.2",
     "webpack": "^5.88.2",
     "webpack-cli": "5.1.4"

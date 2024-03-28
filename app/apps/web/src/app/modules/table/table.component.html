@@ -1,0 +1,11 @@
+<table datatable [dtOptions]="dtOptions" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+  <thead>
+    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+      <ng-container *ngFor="let column of dtOptions.columns">
+        <th>{{ column.title }}</th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>

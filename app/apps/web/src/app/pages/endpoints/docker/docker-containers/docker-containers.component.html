@@ -1,11 +1,32 @@
-<div class="card">
-    @if (isLoading) {
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    } @else {
-      <div class="mat-elevation-z8">
+@if (isLoading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+} @else {
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-px-0 mat-elevation-z8">
+        <div class="card-header">
+          <h4 class="card-title pl-5">Containers</h4>
+        </div>
+        <div class="card-body">
+            <div class="pt-5">
+              <a href="#" class="btn btn-bg-primary">Primary</a>
+              <a href="#" class="btn btn-bg-primary">Primary</a>
+              <a href="#" class="btn btn-bg-primary">Primary</a>
+              <a href="#" class="btn btn-bg-primary">Primary</a>
+            </div>
+            <div class="separator separator-content my-10"></div>
+            <div class="card-padding">
+              
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="mat-elevation-z8">
+    <div class="card">
+      <div class="card-body pt-0">
         <table mat-table [dataSource]="containers">
-      
-          <!-- Position Column -->
+
           <ng-container matColumnDef="Name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
             <td mat-cell *matCellDef="let element"> {{element.Names[0].substring(1)}} </td>
@@ -50,8 +71,8 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-    
       </div>
-    }
-  </div>
+    </div>    
+  </div> -->
+}
 
