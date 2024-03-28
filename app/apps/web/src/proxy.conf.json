@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "http://vm-sight.local",
+    "secure": false,
+    "pathRewrite": {
+      "^/api/": "/api/"
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
