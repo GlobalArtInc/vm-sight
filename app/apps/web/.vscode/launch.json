@@ -9,7 +9,7 @@
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: start",
-      "url": "http://vm-sight.local"
+      "url": "http://localhost:4200"
     }
   ]
 }
