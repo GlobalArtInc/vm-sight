@@ -7,7 +7,7 @@ import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switche
 @Component({
   // tslint:disable-next-line:component-selector
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'body[root]',
+  selector: 'body vms-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
