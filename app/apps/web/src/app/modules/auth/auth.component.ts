@@ -4,7 +4,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '<body[root]>',
+  selector: 'vms-root',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })

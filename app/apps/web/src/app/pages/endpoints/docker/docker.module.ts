@@ -9,6 +9,7 @@ import { DockerDashboardComponent } from './docker-dashboard/docker-dashboard.co
 import { DockerContainersComponent } from './docker-containers/docker-containers.component';
 import { DockerImagesComponent } from './docker-images/docker-images.component';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
   imports: [
     CommonModule,
     DockerRoutingModule,
+    MatCheckboxModule,
     SharedModule,
   ],
 })
