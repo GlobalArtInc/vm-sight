@@ -1,6 +1,10 @@
-import {DataUtil, EventHandlerUtil, getUniqueIdWithPrefix,} from '../_utils/index';
+import {
+  DataUtil,
+  EventHandlerUtil,
+  getUniqueIdWithPrefix,
+} from '../_utils/index';
 // Helpers
-import {CookieComponent} from './_CookieComponent';
+import { CookieComponent } from './_CookieComponent';
 
 export interface ToggleOptions {
   saveState: boolean;
@@ -185,21 +189,21 @@ class ToggleComponent {
 
   public static createInstances = (selector: string) => {
     const elements = document.body.querySelectorAll<HTMLElement>(selector);
-    elements.forEach((el) => {
+    elements.forEach(el => {
       let toggleObj = ToggleComponent.getInstance(el);
       if (!toggleObj) {
         toggleObj = new ToggleComponent(el, defaultToggleOptions);
 
         // Add a class to prevent sidebar hover effect after toggle click
         // @ts-ignore
-        toggleObj.on("kt.toggle.change", function () {
+        toggleObj.on('kt.toggle.change', function () {
           // Set animation state
-          el.closest('#kt_app_sidebar')?.classList.add("animating");
+          el.closest('#kt_app_sidebar')?.classList.add('animating');
 
           // Wait till animation finishes
           setTimeout(function () {
             // Remove animation state
-            el.closest('#kt_app_sidebar')?.classList.remove("animating");
+            el.closest('#kt_app_sidebar')?.classList.remove('animating');
           }, 300);
         });
       }
@@ -215,4 +219,4 @@ class ToggleComponent {
   };
 }
 
-export {ToggleComponent, defaultToggleOptions};
+export { ToggleComponent, defaultToggleOptions };

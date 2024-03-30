@@ -17,18 +17,19 @@ const routes: Routes = [
       {
         path: ':endpointId/docker',
         component: DockerComponent,
-        loadChildren: () => import('./docker/docker.module').then(m => m.EndpointsDockerModule),
+        loadChildren: () =>
+          import('./docker/docker.module').then(m => m.EndpointsDockerModule),
       },
       {
         path: '',
         component: EndpointsListComponent,
       },
-    ]
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class EndpointsRoutingModule { }
+export class EndpointsRoutingModule {}

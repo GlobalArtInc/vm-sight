@@ -2,7 +2,9 @@
   <!-- Header -->
   <div class="card-header border-0 pt-5">
     <h3 class="card-title align-items-start flex-column">
-      <span class="card-label font-weight-bolder text-gray-900">New Arrivals</span>
+      <span class="card-label font-weight-bolder text-gray-900"
+        >New Arrivals</span
+      >
       <span class="text-muted mt-3 font-weight-bold font-size-sm"
         >More than 400+ new members</span
       >
@@ -12,8 +14,7 @@
         <li
           class="nav-item"
           (click)="setCurrentTab(TABS[0])"
-          [style.cursor]="'pointer'"
-        >
+          [style.cursor]="'pointer'">
           <a
             class="nav-link py-2 px-4"
             [class.active]="currentTab === TABS[0]"
@@ -24,8 +25,7 @@
         <li
           class="nav-item"
           (click)="setCurrentTab(TABS[1])"
-          [style.cursor]="'pointer'"
-        >
+          [style.cursor]="'pointer'">
           <a
             class="nav-link py-2 px-4"
             [class.active]="currentTab === TABS[1]"
@@ -36,8 +36,7 @@
         <li
           class="nav-item"
           (click)="setCurrentTab(TABS[2])"
-          [style.cursor]="'pointer'"
-        >
+          [style.cursor]="'pointer'">
           <a
             class="nav-link py-2 px-4"
             [class.active]="currentTab === TABS[2]"
@@ -59,8 +58,7 @@
         [class.show]="currentTab === TABS[0]"
         id="kt_tab_pane_6_1"
         role="tabpanel"
-        aria-labelledby="kt_tab_pane_6_1"
-      >
+        aria-labelledby="kt_tab_pane_6_1">
         <!--begin::Table-->
         <div class="table-responsive">
           <table class="table table-borderless table-vertical-center">
@@ -80,8 +78,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/plurk.svg'"
-                        class="svg-icon h-50 align-self-end"
-                      ></span>
+                        class="svg-icon h-50 align-self-end"></span>
                     </span>
                   </div>
                 </td>
@@ -105,7 +102,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -117,8 +116,7 @@
                         [inlineSVG]="
                           './assets/media/svg/brand-logos/kickstarter.svg'
                         "
-                        class="svg-icon h-50 align-self-end"
-                      ></span>
+                        class="svg-icon h-50 align-self-end"></span>
                     </span>
                   </div>
                 </td>
@@ -142,7 +140,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -151,9 +151,10 @@
                   <div class="symbol symbol-50 symbol-light mr-2">
                     <span class="symbol-label">
                       <span
-                        [inlineSVG]="'./assets/media/svg/brand-logos/telegram.svg'"
-                        class="svg-icon h-50 align-self-end"
-                      ></span>
+                        [inlineSVG]="
+                          './assets/media/svg/brand-logos/telegram.svg'
+                        "
+                        class="svg-icon h-50 align-self-end"></span>
                     </span>
                   </div>
                 </td>
@@ -177,7 +178,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -187,8 +190,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/misc/puzzle.svg'"
-                        class="svg-icon h-50 align-self-end"
-                      ></span>
+                        class="svg-icon h-50 align-self-end"></span>
                     </span>
                   </div>
                 </td>
@@ -212,7 +214,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -222,8 +226,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/bebo.svg'"
-                        class="svg-icon h-50 align-self-end"
-                      ></span>
+                        class="svg-icon h-50 align-self-end"></span>
                     </span>
                   </div>
                 </td>
@@ -247,7 +250,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -265,8 +270,7 @@
         [class.show]="currentTab === TABS[1]"
         id="kt_tab_pane_6_2"
         role="tabpanel"
-        aria-labelledby="kt_tab_pane_6_2"
-      >
+        aria-labelledby="kt_tab_pane_6_2">
         <!--begin::Table-->
         <div class="table-responsive">
           <table class="table table-borderless table-vertical-center">
@@ -285,9 +289,10 @@
                   <div class="symbol symbol-50 symbol-light mr-2">
                     <span class="symbol-label">
                       <span
-                        [inlineSVG]="'./assets/media/svg/brand-logos/telegram.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        [inlineSVG]="
+                          './assets/media/svg/brand-logos/telegram.svg'
+                        "
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -311,7 +316,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -321,8 +328,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/misc/puzzle.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -346,7 +352,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -356,8 +364,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/bebo.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -381,7 +388,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -391,8 +400,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/plurk.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -416,7 +424,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -428,8 +438,7 @@
                         [inlineSVG]="
                           './assets/media/svg/brand-logos/kickstarter.svg'
                         "
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -453,7 +462,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -471,8 +482,7 @@
         [class.show]="currentTab === TABS[2]"
         id="kt_tab_pane_6_3"
         role="tabpanel"
-        aria-labelledby="kt_tab_pane_6_3"
-      >
+        aria-labelledby="kt_tab_pane_6_3">
         <!--begin::Table-->
         <div class="table-responsive">
           <table class="table table-borderless table-vertical-center">
@@ -492,8 +502,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/plurk.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -517,7 +526,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -526,9 +537,10 @@
                   <div class="symbol symbol-50 symbol-light mr-2">
                     <span class="symbol-label">
                       <span
-                        [inlineSVG]="'./assets/media/svg/brand-logos/telegram.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        [inlineSVG]="
+                          './assets/media/svg/brand-logos/telegram.svg'
+                        "
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -552,7 +564,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -562,8 +576,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/misc/puzzle.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -587,7 +600,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -597,8 +612,7 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/bebo.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -622,7 +636,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -634,8 +650,7 @@
                         [inlineSVG]="
                           './assets/media/svg/brand-logos/kickstarter.svg'
                         "
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
@@ -659,7 +674,9 @@
                 </td>
                 <td class="text-right pr-0">
                   <a href="#" class="btn btn-icon btn-light btn-sm">
-                    <app-keenicon name="arrow-right" class="fs-md text-success"></app-keenicon>
+                    <app-keenicon
+                      name="arrow-right"
+                      class="fs-md text-success"></app-keenicon>
                   </a>
                 </td>
               </tr>

@@ -15,11 +15,11 @@ export class ChartsWidget5Component implements OnInit {
 }
 
 function getChartOptions() {
-  const labelColor = getCSSVariableValue('--bs-gray-500')
-  const borderColor = getCSSVariableValue('--bs-gray-200')
+  const labelColor = getCSSVariableValue('--bs-gray-500');
+  const borderColor = getCSSVariableValue('--bs-gray-200');
 
-  const baseColor = getCSSVariableValue('--bs-primary')
-  const secondaryColor = getCSSVariableValue('--bs-info')
+  const baseColor = getCSSVariableValue('--bs-primary');
+  const secondaryColor = getCSSVariableValue('--bs-info');
 
   return {
     series: [

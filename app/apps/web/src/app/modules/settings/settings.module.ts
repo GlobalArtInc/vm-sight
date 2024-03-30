@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    SettingsRoutingModule
-  ]
+  imports: [CommonModule, SettingsRoutingModule],
 })
-export class SettingsModule { }
+export class SettingsModule {}

@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './docker-networks.component.html',
-  styleUrl: './docker-networks.component.scss'
+  styleUrl: './docker-networks.component.scss',
 })
-export class DockerNetworksComponent {
-
-}
+export class DockerNetworksComponent {}

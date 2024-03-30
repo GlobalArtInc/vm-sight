@@ -20,11 +20,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { PageTitleComponent } from './components/header/page-title/page-title.component';
 import { HeaderMenuComponent } from './components/header/header-menu/header-menu.component';
-import {
-  DrawersModule,
-  DropdownMenusModule,
-  ModalsModule,
-} from '../partials';
+import { DrawersModule, DropdownMenusModule, ModalsModule } from '../partials';
 import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidebarLogoComponent } from './components/sidebar/sidebar-logo/sidebar-logo.component';
@@ -36,7 +32,7 @@ import { ClassicComponent } from './components/toolbar/classic/classic.component
 import { ExtendedComponent } from './components/toolbar/extended/extended.component';
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
-import {SharedModule} from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 import { EndpointsService } from 'src/app/pages/endpoints/endpoints.service';
 
 const routes: Routes = [

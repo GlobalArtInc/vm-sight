@@ -5,16 +5,11 @@
     <!-- begin::Menu  -->
     <button
       type="button"
-      class="
-        btn btn-sm btn-icon btn-color-white btn-active-white
-        border-0
-        me-n3
-      "
+      class="btn btn-sm btn-icon btn-color-white btn-active-white border-0 me-n3"
       [ngClass]="'btn-active-color-' + chartColor"
       data-kt-menu-trigger="click"
       data-kt-menu-placement="bottom-end"
-      data-kt-menu-flip="top-end"
-    >
+      data-kt-menu-flip="top-end">
       <app-keenicon name="category" class="fs-2"></app-keenicon>
     </button>
     <app-dropdown-menu1></app-dropdown-menu1>
@@ -30,8 +25,7 @@
     #chartRef
     class="mixed-widget-12-chart card-rounded-bottom"
     [ngClass]="'bg-' + chartColor"
-    [style.height]="chartHeight"
-  >
+    [style.height]="chartHeight">
     <apx-chart
       [series]="chartOptions.series"
       [chart]="chartOptions.chart"
@@ -45,8 +39,7 @@
       [tooltip]="chartOptions.tooltip"
       [colors]="chartOptions.colors"
       [markers]="chartOptions.markers"
-      [plotOptions]="chartOptions.plotOptions"
-    ></apx-chart>
+      [plotOptions]="chartOptions.plotOptions"></apx-chart>
   </div>
   <!-- end::Chart  -->
 

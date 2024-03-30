@@ -8,9 +8,8 @@ describe('TablesWidget16Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TablesWidget16Component ]
-    })
-    .compileComponents();
+      declarations: [TablesWidget16Component],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TablesWidget16Component);
     component = fixture.componentInstance;

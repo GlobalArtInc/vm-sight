@@ -1,7 +1,18 @@
-import { NgModule, APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  NgModule,
+  APP_INITIALIZER,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+  provideHttpClient,
+} from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,12 +26,16 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { APIInterceptor } from './interceptors/http.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { EndpointsService } from './pages/endpoints/endpoints.service';
+import { of, switchMap } from 'rxjs';
+import { SharedModule as KnSharedModule } from './_metronic/shared/shared.module';
 
 function appInitializer(authService: AuthService) {
   return () => {
-    return new Promise((resolve) => {
-      //@ts-ignore
-      authService.getUserInfo().subscribe().add(resolve);
+    return new Promise(resolve => {
+      authService.checkAdmin().subscribe(() => {
+        //@ts-ignore
+        authService.getUserInfo().subscribe().add(resolve);
+      });
     });
   };
 }
@@ -36,6 +51,7 @@ function appInitializer(authService: AuthService) {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     SweetAlert2Module.forRoot(),
+    KnSharedModule,
   ],
   providers: [
     {
@@ -53,4 +69,4 @@ function appInitializer(authService: AuthService) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

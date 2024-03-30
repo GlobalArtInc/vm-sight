@@ -3,18 +3,17 @@
 //
 
 .form-floating {
-    .form-control.form-control-solid {
-        &::placeholder {
-            color: transparent;    
-        }
+  .form-control.form-control-solid {
+    &::placeholder {
+      color: transparent;
     }
+  }
 
-    &.form-control-solid-bg label,
-    > :disabled ~ label,
-    > :focus ~ label {
-        &::after {
-            background-color: transparent !important;
-        }
+  &.form-control-solid-bg label,
+  > :disabled ~ label,
+  > :focus ~ label {
+    &::after {
+      background-color: transparent !important;
     }
+  }
 }
-     

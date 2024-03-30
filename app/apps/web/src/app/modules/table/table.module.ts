@@ -5,10 +5,7 @@ import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [TableComponent],
-  imports: [
-    CommonModule,
-    DataTablesModule,
-  ],
+  imports: [CommonModule, DataTablesModule],
   exports: [TableComponent],
 })
-export class TableModule { }
+export class TableModule {}

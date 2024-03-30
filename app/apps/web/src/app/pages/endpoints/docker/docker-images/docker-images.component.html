@@ -1,54 +1,82 @@
-@if (isLoading) {
+<ng-container *ngIf="isLoading; else content">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-} @else {
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="images">
-  
-      <!-- Position Column -->
-      <ng-container matColumnDef="Id">
-        <th mat-header-cell *matHeaderCellDef> Id </th>
-        <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="RepoTags">
-        <th mat-header-cell *matHeaderCellDef> Tags </th>
-        <td mat-cell *matCellDef="let element"> {{element.RepoTags}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Size">
-        <th mat-header-cell *matHeaderCellDef> Size </th>
-        <td mat-cell *matCellDef="let element"> {{element.Size }} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="Created">
-        <th mat-header-cell *matHeaderCellDef> Created </th>
-        <td mat-cell *matCellDef="let element"> {{element.Created * 1000 | date:'yyyy-MM-dd HH:mm:ss' }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Ports">
-        <th mat-header-cell *matHeaderCellDef> Ports </th>
-        <td mat-cell *matCellDef="let element"> 
-          <ng-container *ngIf="element.Ports.length; else notFoundBlock">
-            <ng-container *ngFor="let port of element.Ports">
-              <ng-container *ngIf="port; else notFoundBlock">
-                <a [href]="'//' + endpointInfo.publicUrl + ':' + port.PublicPort" target="_blank">
-                  <span>{{port.PrivatePort}}:{{port.PublicPort}}</span>
-                </a>
-              </ng-container>
-            </ng-container>
+</ng-container>
+<ng-template #content>
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-px-0 mat-elevation-z8">
+        <div class="card-header">
+          <h4 class="card-title pl-5 pr-5">Images</h4>
+        </div>
+        <div class="card-body">
+          <ng-container *ngIf="isActionInProgress">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </ng-container>
-          <ng-template #notFoundBlock>
-            <span class="fw-medium">
-              N/A
-            </span>
-          </ng-template>
-        </td>
-      </ng-container>
-      
+          <div class="p-5 d-flex">
+            <button
+              class="btn btn-md btn-unborder btn-danger cursor-pointer"
+              [disabled]="isActionInProgress || !selection.selected.length"
+              (click)="execFn('remove', { force: true })">
+              Remove
+            </button>
+          </div>
+          <div class="separator separator-content"></div>
+          <div>
+            <table mat-table [dataSource]="images">
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Id">
+                <th mat-header-cell *matHeaderCellDef>Id</th>
+                <td mat-cell *matCellDef="let element">{{ element.Id }}</td>
+              </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+              <ng-container matColumnDef="RepoTags">
+                <th mat-header-cell *matHeaderCellDef>Tags</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.RepoTags }}
+                </td>
+              </ng-container>
 
+              <ng-container matColumnDef="Size">
+                <th mat-header-cell *matHeaderCellDef>Size</th>
+                <td mat-cell *matCellDef="let element">{{ element.Size }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Created">
+                <th mat-header-cell *matHeaderCellDef>Created</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.Created * 1000 | date: 'yyyy-MM-dd HH:mm:ss' }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <div class="separator separator-content"></div>
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-}
+</ng-template>

@@ -50,7 +50,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   updateProps(config: ILayout) {
-    this.appSidebarDisplay = this.layout.getProp('app.sidebar.display', config) as boolean;
+    this.appSidebarDisplay = this.layout.getProp(
+      'app.sidebar.display',
+      config
+    ) as boolean;
     if (!this.appSidebarDisplay) {
       return;
     }
@@ -198,6 +201,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

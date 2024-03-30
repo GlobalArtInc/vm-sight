@@ -5,11 +5,11 @@
 //
 
 // Body bg
-$body-bg-dark:						$coal-100;
+$body-bg-dark: $coal-100;
 
 // Card
-$card-box-shadow:                   0px 3px 4px 0px rgba(0, 0, 0, 0.03);
-$card-box-shadow-dark:  			none;
-$card-border-enabled: 				true;
-$card-border-color:					$gray-200;
-$card-border-color-dark:			$dark-light-dark;
+$card-box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.03);
+$card-box-shadow-dark: none;
+$card-border-enabled: true;
+$card-border-color: $gray-200;
+$card-border-color-dark: $dark-light-dark;

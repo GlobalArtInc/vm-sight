@@ -21,7 +21,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
 
   routingChanges() {
-    const routerSubscription = this.router.events.subscribe((event) => {
+    const routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd || event instanceof NavigationCancel) {
         // DrawerComponent.hideAll();
       }
@@ -30,6 +30,6 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

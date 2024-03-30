@@ -20,7 +20,7 @@ export class DockerDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private dockerDataSharingService: DockerDataSharingService,
     protected helpersService: HelpersService,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -31,11 +31,11 @@ export class DockerDashboardComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.cdr.detectChanges();
         }
-      })
+      }),
     ];
   }
 
   ngOnDestroy(): void {
-    this.subscription.forEach((sb) => sb.unsubscribe());
+    this.subscription.forEach(sb => sb.unsubscribe());
   }
 }

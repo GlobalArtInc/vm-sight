@@ -1,19 +1,19 @@
-const path = require('path')
-const del = require('del')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const RtlCssPlugin = require('rtlcss-webpack-plugin')
+const path = require('path');
+const del = require('del');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RtlCssPlugin = require('rtlcss-webpack-plugin');
 
 // global variables
-const rootPath = path.resolve(__dirname)
-const distPath = rootPath + '/src/assets'
+const rootPath = path.resolve(__dirname);
+const distPath = rootPath + '/src/assets';
 const entries = {
-  "css/style": "./src/assets/sass/style.scss",
-}
+  'css/style': './src/assets/sass/style.scss',
+};
 
 // remove older folders and files
-;(async () => {
-  await del(distPath + '/css', {force: true})
-})()
+(async () => {
+  await del(distPath + '/css', { force: true });
+})();
 
 module.exports = {
   mode: 'development',
@@ -41,13 +41,13 @@ module.exports = {
       filename: '[name].rtl.css',
     }),
     {
-      apply: (compiler) => {
+      apply: compiler => {
         // hook name
         compiler.hooks.afterEmit.tap('AfterEmitPlugin', () => {
-          ;(async () => {
-            await del(distPath + '/css/*.js', {force: true})
-          })()
-        })
+          (async () => {
+            await del(distPath + '/css/*.js', { force: true });
+          })();
+        });
       },
     },
   ],
@@ -68,4 +68,4 @@ module.exports = {
       },
     ],
   },
-}
+};

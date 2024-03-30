@@ -29,7 +29,7 @@ export class TranslationService {
   loadTranslations(...args: Locale[]): void {
     const locales = [...args];
 
-    locales.forEach((locale) => {
+    locales.forEach(locale => {
       // use setTranslation() with the third argument set to true
       // to append translations instead of replacing them
       this.translate.setTranslation(locale.lang, locale.data, true);

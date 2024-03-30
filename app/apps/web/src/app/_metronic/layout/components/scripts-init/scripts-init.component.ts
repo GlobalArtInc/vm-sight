@@ -24,14 +24,14 @@ export class ScriptsInitComponent implements OnInit, OnDestroy {
     private layout: LayoutService,
     private pageInfo: PageInfoService,
     private router: Router,
-    private titleService: Title,
+    private titleService: Title
   ) {
     const initPageInfo = () => {
       setTimeout(() => {
         this.pageInfo.calculateTitle();
         this.pageInfo.calculateBreadcrumbs();
 
-        this.pageInfo.title.asObservable().subscribe((title) => {
+        this.pageInfo.title.asObservable().subscribe(title => {
           this.titleService.setTitle(title + ' - VM-SIGHT');
         });
       }, 10);
@@ -40,7 +40,7 @@ export class ScriptsInitComponent implements OnInit, OnDestroy {
     initPageInfo();
     // subscribe to router events
     this.router.events
-      .pipe(filter((event) => event instanceof ResolveEnd))
+      .pipe(filter(event => event instanceof ResolveEnd))
       .subscribe(initPageInfo);
   }
 
@@ -77,6 +77,6 @@ export class ScriptsInitComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

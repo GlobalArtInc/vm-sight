@@ -1,6 +1,11 @@
 <!--begin::Card widget 20-->
-<div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end" [ngClass]="cssClass"
-  [ngStyle]="{'background-color': color, 'background-image': 'url(' + img + ')'}">
+<div
+  class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end"
+  [ngClass]="cssClass"
+  [ngStyle]="{
+    'background-color': color,
+    'background-image': 'url(' + img + ')'
+  }">
   <!--begin::Header-->
   <div class="card-header pt-5">
     <!--begin::Title-->
@@ -11,7 +16,7 @@
 
       <!--begin::Subtitle-->
       <span class="text-white opacity-75 pt-1 fw-semibold fs-6">
-        {{description}}
+        {{ description }}
       </span>
       <!--end::Subtitle-->
     </div>
@@ -23,13 +28,19 @@
   <div class="card-body d-flex align-items-end pt-0">
     <!--begin::Progress-->
     <div class="d-flex align-items-center flex-column mt-3 w-100">
-      <div class="d-flex justify-content-between fw-bold fs-6 text-white opacity-75 w-100 mt-auto mb-2">
+      <div
+        class="d-flex justify-content-between fw-bold fs-6 text-white opacity-75 w-100 mt-auto mb-2">
         <span>43 Pending</span>
         <span>72%</span>
       </div>
 
       <div class="h-8px mx-3 w-100 bg-white bg-opacity-50 rounded">
-        <div class="bg-white rounded h-8px" role="progressbar" style="width: 72%;" aria-valuenow="50" aria-valuemin="0"
+        <div
+          class="bg-white rounded h-8px"
+          role="progressbar"
+          style="width: 72%"
+          aria-valuenow="50"
+          aria-valuemin="0"
           aria-valuemax="100"></div>
       </div>
     </div>

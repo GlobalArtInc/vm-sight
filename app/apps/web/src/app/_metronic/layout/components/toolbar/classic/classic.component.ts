@@ -83,6 +83,6 @@ export class ClassicComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

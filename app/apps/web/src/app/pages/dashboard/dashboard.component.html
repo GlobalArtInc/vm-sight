@@ -3,20 +3,21 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
   <div class="noselect">
-    <table mat-table [dataSource]="dataSource" >
+    <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="endpoint">
-        <td mat-cell matRipple *matCellDef="let row"> 
+        <td mat-cell matRipple *matCellDef="let row">
           <div class="d-flex flex-stack pt-5 pb-5" onclick="">
-            @if (['remote_docker', 'local_docker'].includes(row.connectionType)) {
+            @if (
+              ['remote_docker', 'local_docker'].includes(row.connectionType)
+            ) {
               <div class="d-flex">
                 <img
                   src="./assets/media/svg/brand-logos/docker-native.svg"
                   class="pr-5"
                   width="64"
                   height="64"
-                  alt=""
-                />
-          
+                  alt="" />
+
                 <div class="d-flex flex-column" style="margin-left: 10px">
                   <div href="#" class="fs-6">
                     {{ row.name || 'Unknown' }}
@@ -45,7 +46,9 @@
                     <div>
                       <i class="fas fa-memory"></i>
                       <span>
-                        {{ helpersService.bytesToSize(row.serviceInfo?.MemTotal) }}
+                        {{
+                          helpersService.bytesToSize(row.serviceInfo?.MemTotal)
+                        }}
                       </span>
                     </div>
                   </div>
@@ -53,18 +56,24 @@
               </div>
               <div class="d-flex flex-column justify-content-end">
                 <div class="fs-6">
-                  {{ row.serviceInfo?.Swarm ? "Swarm" : "Standalone" }} {{ row.serviceInfo?.ServerVersion }}
+                  {{ row.serviceInfo?.Swarm ? 'Swarm' : 'Standalone' }}
+                  {{ row.serviceInfo?.ServerVersion }}
                 </div>
                 <div class="fs-6">
-                  {{ row.connectionInfo?.host || row.connectionInfo?.socketPath }}
+                  {{
+                    row.connectionInfo?.host || row.connectionInfo?.socketPath
+                  }}
                 </div>
               </div>
             }
-            </div>
+          </div>
         </td>
       </ng-container>
 
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/endpoints', row.id, 'docker']"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [routerLink]="['/endpoints', row.id, 'docker']"></tr>
 
       @if (!isLoadingResults) {
         <tr class="mat-row" *matNoDataRow>
@@ -76,4 +85,5 @@
   <!-- <div class="card-footer">
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
   </div> -->
-<div>
+  <div></div>
+</div>

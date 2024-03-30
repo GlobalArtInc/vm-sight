@@ -13,8 +13,7 @@
       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
       data-kt-menu-trigger="click"
       data-kt-menu-placement="bottom-end"
-      data-kt-menu-flip="top-end"
-    >
+      data-kt-menu-flip="top-end">
       <app-keenicon name="category" class="fs-2"></app-keenicon>
     </button>
     <app-dropdown-menu1></app-dropdown-menu1>
@@ -38,7 +37,9 @@
         <!-- begin::Stat -->
         <div class="d-flex align-items-center">
           <div class="fs-4 fw-bolder">$650</div>
-          <app-keenicon name="arrow-up" class="fs-5 text-success ms-1"></app-keenicon>
+          <app-keenicon
+            name="arrow-up"
+            class="fs-5 text-success ms-1"></app-keenicon>
         </div>
         <!-- end::Stat -->
       </div>
@@ -81,7 +82,9 @@
         <!-- begin::Stat -->
         <div class="d-flex align-items-center">
           <div class="fs-4 fw-bolder">$1,480,00</div>
-          <app-keenicon name="arrow-down" class="fs-5 text-danger ms-1"></app-keenicon>
+          <app-keenicon
+            name="arrow-down"
+            class="fs-5 text-danger ms-1"></app-keenicon>
         </div>
         <!-- end::Stat -->
       </div>
@@ -95,8 +98,7 @@
   <div
     #chartRef
     class="mixed-widget-3-chart card-rounded-bottom"
-    [style.height]="chartHeight"
-  >
+    [style.height]="chartHeight">
     <apx-chart
       [series]="chartOptions.series"
       [chart]="chartOptions.chart"
@@ -110,8 +112,7 @@
       [tooltip]="chartOptions.tooltip"
       [colors]="chartOptions.colors"
       [markers]="chartOptions.markers"
-      [plotOptions]="chartOptions.plotOptions"
-    ></apx-chart>
+      [plotOptions]="chartOptions.plotOptions"></apx-chart>
   </div>
   <!-- end::Chart -->
 </div>

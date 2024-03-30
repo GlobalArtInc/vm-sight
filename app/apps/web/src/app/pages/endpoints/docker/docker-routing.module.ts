@@ -17,7 +17,7 @@ const routes: Routes = [
         path: '',
         component: DockerContainersComponent,
       },
-    ]
+    ],
   },
   {
     path: 'images',
@@ -26,7 +26,7 @@ const routes: Routes = [
         path: '',
         component: DockerImagesComponent,
       },
-    ]
+    ],
   },
   {
     path: 'networks',
@@ -34,8 +34,8 @@ const routes: Routes = [
       {
         path: '',
         component: DockerNetworksComponent,
-      }
-    ]
+      },
+    ],
   },
   {
     path: '**',
@@ -46,6 +46,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DockerRoutingModule { }
+export class DockerRoutingModule {}

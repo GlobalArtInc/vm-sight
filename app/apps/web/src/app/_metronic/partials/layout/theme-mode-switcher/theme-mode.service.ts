@@ -82,6 +82,6 @@ export class ThemeModeService {
       localStorage.setItem(themeModeLSKey, updatedMode);
       localStorage.setItem(themeMenuModeLSKey, _mode);
     }
-    document.location.reload()
+    document.location.reload();
   }
 }

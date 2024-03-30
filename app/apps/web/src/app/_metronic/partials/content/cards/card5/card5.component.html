@@ -12,14 +12,10 @@
   <div class="card-toolbar m-0">
     <button
       type="button"
-      class="
-        btn btn-clean btn-sm btn-icon btn-icon-primary btn-active-light-primary
-        me-n3
-      "
+      class="btn btn-clean btn-sm btn-icon btn-icon-primary btn-active-light-primary me-n3"
       data-kt-menu-trigger="click"
       data-kt-menu-placement="bottom-end"
-      data-kt-menu-flip="top-end"
-    >
+      data-kt-menu-flip="top-end">
       <app-keenicon name="category" class="fs-3 text-primary"></app-keenicon>
     </button>
     <app-dropdown-menu1></app-dropdown-menu1>
@@ -31,18 +27,21 @@
 
   <div class="d-flex align-items-center flex-wrap mb-5 mt-auto fs-6">
     <ng-container *ngIf="status === 'up'">
-      <app-keenicon name="arrow-up-right" class="fs-3 me-1 text-success"></app-keenicon>
+      <app-keenicon
+        name="arrow-up-right"
+        class="fs-3 me-1 text-success"></app-keenicon>
     </ng-container>
 
     <ng-container *ngIf="status === 'down'">
-      <app-keenicon name="arr006.svg" class="fs-3 me-1 text-danger"></app-keenicon>
+      <app-keenicon
+        name="arr006.svg"
+        class="fs-3 me-1 text-danger"></app-keenicon>
     </ng-container>
 
     <div
       class="fw-bolder me-2"
-      [ngClass]="status === 'up' ? 'text-success' : 'text-danger'"
-    >
-      {{ status === "up" ? "+" : "-" }}
+      [ngClass]="status === 'up' ? 'text-success' : 'text-danger'">
+      {{ status === 'up' ? '+' : '-' }}
       {{ statusValue }}%
     </div>
 

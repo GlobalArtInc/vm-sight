@@ -1,1 +1,1 @@
-export * from './ThemeMode'
+export * from './ThemeMode';

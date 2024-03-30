@@ -5,14 +5,14 @@ import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 @NgModule({
   declarations: [CrudComponent],
   imports: [
-    CommonModule, DataTablesModule,
+    CommonModule,
+    DataTablesModule,
     SweetAlert2Module.forChild(),
     NgbModalModule,
   ],
-  exports: [CrudComponent]
+  exports: [CrudComponent],
 })
-export class CrudModule { }
+export class CrudModule {}

@@ -8,9 +8,8 @@ describe('MixedWidget9Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MixedWidget9Component ]
-    })
-    .compileComponents();
+      declarations: [MixedWidget9Component],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,9 +1,25 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ModalConfig, ModalComponent } from '../../_metronic/partials';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator } from '@angular/material/paginator';
-import { Observable, Subscription, map, merge, pipe, startWith, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  map,
+  merge,
+  pipe,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { HelpersService } from 'src/app/modules/helpers/helpers.service';
 
 @Component({
@@ -18,20 +34,24 @@ export class DashboardComponent implements OnInit {
   isLoadingResults = true;
   endpointsDatabase: EndpointsHttpDatabase | null;
 
-  constructor(private _httpClient: HttpClient, private cdr: ChangeDetectorRef, public helpersService: HelpersService) {}
+  constructor(
+    private _httpClient: HttpClient,
+    private cdr: ChangeDetectorRef,
+    public helpersService: HelpersService
+  ) {}
 
   ngOnInit() {
-      this.endpointsDatabase = new EndpointsHttpDatabase(this._httpClient);
-      
-      this.endpointsDatabase!.fetch()
-        .pipe(
-          map((res) => {
-            this.isLoadingResults = false;
-            this.dataSource = new MatTableDataSource(res.data);
-            this.cdr.detectChanges();
-          })
-        )
-        .subscribe();
+    this.endpointsDatabase = new EndpointsHttpDatabase(this._httpClient);
+
+    this.endpointsDatabase!.fetch()
+      .pipe(
+        map(res => {
+          this.isLoadingResults = false;
+          this.dataSource = new MatTableDataSource(res.data);
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe();
   }
 }
 

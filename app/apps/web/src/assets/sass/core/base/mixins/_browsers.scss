@@ -3,21 +3,21 @@
 //
 
 @mixin for-edge {
-    // Microsoft Edge
-	@supports (-ms-ime-align:auto) {
-		@content;
-	}
+  // Microsoft Edge
+  @supports (-ms-ime-align: auto) {
+    @content;
+  }
 }
 
 @mixin for-safari {
-	.safari {
-		@content;
-	}
+  .safari {
+    @content;
+  }
 }
 
 @mixin for-firefox {
-	// Firefox
-    @-moz-document url-prefix() {
-		@content;
-	}
+  // Firefox
+  @-moz-document url-prefix() {
+    @content;
+  }
 }

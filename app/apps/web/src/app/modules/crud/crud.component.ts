@@ -1,6 +1,21 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbModalOptions,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { DataTableDirective } from 'angular-datatables';
 import { fromEvent } from 'rxjs';
@@ -13,7 +28,6 @@ import { SweetAlertOptions } from 'sweetalert2';
   styleUrls: ['./crud.component.scss'],
 })
 export class CrudComponent implements OnInit, AfterViewInit, OnDestroy {
-
   @Input() datatableConfig: DataTables.Settings = {};
 
   @Input() route: string = '/';
@@ -50,16 +64,23 @@ export class CrudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private clickListener: () => void;
 
-  constructor(private renderer: Renderer2, private router: Router, private modalService: NgbModal) { }
+  constructor(
+    private renderer: Renderer2,
+    private router: Router,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.dtOptions = {
-      dom: "<'row'<'col-sm-12'tr>>" +
+      dom:
+        "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
       processing: true,
       language: {
-        processing: '<span class="spinner-border spinner-border-sm align-middle"></span> Loading...'
-      }, ...this.datatableConfig
+        processing:
+          '<span class="spinner-border spinner-border-sm align-middle"></span> Loading...',
+      },
+      ...this.datatableConfig,
     };
     this.renderActionColumn();
 
@@ -68,7 +89,9 @@ export class CrudComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.reload) {
       this.reload.subscribe(data => {
         this.modalService.dismissAll();
-        this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => dtInstance.ajax.reload());
+        this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) =>
+          dtInstance.ajax.reload()
+        );
       });
     }
   }
@@ -111,7 +134,7 @@ export class CrudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.clickListener = this.renderer.listen(document, 'click', (event) => {
+    this.clickListener = this.renderer.listen(document, 'click', event => {
       const closestBtn = event.target.closest('.btn');
       if (closestBtn) {
         const { action, id } = closestBtn.dataset;
@@ -124,16 +147,22 @@ export class CrudComponent implements OnInit, AfterViewInit, OnDestroy {
 
           case 'create':
             this.createEvent.emit(true);
-            this.modalRef = this.modalService.open(this.modal, this.modalConfig);
+            this.modalRef = this.modalService.open(
+              this.modal,
+              this.modalConfig
+            );
             break;
 
           case 'edit':
             this.editEvent.emit(this.idInAction);
-            this.modalRef = this.modalService.open(this.modal, this.modalConfig);
+            this.modalRef = this.modalService.open(
+              this.modal,
+              this.modalConfig
+            );
             break;
 
           case 'delete':
-            this.deleteSwal.fire().then((clicked) => {
+            this.deleteSwal.fire().then(clicked => {
               if (clicked.isConfirmed) {
                 this.successSwal.fire();
               }
@@ -165,14 +194,18 @@ export class CrudComponent implements OnInit, AfterViewInit, OnDestroy {
         map(event => {
           const target = event.target as HTMLElement;
           const action = target.getAttribute('data-action');
-          const value = (target as HTMLInputElement).value?.trim().toLowerCase();
+          const value = (target as HTMLInputElement).value
+            ?.trim()
+            .toLowerCase();
 
           return { action, value };
         })
       )
       .subscribe(({ action, value }) => {
         if (action === 'filter') {
-          this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => dtInstance.search(value).draw());
+          this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) =>
+            dtInstance.search(value).draw()
+          );
         }
       });
   }

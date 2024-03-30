@@ -1,4 +1,12 @@
-import {DataUtil, DOMEventHandlerUtil, ElementAnimateUtil, ElementStyleUtil, EventHandlerUtil, getElementIndex, getUniqueIdWithPrefix,} from '../_utils/index';
+import {
+  DataUtil,
+  DOMEventHandlerUtil,
+  ElementAnimateUtil,
+  ElementStyleUtil,
+  EventHandlerUtil,
+  getElementIndex,
+  getUniqueIdWithPrefix,
+} from '../_utils/index';
 
 export interface IStepperOptions {
   startIndex: number;
@@ -323,7 +331,7 @@ class StepperComponent {
   // Create Instances
   public static createInstances(selector: string): void {
     const elements = document.body.querySelectorAll(selector);
-    elements.forEach((element) => {
+    elements.forEach(element => {
       const item = element as HTMLElement;
       let stepper = StepperComponent.getInstance(item);
       if (!stepper) {
@@ -351,4 +359,4 @@ class StepperComponent {
   }
 }
 
-export {StepperComponent, defaultStepperOptions};
+export { StepperComponent, defaultStepperOptions };

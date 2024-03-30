@@ -3,7 +3,9 @@
   <!--begin::Header-->
   <div class="card-header border-0 pt-5">
     <h3 class="card-title align-items-start flex-column">
-      <span class="card-label font-weight-bolder text-gray-900">New Arrivals</span>
+      <span class="card-label font-weight-bolder text-gray-900"
+        >New Arrivals</span
+      >
       <span class="text-muted mt-3 font-weight-bold font-size-sm"
         >More than 400+ new members</span
       >
@@ -13,21 +15,18 @@
         <li
           class="nav-item"
           (click)="setCurrentTab('Month')"
-          [style.cursor]="'pointer'"
-        >
+          [style.cursor]="'pointer'">
           <a
             class="nav-link py-2 px-4"
             [class.active]="currentTab === 'Month'"
-            data-toggle="tab"
-          >
+            data-toggle="tab">
             Month
           </a>
         </li>
         <li
           class="nav-item"
           (click)="setCurrentTab('Week')"
-          [style.cursor]="'pointer'"
-        >
+          [style.cursor]="'pointer'">
           <a
             class="nav-link py-2 px-4"
             [class.active]="currentTab === 'Week'"
@@ -38,8 +37,7 @@
         <li
           class="nav-item"
           (click)="setCurrentTab('Day')"
-          [style.cursor]="'pointer'"
-        >
+          [style.cursor]="'pointer'">
           <a
             class="nav-link py-2 px-4 active"
             [class.active]="currentTab === 'Day'"
@@ -59,8 +57,7 @@
       <div
         class="tab-pane fade"
         role="tabpanel"
-        [ngClass]="{ 'active show': currentTab === 'Month' }"
-      >
+        [ngClass]="{ 'active show': currentTab === 'Month' }">
         <!--begin::Table-->
         <div class="table-responsive">
           <table class="table table-borderless table-vertical-center">
@@ -81,21 +78,13 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/bebo.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
-                    class="
-                      text-gray-900
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                      cursor-pointer
-                    "
+                    class="text-gray-900 font-weight-bolder text-hover-primary mb-1 font-size-lg cursor-pointer"
                     >Beats Studio</a
                   >
                   <span class="text-muted font-weight-bold d-block"
@@ -104,8 +93,7 @@
                 </td>
                 <td class="text-right pr-0">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $57,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -122,29 +110,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -156,32 +137,26 @@
                         [inlineSVG]="
                           './assets/media/svg/brand-logos/kickstarter.svg'
                         "
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >KTR Application</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $45,200,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -198,29 +173,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -230,21 +198,14 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/plurk.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Sant Outstanding</a
                   >
                   <div>
@@ -258,8 +219,7 @@
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $2,000,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -276,29 +236,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -307,33 +260,29 @@
                   <div class="symbol symbol-50 symbol-light mr-5">
                     <span class="symbol-label">
                       <span
-                        [inlineSVG]="'./assets/media/svg/brand-logos/telegram.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        [inlineSVG]="
+                          './assets/media/svg/brand-logos/telegram.svg'
+                        "
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Telegram Mobile</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $4,600,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -350,29 +299,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -382,32 +324,26 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/misc/puzzle.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Cisco Management</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $560,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -424,29 +360,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -461,8 +390,7 @@
       <div
         class="tab-pane fade"
         role="tabpanel"
-        [ngClass]="{ 'active show': currentTab === 'Week' }"
-      >
+        [ngClass]="{ 'active show': currentTab === 'Week' }">
         <!--begin::Table-->
         <div class="table-responsive">
           <table class="table table-borderless table-vertical-center">
@@ -482,33 +410,29 @@
                   <div class="symbol symbol-50 symbol-light mr-5">
                     <span class="symbol-label">
                       <span
-                        [inlineSVG]="'./assets/media/svg/brand-logos/telegram.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        [inlineSVG]="
+                          './assets/media/svg/brand-logos/telegram.svg'
+                        "
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Telegram Mobile</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $4,600,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -525,29 +449,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -557,32 +474,26 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/misc/puzzle.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Cisco Management</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $560,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -599,29 +510,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -631,21 +535,14 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/bebo.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Beats Studio</a
                   >
                   <span class="text-muted font-weight-bold d-block"
@@ -654,8 +551,7 @@
                 </td>
                 <td class="text-right pr-0">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $57,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -672,29 +568,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -704,21 +593,14 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/plurk.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Sant Outstanding</a
                   >
                   <div>
@@ -732,8 +614,7 @@
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $2,000,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -750,29 +631,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -784,32 +658,26 @@
                         [inlineSVG]="
                           './assets/media/svg/brand-logos/kickstarter.svg'
                         "
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >KTR Application</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $45,200,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -826,29 +694,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -863,8 +724,7 @@
       <div
         class="tab-pane fade"
         role="tabpanel"
-        [ngClass]="{ 'active show': currentTab === 'Day' }"
-      >
+        [ngClass]="{ 'active show': currentTab === 'Day' }">
         <!--begin::Table-->
         <div class="table-responsive">
           <table class="table table-borderless table-vertical-center">
@@ -885,21 +745,14 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/plurk.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Sant Outstanding</a
                   >
                   <div>
@@ -913,8 +766,7 @@
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $2,000,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -931,29 +783,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -962,33 +807,29 @@
                   <div class="symbol symbol-50 symbol-light mr-5">
                     <span class="symbol-label">
                       <span
-                        [inlineSVG]="'./assets/media/svg/brand-logos/telegram.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        [inlineSVG]="
+                          './assets/media/svg/brand-logos/telegram.svg'
+                        "
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Telegram Mobile</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $4,600,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -1005,29 +846,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -1037,32 +871,26 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/misc/puzzle.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Cisco Management</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $560,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -1079,29 +907,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -1111,21 +932,14 @@
                     <span class="symbol-label">
                       <span
                         [inlineSVG]="'./assets/media/svg/brand-logos/bebo.svg'"
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >Beats Studio</a
                   >
                   <span class="text-muted font-weight-bold d-block"
@@ -1134,8 +948,7 @@
                 </td>
                 <td class="text-right pr-0">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $57,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -1152,29 +965,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>
@@ -1186,32 +992,26 @@
                         [inlineSVG]="
                           './assets/media/svg/brand-logos/kickstarter.svg'
                         "
-                        class="svg-icon h-50 align-self-center"
-                      ></span>
+                        class="svg-icon h-50 align-self-center"></span>
                     </span>
                   </div>
                 </td>
                 <td class="pl-0">
                   <a
                     href="#"
-                    class="
-                      text-gray-900-75
-                      font-weight-bolder
-                      text-hover-primary
-                      mb-1
-                      font-size-lg
-                    "
+                    class="text-gray-900-75 font-weight-bolder text-hover-primary mb-1 font-size-lg"
                     >KTR Application</a
                   >
                   <span class="text-muted font-weight-bold d-block"
-                    ><span class="font-weight-bolder text-gray-900-75">FTP:</span>
+                    ><span class="font-weight-bolder text-gray-900-75"
+                      >FTP:</span
+                    >
                     bprow&#64;bnc.cc</span
                   >
                 </td>
                 <td class="text-right">
                   <span
-                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg"
-                  >
+                    class="text-gray-900-75 font-weight-bolder d-block font-size-lg">
                     $45,200,000
                   </span>
                   <span class="text-muted font-weight-bold"> Paid </span>
@@ -1228,29 +1028,22 @@
                 </td>
                 <td class="pr-0 text-right">
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="switch" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="switch"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      mx-3
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="pencil" class="fs-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 cursor-pointer">
+                    <app-keenicon
+                      name="pencil"
+                      class="fs-md text-primary"></app-keenicon>
                   </a>
                   <a
-                    class="
-                      btn btn-icon btn-light btn-hover-primary btn-sm
-                      cursor-pointer
-                    "
-                  >
-                    <app-keenicon name="trash" class=" svg-icon-md text-primary"></app-keenicon>
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm cursor-pointer">
+                    <app-keenicon
+                      name="trash"
+                      class="svg-icon-md text-primary"></app-keenicon>
                   </a>
                 </td>
               </tr>

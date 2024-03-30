@@ -13,15 +13,24 @@ export type UserType = UserModel | undefined;
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-  // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
 
-  // public fields
-  currentUser$: Observable<UserType>;
-  isLoading$: Observable<boolean>;
-  currentUserSubject: BehaviorSubject<UserType>;
-  isLoadingSubject: BehaviorSubject<boolean>;
+  public currentUser$: Observable<UserType>;
+  public isLoading$: Observable<boolean>;
+  public isAdminPresent$: Observable<boolean>;
+
+  public currentUserSubject: BehaviorSubject<UserType>;
+  public isAdminPresentSubject: BehaviorSubject<boolean>;
+  public isLoadingSubject: BehaviorSubject<boolean>;
+
+  get isAdministratorPresentValue(): boolean {
+    return this.isAdminPresentSubject.value;
+  }
+
+  set isAdministratorPresentValue(state: boolean) {
+    this.isAdminPresentSubject.next(state);
+  }
 
   get currentUserValue(): UserType {
     return this.currentUserSubject.value;
@@ -37,8 +46,10 @@ export class AuthService implements OnDestroy {
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
+    this.isAdminPresentSubject = new BehaviorSubject<boolean>(false);
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
+    this.isAdminPresent$ = this.isAdminPresentSubject.asObservable();
     const subscr = this.getUserInfo().subscribe();
     this.unsubscribe.push(subscr);
   }
@@ -48,7 +59,7 @@ export class AuthService implements OnDestroy {
     this.isLoadingSubject.next(true);
     return this.http.post('public/auth/login', { email, password }).pipe(
       switchMap(() => this.getUserInfo()),
-      catchError((err) => {
+      catchError(err => {
         console.error('err', err);
         return of(undefined);
       }),
@@ -62,8 +73,8 @@ export class AuthService implements OnDestroy {
         this.router.navigate(['/auth/login'], {
           queryParams: {},
         });
-      }
-    })
+      },
+    });
   }
 
   getUserInfo(): any {
@@ -79,6 +90,18 @@ export class AuthService implements OnDestroy {
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );
+  }
+
+  checkAdmin() {
+    return this.http
+      .get<{ isAdministratorPresent: boolean }>('public/user/admin/check')
+      .pipe(
+        map(state => {
+          this.isAdminPresentSubject.next(state.isAdministratorPresent);
+
+          return state.isAdministratorPresent;
+        })
+      );
   }
 
   private getAuthFromLocalStorage(): AuthModel | undefined {
@@ -97,6 +120,6 @@ export class AuthService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

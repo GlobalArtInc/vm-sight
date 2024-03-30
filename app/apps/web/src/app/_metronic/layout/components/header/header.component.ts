@@ -32,7 +32,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   appHeaderDefaulMenuDisplay: boolean;
   appPageTitleDisplay: boolean;
 
-  constructor(private layout: LayoutService, private router: Router) {
+  constructor(
+    private layout: LayoutService,
+    private router: Router
+  ) {
     this.routingChanges();
   }
 
@@ -118,14 +121,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.unsubscribe.push(subscr);
     const layoutSubscr = this.layout.currentLayoutTypeSubject
       .asObservable()
-      .subscribe((layout) => {
+      .subscribe(layout => {
         this.currentLayoutType = layout;
       });
     this.unsubscribe.push(layoutSubscr);
   }
 
   routingChanges() {
-    const routerSubscription = this.router.events.subscribe((event) => {
+    const routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd || event instanceof NavigationCancel) {
         MenuComponent.reinitialization();
       }
@@ -134,6 +137,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

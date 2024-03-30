@@ -72,7 +72,7 @@ export class PageInfoService {
 
     const allActiveMenuLinks = Array.from<HTMLLinkElement>(
       menu.querySelectorAll('a.menu-link')
-    ).filter((link) => link.classList.contains('active'));
+    ).filter(link => link.classList.contains('active'));
 
     if (!allActiveMenuLinks || allActiveMenuLinks.length === 0) {
       return;
@@ -111,13 +111,13 @@ export class PageInfoService {
 
     const allActiveParents = Array.from<HTMLDivElement>(
       menu.querySelectorAll('div.menu-item')
-    ).filter((link) => link.classList.contains('here'));
+    ).filter(link => link.classList.contains('here'));
 
     if (!allActiveParents || allActiveParents.length === 0) {
       return;
     }
 
-    allActiveParents.forEach((parent) => {
+    allActiveParents.forEach(parent => {
       const titleSpan = parent.querySelector(
         'span.menu-title'
       ) as HTMLSpanElement | null;

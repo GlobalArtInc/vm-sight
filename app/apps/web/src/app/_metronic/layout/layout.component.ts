@@ -77,7 +77,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute
   ) {
     // define layout type and load layout
-    this.router.events.subscribe((event) => {
+    this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const currentLayoutType = this.layout.currentLayoutTypeSubject.value;
 
@@ -96,7 +96,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const subscr = this.layout.layoutConfigSubject
       .asObservable()
-      .subscribe((config) => {
+      .subscribe(config => {
         this.updateProps(config);
       });
     this.unsubscribe.push(subscr);
@@ -176,7 +176,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.appSidebarDefaultDrawerAttributes = this.layout.getProp(
         'app.sidebar.default.drawer.attributes',
         config
-      ) as { [attrName: string]: string };
+      ) as {
+        [attrName: string]: string;
+      };
     }
 
     this.appSidebarDefaultStickyEnabled = this.layout.getProp(
@@ -187,7 +189,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.appSidebarDefaultStickyAttributes = this.layout.getProp(
         'app.sidebar.default.sticky.attributes',
         config
-      ) as { [attrName: string]: string };
+      ) as {
+        [attrName: string]: string;
+      };
     }
 
     setTimeout(() => {
@@ -196,10 +200,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       if (this.appSidebarDisplay && sidebarElement) {
         const sidebarAttributes = sidebarElement
           .getAttributeNames()
-          .filter((t) => t.indexOf('data-') > -1);
-        sidebarAttributes.forEach((attr) =>
-          sidebarElement.removeAttribute(attr)
-        );
+          .filter(t => t.indexOf('data-') > -1);
+        sidebarAttributes.forEach(attr => sidebarElement.removeAttribute(attr));
 
         if (this.appSidebarDefaultDrawerEnabled) {
           for (const key in this.appSidebarDefaultDrawerAttributes) {
@@ -235,7 +237,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.appHeaderDefaultStickyAttributes = this.layout.getProp(
         'app.header.default.sticky.attributes',
         config
-      ) as { [attrName: string]: string };
+      ) as {
+        [attrName: string]: string;
+      };
     }
 
     this.appHeaderDefaultMinimizeEnabled = this.layout.getProp(
@@ -255,8 +259,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       if (this.appHeaderDisplay && headerElement) {
         const headerAttributes = headerElement
           .getAttributeNames()
-          .filter((t) => t.indexOf('data-') > -1);
-        headerAttributes.forEach((attr) => headerElement.removeAttribute(attr));
+          .filter(t => t.indexOf('data-') > -1);
+        headerAttributes.forEach(attr => headerElement.removeAttribute(attr));
 
         if (this.appHeaderDefaultStickyEnabled) {
           for (const key in this.appHeaderDefaultStickyAttributes) {
@@ -284,9 +288,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   updateFooter(config: ILayout) {
-    this.appFooterCSSClass = this.layout.getProp('app.footer.class', config) as string;
-    this.appFooterContainer = this.layout.getProp('app.footer.container', config) as string;
-    this.appFooterContainerCSSClass = this.layout.getProp('app.footer.containerClass', config) as string;
+    this.appFooterCSSClass = this.layout.getProp(
+      'app.footer.class',
+      config
+    ) as string;
+    this.appFooterContainer = this.layout.getProp(
+      'app.footer.container',
+      config
+    ) as string;
+    this.appFooterContainerCSSClass = this.layout.getProp(
+      'app.footer.containerClass',
+      config
+    ) as string;
     if (this.appFooterContainer === 'fixed') {
       this.appFooterContainerCSSClass += ' container-xxl';
     } else {
@@ -295,14 +308,19 @@ export class LayoutComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.appFooterFixedDesktop = this.layout.getProp('app.footer.fixed.desktop', config) as boolean;
+    this.appFooterFixedDesktop = this.layout.getProp(
+      'app.footer.fixed.desktop',
+      config
+    ) as boolean;
     if (this.appFooterFixedDesktop) {
-      document.body.setAttribute('data-kt-app-footer-fixed', 'true')
+      document.body.setAttribute('data-kt-app-footer-fixed', 'true');
     }
 
-    this.appFooterFixedMobile = this.layout.getProp('app.footer.fixed.mobile') as boolean;
+    this.appFooterFixedMobile = this.layout.getProp(
+      'app.footer.fixed.mobile'
+    ) as boolean;
     if (this.appFooterFixedMobile) {
-      document.body.setAttribute('data-kt-app-footer-fixed-mobile', 'true')
+      document.body.setAttribute('data-kt-app-footer-fixed-mobile', 'true');
     }
   }
 
@@ -319,7 +337,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.appToolbarSwapAttributes = this.layout.getProp(
         'app.toolbar.swap.attributes',
         config
-      ) as { [attrName: string]: string };
+      ) as {
+        [attrName: string]: string;
+      };
     }
 
     this.appToolbarStickyEnabled = this.layout.getProp(
@@ -330,7 +350,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.appToolbarStickyAttributes = this.layout.getProp(
         'app.toolbar.sticky.attributes',
         config
-      ) as { [attrName: string]: string };
+      ) as {
+        [attrName: string]: string;
+      };
     }
 
     this.appToolbarCSSClass =
@@ -343,7 +365,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.appToolbarMinimizeAttributes = this.layout.getProp(
         'app.toolbar.minimize.attributes',
         config
-      ) as { [attrName: string]: string };
+      ) as {
+        [attrName: string]: string;
+      };
       this.appToolbarCSSClass += ' app-toolbar-minimize';
     }
 
@@ -353,10 +377,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       if (this.appToolbarDisplay && toolbarElement) {
         const toolbarAttributes = toolbarElement
           .getAttributeNames()
-          .filter((t) => t.indexOf('data-') > -1);
-        toolbarAttributes.forEach((attr) =>
-          toolbarElement.removeAttribute(attr)
-        );
+          .filter(t => t.indexOf('data-') > -1);
+        toolbarAttributes.forEach(attr => toolbarElement.removeAttribute(attr));
 
         if (this.appToolbarSwapEnabled) {
           for (const key in this.appToolbarSwapAttributes) {
@@ -395,6 +417,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

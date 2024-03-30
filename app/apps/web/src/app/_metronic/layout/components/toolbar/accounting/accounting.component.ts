@@ -3,12 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-accounting',
   templateUrl: './accounting.component.html',
-  styleUrls: ['./accounting.component.scss']
+  styleUrls: ['./accounting.component.scss'],
 })
 export class AccountingComponent implements OnInit {
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

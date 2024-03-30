@@ -4,8 +4,7 @@
       <ng-container *ngIf="color">
         <span
           class="symbol-label fs-5 fw-bolder"
-          [ngClass]="'bg-light-' + color + ' text-' + color"
-        >
+          [ngClass]="'bg-light-' + color + ' text-' + color">
           {{ name.charAt(0) }}
         </span>
       </ng-container>
@@ -15,25 +14,13 @@
 
       <ng-container *ngIf="online">
         <div
-          class="
-            symbol-badge
-            bg-success
-            start-100
-            top-100
-            border-4
-            h-15px
-            w-15px
-            ms-n3
-            mt-n3
-          "
-        ></div>
+          class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n3 mt-n3"></div>
       </ng-container>
     </div>
   </div>
 
   <a
-    class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0 cursor-pointer"
-  >
+    class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0 cursor-pointer">
     {{ name }}
   </a>
 
@@ -41,31 +28,13 @@
 
   <div class="d-flex flex-center flex-wrap mb-5">
     <div
-      class="
-        border border-gray-300 border-dashed
-        rounded
-        min-w-125px
-        py-3
-        px-4
-        mx-3
-        mb-3
-      "
-    >
+      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">
       <div class="fs-6 fw-bolder text-gray-700">{{ avgEarnings }}</div>
       <div class="fw-bold text-gray-500">Avg. Earnings</div>
     </div>
 
     <div
-      class="
-        border border-gray-300 border-dashed
-        rounded
-        min-w-125px
-        py-3
-        mx-3
-        px-4
-        mb-3
-      "
-    >
+      class="border border-gray-300 border-dashed rounded min-w-125px py-3 mx-3 px-4 mb-3">
       <div class="fs-6 fw-bolder text-gray-700">{{ totalEarnings }}</div>
       <div class="fw-bold text-gray-500">Total Sales</div>
     </div>
@@ -73,8 +42,7 @@
 
   <button
     class="btn btn-sm btn-light-primary fw-bolder"
-    id="kt_drawer_chat_toggle"
-  >
+    id="kt_drawer_chat_toggle">
     Send Message
   </button>
 </div>

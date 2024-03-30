@@ -2,8 +2,7 @@
   class="symbol symbol-35px symbol-circle"
   *ngFor="let user of users"
   [ngbTooltip]="user.name"
-  placement="top"
->
+  placement="top">
   <ng-container *ngIf="user.avatar">
     <img [src]="user.avatar" alt="Pic" />
   </ng-container>

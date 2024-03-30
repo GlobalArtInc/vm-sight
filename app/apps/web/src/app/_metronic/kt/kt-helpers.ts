@@ -1,4 +1,9 @@
-import { DrawerComponent, MenuComponent, ScrollComponent, ToggleComponent } from "./components";
+import {
+  DrawerComponent,
+  MenuComponent,
+  ScrollComponent,
+  ToggleComponent,
+} from './components';
 
 const menuReinitialization = () => {
   setTimeout(() => {
@@ -7,6 +12,6 @@ const menuReinitialization = () => {
     ToggleComponent.reinitialization();
     ScrollComponent.reinitialization();
   }, 50);
-}
+};
 
-export { menuReinitialization }
+export { menuReinitialization };

@@ -8,7 +8,7 @@ export type Endpoint = {
   connectionType: string;
   connectionInfo?: any;
   serviceInfo?: any;
-}
+};
 
 export type Container = {
   Id: string;
@@ -17,4 +17,4 @@ export type Container = {
   ImageID: string;
   Command: string;
   Created: number;
-}
+};

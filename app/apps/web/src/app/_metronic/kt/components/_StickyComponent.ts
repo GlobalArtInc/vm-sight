@@ -10,14 +10,14 @@ import {
   ElementAnimateUtil,
   ElementStyleUtil,
   EventHandlerUtil,
-} from '../_utils/index'
+} from '../_utils/index';
 
 export interface StickyOptions {
-  offset: number
-  reverse: boolean
-  animation: boolean
-  animationSpeed: string
-  animationClass: string
+  offset: number;
+  reverse: boolean;
+  animation: boolean;
+  animationSpeed: string;
+  animationClass: string;
 }
 
 const defaultStickyOptions: StickyOptions = {
@@ -26,268 +26,275 @@ const defaultStickyOptions: StickyOptions = {
   animation: true,
   animationSpeed: '0.3s',
   animationClass: 'animation-slide-in-down',
-}
+};
 
 class StickyComponent {
-  element: HTMLElement
-  options: StickyOptions
-  instanceUid: string
-  instanceName: string | null = ''
-  attributeName: string
-  attributeName2: string
-  eventTriggerState: boolean
-  lastScrollTop: number
+  element: HTMLElement;
+  options: StickyOptions;
+  instanceUid: string;
+  instanceName: string | null = '';
+  attributeName: string;
+  attributeName2: string;
+  eventTriggerState: boolean;
+  lastScrollTop: number;
 
   constructor(_element: HTMLElement, options: StickyOptions) {
-    this.element = _element
-    this.options = Object.assign(defaultStickyOptions, options)
-    this.instanceUid = getUniqueIdWithPrefix('sticky')
-    this.instanceName = this.element.getAttribute('data-kt-sticky-name')
-    this.attributeName = 'data-kt-sticky-' + this.instanceName
-    this.attributeName2 = 'data-kt-' + this.instanceName
-    this.eventTriggerState = true
-    this.lastScrollTop = 0
+    this.element = _element;
+    this.options = Object.assign(defaultStickyOptions, options);
+    this.instanceUid = getUniqueIdWithPrefix('sticky');
+    this.instanceName = this.element.getAttribute('data-kt-sticky-name');
+    this.attributeName = 'data-kt-sticky-' + this.instanceName;
+    this.attributeName2 = 'data-kt-' + this.instanceName;
+    this.eventTriggerState = true;
+    this.lastScrollTop = 0;
 
     // Event Handlers
-    window.addEventListener('scroll', this.scroll)
+    window.addEventListener('scroll', this.scroll);
 
     // Initial Launch
-    this.scroll()
+    this.scroll();
 
-    DataUtil.set(this.element, 'sticky', this)
+    DataUtil.set(this.element, 'sticky', this);
   }
 
   private scroll = () => {
-    let offset = this.getOption('offset')
-    let reverse = this.getOption('reverse')
+    let offset = this.getOption('offset');
+    let reverse = this.getOption('reverse');
 
     // Exit if false
     if (offset === false) {
-      return
+      return;
     }
 
-    let offsetNum = 0
+    let offsetNum = 0;
     if (typeof offset === 'string') {
-      offsetNum = parseInt(offset)
+      offsetNum = parseInt(offset);
     }
 
-    const st = getScrollTop()
+    const st = getScrollTop();
 
     // Reverse scroll mode
     if (reverse === true) {
       // Release on reverse scroll mode
       if (st > offsetNum && this.lastScrollTop < st) {
         if (document.body.hasAttribute(this.attributeName) === false) {
-          this.enable()
-          document.body.setAttribute(this.attributeName, 'on')
-          document.body.setAttribute(this.attributeName2, 'on')
+          this.enable();
+          document.body.setAttribute(this.attributeName, 'on');
+          document.body.setAttribute(this.attributeName2, 'on');
         }
 
         if (this.eventTriggerState === true) {
-          EventHandlerUtil.trigger(this.element, 'kt.sticky.on')
-          EventHandlerUtil.trigger(this.element, 'kt.sticky.change')
+          EventHandlerUtil.trigger(this.element, 'kt.sticky.on');
+          EventHandlerUtil.trigger(this.element, 'kt.sticky.change');
 
-          this.eventTriggerState = false
+          this.eventTriggerState = false;
         }
       } else {
         // Back scroll mode
         if (document.body.hasAttribute(this.attributeName)) {
-          this.disable()
-          document.body.removeAttribute(this.attributeName)
-          document.body.removeAttribute(this.attributeName2)
+          this.disable();
+          document.body.removeAttribute(this.attributeName);
+          document.body.removeAttribute(this.attributeName2);
         }
 
         if (this.eventTriggerState === false) {
-          EventHandlerUtil.trigger(this.element, 'kt.sticky.off')
-          EventHandlerUtil.trigger(this.element, 'kt.sticky.change')
+          EventHandlerUtil.trigger(this.element, 'kt.sticky.off');
+          EventHandlerUtil.trigger(this.element, 'kt.sticky.change');
 
-          this.eventTriggerState = true
+          this.eventTriggerState = true;
         }
       }
 
-      this.lastScrollTop = st
-      return
+      this.lastScrollTop = st;
+      return;
     }
 
     // Classic scroll mode
     if (st > offsetNum) {
       if (document.body.hasAttribute(this.attributeName) === false) {
-        this.enable()
-        document.body.setAttribute(this.attributeName, 'on')
-        document.body.setAttribute(this.attributeName2, 'on')
+        this.enable();
+        document.body.setAttribute(this.attributeName, 'on');
+        document.body.setAttribute(this.attributeName2, 'on');
       }
 
       if (this.eventTriggerState === true) {
-        EventHandlerUtil.trigger(this.element, 'kt.sticky.on')
-        EventHandlerUtil.trigger(this.element, 'kt.sticky.change')
-        this.eventTriggerState = false
+        EventHandlerUtil.trigger(this.element, 'kt.sticky.on');
+        EventHandlerUtil.trigger(this.element, 'kt.sticky.change');
+        this.eventTriggerState = false;
       }
     } else {
       // back scroll mode
       if (document.body.hasAttribute(this.attributeName) === true) {
-        this.disable()
-        document.body.removeAttribute(this.attributeName)
-        document.body.removeAttribute(this.attributeName2)
+        this.disable();
+        document.body.removeAttribute(this.attributeName);
+        document.body.removeAttribute(this.attributeName2);
       }
 
       if (this.eventTriggerState === false) {
-        EventHandlerUtil.trigger(this.element, 'kt.sticky.off')
-        EventHandlerUtil.trigger(this.element, 'kt.sticky.change')
-        this.eventTriggerState = true
+        EventHandlerUtil.trigger(this.element, 'kt.sticky.off');
+        EventHandlerUtil.trigger(this.element, 'kt.sticky.change');
+        this.eventTriggerState = true;
       }
     }
-  }
+  };
 
   private getOption = (name: string) => {
-    const dataStickyAttr = 'data-kt-sticky-' + name
+    const dataStickyAttr = 'data-kt-sticky-' + name;
     if (this.element.hasAttribute(dataStickyAttr) === true) {
-      const attrValueInStr = this.element.getAttribute(dataStickyAttr)
-      const attrValue = getAttributeValueByBreakpoint(attrValueInStr || '')
+      const attrValueInStr = this.element.getAttribute(dataStickyAttr);
+      const attrValue = getAttributeValueByBreakpoint(attrValueInStr || '');
       if (attrValue !== null && String(attrValue) === 'true') {
-        return true
+        return true;
       } else if (attrValue !== null && String(attrValue) === 'false') {
-        return false
+        return false;
       }
 
-      return attrValue
+      return attrValue;
     } else {
-      const optionName = stringSnakeToCamel(name)
-      const option = getObjectPropertyValueByKey(this.options, optionName)
+      const optionName = stringSnakeToCamel(name);
+      const option = getObjectPropertyValueByKey(this.options, optionName);
       if (option) {
-        return getAttributeValueByBreakpoint(option)
+        return getAttributeValueByBreakpoint(option);
       }
     }
-  }
+  };
 
   private disable = () => {
-    ElementStyleUtil.remove(this.element, 'top')
-    ElementStyleUtil.remove(this.element, 'width')
-    ElementStyleUtil.remove(this.element, 'left')
-    ElementStyleUtil.remove(this.element, 'right')
-    ElementStyleUtil.remove(this.element, 'z-index')
-    ElementStyleUtil.remove(this.element, 'position')
-  }
+    ElementStyleUtil.remove(this.element, 'top');
+    ElementStyleUtil.remove(this.element, 'width');
+    ElementStyleUtil.remove(this.element, 'left');
+    ElementStyleUtil.remove(this.element, 'right');
+    ElementStyleUtil.remove(this.element, 'z-index');
+    ElementStyleUtil.remove(this.element, 'position');
+  };
 
   private enable = (update: boolean = false) => {
-    const top = this.getOption('top')
-    const left = this.getOption('left')
+    const top = this.getOption('top');
+    const left = this.getOption('left');
     // const right = this.getOption("right");
-    let width = this.getOption('width')
-    const zindex = this.getOption('zindex')
+    let width = this.getOption('width');
+    const zindex = this.getOption('zindex');
 
     if (update !== true && this.getOption('animation') === true) {
-      ElementStyleUtil.set(this.element, 'animationDuration', this.getOption('animationSpeed'))
-      ElementAnimateUtil.animateClass(this.element, 'animation ' + this.getOption('animationClass'))
+      ElementStyleUtil.set(
+        this.element,
+        'animationDuration',
+        this.getOption('animationSpeed')
+      );
+      ElementAnimateUtil.animateClass(
+        this.element,
+        'animation ' + this.getOption('animationClass')
+      );
     }
 
     if (zindex !== null) {
-      ElementStyleUtil.set(this.element, 'z-index', zindex)
-      ElementStyleUtil.set(this.element, 'position', 'fixed')
+      ElementStyleUtil.set(this.element, 'z-index', zindex);
+      ElementStyleUtil.set(this.element, 'position', 'fixed');
     }
 
     if (top !== null) {
-      ElementStyleUtil.set(this.element, 'top', top)
+      ElementStyleUtil.set(this.element, 'top', top);
     }
 
     if (width !== null && width !== undefined) {
-      const widthTarget = getObjectPropertyValueByKey(width, 'target')
+      const widthTarget = getObjectPropertyValueByKey(width, 'target');
       if (widthTarget) {
-        const targetElement = document.querySelector(widthTarget)
+        const targetElement = document.querySelector(widthTarget);
         if (targetElement) {
-          width = getCSS(targetElement, 'width')
+          width = getCSS(targetElement, 'width');
         }
       }
-      ElementStyleUtil.set(this.element, 'width', width)
+      ElementStyleUtil.set(this.element, 'width', width);
     }
 
     if (left !== null) {
       if (String(left).toLowerCase() === 'auto') {
-        var offsetLeft = getElementOffset(this.element).left
+        var offsetLeft = getElementOffset(this.element).left;
 
         if (offsetLeft > 0) {
-          ElementStyleUtil.set(this.element, 'left', String(offsetLeft) + 'px')
+          ElementStyleUtil.set(this.element, 'left', String(offsetLeft) + 'px');
         }
       }
     }
-  }
+  };
 
   public update = () => {
     if (document.body.hasAttribute(this.attributeName) === true) {
-      this.disable()
-      document.body.removeAttribute(this.attributeName)
-      document.body.removeAttribute(this.attributeName2)
-      this.enable(true)
-      document.body.setAttribute(this.attributeName, 'on')
-      document.body.setAttribute(this.attributeName2, 'on')
+      this.disable();
+      document.body.removeAttribute(this.attributeName);
+      document.body.removeAttribute(this.attributeName2);
+      this.enable(true);
+      document.body.setAttribute(this.attributeName, 'on');
+      document.body.setAttribute(this.attributeName2, 'on');
     }
-  }
+  };
 
   // Event API
   public on = (name: string, callBack: Function) => {
-    return EventHandlerUtil.on(this.element, name, callBack)
-  }
+    return EventHandlerUtil.on(this.element, name, callBack);
+  };
 
   public one = (name: string, callback: Function) => {
-    return EventHandlerUtil.one(this.element, name, callback)
-  }
+    return EventHandlerUtil.one(this.element, name, callback);
+  };
 
   public off = (name: string, handlerId: string) => {
-    return EventHandlerUtil.off(this.element, name, handlerId)
-  }
+    return EventHandlerUtil.off(this.element, name, handlerId);
+  };
 
   public trigger = (name: string) => {
-    return EventHandlerUtil.trigger(this.element, name)
-  }
+    return EventHandlerUtil.trigger(this.element, name);
+  };
 
   // Static methods
   public static hasInstace(element: HTMLElement) {
-    return DataUtil.has(element, 'sticky')
+    return DataUtil.has(element, 'sticky');
   }
 
   public static getInstance(element: HTMLElement): StickyComponent | undefined {
     if (element !== null && StickyComponent.hasInstace(element)) {
-      const data = DataUtil.get(element, 'sticky')
+      const data = DataUtil.get(element, 'sticky');
       if (data) {
-        return data as StickyComponent
+        return data as StickyComponent;
       }
     }
   }
 
   // Create Instances
   public static createInstances(selector: string) {
-    const elements = document.body.querySelectorAll(selector)
-    elements.forEach((element) => {
-      const item = element as HTMLElement
-      let sticky = StickyComponent.getInstance(item)
+    const elements = document.body.querySelectorAll(selector);
+    elements.forEach(element => {
+      const item = element as HTMLElement;
+      let sticky = StickyComponent.getInstance(item);
       if (!sticky) {
-        sticky = new StickyComponent(item, defaultStickyOptions)
+        sticky = new StickyComponent(item, defaultStickyOptions);
       }
-    })
+    });
   }
 
   public static createInsance = (
     selector: string,
     options: StickyOptions = defaultStickyOptions
   ): StickyComponent | undefined => {
-    const element = document.body.querySelector(selector)
+    const element = document.body.querySelector(selector);
     if (!element) {
-      return
+      return;
     }
-    const item = element as HTMLElement
-    let sticky = StickyComponent.getInstance(item)
+    const item = element as HTMLElement;
+    let sticky = StickyComponent.getInstance(item);
     if (!sticky) {
-      sticky = new StickyComponent(item, options)
+      sticky = new StickyComponent(item, options);
     }
-    return sticky
-  }
+    return sticky;
+  };
 
   public static bootstrap(attr: string = '[data-kt-sticky="true"]') {
-    StickyComponent.createInstances(attr)
+    StickyComponent.createInstances(attr);
   }
 
   public static reInitialization(attr: string = '[data-kt-sticky="true"]') {
-    StickyComponent.createInstances(attr)
+    StickyComponent.createInstances(attr);
   }
 }
 
-export {StickyComponent, defaultStickyOptions}
+export { StickyComponent, defaultStickyOptions };

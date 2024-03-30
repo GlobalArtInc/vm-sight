@@ -1,72 +1,76 @@
 export class DataUtil {
-  static store: Map<HTMLElement, Map<string, unknown>> = new Map()
+  static store: Map<HTMLElement, Map<string, unknown>> = new Map();
 
-  public static set(instance: HTMLElement | undefined, key: string, data: unknown): void {
+  public static set(
+    instance: HTMLElement | undefined,
+    key: string,
+    data: unknown
+  ): void {
     if (!instance) {
-      return
+      return;
     }
 
-    const instanceData = DataUtil.store.get(instance)
+    const instanceData = DataUtil.store.get(instance);
     if (!instanceData) {
-      const newMap = new Map().set(key, data)
-      DataUtil.store.set(instance, newMap)
-      return
+      const newMap = new Map().set(key, data);
+      DataUtil.store.set(instance, newMap);
+      return;
     }
 
-    instanceData.set(key, data)
+    instanceData.set(key, data);
   }
 
   public static get(instance: HTMLElement, key: string): unknown | undefined {
-    const instanceData = DataUtil.store.get(instance)
+    const instanceData = DataUtil.store.get(instance);
     if (!instanceData) {
-      return
+      return;
     }
 
-    return instanceData.get(key)
+    return instanceData.get(key);
   }
 
   public static remove(instance: HTMLElement, key: string): void {
-    const instanceData = DataUtil.store.get(instance)
+    const instanceData = DataUtil.store.get(instance);
     if (!instanceData) {
-      return
+      return;
     }
 
-    instanceData.delete(key)
+    instanceData.delete(key);
   }
 
   public static removeOne(instance: HTMLElement, key: string, eventId: string) {
-    const instanceData = DataUtil.store.get(instance)
+    const instanceData = DataUtil.store.get(instance);
     if (!instanceData) {
-      return
+      return;
     }
 
-    const eventsIds = instanceData.get(key)
+    const eventsIds = instanceData.get(key);
     if (!eventsIds) {
-      return
+      return;
     }
 
-    const updateEventsIds = (eventsIds as string[]).filter((f) => f !== eventId)
-    DataUtil.set(instance, key, updateEventsIds)
+    const updateEventsIds = (eventsIds as string[]).filter(f => f !== eventId);
+    DataUtil.set(instance, key, updateEventsIds);
   }
 
   public static has(instance: HTMLElement, key: string): boolean {
-    const instanceData = DataUtil.store.get(instance)
+    const instanceData = DataUtil.store.get(instance);
     if (instanceData) {
-      return instanceData.has(key)
+      return instanceData.has(key);
     }
 
-    return false
+    return false;
   }
 
   public static getAllInstancesByKey(key: string) {
-    const result: any[] = []
-    DataUtil.store.forEach((val) => {
+    const result: any[] = [];
+    DataUtil.store.forEach(val => {
       val.forEach((v, k) => {
         if (k === key) {
-          result.push(v)
+          result.push(v);
         }
-      })
-    })
-    return result
+      });
+    });
+    return result;
   }
 }

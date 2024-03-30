@@ -1,4 +1,7 @@
-<table datatable [dtOptions]="dtOptions" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+<table
+  datatable
+  [dtOptions]="dtOptions"
+  class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
   <thead>
     <tr class="text-start fw-bold fw-bold fs-7 text-uppercase gs-0">
       <ng-container *ngFor="let column of dtOptions.columns">
@@ -6,6 +9,5 @@
       </ng-container>
     </tr>
   </thead>
-  <tbody>
-  </tbody>
+  <tbody></tbody>
 </table>

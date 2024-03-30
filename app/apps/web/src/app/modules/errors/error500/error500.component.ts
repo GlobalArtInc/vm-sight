@@ -19,10 +19,13 @@ import { ThemeModeService } from '../../../_metronic/partials/layout/theme-mode-
 export class Error500Component implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
 
-  constructor(private router: Router, private modeService: ThemeModeService) {}
+  constructor(
+    private router: Router,
+    private modeService: ThemeModeService
+  ) {}
 
   ngOnInit(): void {
-    const subscr = this.modeService.mode.asObservable().subscribe((mode) => {
+    const subscr = this.modeService.mode.asObservable().subscribe(mode => {
       document.body.style.backgroundImage =
         mode === 'dark'
           ? 'url(./assets/media/auth/bg7-dark.jpg)'
@@ -44,7 +47,7 @@ export class Error500Component implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
     document.body.style.backgroundImage = 'none';
   }
 }

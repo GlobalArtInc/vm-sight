@@ -2,13 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HelpersService } from './helpers.service';
 
-
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-  ],
+  imports: [CommonModule],
   providers: [HelpersService],
 })
-export class HelpersModule { }
+export class HelpersModule {}

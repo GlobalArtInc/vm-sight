@@ -12,7 +12,12 @@ export class CardsWidget7Component implements OnInit {
   @Input() description: string = 'Professionals';
   @Input() labelColor: string = 'dark';
   @Input() textColor: string = 'gray-300';
-  items: Array<{ name: string; initials?: string; state?: string, src?: string }>;
+  items: Array<{
+    name: string;
+    initials?: string;
+    state?: string;
+    src?: string;
+  }>;
 
   constructor() {}
 

@@ -9,11 +9,7 @@ import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    LogoutComponent,
-    AuthComponent,
-  ],
+  declarations: [LoginComponent, LogoutComponent, AuthComponent],
   imports: [
     CommonModule,
     TranslationModule,

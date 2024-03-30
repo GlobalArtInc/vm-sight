@@ -1,7 +1,6 @@
 <a
   routerLink="/crafted/pages/profile/overview"
-  class="card border border-2 border-gray-300 border-hover"
->
+  class="card border border-2 border-gray-300 border-hover">
   <div class="card-header border-0 pt-9">
     <div class="card-title m-0">
       <div class="symbol symbol-50px w-50px bg-light">
@@ -12,8 +11,7 @@
     <div class="card-toolbar">
       <span
         class="badge fw-bolder me-auto px-4 py-3"
-        [ngClass]="'badge-light-' + badgeColor"
-      >
+        [ngClass]="'badge-light-' + badgeColor">
         {{ status }}
       </span>
     </div>
@@ -26,30 +24,13 @@
 
     <div class="d-flex flex-wrap mb-5">
       <div
-        class="
-          border border-gray-300 border-dashed
-          rounded
-          min-w-125px
-          py-3
-          px-4
-          me-7
-          mb-3
-        "
-      >
+        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3">
         <div class="fs-6 text-gray-800 fw-bolder">{{ date }}</div>
         <div class="fw-bold text-gray-500">Due Date</div>
       </div>
 
       <div
-        class="
-          border border-gray-300 border-dashed
-          rounded
-          min-w-125px
-          py-3
-          px-4
-          mb-3
-        "
-      >
+        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
         <div class="fs-6 text-gray-800 fw-bolder">{{ budget }}</div>
         <div class="fw-bold text-gray-500">Budget</div>
       </div>
@@ -60,8 +41,7 @@
         class="rounded h-4px"
         [ngClass]="'bg-' + statusColor"
         role="progressbar"
-        [style.width]="progress + '%'"
-      ></div>
+        [style.width]="progress + '%'"></div>
     </div>
 
     <app-user-list [users]="users"></app-user-list>

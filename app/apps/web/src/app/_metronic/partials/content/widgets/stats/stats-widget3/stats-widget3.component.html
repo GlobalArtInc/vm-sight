@@ -14,8 +14,7 @@
       <span
         class="symbol-label fs-5 fw-bolder"
         [ngClass]="'bg-light-' + color"
-        [ngClass]="'text-' + color"
-      >
+        [ngClass]="'text-' + color">
         {{ change }}
       </span>
     </span>
@@ -24,8 +23,7 @@
   <div
     #chartRef
     class="statistics-widget-3-chart card-rounded-bottom"
-    [style.height]="'150px'"
-  >
+    [style.height]="'150px'">
     <apx-chart
       type="area"
       [series]="chartOptions.series"
@@ -40,7 +38,6 @@
       [tooltip]="chartOptions.tooltip"
       [colors]="chartOptions.colors"
       [markers]="chartOptions.markers"
-      [plotOptions]="chartOptions.plotOptions"
-    ></apx-chart>
+      [plotOptions]="chartOptions.plotOptions"></apx-chart>
   </div>
 </div>

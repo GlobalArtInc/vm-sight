@@ -113,14 +113,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 
   showPageTitle() {
     const viewsWithPageTitles = ['classic', 'reports', 'saas'];
     return (
       this.appPageTitleDisplay &&
-      viewsWithPageTitles.some((t) => t === this.appToolbarLayout)
+      viewsWithPageTitles.some(t => t === this.appToolbarLayout)
     );
   }
 }

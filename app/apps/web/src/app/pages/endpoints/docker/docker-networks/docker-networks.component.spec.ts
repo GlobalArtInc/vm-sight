@@ -8,10 +8,9 @@ describe('DockerNetworksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DockerNetworksComponent]
-    })
-    .compileComponents();
-    
+      imports: [DockerNetworksComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(DockerNetworksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

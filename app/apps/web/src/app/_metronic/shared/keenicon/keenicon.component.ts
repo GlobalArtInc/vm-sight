@@ -1,10 +1,10 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import icons from './icons.json';
 
 @Component({
   selector: 'app-keenicon',
   templateUrl: './keenicon.component.html',
-  styleUrls: ['./keenicon.component.scss']
+  styleUrls: ['./keenicon.component.scss'],
 })
 export class KeeniconComponent implements OnInit {
   @Input() name: string;
@@ -13,8 +13,7 @@ export class KeeniconComponent implements OnInit {
 
   pathsNumber: number = 0;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     if (this.type === 'duotone') {

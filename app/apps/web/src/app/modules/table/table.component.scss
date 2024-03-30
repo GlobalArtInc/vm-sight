@@ -19,18 +19,34 @@ table {
   border-color: inherit;
   border-collapse: collapse;
 }
-thead, tbody, tfoot, tr, td, th {
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
   border-color: inherit;
   border-style: solid;
   border-width: 0;
 }
 
-.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell {
+.mat-mdc-table tbody,
+.mat-mdc-table tfoot,
+.mat-mdc-table thead,
+.mat-mdc-cell,
+.mat-mdc-footer-cell,
+.mat-mdc-header-row,
+.mat-mdc-row,
+.mat-mdc-footer-row,
+.mat-mdc-table .mat-mdc-header-cell {
   background: inherit;
 }
 
 .mat-mdc-header-cell {
-  border-bottom-color: var(--mat-table-row-item-outline-color, rgba(0, 0, 0, 0.12));
+  border-bottom-color: var(
+    --mat-table-row-item-outline-color,
+    rgba(0, 0, 0, 0.12)
+  );
   border-bottom-width: var(--mat-table-row-item-outline-width, 1px);
   border-bottom-style: solid;
   letter-spacing: var(--mat-table-header-headline-tracking);
@@ -38,7 +54,8 @@ thead, tbody, tfoot, tr, td, th {
   line-height: inherit;
 }
 
-.mdc-data-table__cell, .mdc-data-table__header-cell {
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
   padding: 0 16px 0 16px;
 }
 

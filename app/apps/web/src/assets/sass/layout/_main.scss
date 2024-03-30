@@ -2,20 +2,19 @@
 // Main
 //
 
-
 // Desktop mode
 @include media-breakpoint-up(lg) {
-	.app-main {	
-		:not([data-kt-app-footer-fixed="true"]) & {        
-			.app-content {			
-				padding-bottom: 0 !important;					
-			}
-		} 	
-		
-		[data-kt-app-footer-fixed="true"] & {        
-			.app-content {			
-				padding-bottom: $app-content-padding-y !important;					
-			}
-		} 				
-	}
+  .app-main {
+    :not([data-kt-app-footer-fixed='true']) & {
+      .app-content {
+        padding-bottom: 0 !important;
+      }
+    }
+
+    [data-kt-app-footer-fixed='true'] & {
+      .app-content {
+        padding-bottom: $app-content-padding-y !important;
+      }
+    }
+  }
 }

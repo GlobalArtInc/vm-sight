@@ -1,7 +1,7 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { Endpoint } from "src/app/types/endpoint.types";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { Endpoint } from 'src/app/types/endpoint.types';
 
 @Injectable()
 export class EndpointsService {
@@ -9,7 +9,7 @@ export class EndpointsService {
 
   public _subject = new Subject<Endpoint>();
   public event = this._subject.asObservable();
-  
+
   constructor(private httpClient: HttpClient) {}
 
   public publish(data: any) {
@@ -20,8 +20,13 @@ export class EndpointsService {
     return this.httpClient.get<Endpoint>(`protected/endpoint/${endpointId}`);
   }
 
-  exec<T = unknown>(endpointId: string, data: { func: string; action?: string, params?: Record<string, unknown> }): Observable<T> {
-    return this.httpClient.post(`protected/endpoint/${endpointId}/exec`, data) as Observable<T>;
+  exec<T = unknown>(
+    endpointId: string,
+    data: { func: string; action?: string; params?: Record<string, unknown> }
+  ): Observable<T> {
+    return this.httpClient.post(
+      `protected/endpoint/${endpointId}/exec`,
+      data
+    ) as Observable<T>;
   }
-
 }

@@ -1,5 +1,5 @@
 .widget {
-  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   background: #fff;
   border: 1px solid transparent;
   border-radius: 2px;
@@ -13,10 +13,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    &-title, &-count {
+    &-title,
+    &-count {
       font-size: 1.25rem !important;
       font-weight: 500;
-      letter-spacing: .0125em !important;
+      letter-spacing: 0.0125em !important;
     }
   }
 

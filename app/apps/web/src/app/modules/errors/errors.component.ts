@@ -21,11 +21,11 @@ export class ErrorsComponent implements OnInit, OnDestroy {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    BODY_CLASSES.forEach((c) => document.body.classList.add(c));
+    BODY_CLASSES.forEach(c => document.body.classList.add(c));
   }
 
   ngOnDestroy(): void {
-    BODY_CLASSES.forEach((c) => document.body.classList.remove(c));
+    BODY_CLASSES.forEach(c => document.body.classList.remove(c));
   }
 
   routeToDashboard() {

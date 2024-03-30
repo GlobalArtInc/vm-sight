@@ -1,0 +1,11 @@
+.card {
+  &-body {
+    padding: 0;
+  }
+  &-header {
+    background-color: #f6f6f6;
+  }
+}
+.btn-unborder {
+  border-radius: 0;
+}

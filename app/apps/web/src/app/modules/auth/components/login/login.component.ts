@@ -49,17 +49,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginForm = this.fb.group({
       email: [
         this.defaultAuth.email,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(320), 
-        ]),
+        Validators.compose([Validators.required, Validators.maxLength(320)]),
       ],
       password: [
         this.defaultAuth.password,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ]),
+        Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
     });
   }
@@ -80,6 +74,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.unsubscribe.forEach(sb => sb.unsubscribe());
   }
 }

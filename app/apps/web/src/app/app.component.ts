@@ -17,9 +17,7 @@ export class AppComponent implements OnInit {
     private translationService: TranslationService,
     private modeService: ThemeModeService
   ) {
-    this.translationService.loadTranslations(
-      enLang,
-    );
+    this.translationService.loadTranslations(enLang);
   }
 
   ngOnInit() {

@@ -1,59 +1,37 @@
 <div
   class="d-flex flex-column bgi-no-repeat rounded-top"
-  [style.background-image]="'url(./assets/media/misc/menu-header-bg.jpg)'"
->
+  [style.background-image]="'url(./assets/media/misc/menu-header-bg.jpg)'">
   <h3 class="text-white fw-bold px-9 mt-10 mb-6">
     Notifications <span class="fs-8 opacity-75 ps-3">24 reports</span>
   </h3>
 
   <ul class="nav nav-line-tabs nav-line-tabs-2x nav-stretch fw-bold px-9">
-    <li class ="nav-item">
+    <li class="nav-item">
       <a
-        class="
-          nav-link
-          text-white
-          opacity-75 opacity-state-100
-          pb-4
-          cursor-pointer
-        "
+        class="nav-link text-white opacity-75 opacity-state-100 pb-4 cursor-pointer"
         data-bs-toggle="tab"
         [ngClass]="activeTabId === 'kt_topbar_notifications_1' ? 'active' : ''"
-        (click)="setActiveTabId('kt_topbar_notifications_1')"
-      >
+        (click)="setActiveTabId('kt_topbar_notifications_1')">
         Alerts
       </a>
     </li>
 
     <li class="nav-item">
       <a
-        class="
-          nav-link
-          text-white
-          opacity-75 opacity-state-100
-          pb-4
-          cursor-pointer
-        "
+        class="nav-link text-white opacity-75 opacity-state-100 pb-4 cursor-pointer"
         data-bs-toggle="tab"
         [ngClass]="activeTabId === 'kt_topbar_notifications_2' ? 'active' : ''"
-        (click)="setActiveTabId('kt_topbar_notifications_2')"
-      >
+        (click)="setActiveTabId('kt_topbar_notifications_2')">
         Updates
       </a>
     </li>
 
     <li class="nav-item">
       <a
-        class="
-          nav-link
-          text-white
-          opacity-75 opacity-state-100
-          pb-4
-          cursor-pointer
-        "
+        class="nav-link text-white opacity-75 opacity-state-100 pb-4 cursor-pointer"
         data-bs-toggle="tab"
         [ngClass]="activeTabId === 'kt_topbar_notifications_3' ? 'active' : ''"
-        (click)="setActiveTabId('kt_topbar_notifications_3')"
-      >
+        (click)="setActiveTabId('kt_topbar_notifications_3')">
         Logs
       </a>
     </li>
@@ -65,8 +43,9 @@
     class="tab-pane fade"
     id="kt_topbar_notifications_1"
     role="tabpanel"
-    [ngClass]="activeTabId === 'kt_topbar_notifications_1' ? 'show active' : ''"
-  >
+    [ngClass]="
+      activeTabId === 'kt_topbar_notifications_1' ? 'show active' : ''
+    ">
     <div class="scroll-y mh-325px my-5 px-8">
       <div *ngFor="let alert of alerts" class="d-flex flex-stack py-4">
         <div class="d-flex align-items-center">
@@ -75,8 +54,7 @@
               <span
                 [inlineSVG]="'./assets/media/' + alert.icon"
                 class="svg-icon fs-2"
-                [ngClass]="'svg-icon-' + alert.state"
-              ></span>
+                [ngClass]="'svg-icon-' + alert.state"></span>
             </span>
           </div>
 
@@ -95,8 +73,7 @@
     <div class="py-3 text-center border-top">
       <a
         routerLink="/crafted/pages/profile"
-        class="btn btn-color-gray-600 btn-active-color-primary"
-      >
+        class="btn btn-color-gray-600 btn-active-color-primary">
         View All
         <app-keenicon name="arrow-right" class="fs-5"></app-keenicon>
       </a>
@@ -107,8 +84,9 @@
     class="tab-pane fade"
     id="kt_topbar_notifications_2"
     role="tabpanel"
-    [ngClass]="activeTabId === 'kt_topbar_notifications_2' ? 'show active' : ''"
-  >
+    [ngClass]="
+      activeTabId === 'kt_topbar_notifications_2' ? 'show active' : ''
+    ">
     <div class="d-flex flex-column px-9">
       <div class="pt-10 pb-0">
         <h3 class="text-gray-900 text-center fw-bolder">Get Pro Access</h3>
@@ -122,8 +100,7 @@
           <a
             class="btn btn-sm btn-primary px-6 cursor-pointer"
             data-bs-toggle="modal"
-            data-bs-target="#kt_modal_upgrade_plan"
-          >
+            data-bs-target="#kt_modal_upgrade_plan">
             Upgrade
           </a>
         </div>
@@ -133,8 +110,7 @@
         <img
           class="mw-100 mh-200px"
           alt="metronic"
-          src="./assets/media/illustrations/sketchy-1/1.png"
-        />
+          src="./assets/media/illustrations/sketchy-1/1.png" />
       </div>
     </div>
   </div>
@@ -143,15 +119,15 @@
     class="tab-pane fade"
     id="kt_topbar_notifications_3"
     role="tabpanel"
-    [ngClass]="activeTabId === 'kt_topbar_notifications_3' ? 'show active' : ''"
-  >
+    [ngClass]="
+      activeTabId === 'kt_topbar_notifications_3' ? 'show active' : ''
+    ">
     <div class="scroll-y mh-325px my-5 px-8">
       <div *ngFor="let log of logs" class="d-flex flex-stack py-4">
         <div class="d-flex align-items-center me-2">
           <span
             class="w-70px badge"
-            [ngClass]="'badge-light-' + log.state + ' me-4'"
-          >
+            [ngClass]="'badge-light-' + log.state + ' me-4'">
             {{ log.code }}
           </span>
 
@@ -166,8 +142,7 @@
     <div class="py-3 text-center border-top">
       <a
         routerLink="/crafted/pages/profile"
-        class="btn btn-color-gray-600 btn-active-color-primary"
-      >
+        class="btn btn-color-gray-600 btn-active-color-primary">
         View All
         <app-keenicon name="arrow-right" class="fs-5"></app-keenicon>
       </a>

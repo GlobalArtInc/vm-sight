@@ -14,7 +14,7 @@ export class ModalComponent {
   constructor(private modalService: NgbModal) {}
 
   open(): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
+    return new Promise<boolean>(resolve => {
       this.modalRef = this.modalService.open(this.modalContent);
       this.modalRef.result.then(resolve, resolve);
     });

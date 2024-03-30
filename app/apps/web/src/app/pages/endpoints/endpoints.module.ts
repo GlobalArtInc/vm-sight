@@ -8,14 +8,8 @@ import { EndpointsListComponent } from './endpoints-list/endpoints-list.componen
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
-
 @NgModule({
   declarations: [EndpointsComponent, EndpointsListComponent],
-  imports: [
-    CommonModule,
-    EndpointsRoutingModule,
-    CrudModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, EndpointsRoutingModule, CrudModule, SharedModule],
 })
-export class EndpointsModule { }
+export class EndpointsModule {}
