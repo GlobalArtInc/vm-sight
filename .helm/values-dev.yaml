@@ -1,3 +1,0 @@
-apiReplicaCount: 1
-postgresUser: 'postgres'
-postgresDatabase: 'vm-sight'
